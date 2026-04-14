@@ -1,0 +1,9 @@
+title: Safety Case Core Guidelines
+description: Core guidance for writing and reviewing safety case claims.
+theme: jekyll-theme-cayman
+baseurl: "/safety-case-core-guidelines"
+url: ""
+show_downloads: false
+markdown: kramdown
+kramdown:
+  input: GFM
