@@ -87,73 +87,73 @@ Example review comments:
 
 ### CL. Claim guidance
 
-- `CL.1` Write each claim as a falsifiable proposition
-- `CL.2` Put one main claim in one goal
-- `CL.3` Avoid the essay-in-the-box
-- `CL.4` Avoid ambiguity and overloaded wording
-- `CL.5` Bound vague and universal qualifiers
-- `CL.6` Do not mix different logical steps in one claim
+- `CL.1` [Write each claim as a falsifiable proposition](#cl1-write-each-claim-as-a-falsifiable-proposition)
+- `CL.2` [Put one main claim in one goal](#cl2-put-one-main-claim-in-one-goal)
+- `CL.3` [Avoid the essay-in-the-box](#cl3-avoid-the-essay-in-the-box)
+- `CL.4` [Avoid ambiguity and overloaded wording](#cl4-avoid-ambiguity-and-overloaded-wording)
+- `CL.5` [Bound vague and universal qualifiers](#cl5-bound-vague-and-universal-qualifiers)
+- `CL.6` [Do not mix different logical steps in one claim](#cl6-do-not-mix-different-logical-steps-in-one-claim)
 
 ### AR. Argument structure and decomposition guidance
 
-- `AR.1` Let structure carry the argument
-- `AR.2` State the inference step explicitly
-- `AR.3` Use context and assumptions deliberately
-- `AR.4` Match claim precision to the level of the argument
-- `AR.5` Keep scope and terminology consistent across decomposition
-- `AR.6` Provide the context needed to interpret the claim
-- `AR.7` Keep context out of claim text unless context is itself the claim
-- `AR.8` Use justification only for local rationale, not as hidden support
-- `AR.9` Match each justification to the element it justifies
+- `AR.1` [Let structure carry the argument](#ar1-let-structure-carry-the-argument)
+- `AR.2` [State the inference step explicitly](#ar2-state-the-inference-step-explicitly)
+- `AR.3` [Use context and assumptions deliberately](#ar3-use-context-and-assumptions-deliberately)
+- `AR.4` [Match claim precision to the level of the argument](#ar4-match-claim-precision-to-the-level-of-the-argument)
+- `AR.5` [Keep scope and terminology consistent across decomposition](#ar5-keep-scope-and-terminology-consistent-across-decomposition)
+- `AR.6` [Provide the context needed to interpret the claim](#ar6-provide-the-context-needed-to-interpret-the-claim)
+- `AR.7` [Keep context out of claim text unless context is itself the claim](#ar7-keep-context-out-of-claim-text-unless-context-is-itself-the-claim)
+- `AR.8` [Use justification only for local rationale, not as hidden support](#ar8-use-justification-only-for-local-rationale-not-as-hidden-support)
+- `AR.9` [Match each justification to the element it justifies](#ar9-match-each-justification-to-the-element-it-justifies)
 
 ### EV. Evidence guidance
 
-- `EV.1` Make every claim traceable to supporting evidence
-- `EV.2` Use evidence types that can be independently reviewed
-- `EV.3` Claim the fact supported by the evidence, not the document
-- `EV.4` Cite precise evidence locations; avoid annex dumping
-- `EV.5` Make the basis for evidence sufficiency explicit
-- `EV.6` Explain how the evidence supports or refutes the claim
-- `EV.7` Keep evidence controlled: owner, version, date, status, repository
-- `EV.8` Cite fixed evidence, not live mutable content
-- `EV.9` Do not argue directly from undocumented system knowledge
+- `EV.1` [Make every claim traceable to supporting evidence](#ev1-make-the-evidence-support-path-explicit-for-every-claim)
+- `EV.2` [Use evidence types that can be independently reviewed](#ev2-use-evidence-types-that-can-be-independently-reviewed)
+- `EV.3` [Claim the fact supported by the evidence, not the document](#ev3-claim-the-fact-supported-by-the-evidence-not-the-document)
+- `EV.4` [Cite precise evidence locations; avoid annex dumping](#ev4-cite-precise-evidence-locations-avoid-annex-dumping)
+- `EV.5` [Make the basis for evidence sufficiency explicit](#ev5-make-the-basis-for-evidence-sufficiency-explicit)
+- `EV.6` [Explain how the evidence supports or refutes the claim](#ev6-explain-how-the-evidence-supports-or-refutes-the-claim)
+- `EV.7` [Keep evidence controlled: owner, version, date, status, repository](#ev7-keep-evidence-controlled-owner-version-date-status-repository)
+- `EV.8` [Cite fixed evidence, not live mutable content](#ev8-cite-fixed-evidence-not-live-mutable-content)
+- `EV.9` [Do not argue directly from undocumented system knowledge](#ev9-do-not-argue-directly-from-undocumented-system-knowledge)
 
 ### SU. Sufficiency, uncertainty, and pitfall guidance
 
-- `SU.1` Identify and address epistemic defeaters
-- `SU.2` Make assumptions explicit and justify why they are reasonable
-- `SU.3` Do not treat unsupported expert opinion as sufficient support
-- `SU.4` Monitor claims that cannot be fully supported at design time
-- `SU.5` Do not reuse safety credit from another context without showing it still applies
-- `SU.6` Do not dismiss operational feedback because it is non-reproducible or non-injury
-- `SU.7` Do not argue low risk from operational experience or unvalidated simulation alone
-- `SU.8` Do not assume human data or human-designed tests cover autonomy-specific failures
-- `SU.9` Document unstated assumptions at the point of use
-- `SU.10` Keep assumptions bounded, specific, and monitorable
-- `SU.11` Turn plausible reviewer challenges into explicit Counter Claims and resolve them
+- `SU.1` [Identify and address epistemic defeaters](#su1-identify-and-address-plausible-challenges-to-claims-reasoning-and-evidence)
+- `SU.2` [Make assumptions explicit and justify why they are reasonable](#su2-make-assumptions-explicit-and-justify-why-they-are-reasonable)
+- `SU.3` [Do not treat unsupported expert opinion as sufficient support](#su3-do-not-rely-on-uncorroborated-expert-judgment-alone)
+- `SU.4` [Monitor claims that cannot be fully supported at design time](#su4-monitor-claims-that-cannot-be-fully-supported-at-design-time)
+- `SU.5` [Do not reuse safety credit from another context without showing it still applies](#su5-do-not-reuse-safety-credit-from-another-context-without-showing-it-still-applies)
+- `SU.6` [Do not dismiss operational feedback because it is non-reproducible or non-injury](#su6-do-not-dismiss-operational-feedback-because-it-is-non-reproducible-or-non-injury)
+- `SU.7` [Do not argue low risk from operational experience or unvalidated simulation alone](#su7-do-not-argue-low-risk-from-operational-experience-or-unvalidated-simulation-alone)
+- `SU.8` [Do not assume human data or human-designed tests cover autonomy-specific failures](#su8-do-not-assume-human-data-or-human-designed-tests-cover-autonomy-specific-failures)
+- `SU.9` [Document unstated assumptions at the point of use](#su9-document-unstated-assumptions-at-the-point-of-use)
+- `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10-keep-assumptions-bounded-specific-and-monitorable)
+- `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11-turn-plausible-reviewer-challenges-into-explicit-counter-claims-and-resolve-them)
 
 ### LF. Logical fallacy guidance
 
 These guideline entries identify reasoning errors that weaken safety arguments. They are intended to help authors and reviewers examine whether claims, strategies, and evidence are argued soundly.
 
-- `LF.1` Avoid circular reasoning
-- `LF.2` Avoid irrelevant premises
-- `LF.3` Avoid arguing from ignorance
-- `LF.4` Avoid unjustified comparison or unjustified distinction
-- `LF.5` Avoid sample-size and representativeness fallacies
-- `LF.6` Avoid pseudo-precision
-- `LF.7` Avoid omission of key evidence and ignoring counter-evidence
+- `LF.1` [Avoid circular reasoning](#lf1-avoid-circular-reasoning)
+- `LF.2` [Avoid irrelevant premises](#lf2-avoid-irrelevant-premises)
+- `LF.3` [Avoid arguing from ignorance](#lf3-avoid-arguing-from-ignorance)
+- `LF.4` [Avoid unjustified comparison or unjustified distinction](#lf4-avoid-unjustified-comparison-or-unjustified-distinction)
+- `LF.5` [Avoid sample-size and representativeness fallacies](#lf5-avoid-sample-size-and-representativeness-fallacies)
+- `LF.6` [Avoid pseudo-precision](#lf6-avoid-pseudo-precision)
+- `LF.7` [Avoid omission of key evidence and ignoring counter-evidence](#lf7-avoid-omission-of-key-evidence-and-ignoring-counter-evidence)
 
 ### RD. Rhetorical device guidance
 
 These guideline entries identify presentation choices that affect how safety arguments are understood and reviewed. They help distinguish between wording that improves clarity and wording that increases confidence without increasing support.
 
-- `RD.1` Use explicit signposting of argument element roles
-- `RD.2` Use scoped claims and qualified confidence language
-- `RD.3` Make limitations, objections, and responses explicit
-- `RD.4` Avoid promotional and inflated language
-- `RD.5` Avoid passive voice when it hides agency
-- `RD.6` Do not bury important limitations or hidden assumptions
+- `RD.1` [Use explicit signposting of argument element roles](#rd1-use-explicit-signposting-of-argument-element-roles)
+- `RD.2` [Use scoped claims and qualified confidence language](#rd2-use-scoped-claims-and-qualified-confidence-language)
+- `RD.3` [Make limitations, objections, and responses explicit](#rd3-make-limitations-objections-and-responses-explicit)
+- `RD.4` [Avoid promotional and inflated language](#rd4-avoid-promotional-and-inflated-language)
+- `RD.5` [Avoid passive voice when it hides agency](#rd5-avoid-passive-voice-when-it-hides-agency)
+- `RD.6` [Do not bury important limitations or hidden assumptions](#rd6-do-not-bury-important-limitations-or-hidden-assumptions)
 
 ## CL. Claim rules
 
