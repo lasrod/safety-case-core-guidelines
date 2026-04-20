@@ -45,12 +45,6 @@ This work is licensed under the Creative Commons Attribution 4.0 International L
 To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
 
 
-## How to read the support tags
-
-Each guideline entry contains the following support field:
-
-- References: a simple list of source references used for the guideline entry. UL references are prefixed with `UL 4600` for clarity.
-
 ## Guideline ID scheme
 
 - CL.x - Claim guidance
