@@ -36,6 +36,15 @@ These guidelines draw on several source classes:
    Examples: Kelly & McDermid, Hawkins et al., Weaver et al., Greenwell et al.
 
 
+## License
+
+© 2026 Jesper Brännström
+
+This work is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
+
+To view a copy of this license, visit https://creativecommons.org/licenses/by/4.0/
+
+
 ## How to read the support tags
 
 Each guideline entry contains the following support field:
