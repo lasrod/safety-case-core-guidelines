@@ -1,9 +1,12 @@
-"""Generate the per-guideline section of index.md from data/guidelines.yaml.
+"""Generate the guideline sections of index.md from data/guidelines.yaml.
 
 Replaces the content between
     <!-- BEGIN GENERATED: guidelines -->
     <!-- END GENERATED: guidelines -->
-in index.md. Preamble (Purpose ... Quick index) is hand-edited and preserved.
+and also generates/splices the Quick index between
+    <!-- BEGIN GENERATED: quick-index -->
+    <!-- END GENERATED: quick-index -->
+in index.md. The surrounding preamble/content remains hand-edited and preserved.
 
 Output is deterministic. Run repeatedly without spurious diffs.
 """

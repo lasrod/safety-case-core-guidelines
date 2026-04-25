@@ -45,13 +45,17 @@ def main() -> int:
     data = _load_yaml(DATA)
     schema = _load_json(SCHEMA)
 
+    if not isinstance(data, dict):
+        sys.stderr.write("Validation FAILED:\n  - [schema] <root>: YAML does not parse to a mapping\n\n1 error(s).\n")
+        return 1
+
     validator = Draft7Validator(schema)
     for err in sorted(validator.iter_errors(data), key=lambda e: list(e.absolute_path)):
         loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
         errors.append(f"[schema] {loc}: {err.message}")
 
-    sources = {s["id"] for s in data.get("reference_sources", [])}
-    categories = {c["id"] for c in data.get("categories", [])}
+    sources = {s.get("id") for s in data.get("reference_sources") or [] if s.get("id")}
+    categories = {c.get("id") for c in data.get("categories") or [] if c.get("id")}
 
     seen_ids: set[str] = set()
     for g in data.get("guidelines", []):
