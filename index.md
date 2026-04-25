@@ -1,4 +1,4 @@
-# Safety Case Core Guidelines
+﻿# Safety Case Core Guidelines
 
 ## Purpose
 
@@ -38,7 +38,7 @@ These guidelines draw on several source classes:
 
 ## License
 
-© 2026 Jesper Brännström
+Â© 2026 Jesper BrÃ¤nnstrÃ¶m
 
 This work is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
@@ -158,6 +158,7 @@ These guideline entries identify presentation choices that affect how safety arg
 - `RD.5` [Avoid passive voice when it hides agency](#rd5-avoid-passive-voice-when-it-hides-agency)
 - `RD.6` [Do not bury important limitations or hidden assumptions](#rd6-do-not-bury-important-limitations-or-hidden-assumptions)
 
+<!-- BEGIN GENERATED: guidelines -->
 ## CL. Claim rules
 
 ### CL.1: Write each claim as a falsifiable proposition
@@ -229,7 +230,7 @@ When a claim contains the whole story, reviewers cannot clearly see what is bein
     - Degraded operation safety is acceptable.
     - Transitions to safe states are acceptable.
 
-**Typical fix**
+**Note**
 Rewrite the parent as one short claim, move scope to context, move the reasoning to strategy, and express included topics as child claims.
 
 **References**
@@ -550,6 +551,13 @@ Do not use evidence unless its artifact type is defined for safety case use and 
 **Why**
 A reviewer should be able to recognize what kind of evidence is being used, what makes it acceptable for this purpose, and how it should be interpreted. If an artifact is not an approved evidence type, or does not meet the criteria required for that type, it becomes difficult to review consistently and easy to misuse in a safety argument.
 
+**Review prompts**
+- Is the evidence type clearly defined?
+- Is the expected structure or content of the artifact defined?
+- Is it clear how the artifact is to be interpreted?
+- Is there a defined basis for reviewing, validating, or accepting this evidence type?
+- Could an independent reviewer examine the artifact consistently without relying on undocumented local knowledge?
+
 **Example**
 - Bad pattern:
   - Claim: Perception validation evidence is sufficient for this claim.
@@ -562,16 +570,8 @@ A reviewer should be able to recognize what kind of evidence is being used, what
   - Context: Validation report is an approved evidence type for this kind of claim.
   - Evidence basis: The cited artifact meets the defined criteria for that evidence type.
 
-**Review prompts**
-- Is the evidence type clearly defined?
-- Is the expected structure or content of the artifact defined?
-- Is it clear how the artifact is to be interpreted?
-- Is there a defined basis for reviewing, validating, or accepting this evidence type?
-- Could an independent reviewer examine the artifact consistently without relying on undocumented local knowledge?
-
 **References**
-References: Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks,
-UL 4600 5.2.2; 5.2.2.1(a)-(b)
+References: Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)
 
 ### EV.3: Claim the fact supported by the evidence, not the document
 
@@ -615,10 +615,10 @@ References: ONR guidance on clear trail from claims through argument to evidence
 
 ### EV.5: Make the basis for evidence sufficiency explicit
 
-**Guideline**  
+**Guideline**
 When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
 
-**Why**  
+**Why**
 A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
 
 **Review prompts**
@@ -756,10 +756,10 @@ References: UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3; CAE gu
 
 ### SU.1: Identify and address plausible challenges to claims, reasoning, and evidence
 
-**Guideline**  
+**Guideline**
 Where a reviewer could reasonably question whether a claim, reasoning step, evidence item, assumption, or stated scope is valid, complete, applicable, or sufficiently reliable, make that challenge explicit and address it where needed.
 
-**Why**  
+**Why**
 A credible safety case should not only present supporting material. It should also make important doubts visible and show how they are handled. This fits well with GSN-style review, where challenge is used to test whether a claim, inference, or supporting material still stands when subjected to scrutiny.
 
 **Review prompts**
@@ -768,6 +768,19 @@ A credible safety case should not only present supporting material. It should al
 - Could this evidence be incomplete, misleading, or outside the supported scope?
 - Is the challenge really against the claim, the reasoning, the evidence, an assumption, or the stated scope?
 - Are important doubts visible in the argument, or left unstated?
+
+**Example**
+- Bad pattern:
+  - Claim: Hazard analysis is complete for the defined ODD.
+  - Evidence: Hazard analysis report HAR-03.
+- Problem: a reviewer could reasonably ask whether the analysis covered scenarios introduced after the most recent ODD revision, whether the chosen method has known coverage limits for emergent multi-actor interactions, and whether the ODD assumptions still hold. None of these challenges are visible in the argument.
+- Better pattern:
+  - Claim: Hazard analysis is complete for the defined ODD.
+  - Evidence: Hazard analysis report HAR-03.
+  - Challenge: The analysis may not cover scenarios introduced after the most recent ODD revision.
+  - Response: Change-impact review CIR-12 confirms newly added scenarios were re-examined.
+  - Challenge: The chosen method has known coverage limits for emergent multi-actor interactions.
+  - Response: Supplementary scenario-based analysis SBA-04 addresses that gap.
 
 **References**
 References: CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3 dialectic/challenge concepts
@@ -785,6 +798,17 @@ Unstated or weakly founded assumptions are a common cause of later argument inva
 - Why is this assumption reasonable, and how would we know if it became false?
 - Is this really an assumption, or should it instead be represented as context, a claim, or evidence?
 
+**Example**
+- Bad pattern:
+  - Claim: Localization accuracy is acceptable within the defined ODD.
+  - The argument silently relies on the assumption that map data used at runtime is current, but this assumption is not recorded.
+- Problem: a reviewer cannot judge whether the assumption is reasonable, whether it is monitored, or what would invalidate it. If the assumption fails, the affected claim may silently lose support.
+- Better pattern:
+  - Claim: Localization accuracy is acceptable within the defined ODD.
+  - Assumption: Map data used at runtime is no more than 7 days out of date.
+  - Justification: Map update process MAP-PROC-02 enforces a 7-day refresh cycle and is monitored by KPI MAP-KPI-01.
+  - Re-assessment trigger: Sustained KPI breach or change to the map update process.
+
 **References**
 References: UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.17
 
@@ -800,6 +824,18 @@ Expert opinion may be useful, but unsupported opinion is weak support and can ea
 - Is the opinion supported by data, literature, documented analysis, or another explicit technical basis?
 - Is the context of applicability clear and argued?
 - If the opinion remains weakly supported, is lifecycle monitoring in place where needed?
+
+**Example**
+- Bad pattern:
+  - Claim: Residual risk is acceptable.
+  - Evidence: Safety review board statement that residual risk is considered acceptable.
+- Problem: expert judgment is being used as the sole basis for the claim, with no analysis, data, or independent corroboration that a reviewer can examine.
+- Better pattern:
+  - Claim: Residual risk is acceptable.
+  - Evidence: Quantitative risk analysis QRA-09 showing residual risk below the defined threshold.
+  - Evidence: Operational data summary ODS-03 covering 18 months of comparable exposure with no injury-class events.
+  - Expert review: Safety review board record SRB-2026-04 confirming the analysis method, inputs, and conclusion are consistent with established practice.
+  - Note: Expert review is corroborating, not substituting for, the underlying analysis and data.
 
 **References**
 References: UL 4600 5.4.2.2(a)(1); 5.4.2.6.3, AVSC CSE 6.1-6.3
@@ -1352,7 +1388,6 @@ A safety case is easier to review and trust when it shows not only supporting ma
 **References**
 References: CAE Review and Challenge, CAE Defeaters, RA 1205, ONR / EASA guidance as applicable
 
-
 ### RD.4: Avoid promotional and inflated language
 
 **Guideline**
@@ -1424,3 +1459,4 @@ A safety case should make important boundaries visible where the claim is read. 
 
 **References**
 References: CAE Defeaters, RA 1205, UNECE ADS safety case assumptions language
+<!-- END GENERATED: guidelines -->
