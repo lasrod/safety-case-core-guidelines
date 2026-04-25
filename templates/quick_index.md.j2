@@ -1,0 +1,14 @@
+## Quick index
+
+{% for cat in categories %}
+### {{ cat.index_title or cat.title }}
+
+{% if cat.description %}
+{{ cat.description }}
+
+{% endif %}
+{% for g in by_cat[cat.id] %}
+- `{{ g.id }}` [{{ g.title }}](#{{ g.anchor }})
+{% endfor %}
+
+{% endfor %}

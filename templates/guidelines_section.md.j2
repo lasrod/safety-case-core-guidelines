@@ -1,0 +1,39 @@
+{%- for cat in categories %}
+## {{ cat.title }}
+
+{% if cat.description %}
+{{ cat.description }}
+
+{% endif %}
+{%- for g in by_cat[cat.id] %}
+<a id="{{ g.anchor }}"></a>
+
+### {{ g.id }}: {{ g.title }}
+
+**Guideline**
+
+{{ g.guideline }}
+
+**Why**
+
+{{ g.why }}
+
+**Review prompts**
+{% for p in g.review_prompts %}
+- {{ p }}
+{% endfor %}
+
+**Example**
+{{ g.example.markdown }}
+
+{% if g.note is defined and g.note %}
+**Note**
+{{ g.note }}
+
+{% endif %}
+**References**
+
+{{ g.references_display }}
+
+{% endfor %}
+{%- endfor -%}
