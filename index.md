@@ -251,7 +251,7 @@ A safety case is built from claims that can be challenged, supported, or refuted
 
 **References**
 
-ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 4.2.9; 5.2.3.1(a), GSN v3 1:2.3.2
+ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 4.2.9; 5.2.3.1(a), GSN v3 1:2.3.2
 
 ### CL.2: Put one main claim in one goal
 
@@ -275,7 +275,7 @@ Bundled claims hide missing decomposition, make evidence assignment unclear, and
 
 **References**
 
-ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3, GSN v3 1:2.3.2
+ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 5.2.3, GSN v3 1:2.3.2
 
 ### CL.3: Avoid the essay-in-the-box
 
@@ -335,7 +335,7 @@ Ambiguous claims undermine review, traceability, and evidence relevance. This gu
 
 **References**
 
-Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.4.1-2:5.4.3
+Greenwell et al. 2006, NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.4.1-2:5.4.3
 
 ### CL.5: Bound vague and universal qualifiers
 
@@ -359,7 +359,7 @@ Terms such as safe, timely, effective, normal, robust, all, every, and never can
 
 **References**
 
-Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.5.1-2:5.6.1
+Greenwell et al. 2006, NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.5.1-2:5.6.1
 
 ### CL.6: Do not mix different logical steps in one claim
 
@@ -386,7 +386,7 @@ These are different claim types with different evidence and different review que
 
 **References**
 
-ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3; 5.3.1; 5.3.2, GSN v3 1:2.3.2-1:2.3.3
+ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 5.2.3; 5.3.1; 5.3.2, GSN v3 1:2.3.2-1:2.3.3
 
 ## AR. Argument structure and decomposition rules
 
@@ -420,7 +420,7 @@ When one GSN element is used to do another element’s job, the argument becomes
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
 
 ### AR.2: State the inference step explicitly
 
@@ -455,7 +455,7 @@ A hidden reasoning step is a common source of argument gaps.
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3; CAE guidance on connection rules and explicit reasoning
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3, CAE guidance
 
 ### AR.3: Use context and assumptions deliberately
 
@@ -481,7 +481,7 @@ This keeps claims readable and makes it clear which information defines the clai
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18
 
 ### AR.4: Match claim precision to the level of the argument
 
@@ -560,7 +560,7 @@ This guideline is about whether the branch contains enough context at all. In GS
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.10-1:2.2.11; 1:2.3.5
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2.10-1:2.2.11; 1:2.3.5
 
 ### AR.7: Keep context out of claim text unless context is itself the claim
 
@@ -586,7 +586,7 @@ This guideline is about placement, not completeness. Context or assumptions embe
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13; CAE guidance on avoiding free-form conversational argumentation
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13, CAE guidance
 
 ### AR.8: Use justification only for local rationale, not as hidden support
 
@@ -608,7 +608,7 @@ In GSN, a justification explains a local wording or structuring choice; it does 
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.14; 1:2.3.6
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.14; 1:2.3.6
 
 ### AR.9: Match each justification to the element it justifies
 
@@ -631,7 +631,7 @@ Misaligned justifications create false confidence and often reveal that the real
 
 **References**
 
-OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.14-1:2.2.19
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2.14-1:2.2.19
 
 ## EV. Evidence rules
 
@@ -658,7 +658,7 @@ A safety case without traceability cannot be effectively reviewed or maintained.
 
 **References**
 
-ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.1.6.1, GSN v3 2:3.7.3
+ONR, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.1.6.1, GSN v3 2:3.7.3
 
 ### EV.2: Use evidence types that can be independently reviewed
 
@@ -691,7 +691,7 @@ A reviewer should be able to recognize what kind of evidence is being used, what
 
 **References**
 
-Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)
+Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)
 
 ### EV.3: Claim the fact supported by the evidence, not the document
 
@@ -737,7 +737,7 @@ Broad references to whole reports create the illusion of support without making 
 
 **References**
 
-ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.2.1(c)(1), GSN v3 2:3.7.4
+ONR, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.2.1(c)(1), GSN v3 2:3.7.4
 
 ### EV.5: Make the basis for evidence sufficiency explicit
 
@@ -769,7 +769,7 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
 
 **References**
 
-Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(b)-(c); 5.3.2.1(a)(1)
+Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.4.2.1(b)-(c); 5.3.2.1(a)(1)
 
 ### EV.6: Explain how the evidence supports or refutes the claim
 
@@ -804,7 +804,7 @@ Evidence does not speak for itself. The safety case or linked assessment record 
 
 **References**
 
-Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(c)(1)-(2)
+Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.4.2.1(c)(1)-(2)
 
 ### EV.7: Keep evidence controlled: owner, version, date, status, repository
 
@@ -891,7 +891,7 @@ A safety case should argue from reviewable evidence, not from what engineers hap
 
 **References**
 
-UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3; CAE guidance on explicit argument structure and avoidance of free-form argumentation
+UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3, CAE guidance
 
 ## SU. Sufficiency, uncertainty, and pitfall rules
 
@@ -927,7 +927,7 @@ A credible safety case should not only present supporting material. It should al
 
 **References**
 
-CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3 dialectic/challenge concepts
+CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3
 
 ### SU.2: Make assumptions explicit and justify why they are reasonable
 
@@ -1089,7 +1089,7 @@ Operational feedback is often used to support claims about residual risk, rarity
 
 **References**
 
-RA 1205 (living / managed safety case), ONR SAPs (reassess using lessons from failures), UL 4600 5.3.3.2(d)
+RA 1205, ONR SAPs, UL 4600 5.3.3.2(d)
 
 ### SU.7: Do not argue low risk from operational experience or unvalidated simulation alone
 
@@ -1122,7 +1122,7 @@ Operational exposure can miss catastrophic but rare outcomes. Simulation can mis
 
 **References**
 
-UNECE ADS safety case clauses on simulation credibility and consistency across virtual, track, and real-world testing, ISO 21448:2022, UL 4600 5.3.3.2(i)-(j); 5.4.2.1(c)
+UNECE ADS safety case clauses, ISO 21448:2022, UL 4600 5.3.3.2(i)-(j); 5.4.2.1(c)
 
 ### SU.8: Do not assume human data or human-designed tests cover autonomy-specific failures
 
@@ -1261,7 +1261,7 @@ A credible safety case should not leave plausible challenges only in review comm
 
 **References**
 
-CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.3.2.3(c)(1)-(2); 5.4.2.2(b); 5.4.2.3(a), GSN v3 dialectic/challenge concepts
+CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.3.2.3(c)(1)-(2); 5.4.2.2(b); 5.4.2.3(a), GSN v3
 
 ## LF. Logical fallacy rules
 
@@ -1286,7 +1286,7 @@ Circular support creates the appearance of argument without adding any new suppo
 
 **References**
 
-Greenwell et al. 2006 — Circular Reasoning, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3
+Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3
 
 ### LF.2: Avoid irrelevant premises
 
@@ -1316,7 +1316,7 @@ A common defect is to attach true or relevant material to the wrong claim, so th
 
 **References**
 
-Greenwell et al. 2006 — Irrelevant Premise / Using the Wrong Reasons, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.2.1(a)(1)
+Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.2.1(a)(1)
 
 ### LF.3: Avoid arguing from ignorance
 
@@ -1349,7 +1349,7 @@ Not finding a problem is not the same as showing that the problem does not exist
 
 **References**
 
-Greenwell et al. 2006 — Arguing from Ignorance, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.4.2.3(a)
+Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.4.2.3(a)
 
 ### LF.4: Avoid unjustified comparison or unjustified distinction
 
@@ -1383,7 +1383,7 @@ Comparison-based arguments can look persuasive while hiding differences in scope
 
 **References**
 
-Greenwell et al. 2006 — Unjustified Comparison, Unjustified Distinction, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3.2(c)
+Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3.2(c)
 
 ### LF.5: Avoid sample-size and representativeness fallacies
 
@@ -1420,7 +1420,7 @@ A small or skewed data set can support only a correspondingly narrow claim.
 
 **References**
 
-Greenwell et al. 2006 — Insufficient Sample Size, Unrepresentative Sample
+Greenwell et al. 2006
 
 ### LF.6: Avoid pseudo-precision
 
@@ -1455,7 +1455,7 @@ A highly precise number can give a false impression of certainty. When uncertain
 
 **References**
 
-Greenwell et al. 2006 — Pseudo-Precision
+Greenwell et al. 2006
 
 ### LF.7: Avoid omission of key evidence and ignoring counter-evidence
 
@@ -1494,7 +1494,7 @@ A safety case becomes misleading when it presents only supporting material and l
 
 **References**
 
-Greenwell et al. 2006 — Omission of Key Evidence, Ignoring Available Counter-Evidence
+Greenwell et al. 2006
 
 ## RD. Rhetorical device rules
 
@@ -1590,7 +1590,7 @@ A safety case is easier to review and trust when it shows not only supporting ma
 
 **References**
 
-CAE Review and Challenge, CAE Defeaters, RA 1205, ONR / EASA guidance as applicable
+CAE Review and Challenge, CAE Defeaters, RA 1205, ONR, EASA guidance
 
 ### RD.4: Avoid promotional and inflated language
 
@@ -1613,7 +1613,7 @@ Safety arguments should build confidence through explicit claims, reasoning, and
 
 **References**
 
-CAE Summarising and Communication, OMG SACM 2.3, EASA / RA 1205 safety case communication language
+CAE guidance, OMG SACM 2.3, EASA guidance, RA 1205
 
 ### RD.5: Avoid passive voice when it hides agency
 
@@ -1636,7 +1636,7 @@ When a review, judgment, approval, or decision is stated without naming who perf
 
 **References**
 
-RA 1205 (ASSC owner, evidence owners, Safety Statement responsibilities), HSE review guidance on qualified, objective review
+RA 1205, HSE review guidance
 
 ### RD.6: Do not bury important limitations or hidden assumptions
 
@@ -1671,5 +1671,5 @@ A safety case should make important boundaries visible where the claim is read. 
 
 **References**
 
-CAE Defeaters, RA 1205, UNECE ADS safety case assumptions language
+CAE Defeaters, RA 1205, UNECE ADS safety case clauses
 <!-- END GENERATED: guidelines -->

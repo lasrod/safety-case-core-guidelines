@@ -57,7 +57,6 @@ Every guideline entry must include:
 - `why`
 - `review_prompts` (non-empty list)
 - `example` with non-empty `markdown` and structured `cases`
-- `references_raw` (the human-readable references string used on the site)
 - `references` (structured list of `{source_id, clauses?}` referencing entries in `reference_sources`)
 
 The only optional generic field is `note` — used for short clarifying notes that should appear on the page after the example. The legacy keys `typical_fix`, `fix`, `notes`, and `note_type` are not allowed; if you need to add a note, use the single `note` field.

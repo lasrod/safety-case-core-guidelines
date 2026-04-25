@@ -211,7 +211,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Brake monitor response time meets the defined acceptance criterion."
-    references_raw: "ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 4.2.9; 5.2.3.1(a), GSN v3 1:2.3.2"
     references:
       - source_id: "ISO-IEC-IEEE-15026-2"
       - source_id: "OMG-SACM"
@@ -257,7 +256,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Planning software safety is acceptable. And separately: Planning software cybersecurity is acceptable."
-    references_raw: "ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3, GSN v3 1:2.3.2"
     references:
       - source_id: "ISO-IEC-IEEE-15026-2"
       - source_id: "OMG-SACM"
@@ -325,7 +323,6 @@ guidelines:
               - "Transitions to safe states are acceptable."
     note: |-
       Rewrite the parent as one short claim, move scope to context, move the reasoning to strategy, and express included topics as child claims.
-    references_raw: "UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.3.3"
     references:
       - source_id: "UL4600"
         clauses: ["5.2.3", "5.3.2.1(a)"]
@@ -370,7 +367,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "The process used to develop software functional requirements is acceptably controlled."
-    references_raw: "Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.4.1-2:5.4.3"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "NPSA-CAE"
@@ -418,7 +414,6 @@ guidelines:
         - role: "better"
           label: "Example B Better"
           text: "Upon detection of condition C4, the monitor initiates minimum risk maneuver entry within the defined threshold."
-    references_raw: "Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.5.1-2:5.6.1"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "NPSA-CAE"
@@ -471,7 +466,6 @@ guidelines:
               - "Hazards are identified."
               - "Defined mitigations are implemented."
               - "Validation evidence is sufficient."
-    references_raw: "ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3; 5.3.1; 5.3.2, GSN v3 1:2.3.2-1:2.3.3"
     references:
       - source_id: "ISO-IEC-IEEE-15026-2"
       - source_id: "OMG-SACM"
@@ -531,7 +525,6 @@ guidelines:
               - "Functional safety requirements are defined."
               - "Required safety mechanisms are defined."
               - "Safety-relevant interfaces are defined."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -603,7 +596,6 @@ guidelines:
               - "Trajectory and control safety is acceptable."
               - "Actuation safety is acceptable."
               - "Timing safety is acceptable."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3; CAE guidance on connection rules and explicit reasoning"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -660,7 +652,6 @@ guidelines:
             assumptions:
               - "Valid localization available."
               - "Nominal power supply conditions apply."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -707,7 +698,6 @@ guidelines:
             upper: ["Functional design safety is acceptable."]
             lower: ["Sensing-related hazards are identified."]
             evidence_facing: ["Detection timing meets the defined acceptance criterion."]
-    references_raw: "UL 4600 5.2.3; 5.4.2.1(b), GSN v3 Part 2 §2:2"
     references:
       - source_id: "UL4600"
         clauses: ["5.2.3", "5.4.2.1(b)"]
@@ -759,7 +749,6 @@ guidelines:
         - role: "problem"
           label: "Problem"
           text: "The parent claim refers to all software, but the child claims silently narrow the scope to only part of the software. The branch appears complete while leaving other software out of scope without saying so."
-    references_raw: "UL 4600 5.2.3, GSN v3 1:2.2.11; 2:5.5.3"
     references:
       - source_id: "UL4600"
         clauses: ["5.2.3"]
@@ -808,7 +797,6 @@ guidelines:
           elements:
             goal: ["Perception performance is acceptable."]
             context: ["Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01."]
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.10-1:2.2.11; 1:2.3.5"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -861,7 +849,6 @@ guidelines:
             assumptions:
               - "Valid localization is available."
               - "Nominal interface timing conditions apply."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13; CAE guidance on avoiding free-form conversational argumentation"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -906,7 +893,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Use evidence and sub-claims for test support. Reserve justification for local rationale such as why a hazard grouping or decomposition choice is acceptable."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.14; 1:2.3.6"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -951,7 +937,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Put highway use in context and use any justification to explain a local choice such as why a particular fault grouping is appropriate."
-    references_raw: "OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.14-1:2.2.19"
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -1002,7 +987,6 @@ guidelines:
         - role: "problem"
           label: "Problem"
           text: "The reviewer cannot tell which test, section, or lower-level argument is intended to show that detection timing is acceptable. The trace exists only in the author’s head."
-    references_raw: "ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.1.6.1, GSN v3 2:3.7.3"
     references:
       - source_id: "ONR"
       - source_id: "UNECE-ADS"
@@ -1065,7 +1049,6 @@ guidelines:
             evidence: ["Perception validation report PVR-08, rev B."]
             context: ["Validation report is an approved evidence type for this kind of claim."]
             evidence_basis: ["The cited artifact meets the defined criteria for that evidence type."]
-    references_raw: "Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)"
     references:
       - source_id: "Weaver"
       - source_id: "Hawkins"
@@ -1107,7 +1090,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Braking controller stopping distance meets acceptance criterion AC-BRK-04."
-    references_raw: "UL 4600 5.4.2.1(c)(1), GSN v3 1:2.3.4; 2:3.7.3"
     references:
       - source_id: "UL4600"
         clauses: ["5.4.2.1(c)(1)"]
@@ -1148,7 +1130,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "See validation report VR-04, section 6.3, table 12, scenarios S14-S21."
-    references_raw: "ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.2.1(c)(1), GSN v3 2:3.7.4"
     references:
       - source_id: "ONR"
       - source_id: "UNECE-ADS"
@@ -1209,7 +1190,6 @@ guidelines:
             evidence: ["Perception validation report PVR-08."]
             context: ["Applies to software build SB-14 and sensor configuration C3."]
             justification: ["Sufficiency is based on scenario coverage SC-21, acceptance thresholds AC-PER-04 to AC-PER-07, and the stated exclusion of dense fog conditions."]
-    references_raw: "Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(b)-(c); 5.3.2.1(a)(1)"
     references:
       - source_id: "Weaver"
       - source_id: "Hawkins"
@@ -1260,7 +1240,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better with assessment record"
           text: "See markdown for full bad pattern, problem statement, better pattern, and example CSE note."
-    references_raw: "Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(c)(1)-(2)"
     references:
       - source_id: "Weaver"
       - source_id: "Hawkins"
@@ -1314,7 +1293,6 @@ guidelines:
       If a live source is used operationally, the cited version and the re-assessment trigger are both defined explicitly.
 
       This control information does not need to be stored inside the safety case argument itself. It may be managed in a linked repository, evidence register, document management system, or other controlled mechanism, provided the cited evidence remains uniquely identifiable, retrievable, and stable for review.
-    references_raw: "RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.2.2; 5.4.2.1(b)"
     references:
       - source_id: "RA1205"
       - source_id: "ONR"
@@ -1362,7 +1340,6 @@ guidelines:
         - role: "good"
           label: "Also acceptable"
           text: "See archived snapshot of Confluence page CP-118, version 17, captured 2026-03-11."
-    references_raw: "RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.1.1.1(b)-(c); 5.2.2; 5.4.1.1(a)"
     references:
       - source_id: "RA1205"
       - source_id: "ONR"
@@ -1408,7 +1385,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better pattern descriptions."
-    references_raw: "UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3; CAE guidance on explicit argument structure and avoidance of free-form argumentation"
     references:
       - source_id: "UL4600"
         clauses: ["5.1.1.2(e)", "5.3.2.1(a)(2)", "5.7.1.6.1"]
@@ -1475,7 +1451,6 @@ guidelines:
                 response: "Change-impact review CIR-12 confirms newly added scenarios were re-examined."
               - challenge: "The chosen method has known coverage limits for emergent multi-actor interactions."
                 response: "Supplementary scenario-based analysis SBA-04 addresses that gap."
-    references_raw: "CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3 dialectic/challenge concepts"
     references:
       - source_id: "CAE-Review"
       - source_id: "CAE-Defeaters"
@@ -1534,7 +1509,6 @@ guidelines:
             assumption: ["Map data used at runtime is no more than 7 days out of date."]
             justification: ["Map update process MAP-PROC-02 enforces a 7-day refresh cycle and is monitored by KPI MAP-KPI-01."]
             re_assessment_trigger: ["Sustained KPI breach or change to the map update process."]
-    references_raw: "UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.17"
     references:
       - source_id: "UL4600"
         clauses: ["5.4.1.3(a)(11)", "5.4.2.2(a)(3)", "5.4.1.6.2"]
@@ -1594,7 +1568,6 @@ guidelines:
               - "Operational data summary ODS-03 covering 18 months of comparable exposure with no injury-class events."
             expert_review: ["Safety review board record SRB-2026-04 confirming the analysis method, inputs, and conclusion are consistent with established practice."]
             note: ["Expert review is corroborating, not substituting for, the underlying analysis and data."]
-    references_raw: "UL 4600 5.4.2.2(a)(1); 5.4.2.6.3, AVSC CSE 6.1-6.3"
     references:
       - source_id: "UL4600"
         clauses: ["5.4.2.2(a)(1)", "5.4.2.6.3"]
@@ -1639,7 +1612,6 @@ guidelines:
         - role: "informative"
           label: "Acceptable vs not acceptable lifecycle treatment"
           text: "See markdown for the full claim, current support, acceptable treatment, and not acceptable treatment."
-    references_raw: "ISO 21448:2022 12.3-12.4; 13.1-13.4, UL 4600 5.4.2.2(a); 5.4.2.3(c)"
     references:
       - source_id: "ISO-21448"
         clauses: ["12.3-12.4", "13.1-13.4"]
@@ -1693,7 +1665,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad claim, problem, and better-pattern context, justification, and subclaims."
-    references_raw: "UL 4600 5.3.3.2(c); 5.3.2.2(b)-(c)"
     references:
       - source_id: "UL4600"
         clauses: ["5.3.3.2(c)", "5.3.2.2(b)-(c)"]
@@ -1738,7 +1709,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better-pattern treatment of adverse operational feedback."
-    references_raw: "RA 1205 (living / managed safety case), ONR SAPs (reassess using lessons from failures), UL 4600 5.3.3.2(d)"
     references:
       - source_id: "RA1205"
       - source_id: "ONR-SAPs"
@@ -1786,7 +1756,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better-pattern multi-evidence treatment."
-    references_raw: "UNECE ADS safety case clauses on simulation credibility and consistency across virtual, track, and real-world testing, ISO 21448:2022, UL 4600 5.3.3.2(i)-(j); 5.4.2.1(c)"
     references:
       - source_id: "UNECE-ADS"
       - source_id: "ISO-21448"
@@ -1834,7 +1803,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better-pattern coverage argument."
-    references_raw: "ISO 21448:2022 7.1-7.4; 9.1-9.3; 10-11, UL 4600 5.3.3.2(e); 5.3.3.2(g); 5.4.2.2(b)"
     references:
       - source_id: "ISO-21448"
         clauses: ["7.1-7.4", "9.1-9.3", "10-11"]
@@ -1880,7 +1848,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (assumption or subclaim)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "UL 4600 5.4.1.3(a)(11); 5.4.1.6.2; 5.4.2.2(a)(3), GSN v3 0:4.6; 1:2.2.12; 1:2.2.17"
     references:
       - source_id: "UL4600"
         clauses: ["5.4.1.3(a)(11)", "5.4.1.6.2", "5.4.2.2(a)(3)"]
@@ -1928,7 +1895,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (single bounded assumption or multiple)"
           text: "See markdown for the full bad pattern, problem, and better-pattern variants."
-    references_raw: "UL 4600 5.4.2.2(a)(3); 10.5.1.2(b),(h); 12.5.1.2(c)(1); 12.5.2.2(b), GSN v3 1:2.2.12; 1:2.2.17"
     references:
       - source_id: "UL4600"
         clauses: ["5.4.2.2(a)(3)", "10.5.1.2(b),(h)", "12.5.1.2(c)(1)", "12.5.2.2(b)"]
@@ -1985,7 +1951,6 @@ guidelines:
         - role: "informative"
           label: "Initial / Challenge / Counter Claim / Four resolutions"
           text: "See markdown for the full initial branch, reviewer challenge, explicit Counter Claim, and four resolution variants."
-    references_raw: "CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.3.2.3(c)(1)-(2); 5.4.2.2(b); 5.4.2.3(a), GSN v3 dialectic/challenge concepts"
     references:
       - source_id: "CAE-Review"
       - source_id: "CAE-Defeaters"
@@ -2025,7 +1990,6 @@ guidelines:
         - role: "bad"
           label: "Bad claim"
           text: "The system is acceptably safe because the safety case shows acceptable safety."
-    references_raw: "Greenwell et al. 2006 — Circular Reasoning, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "UL4600"
@@ -2069,7 +2033,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad claim, problem, and better-pattern decomposition."
-    references_raw: "Greenwell et al. 2006 — Irrelevant Premise / Using the Wrong Reasons, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.2.1(a)(1)"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "UL4600"
@@ -2116,7 +2079,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better-pattern multi-method coverage."
-    references_raw: "Greenwell et al. 2006 — Arguing from Ignorance, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.4.2.3(a)"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "UL4600"
@@ -2164,7 +2126,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better"
           text: "See markdown for the full bad pattern, problem, and better-pattern matched comparison."
-    references_raw: "Greenwell et al. 2006 — Unjustified Comparison, Unjustified Distinction, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3.2(c)"
     references:
       - source_id: "Greenwell-2006"
       - source_id: "UL4600"
@@ -2215,7 +2176,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (narrowed claim or expanded evidence)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "Greenwell et al. 2006 — Insufficient Sample Size, Unrepresentative Sample"
     references:
       - source_id: "Greenwell-2006"
     tool_guidance:
@@ -2262,7 +2222,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (qualitative or order-of-magnitude)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "Greenwell et al. 2006 — Pseudo-Precision"
     references:
       - source_id: "Greenwell-2006"
     tool_guidance:
@@ -2313,7 +2272,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (expanded coverage or scoped exclusion)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "Greenwell et al. 2006 — Omission of Key Evidence, Ignoring Available Counter-Evidence"
     references:
       - source_id: "Greenwell-2006"
     tool_guidance:
@@ -2368,7 +2326,6 @@ guidelines:
             assumption: ["Valid localization is available."]
             evidence: ["Brake controller verification report BVR-09."]
             justification: ["The cited verification evidence is relevant to the defined operating conditions."]
-    references_raw: "UL 4600 5.3.3.1(b); 5.3.3.2(b), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6"
     references:
       - source_id: "UL4600"
         clauses: ["5.3.3.1(b)", "5.3.3.2(b)"]
@@ -2410,7 +2367,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior."
-    references_raw: "UL 4600 5.3.3.1(b); 5.3.3.2(b); 5.2.3.3(d)"
     references:
       - source_id: "UL4600"
         clauses: ["5.3.3.1(b)", "5.3.3.2(b)", "5.2.3.3(d)"]
@@ -2461,7 +2417,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (scoped exclusion or added evidence)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "CAE Review and Challenge, CAE Defeaters, RA 1205, ONR / EASA guidance as applicable"
     references:
       - source_id: "CAE-Review"
       - source_id: "CAE-Defeaters"
@@ -2503,7 +2458,6 @@ guidelines:
         - role: "better"
           label: "Better claim"
           text: "The architecture prevents hazardous actuation for fault classes F1-F4 under assumptions A1-A3."
-    references_raw: "CAE Summarising and Communication, OMG SACM 2.3, EASA / RA 1205 safety case communication language"
     references:
       - source_id: "CAE"
       - source_id: "OMG-SACM"
@@ -2544,7 +2498,6 @@ guidelines:
         - role: "better"
           label: "Better"
           text: "Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the claim is adequately supported."
-    references_raw: "RA 1205 (ASSC owner, evidence owners, Safety Statement responsibilities), HSE review guidance on qualified, objective review"
     references:
       - source_id: "RA1205"
       - source_id: "HSE"
@@ -2592,7 +2545,6 @@ guidelines:
         - role: "informative"
           label: "Bad / Problem / Better (scoped or assumption variant)"
           text: "See markdown for the full bad pattern, problem, and two better-pattern variants."
-    references_raw: "CAE Defeaters, RA 1205, UNECE ADS safety case assumptions language"
     references:
       - source_id: "CAE-Defeaters"
       - source_id: "RA1205"

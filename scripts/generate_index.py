@@ -41,13 +41,32 @@ def _slugify_anchor(text: str) -> str:
     return re.sub(r"[-\s]+", "-", text).strip("-")
 
 
+def _format_references(refs: list[dict], source_names: dict[str, str]) -> str:
+    parts: list[str] = []
+    for ref in refs:
+        source_id = ref.get("source_id", "")
+        base = ref.get("display_name") or source_names.get(source_id) or source_id
+        clauses = ref.get("clauses") or []
+        if clauses:
+            parts.append(f"{base} {'; '.join(clauses)}")
+        else:
+            parts.append(base)
+    return ", ".join(parts)
+
+
 def _prepare(data: dict) -> tuple[list[dict], dict[str, list[dict]]]:
     categories = sorted(data.get("categories", []), key=lambda c: c["order"])
     guidelines = data.get("guidelines", [])
+    source_names = {
+        s.get("id", ""): s.get("display_name", "")
+        for s in data.get("reference_sources", [])
+        if isinstance(s, dict)
+    }
     by_cat: dict[str, list[dict]] = {c["id"]: [] for c in categories}
     for g in guidelines:
         item = dict(g)
         item["anchor"] = _slugify_anchor(f"{g['id']} {g['title']}")
+        item["references_display"] = _format_references(g.get("references", []), source_names)
         by_cat.setdefault(g["category"], []).append(item)
     for cid in by_cat:
         by_cat[cid].sort(key=lambda g: g["order"])
