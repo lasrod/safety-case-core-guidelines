@@ -38,7 +38,7 @@ These guidelines draw on several source classes:
 
 ## License
 
-Â© 2026 Jesper BrÃ¤nnstrÃ¶m
+© 2026 Jesper Brännström
 
 This work is licensed under the Creative Commons Attribution 4.0 International License (CC BY 4.0).
 
