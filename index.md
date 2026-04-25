@@ -86,77 +86,146 @@ Example review comments:
 - `LF.3`: This branch argues from ignorance; absence of discovered evidence is being treated as evidence of absence.
 - `RD.4`: The wording uses promotional language that makes the claim sound stronger than it is.
 
+<!-- BEGIN GENERATED: quick-index -->
 ## Quick index
+
 
 ### CL. Claim guidance
 
+
+
 - `CL.1` [Write each claim as a falsifiable proposition](#cl1-write-each-claim-as-a-falsifiable-proposition)
+
 - `CL.2` [Put one main claim in one goal](#cl2-put-one-main-claim-in-one-goal)
+
 - `CL.3` [Avoid the essay-in-the-box](#cl3-avoid-the-essay-in-the-box)
+
 - `CL.4` [Avoid ambiguity and overloaded wording](#cl4-avoid-ambiguity-and-overloaded-wording)
+
 - `CL.5` [Bound vague and universal qualifiers](#cl5-bound-vague-and-universal-qualifiers)
+
 - `CL.6` [Do not mix different logical steps in one claim](#cl6-do-not-mix-different-logical-steps-in-one-claim)
+
+
 
 ### AR. Argument structure and decomposition guidance
 
+
+
 - `AR.1` [Let structure carry the argument](#ar1-let-structure-carry-the-argument)
+
 - `AR.2` [State the inference step explicitly](#ar2-state-the-inference-step-explicitly)
+
 - `AR.3` [Use context and assumptions deliberately](#ar3-use-context-and-assumptions-deliberately)
+
 - `AR.4` [Match claim precision to the level of the argument](#ar4-match-claim-precision-to-the-level-of-the-argument)
+
 - `AR.5` [Keep scope and terminology consistent across decomposition](#ar5-keep-scope-and-terminology-consistent-across-decomposition)
+
 - `AR.6` [Provide the context needed to interpret the claim](#ar6-provide-the-context-needed-to-interpret-the-claim)
+
 - `AR.7` [Keep context out of claim text unless context is itself the claim](#ar7-keep-context-out-of-claim-text-unless-context-is-itself-the-claim)
+
 - `AR.8` [Use justification only for local rationale, not as hidden support](#ar8-use-justification-only-for-local-rationale-not-as-hidden-support)
+
 - `AR.9` [Match each justification to the element it justifies](#ar9-match-each-justification-to-the-element-it-justifies)
+
+
 
 ### EV. Evidence guidance
 
-- `EV.1` [Make every claim traceable to supporting evidence](#ev1-make-the-evidence-support-path-explicit-for-every-claim)
+
+
+- `EV.1` [Make the evidence-support path explicit for every claim](#ev1-make-the-evidence-support-path-explicit-for-every-claim)
+
 - `EV.2` [Use evidence types that can be independently reviewed](#ev2-use-evidence-types-that-can-be-independently-reviewed)
+
 - `EV.3` [Claim the fact supported by the evidence, not the document](#ev3-claim-the-fact-supported-by-the-evidence-not-the-document)
+
 - `EV.4` [Cite precise evidence locations; avoid annex dumping](#ev4-cite-precise-evidence-locations-avoid-annex-dumping)
+
 - `EV.5` [Make the basis for evidence sufficiency explicit](#ev5-make-the-basis-for-evidence-sufficiency-explicit)
+
 - `EV.6` [Explain how the evidence supports or refutes the claim](#ev6-explain-how-the-evidence-supports-or-refutes-the-claim)
+
 - `EV.7` [Keep evidence controlled: owner, version, date, status, repository](#ev7-keep-evidence-controlled-owner-version-date-status-repository)
+
 - `EV.8` [Cite fixed evidence, not live mutable content](#ev8-cite-fixed-evidence-not-live-mutable-content)
+
 - `EV.9` [Do not argue directly from undocumented system knowledge](#ev9-do-not-argue-directly-from-undocumented-system-knowledge)
+
+
 
 ### SU. Sufficiency, uncertainty, and pitfall guidance
 
-- `SU.1` [Identify and address epistemic defeaters](#su1-identify-and-address-plausible-challenges-to-claims-reasoning-and-evidence)
+
+
+- `SU.1` [Identify and address plausible challenges to claims, reasoning, and evidence](#su1-identify-and-address-plausible-challenges-to-claims-reasoning-and-evidence)
+
 - `SU.2` [Make assumptions explicit and justify why they are reasonable](#su2-make-assumptions-explicit-and-justify-why-they-are-reasonable)
-- `SU.3` [Do not treat unsupported expert opinion as sufficient support](#su3-do-not-rely-on-uncorroborated-expert-judgment-alone)
+
+- `SU.3` [Do not rely on uncorroborated expert judgment alone](#su3-do-not-rely-on-uncorroborated-expert-judgment-alone)
+
 - `SU.4` [Monitor claims that cannot be fully supported at design time](#su4-monitor-claims-that-cannot-be-fully-supported-at-design-time)
+
 - `SU.5` [Do not reuse safety credit from another context without showing it still applies](#su5-do-not-reuse-safety-credit-from-another-context-without-showing-it-still-applies)
+
 - `SU.6` [Do not dismiss operational feedback because it is non-reproducible or non-injury](#su6-do-not-dismiss-operational-feedback-because-it-is-non-reproducible-or-non-injury)
+
 - `SU.7` [Do not argue low risk from operational experience or unvalidated simulation alone](#su7-do-not-argue-low-risk-from-operational-experience-or-unvalidated-simulation-alone)
+
 - `SU.8` [Do not assume human data or human-designed tests cover autonomy-specific failures](#su8-do-not-assume-human-data-or-human-designed-tests-cover-autonomy-specific-failures)
+
 - `SU.9` [Document unstated assumptions at the point of use](#su9-document-unstated-assumptions-at-the-point-of-use)
+
 - `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10-keep-assumptions-bounded-specific-and-monitorable)
+
 - `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11-turn-plausible-reviewer-challenges-into-explicit-counter-claims-and-resolve-them)
+
+
 
 ### LF. Logical fallacy guidance
 
-These guideline entries identify reasoning errors that weaken safety arguments. They are intended to help authors and reviewers examine whether claims, strategies, and evidence are argued soundly.
+
+These guideline entries identify reasoning errors that weaken safety arguments. They are intended to support the development and review of safety cases by helping authors and reviewers examine whether claims, strategies, and evidence are argued soundly.
+
+
 
 - `LF.1` [Avoid circular reasoning](#lf1-avoid-circular-reasoning)
+
 - `LF.2` [Avoid irrelevant premises](#lf2-avoid-irrelevant-premises)
+
 - `LF.3` [Avoid arguing from ignorance](#lf3-avoid-arguing-from-ignorance)
+
 - `LF.4` [Avoid unjustified comparison or unjustified distinction](#lf4-avoid-unjustified-comparison-or-unjustified-distinction)
+
 - `LF.5` [Avoid sample-size and representativeness fallacies](#lf5-avoid-sample-size-and-representativeness-fallacies)
+
 - `LF.6` [Avoid pseudo-precision](#lf6-avoid-pseudo-precision)
+
 - `LF.7` [Avoid omission of key evidence and ignoring counter-evidence](#lf7-avoid-omission-of-key-evidence-and-ignoring-counter-evidence)
+
+
 
 ### RD. Rhetorical device guidance
 
+
 These guideline entries identify presentation choices that affect how safety arguments are understood and reviewed. They help distinguish between wording that improves clarity and wording that increases confidence without increasing support.
 
+
+
 - `RD.1` [Use explicit signposting of argument element roles](#rd1-use-explicit-signposting-of-argument-element-roles)
+
 - `RD.2` [Use scoped claims and qualified confidence language](#rd2-use-scoped-claims-and-qualified-confidence-language)
+
 - `RD.3` [Make limitations, objections, and responses explicit](#rd3-make-limitations-objections-and-responses-explicit)
+
 - `RD.4` [Avoid promotional and inflated language](#rd4-avoid-promotional-and-inflated-language)
+
 - `RD.5` [Avoid passive voice when it hides agency](#rd5-avoid-passive-voice-when-it-hides-agency)
+
 - `RD.6` [Do not bury important limitations or hidden assumptions](#rd6-do-not-bury-important-limitations-or-hidden-assumptions)
+<!-- END GENERATED: quick-index -->
 
 <!-- BEGIN GENERATED: guidelines -->
 ## CL. Claim rules
@@ -164,9 +233,11 @@ These guideline entries identify presentation choices that affect how safety arg
 ### CL.1: Write each claim as a falsifiable proposition
 
 **Guideline**
+
 State each claim as a sentence that can in principle be shown true or false.
 
 **Why**
+
 A safety case is built from claims that can be challenged, supported, or refuted. Statements that are merely labels, headings, slogans, or references are poor safety claims.
 
 **Review prompts**
@@ -179,14 +250,17 @@ A safety case is built from claims that can be challenged, supported, or refuted
 - Better: Brake monitor response time meets the defined acceptance criterion.
 
 **References**
+
 References: ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 4.2.9; 5.2.3.1(a), GSN v3 1:2.3.2
 
 ### CL.2: Put one main claim in one goal
 
 **Guideline**
+
 Do not bundle multiple distinct properties, conclusions, or obligations into one goal.
 
 **Why**
+
 Bundled claims hide missing decomposition, make evidence assignment unclear, and produce review findings that are hard to localize.
 
 **Review prompts**
@@ -200,14 +274,17 @@ Bundled claims hide missing decomposition, make evidence assignment unclear, and
   - And separately: `Planning software cybersecurity is acceptable.`
 
 **References**
+
 References: ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3, GSN v3 1:2.3.2
 
 ### CL.3: Avoid the essay-in-the-box
 
 **Guideline**
+
 Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims.
 
 **Why**
+
 When a claim contains the whole story, reviewers cannot clearly see what is being claimed, what constrains the claim, and how the argument is intended to proceed. In GSN, that information should be visible in the structure, not hidden inside one sentence.
 
 **Review prompts**
@@ -234,14 +311,17 @@ When a claim contains the whole story, reviewers cannot clearly see what is bein
 Rewrite the parent as one short claim, move scope to context, move the reasoning to strategy, and express included topics as child claims.
 
 **References**
+
 References: UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.3.3
 
 ### CL.4: Avoid ambiguity and overloaded wording
 
 **Guideline**
+
 Write claims so that their meaning is clear enough that competent reviewers are likely to understand them in the same way.
 
 **Why**
+
 Ambiguous claims undermine review, traceability, and evidence relevance. This guideline directly supports UL 4600’s requirement to avoid substantive ambiguity in claims and arguments.
 
 **Review prompts**
@@ -254,14 +334,17 @@ Ambiguous claims undermine review, traceability, and evidence relevance. This gu
 - Better: The process used to develop software functional requirements is acceptably controlled.
 
 **References**
+
 References: Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.4.1-2:5.4.3
 
 ### CL.5: Bound vague and universal qualifiers
 
 **Guideline**
+
 Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.
 
 **Why**
+
 Terms such as safe, timely, effective, normal, robust, all, every, and never can sound stronger or broader than the argument actually shows unless they are properly bounded.
 
 **Review prompts**
@@ -275,14 +358,17 @@ Terms such as safe, timely, effective, normal, robust, all, every, and never can
 - Example B Bad: The monitor provides timely mitigation. Better: Upon detection of condition C4, the monitor initiates minimum risk maneuver entry within the defined threshold.
 
 **References**
+
 References: Greenwell et al. 2006 (linguistic fallacies: ambiguity, vagueness, suppressed quantification), NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.5.1-2:5.6.1
 
 ### CL.6: Do not mix different logical steps in one claim
 
 **Guideline**
+
 Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit
 
 **Why**
+
 These are different claim types with different evidence and different review questions.
 
 **Review prompts**
@@ -299,6 +385,7 @@ These are different claim types with different evidence and different review que
     - Validation evidence is sufficient.
 
 **References**
+
 References: ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 4600 5.2.3; 5.3.1; 5.3.2, GSN v3 1:2.3.2-1:2.3.3
 
 ## AR. Argument structure and decomposition rules
@@ -306,9 +393,11 @@ References: ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE concise guidance, UL 46
 ### AR.1: Let structure carry the argument
 
 **Guideline**
+
 Use goals for claims, strategies for reasoning and decomposition approach, context for scope and definitions when needed, assumptions for dependencies when needed, justifications for local rationale when needed, and solutions for evidence references.
 
 **Why**
+
 When one GSN element is used to do another element’s job, the argument becomes harder to inspect, review, and challenge.
 
 **Review prompts**
@@ -330,14 +419,17 @@ When one GSN element is used to do another element’s job, the argument becomes
     - Safety-relevant interfaces are defined.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
 
 ### AR.2: State the inference step explicitly
 
 **Guideline**
+
 State how the parent claim is being decomposed or argued; do not make the reviewer infer the decomposition rule from wording alone.
 
 **Why**
+
 A hidden reasoning step is a common source of argument gaps.
 
 **Review prompts**
@@ -362,14 +454,17 @@ A hidden reasoning step is a common source of argument gaps.
     - Timing safety is acceptable.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3; CAE guidance on connection rules and explicit reasoning
 
 ### AR.3: Use context and assumptions deliberately
 
 **Guideline**
+
 Put information that explains how a claim should be understood into context elements, and put conditions that must hold for the claim to remain valid into assumption elements, unless that information is itself the claim being made.
 
 **Why**
+
 This keeps claims readable and makes it clear which information defines the claim’s scope and meaning, and which information the argument depends on being true.
 
 **Review prompts**
@@ -385,14 +480,17 @@ This keeps claims readable and makes it clear which information defines the clai
   - Better assumptions: Valid localization available. / Nominal power supply conditions apply.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18
 
 ### AR.4: Match claim precision to the level of the argument
 
 **Guideline**
+
 Keep upper-level claims short and stable; make evidence-facing claims precise enough to assess.
 
 **Why**
+
 Top-level claims need readability and stability. Lower-level claims need assessability.
 
 **Review prompts**
@@ -407,14 +505,17 @@ Top-level claims need readability and stability. Lower-level claims need assessa
   - Evidence-facing level: Detection timing meets the defined acceptance criterion.
 
 **References**
+
 References: UL 4600 5.2.3; 5.4.2.1(b), GSN v3 Part 2 §2:2
 
 ### AR.5: Keep scope and terminology consistent across decomposition
 
 **Guideline**
+
 Do not silently redefine the object, scope, or meaning of key terms as the argument decomposes.
 
 **Why**
+
 Silent redefinition can leave higher-level claims only partially supported while appearing complete.
 
 **Review prompts**
@@ -432,14 +533,17 @@ Silent redefinition can leave higher-level claims only partially supported while
 - Problem: the parent claim refers to all software, but the child claims silently narrow the scope to only part of the software. The branch appears complete while leaving other software out of scope without saying so.
 
 **References**
+
 References: UL 4600 5.2.3, GSN v3 1:2.2.11; 2:5.5.3
 
 ### AR.6: Provide the context needed to interpret the claim
 
 **Guideline**
+
 Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.
 
 **Why**
+
 This guideline is about whether the branch contains enough context at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries.
 
 **Review prompts**
@@ -455,14 +559,17 @@ This guideline is about whether the branch contains enough context at all. In GS
   - Better context: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.10-1:2.2.11; 1:2.3.5
 
 ### AR.7: Keep context out of claim text unless context is itself the claim
 
 **Guideline**
+
 Do not pack claim text with qualifiers, definitions, interface conditions, or dependency clauses when those are better represented as context or assumption elements.
 
 **Why**
+
 This guideline is about placement, not completeness. Context or assumptions embedded in claim text blur element roles, make scope and dependency changes harder to see, and often create claims that are harder to review and maintain.
 
 **Review prompts**
@@ -478,14 +585,17 @@ This guideline is about placement, not completeness. Context or assumptions embe
   - Better assumptions: Valid localization is available. / Nominal interface timing conditions apply.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13; CAE guidance on avoiding free-form conversational argumentation
 
 ### AR.8: Use justification only for local rationale, not as hidden support
 
 **Guideline**
+
 Use a justification element only to explain why the wording, boundary, or reasoning choice for a goal or strategy is acceptable; do not use justification as proof that a claim is true.
 
 **Why**
+
 In GSN, a justification explains a local wording or structuring choice; it does not provide the proof that makes the claim true. Treating justification as proof hides missing strategy, sub-claims, or evidence.
 
 **Review prompts**
@@ -497,14 +607,17 @@ In GSN, a justification explains a local wording or structuring choice; it does 
 - Better: Use evidence and sub-claims for test support. Reserve justification for local rationale such as why a hazard grouping or decomposition choice is acceptable.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.14; 1:2.3.6
 
 ### AR.9: Match each justification to the element it justifies
 
 **Guideline**
+
 A justification shall address the exact goal or strategy to which it is attached and shall not explain some different issue elsewhere in the branch.
 
 **Why**
+
 Misaligned justifications create false confidence and often reveal that the real concern is missing context, missing decomposition, or missing evidence.
 
 **Review prompts**
@@ -517,6 +630,7 @@ Misaligned justifications create false confidence and often reveal that the real
 - Better: Put highway use in context and use any justification to explain a local choice such as why a particular fault grouping is appropriate.
 
 **References**
+
 References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety case definition, NPSA CAE blocks / connection rules, UL 4600 5.2.3, GSN v3 1:2.2.14-1:2.2.19
 
 ## EV. Evidence rules
@@ -524,9 +638,11 @@ References: OMG SACM 2.3, ONR claims-arguments-evidence guidance, EASA safety ca
 ### EV.1: Make the evidence-support path explicit for every claim
 
 **Guideline**
+
 Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments.
 
 **Why**
+
 A safety case without traceability cannot be effectively reviewed or maintained.
 
 **Review prompts**
@@ -541,14 +657,17 @@ A safety case without traceability cannot be effectively reviewed or maintained.
 - Problem: the reviewer cannot tell which test, section, or lower-level argument is intended to show that detection timing is acceptable. The trace exists only in the author’s head.
 
 **References**
+
 References: ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.1.6.1, GSN v3 2:3.7.3
 
 ### EV.2: Use evidence types that can be independently reviewed
 
 **Guideline**
+
 Do not use evidence unless its artifact type is defined for safety case use and the artifact meets the criteria required for that type, so that it can be reviewed and assessed consistently.
 
 **Why**
+
 A reviewer should be able to recognize what kind of evidence is being used, what makes it acceptable for this purpose, and how it should be interpreted. If an artifact is not an approved evidence type, or does not meet the criteria required for that type, it becomes difficult to review consistently and easy to misuse in a safety argument.
 
 **Review prompts**
@@ -571,14 +690,17 @@ A reviewer should be able to recognize what kind of evidence is being used, what
   - Evidence basis: The cited artifact meets the defined criteria for that evidence type.
 
 **References**
+
 References: Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)
 
 ### EV.3: Claim the fact supported by the evidence, not the document
 
 **Guideline**
+
 Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion.
 
 **Why**
+
 Evidence usually supports a specific fact or bounded property, not the whole safety conclusion by itself.
 
 **Review prompts**
@@ -591,14 +713,17 @@ Evidence usually supports a specific fact or bounded property, not the whole saf
 - Better: Braking controller stopping distance meets acceptance criterion AC-BRK-04.
 
 **References**
+
 References: UL 4600 5.4.2.1(c)(1), GSN v3 1:2.3.4; 2:3.7.3
 
 ### EV.4: Cite precise evidence locations; avoid annex dumping
 
 **Guideline**
+
 Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical.
 
 **Why**
+
 Broad references to whole reports create the illusion of support without making the evidential link easy to review.
 
 **Review prompts**
@@ -611,14 +736,17 @@ Broad references to whole reports create the illusion of support without making 
 - Better: See validation report VR-04, section 6.3, table 12, scenarios S14-S21.
 
 **References**
+
 References: ONR guidance on clear trail from claims through argument to evidence, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.2.1(c)(1), GSN v3 2:3.7.4
 
 ### EV.5: Make the basis for evidence sufficiency explicit
 
 **Guideline**
+
 When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
 
 **Why**
+
 A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
 
 **Review prompts**
@@ -640,14 +768,17 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
   - Justification: Sufficiency is based on scenario coverage SC-21, acceptance thresholds AC-PER-04 to AC-PER-07, and the stated exclusion of dense fog conditions.
 
 **References**
+
 References: Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(b)-(c); 5.3.2.1(a)(1)
 
 ### EV.6: Explain how the evidence supports or refutes the claim
 
 **Guideline**
+
 Ensure the inferential link between claim and evidence is explicitly documented and reviewable. The documentation shall explain how the cited evidence supports the claim, and where relevant how it reveals limitations or possible refutation.
 
 **Why**
+
 Evidence does not speak for itself. The safety case or linked assessment record must explain why the evidence bears on the claim.
 
 **Review prompts**
@@ -672,14 +803,17 @@ Evidence does not speak for itself. The safety case or linked assessment record 
   - TR-18 shows measured detection latency below AC-DET-07 for scenarios S1-S12 in configuration C4. This supports the claim for that scenario set and configuration. Degraded sensor mode D3 is not covered and remains outside the supported scope.
 
 **References**
+
 References: Weaver et al., Software Safety Arguments: Towards a Systematic Categorisation of Evidence, Hawkins et al., A New Approach to Creating Clear Safety Arguments, CAE Concepts / Building Blocks, UL 4600 5.4.2.1(c)(1)-(2)
 
 ### EV.7: Keep evidence controlled: owner, version, date, status, repository
 
 **Guideline**
+
 Evidence cited in the safety case should be under configuration or document control, with clear ownership, version or revision, date, status, and a stable retrieval location. Do not rely on mutable live documents as evidence unless the cited version is fixed or the change process explicitly triggers re-assessment of the affected claim.
 
 **Why**
+
 Uncontrolled or mutable evidence is hard to verify, maintain, and re-assess. If a cited artifact can change after review, the argument may silently lose validity while still appearing supported.
 
 **Review prompts**
@@ -702,14 +836,17 @@ If a live source is used operationally, the cited version and the re-assessment 
 This control information does not need to be stored inside the safety case argument itself. It may be managed in a linked repository, evidence register, document management system, or other controlled mechanism, provided the cited evidence remains uniquely identifiable, retrievable, and stable for review.
 
 **References**
+
 References: RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.2.2; 5.4.2.1(b)
 
 ### EV.8: Cite fixed evidence, not live mutable content
 
 **Guideline**
+
 Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content.
 
 **Why**
+
 This rule is the specific citation case of EV.7. If cited evidence can change after review, the safety case may appear supported while its actual evidential basis has changed or disappeared. This breaks reproducibility, reviewability, and configuration control.
 
 **Review prompts**
@@ -724,14 +861,17 @@ This rule is the specific citation case of EV.7. If cited evidence can change af
 - Also acceptable: See archived snapshot of Confluence page CP-118, version 17, captured 2026-03-11.
 
 **References**
+
 References: RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.1.1.1(b)-(c); 5.2.2; 5.4.1.1(a)
 
 ### EV.9: Do not argue directly from undocumented system knowledge
 
 **Guideline**
+
 Do not support claims by relying on undocumented engineering knowledge, design understanding, or verbal explanation. Claims about system behavior, design, interfaces, mitigations, or operating limits should be grounded in controlled documentation or other identified evidence.
 
 **Why**
+
 A safety case should argue from reviewable evidence, not from what engineers happen to know. When system knowledge is written directly into the safety case without a supporting source, the argument becomes hard to verify, hard to maintain, and difficult to assess for completeness. It also becomes unclear whether the claim is supported by an approved design basis or only by current team understanding.
 
 **Review prompts**
@@ -750,6 +890,7 @@ A safety case should argue from reviewable evidence, not from what engineers hap
   - The safety case argues from those documented artifacts instead of serving as the primary description of the design.
 
 **References**
+
 References: UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3; CAE guidance on explicit argument structure and avoidance of free-form argumentation
 
 ## SU. Sufficiency, uncertainty, and pitfall rules
@@ -757,9 +898,11 @@ References: UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3; CAE gu
 ### SU.1: Identify and address plausible challenges to claims, reasoning, and evidence
 
 **Guideline**
+
 Where a reviewer could reasonably question whether a claim, reasoning step, evidence item, assumption, or stated scope is valid, complete, applicable, or sufficiently reliable, make that challenge explicit and address it where needed.
 
 **Why**
+
 A credible safety case should not only present supporting material. It should also make important doubts visible and show how they are handled. This fits well with GSN-style review, where challenge is used to test whether a claim, inference, or supporting material still stands when subjected to scrutiny.
 
 **Review prompts**
@@ -783,14 +926,17 @@ A credible safety case should not only present supporting material. It should al
   - Response: Supplementary scenario-based analysis SBA-04 addresses that gap.
 
 **References**
+
 References: CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3 dialectic/challenge concepts
 
 ### SU.2: Make assumptions explicit and justify why they are reasonable
 
 **Guideline**
+
 Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.
 
 **Why**
+
 Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
 
 **Review prompts**
@@ -810,14 +956,17 @@ Unstated or weakly founded assumptions are a common cause of later argument inva
   - Re-assessment trigger: Sustained KPI breach or change to the map update process.
 
 **References**
+
 References: UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.17
 
 ### SU.3: Do not rely on uncorroborated expert judgment alone
 
 **Guideline**
+
 Do not rely on expert judgment alone unless its basis, limits, and corroborating support are stated, or the residual uncertainty is monitored over the lifecycle where appropriate.
 
 **Why**
+
 Expert opinion may be useful, but unsupported opinion is weak support and can easily outstate what is actually known.
 
 **Review prompts**
@@ -838,14 +987,17 @@ Expert opinion may be useful, but unsupported opinion is weak support and can ea
   - Note: Expert review is corroborating, not substituting for, the underlying analysis and data.
 
 **References**
+
 References: UL 4600 5.4.2.2(a)(1); 5.4.2.6.3, AVSC CSE 6.1-6.3
 
 ### SU.4: Monitor claims that cannot be fully supported at design time
 
 **Guideline**
+
 When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.
 
 **Why**
+
 Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
 
 **Review prompts**
@@ -865,14 +1017,17 @@ Some claims depend partly on assumptions, limited evidence, or expected field be
   - treat the rarity assumption as fully proven without any operational follow-up
 
 **References**
+
 References: ISO 21448:2022 12.3-12.4; 13.1-13.4, UL 4600 5.4.2.2(a); 5.4.2.3(c)
 
 ### SU.5: Do not reuse safety credit from another context without showing it still applies
 
 **Guideline**
+
 Do not rely on safety credit from proven-in-use technology, legacy technology, COTS, prior assessments, standard conformance, or prior practice unless you show that the original context is sufficiently comparable to the current one.
 
 **Why**
+
 Safety confidence gained in one context does not automatically remain valid in another. Differences in operating environment, purpose, interfaces, duty cycle, autonomy role, or assumptions can invalidate the reuse.
 
 **Review prompts**
@@ -901,14 +1056,17 @@ Safety confidence gained in one context does not automatically remain valid in a
     - Any non-comparable differences are addressed by additional evidence or explicit limitations.
 
 **References**
+
 References: UL 4600 5.3.3.2(c); 5.3.2.2(b)-(c)
 
 ### SU.6: Do not dismiss operational feedback because it is non-reproducible or non-injury
 
 **Guideline**
+
 When a claim relies on operational experience, field monitoring, incident history, or proven-in-use style reasoning, do not dismiss incidents, near misses, anomalies, or failure reports merely because they have not recurred, cannot yet be reproduced, or did not lead to harm.
 
 **Why**
+
 Operational feedback is often used to support claims about residual risk, rarity, adequacy of existing controls, or continued acceptability in service. In those branches, non-injury or non-reproducibility does not make a signal irrelevant. Several weak signals together may show that the argument is less reliable than it appears.
 
 **Review prompts**
@@ -930,14 +1088,17 @@ Operational feedback is often used to support claims about residual risk, rarity
   - Safety case treatment: the three anomalies are recorded, grouped, and evaluated as adverse operational evidence. The argument explains whether they challenge the rarity assumption, whether they indicate a gap in object coverage, and whether reassessment or additional mitigation is required.
 
 **References**
+
 References: RA 1205 (living / managed safety case), ONR SAPs (reassess using lessons from failures), UL 4600 5.3.3.2(d)
 
 ### SU.7: Do not argue low risk from operational experience or unvalidated simulation alone
 
 **Guideline**
+
 Do not infer low risk for a known hazard solely from uneventful operational history or from simulation whose credibility for the claim has not been demonstrated.
 
 **Why**
+
 Operational exposure can miss catastrophic but rare outcomes. Simulation can miss modeling defects and abstraction errors.
 
 **Review prompts**
@@ -960,14 +1121,17 @@ Operational exposure can miss catastrophic but rare outcomes. Simulation can mis
   - The argument explains: why SIM-12 is valid for this hazard and what scenario space it covers what limitations remain in the simulation model how TR-08 corroborates important behaviors in representative test conditions how FR-03 is used to check whether operational experience challenges the claim
 
 **References**
+
 References: UNECE ADS safety case clauses on simulation credibility and consistency across virtual, track, and real-world testing, ISO 21448:2022, UL 4600 5.3.3.2(i)-(j); 5.4.2.1(c)
 
 ### SU.8: Do not assume human data or human-designed tests cover autonomy-specific failures
 
 **Guideline**
+
 Do not assume that human-operated data sets or human-designed test plans are sufficient to cover autonomy-specific failures or edge cases.
 
 **Why**
+
 Autonomous systems can encounter operating situations and failure combinations that are uncommon in human driving. Human-derived data and human-designed tests may therefore miss important autonomy-specific risks.
 
 **Review prompts**
@@ -990,14 +1154,17 @@ Autonomous systems can encounter operating situations and failure combinations t
   - Justification: Coverage is based not only on human-driven scenarios, but also on autonomy-specific planner failure analysis and identified edge cases.
 
 **References**
+
 References: ISO 21448:2022 7.1-7.4; 9.1-9.3; 10-11, UL 4600 5.3.3.2(e); 5.3.3.2(g); 5.4.2.2(b)
 
 ### SU.9: Document unstated assumptions at the point of use
 
 **Guideline**
+
 When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.
 
 **Why**
+
 Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.
 
 **Review prompts**
@@ -1018,14 +1185,17 @@ Hidden dependencies are a common reason for late argument invalidation. Making t
   - Evidence: Fallback localization analysis report FLA-03.
 
 **References**
+
 References: UL 4600 5.4.1.3(a)(11); 5.4.1.6.2; 5.4.2.2(a)(3), GSN v3 0:4.6; 1:2.2.12; 1:2.2.17
 
 ### SU.10: Keep assumptions bounded, specific, and monitorable
 
 **Guideline**
+
 Do not use assumptions that are broader than the claim scope or so vague that they cannot be checked, challenged, or monitored.
 
 **Why**
+
 Over-broad assumptions can make a claim appear closed while removing most of its review value. If an argument depends on an assumption, the assumption should be narrow enough to understand, evaluate, and monitor where needed.
 
 **Review prompts**
@@ -1048,14 +1218,17 @@ Over-broad assumptions can make a claim appear closed while removing most of its
   - Assumption: Detected traffic signal anomalies are captured through field feedback.
 
 **References**
+
 References: UL 4600 5.4.2.2(a)(3); 10.5.1.2(b),(h); 12.5.1.2(c)(1); 12.5.2.2(b), GSN v3 1:2.2.12; 1:2.2.17
 
 ### SU.11: Turn plausible reviewer challenges into explicit Counter Claims and resolve them
 
 **Guideline**
+
 When review raises a plausible What if X? challenge, make that challenge explicit as a Counter Claim and resolve it visibly in the safety case. The resolution may reject the Counter Claim, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
 
 **Why**
+
 A credible safety case should not leave plausible challenges only in review comments or reviewer intuition. Good reviews expose weaknesses early. Making the challenge explicit helps ensure that it is either resolved properly or left visible until it is resolved.
 
 **Review prompts**
@@ -1087,6 +1260,7 @@ A credible safety case should not leave plausible challenges only in review comm
   - Open Issue: Impact of localization dropout during fallback remains unresolved and requires additional analysis.
 
 **References**
+
 References: CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.3.2.3(c)(1)-(2); 5.4.2.2(b); 5.4.2.3(a), GSN v3 dialectic/challenge concepts
 
 ## LF. Logical fallacy rules
@@ -1096,9 +1270,11 @@ These guideline entries identify reasoning errors that weaken safety arguments. 
 ### LF.1: Avoid circular reasoning
 
 **Guideline**
+
 Do not support a claim by restating it, renaming it, or assuming it in the support.
 
 **Why**
+
 Circular support creates the appearance of argument without adding any new support.
 
 **Review prompts**
@@ -1109,14 +1285,17 @@ Circular support creates the appearance of argument without adding any new suppo
 - Bad claim: The system is acceptably safe because the safety case shows acceptable safety.
 
 **References**
+
 References: Greenwell et al. 2006 — Circular Reasoning, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3
 
 ### LF.2: Avoid irrelevant premises
 
 **Guideline**
+
 Do not use evidence or supporting statements that may be true but do not support the immediate claim being made.
 
 **Why**
+
 A common defect is to attach true or relevant material to the wrong claim, so the branch appears supported even though the actual inference is missing.
 
 **Review prompts**
@@ -1136,14 +1315,17 @@ A common defect is to attach true or relevant material to the wrong claim, so th
   - Evidence: Brake fault handling verification report BVR-09.
 
 **References**
+
 References: Greenwell et al. 2006 — Irrelevant Premise / Using the Wrong Reasons, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.2.1(a)(1)
 
 ### LF.3: Avoid arguing from ignorance
 
 **Guideline**
+
 Do not treat lack of discovered evidence against a claim as positive evidence for the claim.
 
 **Why**
+
 Not finding a problem is not the same as showing that the problem does not exist. Claims about completeness or absence need support from the search basis, scope, and adequacy of the methods used.
 
 **Review prompts**
@@ -1166,14 +1348,17 @@ Not finding a problem is not the same as showing that the problem does not exist
   - Justification: Complementary hazard identification methods and review coverage have been applied for the defined scope.
 
 **References**
+
 References: Greenwell et al. 2006 — Arguing from Ignorance, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.4.2.3(a)
 
 ### LF.4: Avoid unjustified comparison or unjustified distinction
 
 **Guideline**
+
 Do not claim that one case is equivalent to, safer than, better than, or different from another unless the basis of comparison or distinction is explicit and relevant to the claim being made.
 
 **Why**
+
 Comparison-based arguments can look persuasive while hiding differences in scope, operating conditions, metrics, evidence quality, or confidence. Distinctions can also be misused to dismiss relevant comparators without showing why the difference matters.
 
 **Review prompts**
@@ -1197,14 +1382,17 @@ Comparison-based arguments can look persuasive while hiding differences in scope
   - Justification: The compared cases use matched scope, scenarios, metrics, and confidence basis.
 
 **References**
+
 References: Greenwell et al. 2006 — Unjustified Comparison, Unjustified Distinction, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3.2(c)
 
 ### LF.5: Avoid sample-size and representativeness fallacies
 
 **Guideline**
+
 Do not generalize too far from too little data, or from data that does not match the operating context being claimed.
 
 **Why**
+
 A small or skewed data set can support only a correspondingly narrow claim.
 
 **Review prompts**
@@ -1231,14 +1419,17 @@ A small or skewed data set can support only a correspondingly narrow claim.
   - Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.
 
 **References**
+
 References: Greenwell et al. 2006 — Insufficient Sample Size, Unrepresentative Sample
 
 ### LF.6: Avoid pseudo-precision
 
 **Guideline**
+
 Do not present numerical precision beyond what the evidence, model, assumptions, or method can justify.
 
 **Why**
+
 A highly precise number can give a false impression of certainty. When uncertainty, confidence, model limits, or input assumptions are weak, the stated precision should reflect that.
 
 **Review prompts**
@@ -1263,14 +1454,17 @@ A highly precise number can give a false impression of certainty. When uncertain
   - Evidence: Quantitative risk analysis report QRA-05.
 
 **References**
+
 References: Greenwell et al. 2006 — Pseudo-Precision
 
 ### LF.7: Avoid omission of key evidence and ignoring counter-evidence
 
 **Guideline**
+
 Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
 
 **Why**
+
 A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
 
 **Review prompts**
@@ -1299,6 +1493,7 @@ A safety case becomes misleading when it presents only supporting material and l
   - Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
 
 **References**
+
 References: Greenwell et al. 2006 — Omission of Key Evidence, Ignoring Available Counter-Evidence
 
 ## RD. Rhetorical device rules
@@ -1308,9 +1503,11 @@ These guideline entries identify presentation choices that affect how safety arg
 ### RD.1: Use explicit signposting of argument element roles
 
 **Guideline**
+
 Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification.
 
 **Why**
+
 Review becomes harder when the reader must infer the role of a statement. Clear signposting reduces confusion between argument elements and makes the structure easier to inspect.
 
 **Review prompts**
@@ -1330,14 +1527,17 @@ Review becomes harder when the reader must infer the role of a statement. Clear 
   - Justification (if needed): The cited verification evidence is relevant to the defined operating conditions.
 
 **References**
+
 References: UL 4600 5.3.3.1(b); 5.3.3.2(b), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
 
 ### RD.2: Use scoped claims and qualified confidence language
 
 **Guideline**
+
 State the operating scope and use confidence language that reflects the actual support and any open issues.
 
 **Why**
+
 Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.
 
 **Review prompts**
@@ -1351,14 +1551,17 @@ Safety cases should communicate justified confidence, not absolute assurance whe
 - Better: The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior.
 
 **References**
+
 References: UL 4600 5.3.3.1(b); 5.3.3.2(b); 5.2.3.3(d)
 
 ### RD.3: Make limitations, objections, and responses explicit
 
 **Guideline**
+
 Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
 
 **Why**
+
 A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
 
 **Review prompts**
@@ -1386,14 +1589,17 @@ A safety case is easier to review and trust when it shows not only supporting ma
   - Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
 
 **References**
+
 References: CAE Review and Challenge, CAE Defeaters, RA 1205, ONR / EASA guidance as applicable
 
 ### RD.4: Avoid promotional and inflated language
 
 **Guideline**
+
 Do not use promotional, boastful, or image-enhancing language in the safety case.
 
 **Why**
+
 Safety arguments should build confidence through explicit claims, reasoning, and evidence, not through language intended to impress the reader.
 
 **Review prompts**
@@ -1406,14 +1612,17 @@ Safety arguments should build confidence through explicit claims, reasoning, and
 - Better claim: The architecture prevents hazardous actuation for fault classes F1-F4 under assumptions A1-A3.
 
 **References**
+
 References: CAE Summarising and Communication, OMG SACM 2.3, EASA / RA 1205 safety case communication language
 
 ### RD.5: Avoid passive voice when it hides agency
 
 **Guideline**
+
 Do not use passive wording when the identity of the actor matters to understanding, reviewing, or challenging the argument.
 
 **Why**
+
 When a review, judgment, approval, or decision is stated without naming who performed it, accountability becomes harder to inspect and challenge.
 
 **Review prompts**
@@ -1426,14 +1635,17 @@ When a review, judgment, approval, or decision is stated without naming who perf
 - Better: Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the claim is adequately supported.
 
 **References**
+
 References: RA 1205 (ASSC owner, evidence owners, Safety Statement responsibilities), HSE review guidance on qualified, objective review
 
 ### RD.6: Do not bury important limitations or hidden assumptions
 
 **Guideline**
+
 Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
 
 **Why**
+
 A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
 
 **Review prompts**
@@ -1458,5 +1670,6 @@ A safety case should make important boundaries visible where the claim is read. 
   - Evidence: Perception validation report PVR-08.
 
 **References**
+
 References: CAE Defeaters, RA 1205, UNECE ADS safety case assumptions language
 <!-- END GENERATED: guidelines -->

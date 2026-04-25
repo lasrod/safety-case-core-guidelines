@@ -4,11 +4,14 @@ Thank you for contributing to the Safety Case Core Guidelines.
 
 ## Where to make changes
 
-The canonical source is [data/guidelines.yaml](data/guidelines.yaml). The published page [index.md](index.md) is **generated** from that YAML between the `<!-- BEGIN GENERATED: guidelines -->` / `<!-- END GENERATED: guidelines -->` markers.
+The canonical source is [data/guidelines.yaml](data/guidelines.yaml). The published page [index.md](index.md) is **generated** from that YAML between these marker blocks:
+
+- `<!-- BEGIN GENERATED: quick-index -->` / `<!-- END GENERATED: quick-index -->`
+- `<!-- BEGIN GENERATED: guidelines -->` / `<!-- END GENERATED: guidelines -->`
 
 - Edit `data/guidelines.yaml` for any change to a guideline (text, examples, references, tool guidance).
 - Do not edit the generated region of `index.md` by hand — it will be overwritten and CI will reject out-of-sync pull requests.
-- Preamble, scope, "how to use", and the quick index in `index.md` are still hand-maintained outside the markers.
+- Preamble, scope, and "how to use" in `index.md` are still hand-maintained outside the markers.
 
 ## Scope
 

@@ -10,14 +10,17 @@ The canonical source of the guidelines is the structured data file:
 
 - [data/guidelines.yaml](data/guidelines.yaml)
 
-The human-readable site page [index.md](index.md) is **generated** from that YAML between the markers:
+The human-readable site page [index.md](index.md) is **generated** from that YAML between these marker blocks:
 
 ```
+<!-- BEGIN GENERATED: quick-index -->
+<!-- END GENERATED: quick-index -->
+
 <!-- BEGIN GENERATED: guidelines -->
 <!-- END GENERATED: guidelines -->
 ```
 
-Everything outside those markers (preamble, scope, how to use, quick index) is hand-maintained.
+Everything outside those markers (preamble, scope, how to use) is hand-maintained.
 
 Do not edit the generated section of `index.md` by hand. Edit `data/guidelines.yaml` instead and regenerate.
 
