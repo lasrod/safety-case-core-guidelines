@@ -94,17 +94,17 @@ Example review comments:
 
 
 
-- `CL.1` [Write each claim as a falsifiable proposition](#cl1-write-each-claim-as-a-falsifiable-proposition)
+- `CL.1` [Write each claim as a falsifiable proposition](#cl1)
 
-- `CL.2` [Put one main claim in one goal](#cl2-put-one-main-claim-in-one-goal)
+- `CL.2` [Put one main claim in one goal](#cl2)
 
-- `CL.3` [Avoid the essay-in-the-box](#cl3-avoid-the-essay-in-the-box)
+- `CL.3` [Avoid the essay-in-the-box](#cl3)
 
-- `CL.4` [Avoid ambiguity and overloaded wording](#cl4-avoid-ambiguity-and-overloaded-wording)
+- `CL.4` [Avoid ambiguity and overloaded wording](#cl4)
 
-- `CL.5` [Bound vague and universal qualifiers](#cl5-bound-vague-and-universal-qualifiers)
+- `CL.5` [Bound vague and universal qualifiers](#cl5)
 
-- `CL.6` [Do not mix different logical steps in one claim](#cl6-do-not-mix-different-logical-steps-in-one-claim)
+- `CL.6` [Do not mix different logical steps in one claim](#cl6)
 
 
 
@@ -112,23 +112,23 @@ Example review comments:
 
 
 
-- `AR.1` [Let structure carry the argument](#ar1-let-structure-carry-the-argument)
+- `AR.1` [Let structure carry the argument](#ar1)
 
-- `AR.2` [State the inference step explicitly](#ar2-state-the-inference-step-explicitly)
+- `AR.2` [State the inference step explicitly](#ar2)
 
-- `AR.3` [Use context and assumptions deliberately](#ar3-use-context-and-assumptions-deliberately)
+- `AR.3` [Use context and assumptions deliberately](#ar3)
 
-- `AR.4` [Match claim precision to the level of the argument](#ar4-match-claim-precision-to-the-level-of-the-argument)
+- `AR.4` [Match claim precision to the level of the argument](#ar4)
 
-- `AR.5` [Keep scope and terminology consistent across decomposition](#ar5-keep-scope-and-terminology-consistent-across-decomposition)
+- `AR.5` [Keep scope and terminology consistent across decomposition](#ar5)
 
-- `AR.6` [Provide the context needed to interpret the claim](#ar6-provide-the-context-needed-to-interpret-the-claim)
+- `AR.6` [Provide the context needed to interpret the claim](#ar6)
 
-- `AR.7` [Keep context out of claim text unless context is itself the claim](#ar7-keep-context-out-of-claim-text-unless-context-is-itself-the-claim)
+- `AR.7` [Keep context out of claim text unless context is itself the claim](#ar7)
 
-- `AR.8` [Use justification only for local rationale, not as hidden support](#ar8-use-justification-only-for-local-rationale-not-as-hidden-support)
+- `AR.8` [Use justification only for local rationale, not as hidden support](#ar8)
 
-- `AR.9` [Match each justification to the element it justifies](#ar9-match-each-justification-to-the-element-it-justifies)
+- `AR.9` [Match each justification to the element it justifies](#ar9)
 
 
 
@@ -136,23 +136,23 @@ Example review comments:
 
 
 
-- `EV.1` [Make the evidence-support path explicit for every claim](#ev1-make-the-evidence-support-path-explicit-for-every-claim)
+- `EV.1` [Make the evidence-support path explicit for every claim](#ev1)
 
-- `EV.2` [Use evidence types that can be independently reviewed](#ev2-use-evidence-types-that-can-be-independently-reviewed)
+- `EV.2` [Use evidence types that can be independently reviewed](#ev2)
 
-- `EV.3` [Claim the fact supported by the evidence, not the document](#ev3-claim-the-fact-supported-by-the-evidence-not-the-document)
+- `EV.3` [Claim the fact supported by the evidence, not the document](#ev3)
 
-- `EV.4` [Cite precise evidence locations; avoid annex dumping](#ev4-cite-precise-evidence-locations-avoid-annex-dumping)
+- `EV.4` [Cite precise evidence locations; avoid annex dumping](#ev4)
 
-- `EV.5` [Make the basis for evidence sufficiency explicit](#ev5-make-the-basis-for-evidence-sufficiency-explicit)
+- `EV.5` [Make the basis for evidence sufficiency explicit](#ev5)
 
-- `EV.6` [Explain how the evidence supports or refutes the claim](#ev6-explain-how-the-evidence-supports-or-refutes-the-claim)
+- `EV.6` [Explain how the evidence supports or refutes the claim](#ev6)
 
-- `EV.7` [Keep evidence controlled: owner, version, date, status, repository](#ev7-keep-evidence-controlled-owner-version-date-status-repository)
+- `EV.7` [Keep evidence controlled: owner, version, date, status, repository](#ev7)
 
-- `EV.8` [Cite fixed evidence, not live mutable content](#ev8-cite-fixed-evidence-not-live-mutable-content)
+- `EV.8` [Cite fixed evidence, not live mutable content](#ev8)
 
-- `EV.9` [Do not argue directly from undocumented system knowledge](#ev9-do-not-argue-directly-from-undocumented-system-knowledge)
+- `EV.9` [Do not argue directly from undocumented system knowledge](#ev9)
 
 
 
@@ -160,27 +160,27 @@ Example review comments:
 
 
 
-- `SU.1` [Identify and address plausible challenges to claims, reasoning, and evidence](#su1-identify-and-address-plausible-challenges-to-claims-reasoning-and-evidence)
+- `SU.1` [Identify and address plausible challenges to claims, reasoning, and evidence](#su1)
 
-- `SU.2` [Make assumptions explicit and justify why they are reasonable](#su2-make-assumptions-explicit-and-justify-why-they-are-reasonable)
+- `SU.2` [Make assumptions explicit and justify why they are reasonable](#su2)
 
-- `SU.3` [Do not rely on uncorroborated expert judgment alone](#su3-do-not-rely-on-uncorroborated-expert-judgment-alone)
+- `SU.3` [Do not rely on uncorroborated expert judgment alone](#su3)
 
-- `SU.4` [Monitor claims that cannot be fully supported at design time](#su4-monitor-claims-that-cannot-be-fully-supported-at-design-time)
+- `SU.4` [Monitor claims that cannot be fully supported at design time](#su4)
 
-- `SU.5` [Do not reuse safety credit from another context without showing it still applies](#su5-do-not-reuse-safety-credit-from-another-context-without-showing-it-still-applies)
+- `SU.5` [Do not reuse safety credit from another context without showing it still applies](#su5)
 
-- `SU.6` [Do not dismiss operational feedback because it is non-reproducible or non-injury](#su6-do-not-dismiss-operational-feedback-because-it-is-non-reproducible-or-non-injury)
+- `SU.6` [Do not dismiss operational feedback because it is non-reproducible or non-injury](#su6)
 
-- `SU.7` [Do not argue low risk from operational experience or unvalidated simulation alone](#su7-do-not-argue-low-risk-from-operational-experience-or-unvalidated-simulation-alone)
+- `SU.7` [Do not argue low risk from operational experience or unvalidated simulation alone](#su7)
 
-- `SU.8` [Do not assume human data or human-designed tests cover autonomy-specific failures](#su8-do-not-assume-human-data-or-human-designed-tests-cover-autonomy-specific-failures)
+- `SU.8` [Do not assume human data or human-designed tests cover autonomy-specific failures](#su8)
 
-- `SU.9` [Document unstated assumptions at the point of use](#su9-document-unstated-assumptions-at-the-point-of-use)
+- `SU.9` [Document unstated assumptions at the point of use](#su9)
 
-- `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10-keep-assumptions-bounded-specific-and-monitorable)
+- `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10)
 
-- `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11-turn-plausible-reviewer-challenges-into-explicit-counter-claims-and-resolve-them)
+- `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11)
 
 
 
@@ -191,19 +191,19 @@ These guideline entries identify reasoning errors that weaken safety arguments. 
 
 
 
-- `LF.1` [Avoid circular reasoning](#lf1-avoid-circular-reasoning)
+- `LF.1` [Avoid circular reasoning](#lf1)
 
-- `LF.2` [Avoid irrelevant premises](#lf2-avoid-irrelevant-premises)
+- `LF.2` [Avoid irrelevant premises](#lf2)
 
-- `LF.3` [Avoid arguing from ignorance](#lf3-avoid-arguing-from-ignorance)
+- `LF.3` [Avoid arguing from ignorance](#lf3)
 
-- `LF.4` [Avoid unjustified comparison or unjustified distinction](#lf4-avoid-unjustified-comparison-or-unjustified-distinction)
+- `LF.4` [Avoid unjustified comparison or unjustified distinction](#lf4)
 
-- `LF.5` [Avoid sample-size and representativeness fallacies](#lf5-avoid-sample-size-and-representativeness-fallacies)
+- `LF.5` [Avoid sample-size and representativeness fallacies](#lf5)
 
-- `LF.6` [Avoid pseudo-precision](#lf6-avoid-pseudo-precision)
+- `LF.6` [Avoid pseudo-precision](#lf6)
 
-- `LF.7` [Avoid omission of key evidence and ignoring counter-evidence](#lf7-avoid-omission-of-key-evidence-and-ignoring-counter-evidence)
+- `LF.7` [Avoid omission of key evidence and ignoring counter-evidence](#lf7)
 
 
 
@@ -214,21 +214,23 @@ These guideline entries identify presentation choices that affect how safety arg
 
 
 
-- `RD.1` [Use explicit signposting of argument element roles](#rd1-use-explicit-signposting-of-argument-element-roles)
+- `RD.1` [Use explicit signposting of argument element roles](#rd1)
 
-- `RD.2` [Use scoped claims and qualified confidence language](#rd2-use-scoped-claims-and-qualified-confidence-language)
+- `RD.2` [Use scoped claims and qualified confidence language](#rd2)
 
-- `RD.3` [Make limitations, objections, and responses explicit](#rd3-make-limitations-objections-and-responses-explicit)
+- `RD.3` [Make limitations, objections, and responses explicit](#rd3)
 
-- `RD.4` [Avoid promotional and inflated language](#rd4-avoid-promotional-and-inflated-language)
+- `RD.4` [Avoid promotional and inflated language](#rd4)
 
-- `RD.5` [Avoid passive voice when it hides agency](#rd5-avoid-passive-voice-when-it-hides-agency)
+- `RD.5` [Avoid passive voice when it hides agency](#rd5)
 
-- `RD.6` [Do not bury important limitations or hidden assumptions](#rd6-do-not-bury-important-limitations-or-hidden-assumptions)
+- `RD.6` [Do not bury important limitations or hidden assumptions](#rd6)
 <!-- END GENERATED: quick-index -->
 
 <!-- BEGIN GENERATED: guidelines -->
 ## CL. Claim rules
+
+<a id="cl1"></a>
 
 ### CL.1: Write each claim as a falsifiable proposition
 
@@ -253,6 +255,8 @@ A safety case is built from claims that can be challenged, supported, or refuted
 
 ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 4.2.9; 5.2.3.1(a), GSN v3 1:2.3.2
 
+<a id="cl2"></a>
+
 ### CL.2: Put one main claim in one goal
 
 **Guideline**
@@ -276,6 +280,8 @@ Bundled claims hide missing decomposition, make evidence assignment unclear, and
 **References**
 
 ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 5.2.3, GSN v3 1:2.3.2
+
+<a id="cl3"></a>
 
 ### CL.3: Avoid the essay-in-the-box
 
@@ -314,6 +320,8 @@ Rewrite the parent as one short claim, move scope to context, move the reasoning
 
 UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.3.3
 
+<a id="cl4"></a>
+
 ### CL.4: Avoid ambiguity and overloaded wording
 
 **Guideline**
@@ -336,6 +344,8 @@ Ambiguous claims undermine review, traceability, and evidence relevance. This gu
 **References**
 
 Greenwell et al. 2006, NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.4.1-2:5.4.3
+
+<a id="cl5"></a>
 
 ### CL.5: Bound vague and universal qualifiers
 
@@ -360,6 +370,8 @@ Terms such as safe, timely, effective, normal, robust, all, every, and never can
 **References**
 
 Greenwell et al. 2006, NPSA CAE Concepts, UL 4600 5.2.3; 5.2.3.1(d), GSN v3 2:5.5.1-2:5.6.1
+
+<a id="cl6"></a>
 
 ### CL.6: Do not mix different logical steps in one claim
 
@@ -389,6 +401,8 @@ These are different claim types with different evidence and different review que
 ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 5.2.3; 5.3.1; 5.3.2, GSN v3 1:2.3.2-1:2.3.3
 
 ## AR. Argument structure and decomposition rules
+
+<a id="ar1"></a>
 
 ### AR.1: Let structure carry the argument
 
@@ -421,6 +435,8 @@ When one GSN element is used to do another element’s job, the argument becomes
 **References**
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
+
+<a id="ar2"></a>
 
 ### AR.2: State the inference step explicitly
 
@@ -457,6 +473,8 @@ A hidden reasoning step is a common source of argument gaps.
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3, CAE guidance
 
+<a id="ar3"></a>
+
 ### AR.3: Use context and assumptions deliberately
 
 **Guideline**
@@ -483,6 +501,8 @@ This keeps claims readable and makes it clear which information defines the clai
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18
 
+<a id="ar4"></a>
+
 ### AR.4: Match claim precision to the level of the argument
 
 **Guideline**
@@ -507,6 +527,8 @@ Top-level claims need readability and stability. Lower-level claims need assessa
 **References**
 
 UL 4600 5.2.3; 5.4.2.1(b), GSN v3 Part 2 §2:2
+
+<a id="ar5"></a>
 
 ### AR.5: Keep scope and terminology consistent across decomposition
 
@@ -536,6 +558,8 @@ Silent redefinition can leave higher-level claims only partially supported while
 
 UL 4600 5.2.3, GSN v3 1:2.2.11; 2:5.5.3
 
+<a id="ar6"></a>
+
 ### AR.6: Provide the context needed to interpret the claim
 
 **Guideline**
@@ -561,6 +585,8 @@ This guideline is about whether the branch contains enough context at all. In GS
 **References**
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2.10-1:2.2.11; 1:2.3.5
+
+<a id="ar7"></a>
 
 ### AR.7: Keep context out of claim text unless context is itself the claim
 
@@ -588,6 +614,8 @@ This guideline is about placement, not completeness. Context or assumptions embe
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13, CAE guidance
 
+<a id="ar8"></a>
+
 ### AR.8: Use justification only for local rationale, not as hidden support
 
 **Guideline**
@@ -609,6 +637,8 @@ In GSN, a justification explains a local wording or structuring choice; it does 
 **References**
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.14; 1:2.3.6
+
+<a id="ar9"></a>
 
 ### AR.9: Match each justification to the element it justifies
 
@@ -635,6 +665,8 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2
 
 ## EV. Evidence rules
 
+<a id="ev1"></a>
+
 ### EV.1: Make the evidence-support path explicit for every claim
 
 **Guideline**
@@ -659,6 +691,8 @@ A safety case without traceability cannot be effectively reviewed or maintained.
 **References**
 
 ONR, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.1.6.1, GSN v3 2:3.7.3
+
+<a id="ev2"></a>
 
 ### EV.2: Use evidence types that can be independently reviewed
 
@@ -693,6 +727,8 @@ A reviewer should be able to recognize what kind of evidence is being used, what
 
 Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.2.2; 5.2.2.1(a)-(b)
 
+<a id="ev3"></a>
+
 ### EV.3: Claim the fact supported by the evidence, not the document
 
 **Guideline**
@@ -716,6 +752,8 @@ Evidence usually supports a specific fact or bounded property, not the whole saf
 
 UL 4600 5.4.2.1(c)(1), GSN v3 1:2.3.4; 2:3.7.3
 
+<a id="ev4"></a>
+
 ### EV.4: Cite precise evidence locations; avoid annex dumping
 
 **Guideline**
@@ -738,6 +776,8 @@ Broad references to whole reports create the illusion of support without making 
 **References**
 
 ONR, UNECE ADS safety case clauses, UL 4600 5.4.1.1(a); 5.4.2.1(c)(1), GSN v3 2:3.7.4
+
+<a id="ev5"></a>
 
 ### EV.5: Make the basis for evidence sufficiency explicit
 
@@ -770,6 +810,8 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
 **References**
 
 Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.4.2.1(b)-(c); 5.3.2.1(a)(1)
+
+<a id="ev6"></a>
 
 ### EV.6: Explain how the evidence supports or refutes the claim
 
@@ -806,6 +848,8 @@ Evidence does not speak for itself. The safety case or linked assessment record 
 
 Weaver et al., Hawkins et al., CAE Concepts / Building Blocks, UL 4600 5.4.2.1(c)(1)-(2)
 
+<a id="ev7"></a>
+
 ### EV.7: Keep evidence controlled: owner, version, date, status, repository
 
 **Guideline**
@@ -839,6 +883,8 @@ This control information does not need to be stored inside the safety case argum
 
 RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.2.2; 5.4.2.1(b)
 
+<a id="ev8"></a>
+
 ### EV.8: Cite fixed evidence, not live mutable content
 
 **Guideline**
@@ -863,6 +909,8 @@ This rule is the specific citation case of EV.7. If cited evidence can change af
 **References**
 
 RA 1205, ONR, AVSC CSE 3.8; 6.1; Table 2, UL 4600 5.1.1.1(b)-(c); 5.2.2; 5.4.1.1(a)
+
+<a id="ev9"></a>
 
 ### EV.9: Do not argue directly from undocumented system knowledge
 
@@ -894,6 +942,8 @@ A safety case should argue from reviewable evidence, not from what engineers hap
 UL 4600 5.1.1.2(e); 5.3.2.1(a)(2); 5.7.1.6.1, GSN v3 2:3.7.3, CAE guidance
 
 ## SU. Sufficiency, uncertainty, and pitfall rules
+
+<a id="su1"></a>
 
 ### SU.1: Identify and address plausible challenges to claims, reasoning, and evidence
 
@@ -929,6 +979,8 @@ A credible safety case should not only present supporting material. It should al
 
 CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b), GSN v3
 
+<a id="su2"></a>
+
 ### SU.2: Make assumptions explicit and justify why they are reasonable
 
 **Guideline**
@@ -958,6 +1010,8 @@ Unstated or weakly founded assumptions are a common cause of later argument inva
 **References**
 
 UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.17
+
+<a id="su3"></a>
 
 ### SU.3: Do not rely on uncorroborated expert judgment alone
 
@@ -990,6 +1044,8 @@ Expert opinion may be useful, but unsupported opinion is weak support and can ea
 
 UL 4600 5.4.2.2(a)(1); 5.4.2.6.3, AVSC CSE 6.1-6.3
 
+<a id="su4"></a>
+
 ### SU.4: Monitor claims that cannot be fully supported at design time
 
 **Guideline**
@@ -1019,6 +1075,8 @@ Some claims depend partly on assumptions, limited evidence, or expected field be
 **References**
 
 ISO 21448:2022 12.3-12.4; 13.1-13.4, UL 4600 5.4.2.2(a); 5.4.2.3(c)
+
+<a id="su5"></a>
 
 ### SU.5: Do not reuse safety credit from another context without showing it still applies
 
@@ -1059,6 +1117,8 @@ Safety confidence gained in one context does not automatically remain valid in a
 
 UL 4600 5.3.3.2(c); 5.3.2.2(b)-(c)
 
+<a id="su6"></a>
+
 ### SU.6: Do not dismiss operational feedback because it is non-reproducible or non-injury
 
 **Guideline**
@@ -1090,6 +1150,8 @@ Operational feedback is often used to support claims about residual risk, rarity
 **References**
 
 RA 1205, ONR SAPs, UL 4600 5.3.3.2(d)
+
+<a id="su7"></a>
 
 ### SU.7: Do not argue low risk from operational experience or unvalidated simulation alone
 
@@ -1124,6 +1186,8 @@ Operational exposure can miss catastrophic but rare outcomes. Simulation can mis
 
 UNECE ADS safety case clauses, ISO 21448:2022, UL 4600 5.3.3.2(i)-(j); 5.4.2.1(c)
 
+<a id="su8"></a>
+
 ### SU.8: Do not assume human data or human-designed tests cover autonomy-specific failures
 
 **Guideline**
@@ -1157,6 +1221,8 @@ Autonomous systems can encounter operating situations and failure combinations t
 
 ISO 21448:2022 7.1-7.4; 9.1-9.3; 10-11, UL 4600 5.3.3.2(e); 5.3.3.2(g); 5.4.2.2(b)
 
+<a id="su9"></a>
+
 ### SU.9: Document unstated assumptions at the point of use
 
 **Guideline**
@@ -1187,6 +1253,8 @@ Hidden dependencies are a common reason for late argument invalidation. Making t
 **References**
 
 UL 4600 5.4.1.3(a)(11); 5.4.1.6.2; 5.4.2.2(a)(3), GSN v3 0:4.6; 1:2.2.12; 1:2.2.17
+
+<a id="su10"></a>
 
 ### SU.10: Keep assumptions bounded, specific, and monitorable
 
@@ -1220,6 +1288,8 @@ Over-broad assumptions can make a claim appear closed while removing most of its
 **References**
 
 UL 4600 5.4.2.2(a)(3); 10.5.1.2(b),(h); 12.5.1.2(c)(1); 12.5.2.2(b), GSN v3 1:2.2.12; 1:2.2.17
+
+<a id="su11"></a>
 
 ### SU.11: Turn plausible reviewer challenges into explicit Counter Claims and resolve them
 
@@ -1267,6 +1337,8 @@ CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.3.2.3(c)
 
 These guideline entries identify reasoning errors that weaken safety arguments. They are intended to support the development and review of safety cases by helping authors and reviewers examine whether claims, strategies, and evidence are argued soundly.
 
+<a id="lf1"></a>
+
 ### LF.1: Avoid circular reasoning
 
 **Guideline**
@@ -1287,6 +1359,8 @@ Circular support creates the appearance of argument without adding any new suppo
 **References**
 
 Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3
+
+<a id="lf2"></a>
 
 ### LF.2: Avoid irrelevant premises
 
@@ -1317,6 +1391,8 @@ A common defect is to attach true or relevant material to the wrong claim, so th
 **References**
 
 Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.2.1(a)(1)
+
+<a id="lf3"></a>
 
 ### LF.3: Avoid arguing from ignorance
 
@@ -1351,6 +1427,8 @@ Not finding a problem is not the same as showing that the problem does not exist
 
 Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.4.2.3(a)
 
+<a id="lf4"></a>
+
 ### LF.4: Avoid unjustified comparison or unjustified distinction
 
 **Guideline**
@@ -1384,6 +1462,8 @@ Comparison-based arguments can look persuasive while hiding differences in scope
 **References**
 
 Greenwell et al. 2006, UL 4600 5.3.3.1(a); 5.3.3.2(a); 5.3.3.2(c)
+
+<a id="lf5"></a>
 
 ### LF.5: Avoid sample-size and representativeness fallacies
 
@@ -1422,6 +1502,8 @@ A small or skewed data set can support only a correspondingly narrow claim.
 
 Greenwell et al. 2006
 
+<a id="lf6"></a>
+
 ### LF.6: Avoid pseudo-precision
 
 **Guideline**
@@ -1456,6 +1538,8 @@ A highly precise number can give a false impression of certainty. When uncertain
 **References**
 
 Greenwell et al. 2006
+
+<a id="lf7"></a>
 
 ### LF.7: Avoid omission of key evidence and ignoring counter-evidence
 
@@ -1500,6 +1584,8 @@ Greenwell et al. 2006
 
 These guideline entries identify presentation choices that affect how safety arguments are understood and reviewed. They help distinguish between wording that improves clarity and wording that increases confidence without increasing support.
 
+<a id="rd1"></a>
+
 ### RD.1: Use explicit signposting of argument element roles
 
 **Guideline**
@@ -1530,6 +1616,8 @@ Review becomes harder when the reader must infer the role of a statement. Clear 
 
 UL 4600 5.3.3.1(b); 5.3.3.2(b), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
 
+<a id="rd2"></a>
+
 ### RD.2: Use scoped claims and qualified confidence language
 
 **Guideline**
@@ -1553,6 +1641,8 @@ Safety cases should communicate justified confidence, not absolute assurance whe
 **References**
 
 UL 4600 5.3.3.1(b); 5.3.3.2(b); 5.2.3.3(d)
+
+<a id="rd3"></a>
 
 ### RD.3: Make limitations, objections, and responses explicit
 
@@ -1592,6 +1682,8 @@ A safety case is easier to review and trust when it shows not only supporting ma
 
 CAE Review and Challenge, CAE Defeaters, RA 1205, ONR, EASA guidance
 
+<a id="rd4"></a>
+
 ### RD.4: Avoid promotional and inflated language
 
 **Guideline**
@@ -1615,6 +1707,8 @@ Safety arguments should build confidence through explicit claims, reasoning, and
 
 CAE guidance, OMG SACM 2.3, EASA guidance, RA 1205
 
+<a id="rd5"></a>
+
 ### RD.5: Avoid passive voice when it hides agency
 
 **Guideline**
@@ -1637,6 +1731,8 @@ When a review, judgment, approval, or decision is stated without naming who perf
 **References**
 
 RA 1205, HSE review guidance
+
+<a id="rd6"></a>
 
 ### RD.6: Do not bury important limitations or hidden assumptions
 

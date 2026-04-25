@@ -10,6 +10,8 @@ The canonical source of the guidelines is the structured data file:
 
 - [data/guidelines.yaml](data/guidelines.yaml)
 
+The schema contract version is pinned via `schema_version` and currently must be `0.3.0`. Tooling consumers should treat a different value as incompatible until they explicitly add support.
+
 The human-readable site page [index.md](index.md) is **generated** from that YAML between these marker blocks:
 
 ```
@@ -29,6 +31,10 @@ Do not edit the generated section of `index.md` by hand. Edit `data/guidelines.y
 Tools that build on these guidelines (linters, advisors, model prompts) should consume `data/guidelines.yaml` directly. The schema is defined in [schemas/guidelines.schema.json](schemas/guidelines.schema.json).
 
 Each guideline carries an optional `tool_guidance` block (applicable elements, detection hints, suggested checks, and a suggested AI prompt). This block is metadata for tooling and does not appear on the published site.
+
+References are authored in structured form (`references`) and rendered automatically. If a guideline needs source wording more specific than the canonical source name, set `references[].display_name` on that guideline reference entry.
+
+Generated guideline section anchors are stable and ID-based (for example `#cl1`), so link targets remain stable even if guideline titles are edited.
 
 ## Regenerating the site page
 

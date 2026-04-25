@@ -44,6 +44,8 @@ Guideline `id` values (for example `CL.3`, `EV.7`) are stable identifiers. Do no
 
 If a guideline is retired, leave its id reserved and document the change in `migration_notes` rather than reusing the id.
 
+Generated section anchors are ID-based. Keep IDs stable because external links and tools should target the ID anchor (for example `#cl1`) rather than title-derived anchors.
+
 ## Required fields per guideline
 
 Every guideline entry must include:
@@ -58,6 +60,8 @@ Every guideline entry must include:
 - `review_prompts` (non-empty list)
 - `example` with non-empty `markdown` and structured `cases`
 - `references` (structured list of `{source_id, clauses?}` referencing entries in `reference_sources`)
+
+At document root, `schema_version` is a strict compatibility contract and must match the currently supported value (`0.3.0`) unless a deliberate versioned migration is being performed.
 
 The only optional generic field is `note` — used for short clarifying notes that should appear on the page after the example. The legacy keys `typical_fix`, `fix`, `notes`, and `note_type` are not allowed; if you need to add a note, use the single `note` field.
 
@@ -77,6 +81,7 @@ When proposing a new reference:
 - ensure it is relevant to the specific guideline
 - cite the specific source, not only a general document name
 - if it is a new source, add it once to `reference_sources` and reference its `source_id` from each guideline that uses it
+- if a guideline needs more specific wording than the canonical source name, set `display_name` on that specific `references` entry for that guideline
 - avoid adding references that do not materially support the guideline
 
 ## Regenerating and validating locally

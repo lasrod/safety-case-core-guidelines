@@ -6,6 +6,8 @@
 
 {% endif %}
 {%- for g in by_cat[cat.id] %}
+<a id="{{ g.anchor }}"></a>
+
 ### {{ g.id }}: {{ g.title }}
 
 **Guideline**

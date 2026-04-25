@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 import yaml
@@ -27,6 +28,7 @@ SCHEMA = ROOT / "schemas" / "guidelines.schema.json"
 
 ID_RE = re.compile(r"^([A-Z]{2})\.(\d+)$")
 DISALLOWED_KEYS = {"typical_fix", "fix", "notes", "note_type"}
+SUPPORTED_SCHEMA_VERSION = "0.3.0"
 
 
 def _load_yaml(path: Path):
@@ -53,6 +55,22 @@ def main() -> int:
     for err in sorted(validator.iter_errors(data), key=lambda e: list(e.absolute_path)):
         loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
         errors.append(f"[schema] {loc}: {err.message}")
+
+    if data.get("schema_version") != SUPPORTED_SCHEMA_VERSION:
+        errors.append(
+            "[schema_version] unsupported schema_version "
+            f"{data.get('schema_version')!r}; expected {SUPPORTED_SCHEMA_VERSION!r}"
+        )
+
+    ref_ids = [s.get("id") for s in data.get("reference_sources") or [] if s.get("id")]
+    duplicate_ref_ids = sorted([sid for sid, n in Counter(ref_ids).items() if n > 1])
+    for sid in duplicate_ref_ids:
+        errors.append(f"[reference_sources] duplicate id {sid!r}")
+
+    category_ids = [c.get("id") for c in data.get("categories") or [] if c.get("id")]
+    duplicate_category_ids = sorted([cid for cid, n in Counter(category_ids).items() if n > 1])
+    for cid in duplicate_category_ids:
+        errors.append(f"[categories] duplicate id {cid!r}")
 
     sources = {s.get("id") for s in data.get("reference_sources") or [] if s.get("id")}
     categories = {c.get("id") for c in data.get("categories") or [] if c.get("id")}
@@ -86,6 +104,8 @@ def main() -> int:
             sid = ref.get("source_id")
             if sid and sid not in sources:
                 errors.append(f"[references] {gid}: source_id {sid!r} not in reference_sources")
+            if "display_name" in ref and not (ref.get("display_name") or "").strip():
+                errors.append(f"[references] {gid}: display_name is present but empty")
 
         ex = g.get("example") or {}
         if not (ex.get("markdown") or "").strip():

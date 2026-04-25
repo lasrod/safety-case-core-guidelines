@@ -65,7 +65,7 @@ def _prepare(data: dict) -> tuple[list[dict], dict[str, list[dict]]]:
     by_cat: dict[str, list[dict]] = {c["id"]: [] for c in categories}
     for g in guidelines:
         item = dict(g)
-        item["anchor"] = _slugify_anchor(f"{g['id']} {g['title']}")
+        item["anchor"] = _slugify_anchor(g["id"])
         item["references_display"] = _format_references(g.get("references", []), source_names)
         by_cat.setdefault(g["category"], []).append(item)
     for cid in by_cat:
