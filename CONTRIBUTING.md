@@ -38,11 +38,11 @@ Contributions are welcome for:
 
 Guideline `id` values (for example `CL.3`, `EV.7`) are stable identifiers. Do not renumber existing guidelines. When adding a new guideline:
 
-- pick the next unused number in the relevant category
-- set `category` to the two-letter prefix and `number` to the integer suffix
-- set `order` to `number * 10` (the generator orders guidelines within a category by `order`)
+- pick the next unused number suffix in the relevant category
+- set `category` to the two-letter prefix
+- the generator orders guidelines within a category by the numeric suffix of the `id`
 
-If a guideline is retired, leave its id reserved and document the change in `migration_notes` rather than reusing the id.
+If a guideline is retired, leave its id reserved rather than reusing the id.
 
 Generated section anchors are ID-based. Keep IDs stable because external links and tools should target the ID anchor (for example `#cl1`) rather than title-derived anchors.
 
@@ -52,18 +52,16 @@ Every guideline entry must include:
 
 - `id` (for example `CL.1`)
 - `category` (matches the id prefix)
-- `number` (matches the id suffix)
-- `order`
 - `title`
 - `guideline`
 - `why`
 - `review_prompts` (non-empty list)
-- `example` with non-empty `markdown` and structured `cases`
+- `example` with non-empty `bad`, `problem`, and `good` strings
 - `references` (structured list of `{source_id, clauses?}` referencing entries in `reference_sources`)
 
-At document root, `schema_version` is a strict compatibility contract and must match the currently supported value (`0.3.0`) unless a deliberate versioned migration is being performed.
+At document root, `schema_version` is a strict compatibility contract and must match the currently supported value (`0.4.0`) unless a deliberate versioned migration is being performed.
 
-The only optional generic field is `note` — used for short clarifying notes that should appear on the page after the example. The legacy keys `typical_fix`, `fix`, `notes`, and `note_type` are not allowed; if you need to add a note, use the single `note` field.
+No other top-level guideline fields are accepted. The previously supported `note`, `tags`, `number`, and `order` fields have been removed; do not reintroduce them.
 
 ## Tool guidance
 
@@ -73,7 +71,7 @@ Each guideline may carry an optional `tool_guidance` block consumed by tools tha
 - concise
 - focused on what a tool would need to detect or check
 
-Fields: `applicable_elements`, `detection_hints`, `suggested_checks` (each with `id` and `description`), and `suggested_ai_prompt`.
+Fields: `applicable_elements`, `detection_hints`, and `suggested_checks` (each with `id` and `description`).
 
 ## References
 

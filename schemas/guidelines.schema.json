@@ -5,21 +5,20 @@
   "additionalProperties": false,
   "required": ["schema_version", "document", "reference_sources", "categories", "guidelines"],
   "properties": {
-    "schema_version": { "const": "0.3.0" },
+    "schema_version": { "const": "0.4.0" },
 
     "document": {
       "type": "object",
       "additionalProperties": true,
       "required": ["title"],
       "properties": {
-        "title": { "type": "string" },
+        "title": { "type": "string", "minLength": 1 },
         "copyright": { "type": "string" },
         "license": { "type": "object" },
         "purpose": { "type": "string" },
         "source_policy": { "type": "object" },
         "id_scheme": { "type": "array" },
-        "required_guideline_sections": { "type": "array", "items": { "type": "string" } },
-        "review_comment_examples": { "type": "array" }
+        "required_guideline_sections": { "type": "array", "items": { "type": "string" } }
       }
     },
 
@@ -42,26 +41,12 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "title", "order"],
+        "required": ["id", "title"],
         "properties": {
           "id": { "type": "string", "pattern": "^[A-Z]{2}$" },
-          "title": { "type": "string" },
+          "title": { "type": "string", "minLength": 1 },
           "index_title": { "type": ["string", "null"] },
-          "description": { "type": ["string", "null"] },
-          "order": { "type": "integer" }
-        }
-      }
-    },
-
-    "migration_notes": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": ["guideline_id", "note"],
-        "properties": {
-          "guideline_id": { "type": "string" },
-          "note": { "type": "string" }
+          "description": { "type": ["string", "null"] }
         }
       }
     },
@@ -72,16 +57,14 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "id", "category", "number", "title", "order",
+          "id", "category", "title",
           "guideline", "why", "review_prompts", "example",
           "references"
         ],
         "properties": {
           "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
           "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
-          "number": { "type": "integer", "minimum": 1 },
           "title": { "type": "string", "minLength": 1 },
-          "order": { "type": "integer" },
           "guideline": { "type": "string", "minLength": 1 },
           "why": { "type": "string", "minLength": 1 },
           "review_prompts": {
@@ -92,30 +75,13 @@
           "example": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["markdown", "cases"],
+            "required": ["bad", "problem", "good"],
             "properties": {
-              "markdown": { "type": "string", "minLength": 1 },
-              "cases": {
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                  "type": "object",
-                  "additionalProperties": true,
-                  "required": ["role"],
-                  "properties": {
-                    "label": { "type": "string" },
-                    "role": {
-                      "type": "string",
-                      "enum": ["bad", "better", "good", "problem", "informative"]
-                    },
-                    "text": { "type": "string" },
-                    "elements": { "type": "object" }
-                  }
-                }
-              }
+              "bad": { "type": "string", "minLength": 1 },
+              "problem": { "type": "string", "minLength": 1 },
+              "good": { "type": "string", "minLength": 1 }
             }
           },
-          "note": { "type": "string", "minLength": 1 },
           "references": {
             "type": "array",
             "minItems": 1,
@@ -146,15 +112,13 @@
                   "additionalProperties": false,
                   "required": ["id", "description"],
                   "properties": {
-                    "id": { "type": "string" },
-                    "description": { "type": "string" }
+                    "id": { "type": "string", "minLength": 1 },
+                    "description": { "type": "string", "minLength": 1 }
                   }
                 }
-              },
-              "suggested_ai_prompt": { "type": "string" }
+              }
             }
-          },
-          "tags": { "type": "array", "items": { "type": "string" } }
+          }
         }
       }
     }

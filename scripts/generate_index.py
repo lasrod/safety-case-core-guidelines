@@ -54,8 +54,25 @@ def _format_references(refs: list[dict], source_names: dict[str, str]) -> str:
     return ", ".join(parts)
 
 
+def _id_suffix_num(gid: str) -> int:
+    try:
+        return int(gid.split(".", 1)[1])
+    except (IndexError, ValueError):
+        return 0
+
+
+CATEGORY_ORDER = ["CL", "AR", "EV", "SU", "LF", "RD"]
+
+
+def _category_sort_key(cid: str) -> tuple[int, str]:
+    try:
+        return (CATEGORY_ORDER.index(cid), "")
+    except ValueError:
+        return (len(CATEGORY_ORDER), cid)
+
+
 def _prepare(data: dict) -> tuple[list[dict], dict[str, list[dict]]]:
-    categories = sorted(data.get("categories", []), key=lambda c: c["order"])
+    categories = sorted(data.get("categories", []), key=lambda c: _category_sort_key(c["id"]))
     guidelines = data.get("guidelines", [])
     source_names = {
         s.get("id", ""): s.get("display_name", "")
@@ -69,7 +86,7 @@ def _prepare(data: dict) -> tuple[list[dict], dict[str, list[dict]]]:
         item["references_display"] = _format_references(g.get("references", []), source_names)
         by_cat.setdefault(g["category"], []).append(item)
     for cid in by_cat:
-        by_cat[cid].sort(key=lambda g: g["order"])
+        by_cat[cid].sort(key=lambda g: _id_suffix_num(g["id"]))
     return categories, by_cat
 
 

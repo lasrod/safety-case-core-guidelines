@@ -4,10 +4,12 @@ Runs JSON Schema validation plus custom invariants:
   * id matches ^[A-Z]{2}\\.\\d+$
   * id uniqueness
   * category prefix matches id
-  * number matches numeric suffix of id
   * every references[].source_id exists in reference_sources
-  * disallowed legacy keys (typical_fix, fix, notes, note_type) absent
+  * disallowed legacy keys (number, order, note, tags, cases, markdown,
+    suggested_ai_prompt, typical_fix, fix, notes, note_type,
+    migration_notes, review_comment_examples) absent
     (also enforced by additionalProperties: false on the guideline object)
+  * example.bad / example.problem / example.good are non-empty strings
 
 Exit code 0 on success, 1 on any failure.
 """
@@ -27,8 +29,15 @@ DATA = ROOT / "data" / "guidelines.yaml"
 SCHEMA = ROOT / "schemas" / "guidelines.schema.json"
 
 ID_RE = re.compile(r"^([A-Z]{2})\.(\d+)$")
-DISALLOWED_KEYS = {"typical_fix", "fix", "notes", "note_type"}
-SUPPORTED_SCHEMA_VERSION = "0.3.0"
+DISALLOWED_GUIDELINE_KEYS = {
+    "number", "order", "note", "tags",
+    "typical_fix", "fix", "notes", "note_type",
+}
+DISALLOWED_EXAMPLE_KEYS = {"markdown", "cases"}
+DISALLOWED_TOOL_GUIDANCE_KEYS = {"suggested_ai_prompt"}
+DISALLOWED_TOP_LEVEL_KEYS = {"migration_notes"}
+DISALLOWED_DOCUMENT_KEYS = {"review_comment_examples"}
+SUPPORTED_SCHEMA_VERSION = "0.4.0"
 
 
 def _load_yaml(path: Path):
@@ -75,6 +84,14 @@ def main() -> int:
     sources = {s.get("id") for s in data.get("reference_sources") or [] if s.get("id")}
     categories = {c.get("id") for c in data.get("categories") or [] if c.get("id")}
 
+    for k in DISALLOWED_TOP_LEVEL_KEYS:
+        if k in data:
+            errors.append(f"[keys] <root>: disallowed key {k!r}")
+    document = data.get("document") or {}
+    for k in DISALLOWED_DOCUMENT_KEYS:
+        if k in document:
+            errors.append(f"[keys] document: disallowed key {k!r}")
+
     seen_ids: set[str] = set()
     for g in data.get("guidelines", []):
         gid = g.get("id", "<missing>")
@@ -82,8 +99,7 @@ def main() -> int:
         if not m:
             errors.append(f"[id] {gid}: must match ^[A-Z]{{2}}\\.\\d+$")
             continue
-        prefix, num_str = m.group(1), m.group(2)
-        num = int(num_str)
+        prefix = m.group(1)
 
         if gid in seen_ids:
             errors.append(f"[id] {gid}: duplicate id")
@@ -93,10 +109,8 @@ def main() -> int:
             errors.append(f"[category] {gid}: category {g.get('category')!r} != id prefix {prefix!r}")
         if prefix not in categories:
             errors.append(f"[category] {gid}: prefix {prefix!r} not in categories")
-        if g.get("number") != num:
-            errors.append(f"[number] {gid}: number {g.get('number')!r} != id suffix {num}")
 
-        for k in DISALLOWED_KEYS:
+        for k in DISALLOWED_GUIDELINE_KEYS:
             if k in g:
                 errors.append(f"[keys] {gid}: disallowed key {k!r}")
 
@@ -108,8 +122,18 @@ def main() -> int:
                 errors.append(f"[references] {gid}: display_name is present but empty")
 
         ex = g.get("example") or {}
-        if not (ex.get("markdown") or "").strip():
-            errors.append(f"[example] {gid}: example.markdown is empty")
+        for k in DISALLOWED_EXAMPLE_KEYS:
+            if k in ex:
+                errors.append(f"[keys] {gid}: disallowed key example.{k!r}")
+        for part in ("bad", "problem", "good"):
+            value = ex.get(part)
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"[example] {gid}: example.{part} is missing or empty")
+
+        tg = g.get("tool_guidance") or {}
+        for k in DISALLOWED_TOOL_GUIDANCE_KEYS:
+            if k in tg:
+                errors.append(f"[keys] {gid}: disallowed key tool_guidance.{k!r}")
 
     if errors:
         sys.stderr.write("Validation FAILED:\n")
