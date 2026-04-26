@@ -180,7 +180,7 @@ Example review comments:
 
 - `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10)
 
-- `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11)
+- `SU.11` [Make plausible reviewer challenges explicit and resolve them](#su11)
 
 
 
@@ -336,7 +336,7 @@ The claim packs scope, decomposition topics, and caveats into one sentence, hidi
 
 Claim: Design safety is acceptable.
 Context: Applies within the defined ODD.
-Strategy: Argument by decomposition over safety-relevant design topics.
+Reasoning: Break the design safety claim into safety-relevant design topics.
 Sub-claims:
 - Fault handling safety is acceptable.
 - Failure response safety is acceptable.
@@ -378,7 +378,7 @@ Both the object (development activity vs. resulting requirements) and the proper
 
 *Good*
 
-The process used to develop software functional requirements is acceptably controlled.
+The process used to develop software functional requirements satisfies the defined safety assurance criteria.
 
 **References**
 
@@ -471,7 +471,7 @@ Use the assurance case structure to make each element's role clear. Claims state
 
 **Why**
 
-When one GSN element is used to do another element’s job, the argument becomes harder to inspect, review, and challenge.
+When one assurance case element is used to do another element's job, the argument becomes harder to inspect, review, and challenge.
 
 **Review prompts**
 - Is a claim carrying reasoning that belongs in an argument, strategy, or warrant?
@@ -493,9 +493,9 @@ The single statement bundles claim, strategy, context, justification, and sub-cl
 *Good*
 
 Claim: Functional design safety is acceptable.
-Strategy: Argument by autonomy hazard topic.
-Context: Functional design refers to the ISO 26262 functional design scope for the item.
-Justification: This claim is included because the project requires ISO 26262 compliance.
+Reasoning: Break the claim down by autonomy hazard topic.
+Scope: Functional design refers to the ISO 26262 functional design scope for the item.
+Reason for including the claim: The project requires ISO 26262 compliance.
 Sub-claims:
 - Functional safety requirements are defined.
 - Required safety mechanisms are defined.
@@ -535,8 +535,8 @@ The decomposition rule is not stated; a reviewer cannot tell why these specific 
 *Good*
 
 Claim: Autonomy function safety is acceptable.
-Strategy: Argument by decomposition over autonomy function topics identified by UL 4600.
-Justification: This decomposition follows the autonomy-related topics that UL 4600 requires the safety case to address.
+Reasoning: Break the claim down by the autonomy function topics identified by UL 4600.
+Reason for this breakdown: These topics match the autonomy-related topics that UL 4600 expects the safety case to address.
 Sub-claims:
 - ODD-related safety is acceptable.
 - Sensing safety is acceptable.
@@ -583,10 +583,10 @@ Scope (ODD, mode) and dependencies (localization, interface timing) are hidden i
 *Good*
 
 Claim: Braking controller safety is acceptable.
-Context:
+Scope:
 - Applies in Highway ODD.
 - Applies in automated mode.
-Assumptions:
+Dependencies:
 - Valid localization available.
 - Nominal interface timing conditions apply.
 
@@ -666,7 +666,7 @@ The parent claim refers to all software, but the child claims silently narrow th
 
 Parent claim: Software safety is acceptable.
 Context: Software in scope comprises application, middleware, platform, and driver layers.
-Strategy: Argument by software component type covering all layers in scope.
+Reasoning: Break the software safety claim down by software component type, covering all layers in scope.
 Child claims:
 - Application software safety is acceptable.
 - Middleware software safety is acceptable.
@@ -708,7 +708,7 @@ Perception performance is not defined, so different reviewers may understand dif
 *Good*
 
 Claim: Perception performance is acceptable.
-Context: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
+Definition: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
 
 **References**
 
@@ -745,8 +745,8 @@ Qualifiers ("with valid localization", "nominal interface timing") are buried in
 *Good*
 
 Claim: Planner safety is acceptable.
-Context: Planner refers to the motion planning function defined in architecture element PLN-01.
-Assumptions:
+Definition: Planner refers to the motion planning function defined in architecture element PLN-01.
+Dependencies:
 - Valid localization is available.
 - Nominal interface timing conditions apply.
 
@@ -774,22 +774,22 @@ Rationale can explain local reasoning choices, but it cannot replace sub-claims,
 
 *Bad*
 
-Goal: Brake hazards are adequately addressed.
-Justification: Because tests were passed.
+Claim: Brake hazards are adequately addressed.
+Rationale: The verification campaign passed all planned brake fault tests.
 
 *Problem*
 
-The justification is being used to carry evidential weight that should sit in evidence and sub-claims, hiding the missing reasoning and evidence linking the tests to the claim.
+The rationale is being used as proof. The test results should be cited as evidence and linked to the claim through clear sub-claims or reasoning.
 
 *Good*
 
-Goal: Brake hazards are adequately addressed.
+Claim: Brake hazards are adequately addressed.
 Sub-claims:
 - Brake hazards are identified.
 - Mitigations for identified brake hazards are implemented.
 - Mitigation effectiveness is verified.
 Evidence: Brake hazard verification report BVR-09.
-Justification (local rationale only): Hazards are grouped by actuator path because that grouping aligns with the mitigation architecture.
+Rationale for grouping: Hazards are grouped by actuator path because that grouping matches the mitigation architecture.
 
 **References**
 
@@ -816,18 +816,18 @@ Misaligned rationale creates false confidence and often reveals that the real co
 
 *Bad*
 
-Goal: Sensor faults are adequately addressed.
-Justification: The item is intended for highway use.
+Claim: Sensor faults are adequately addressed.
+Rationale: The item is intended for highway use.
 
 *Problem*
 
-The justification does not explain why this exact claim, decomposition, or inference is acceptable; "intended for highway use" is contextual scope that belongs elsewhere and could be pasted onto many unrelated elements.
+The rationale does not explain why this exact claim, breakdown, or reasoning step is acceptable; "intended for highway use" is scope information that belongs elsewhere and could be pasted onto many unrelated elements.
 
 *Good*
 
 Claim: Sensor faults are adequately addressed.
-Context: Applies to the highway operational design domain.
-Justification (local rationale only): Sensor faults are grouped by detection mechanism because the mitigation set is organized along the same lines.
+Scope: Applies to the highway operational design domain.
+Local rationale: Sensor faults are grouped by detection mechanism because the mitigation set is organized along the same lines.
 
 **References**
 
@@ -901,14 +901,14 @@ Evidence: Engineer working file WF-27.
 
 *Problem*
 
-The artifact is being used as safety case evidence, but it is not an approved evidence type for this purpose, or it is not shown to meet the criteria required for that evidence type. The reviewer therefore cannot assess it consistently as acceptable evidence.
+WF-27 is an engineer working file, not an approved evidence type for this claim. The reviewer cannot tell how to assess it.
 
 *Good*
 
 Claim: Perception validation evidence is sufficient for this claim.
 Evidence: Perception validation report PVR-08, rev B.
-Context: Validation report is an approved evidence type for this kind of claim.
-Evidence basis: The cited artifact meets the defined criteria for that evidence type.
+Evidence type: A validation report is an approved evidence type for this kind of claim.
+Evidence basis: PVR-08 meets the defined criteria for that evidence type.
 
 **References**
 
@@ -1167,13 +1167,13 @@ The safety case includes a free-text explanation of the controller behavior, but
 
 *Problem*
 
-The branch relies on undocumented system knowledge written into the safety case itself rather than on cited specifications, design descriptions, and verification evidence.
+The claim relies on undocumented system knowledge instead of controlled artifacts.
 
 *Good*
 
 Claim: Unsafe torque requests are prevented during degraded localization.
-Context: Refers to braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
-Evidence: Verification report VFR-11 demonstrating the specified behavior is implemented and verified.
+Design basis: Braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
+Evidence: Verification report VFR-11 shows that the specified behavior is implemented and verified.
 
 **References**
 
@@ -1426,7 +1426,7 @@ The argument uses operational feedback but dismisses adverse signals simply beca
 
 Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
 Support: field incident history and operational monitoring.
-Treatment: The three anomalies are recorded, grouped, and evaluated as adverse operational evidence. The argument addresses whether they challenge the rarity assumption, whether they indicate a gap in object coverage, and whether reassessment or additional mitigation is required.
+Treatment: The three anomalies are recorded, grouped, and evaluated as negative field feedback. The argument explains whether they challenge the rarity assumption, whether they show a gap in object coverage, and whether more analysis or mitigation is needed.
 
 **References**
 
@@ -1605,11 +1605,11 @@ UL 4600 5.4.2.2(a)(3); 10.5.1.2(b),(h); 12.5.1.2(c)(1); 12.5.2.2(b), GSN v3 1:2.
 
 <a id="su11"></a>
 
-### SU.11: Turn plausible reviewer challenges into explicit Counter Claims and resolve them
+### SU.11: Make plausible reviewer challenges explicit and resolve them
 
 **Guideline**
 
-When review raises a plausible What if X? challenge, make that challenge explicit as a Counter Claim and resolve it visibly in the safety case. The resolution may reject the Counter Claim, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
+When review raises a plausible What if X? challenge, make that challenge explicit and resolve it visibly in the safety case. Depending on the method, this may be represented as a GSN Counter Claim, a CAE defeater, or another explicit challenge element. The resolution may reject the challenge, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
 
 **Why**
 
@@ -1617,8 +1617,8 @@ A credible safety case should not leave plausible challenges only in review comm
 
 **Review prompts**
 - What exactly is the reviewer challenge?
-- Should this challenge be made explicit as a Counter Claim?
-- Has the Counter Claim been rejected, sustained, or left unresolved?
+- Should this challenge be made explicit as a Counter Claim, defeater, or other challenge element?
+- Has the challenge been rejected, sustained, or left unresolved?
 - If sustained, has the original branch been updated appropriately?
 - If unresolved, is the open issue visible and traceable?
 
@@ -1638,13 +1638,14 @@ A plausible reviewer challenge has been left in review comments and reviewer int
 *Good*
 
 Make the challenge explicit:
-Counter Claim: Fallback behavior is not acceptably safe if localization drops out during fallback.
+Challenge: Fallback behavior may not be acceptably safe if localization drops out during fallback.
+Representation: In GSN this may be shown as a Counter Claim; in CAE this may be shown as a defeater.
 Status: Undeveloped (while analysis is ongoing).
 
 Possible resolutions:
-- Counter Claim rejected: Add evidence (Fallback localization analysis FLA-04, Fallback test report FTR-09); claim retained.
-- Counter Claim sustained: Narrow the claim to "Fallback behavior is acceptably safe under conditions with validated localization continuity."
-- Counter Claim partly sustained: Add Assumption "Localization continuity is maintained during fallback" plus monitoring of continuity violations.
+- Challenge rejected: Add evidence (Fallback localization analysis FLA-04, Fallback test report FTR-09); claim retained.
+- Challenge sustained: Narrow the claim to "Fallback behavior is acceptably safe under conditions with validated localization continuity."
+- Challenge partly sustained: Add dependency "Localization continuity is maintained during fallback" plus monitoring of continuity violations.
 - Not yet resolved: Open Issue "Impact of localization dropout during fallback remains unresolved and requires additional analysis."
 
 **References**
@@ -1997,10 +1998,10 @@ The sentence mixes claim, context, assumption, and evidential reasoning in one s
 *Good*
 
 Claim: Braking controller safety is acceptable.
-Context: Applies in automated mode.
-Assumption: Valid localization is available.
+Scope: Applies in automated mode.
+Dependency: Valid localization is available.
 Evidence: Brake controller verification report BVR-09.
-Justification: The cited verification evidence is relevant to the defined operating conditions.
+Reasoning: The cited verification evidence is relevant to the defined operating conditions.
 
 **References**
 

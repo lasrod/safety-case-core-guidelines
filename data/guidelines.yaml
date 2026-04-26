@@ -20,17 +20,17 @@ document:
 
   method_application_guidance:
     summary: |-
-      SCCG guidelines should be interpreted as notation-neutral quality expectations where possible. When a development process uses a specific assurance-case notation or method, apply the guideline through the corresponding notation elements and use guideline notes for method-specific interpretation.
+      SCCG guidelines should be interpreted as notation-neutral quality expectations where possible. When a development process uses a specific assurance-case notation or method, apply the guideline through the corresponding notation elements and make any method-specific interpretation explicit in the guideline text, example, or tool guidance.
     recommendations:
       - method: "GSN-based development"
         recommendation: |-
-          Apply the full SCCG set. Interpret claims as GSN goals, inference or decomposition steps as strategies, context as GSN context, assumptions as GSN assumptions, and evidence as GSN solutions. Use note fields for GSN-specific interpretation where provided.
+          Apply the full SCCG set. Interpret claims as GSN goals, inference or decomposition steps as strategies, context as GSN context, assumptions as GSN assumptions, and evidence as GSN solutions.
       - method: "CAE-based development"
         recommendation: |-
-          Apply the full SCCG set, but interpret GSN-oriented terms through CAE concepts. Interpret claims as CAE claims, inference or decomposition steps as CAE arguments or warrants, evidence as CAE evidence or supporting information, and use note fields for CAE-specific interpretation where provided.
+          Apply the full SCCG set, but interpret GSN-oriented terms through CAE concepts. Interpret claims as CAE claims, inference or decomposition steps as CAE arguments or warrants, and evidence as CAE evidence or supporting information.
       - method: "SACM or tool-neutral interchange"
         recommendation: |-
-          Apply the notation-neutral guideline text first. Use tool guidance and notes only as mapping guidance into the tool's specific element model.
+          Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model.
 
   id_scheme:
     - prefix: "CL"
@@ -246,7 +246,7 @@ guidelines:
       good: |-
         Claim: Design safety is acceptable.
         Context: Applies within the defined ODD.
-        Strategy: Argument by decomposition over safety-relevant design topics.
+        Reasoning: Break the design safety claim into safety-relevant design topics.
         Sub-claims:
         - Fault handling safety is acceptable.
         - Failure response safety is acceptable.
@@ -287,7 +287,7 @@ guidelines:
       problem: |-
         Both the object (development activity vs. resulting requirements) and the property (safe vs. controlled) are ambiguous, so competent reviewers may interpret the claim differently.
       good: |-
-        The process used to develop software functional requirements is acceptably controlled.
+        The process used to develop software functional requirements satisfies the defined safety assurance criteria.
     references:
       - source_id: "Greenwell-2006"
       - source_id: "NPSA-CAE"
@@ -383,7 +383,7 @@ guidelines:
     guideline: |-
       Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support.
     why: |-
-      When one GSN element is used to do another element’s job, the argument becomes harder to inspect, review, and challenge.
+      When one assurance case element is used to do another element's job, the argument becomes harder to inspect, review, and challenge.
     review_prompts:
       - "Is a claim carrying reasoning that belongs in an argument, strategy, or warrant?"
       - "Is local scope or meaning hidden inside the claim instead of being made explicit?"
@@ -397,9 +397,9 @@ guidelines:
         The single statement bundles claim, strategy, context, justification, and sub-claims; each element's role is hidden inside one sentence rather than carried by the structure.
       good: |-
         Claim: Functional design safety is acceptable.
-        Strategy: Argument by autonomy hazard topic.
-        Context: Functional design refers to the ISO 26262 functional design scope for the item.
-        Justification: This claim is included because the project requires ISO 26262 compliance.
+        Reasoning: Break the claim down by autonomy hazard topic.
+        Scope: Functional design refers to the ISO 26262 functional design scope for the item.
+        Reason for including the claim: The project requires ISO 26262 compliance.
         Sub-claims:
         - Functional safety requirements are defined.
         - Required safety mechanisms are defined.
@@ -440,8 +440,8 @@ guidelines:
         The decomposition rule is not stated; a reviewer cannot tell why these specific children were chosen or whether they together support the parent.
       good: |-
         Claim: Autonomy function safety is acceptable.
-        Strategy: Argument by decomposition over autonomy function topics identified by UL 4600.
-        Justification: This decomposition follows the autonomy-related topics that UL 4600 requires the safety case to address.
+        Reasoning: Break the claim down by the autonomy function topics identified by UL 4600.
+        Reason for this breakdown: These topics match the autonomy-related topics that UL 4600 expects the safety case to address.
         Sub-claims:
         - ODD-related safety is acceptable.
         - Sensing safety is acceptable.
@@ -469,7 +469,7 @@ guidelines:
         - "Look for parent claims whose decomposition rule is implicit in the wording."
       suggested_checks:
         - id: "check-explicit-strategy"
-          description: "Check whether each decomposition has an explicit strategy stating how children support the parent."
+          description: "Check whether each decomposition has an explicit reasoning step stating how children support the parent."
   - id: "AR.3"
     category: "AR"
     title: "Use context and assumptions deliberately"
@@ -489,10 +489,10 @@ guidelines:
         Scope (ODD, mode) and dependencies (localization, interface timing) are hidden inside the claim text instead of being represented as separate context and assumption elements.
       good: |-
         Claim: Braking controller safety is acceptable.
-        Context:
+        Scope:
         - Applies in Highway ODD.
         - Applies in automated mode.
-        Assumptions:
+        Dependencies:
         - Valid localization available.
         - Nominal interface timing conditions apply.
     references:
@@ -567,7 +567,7 @@ guidelines:
       good: |-
         Parent claim: Software safety is acceptable.
         Context: Software in scope comprises application, middleware, platform, and driver layers.
-        Strategy: Argument by software component type covering all layers in scope.
+        Reasoning: Break the software safety claim down by software component type, covering all layers in scope.
         Child claims:
         - Application software safety is acceptable.
         - Middleware software safety is acceptable.
@@ -604,7 +604,7 @@ guidelines:
         Perception performance is not defined, so different reviewers may understand different outputs, measures, or success conditions.
       good: |-
         Claim: Perception performance is acceptable.
-        Context: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
+        Definition: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -640,8 +640,8 @@ guidelines:
         Qualifiers ("with valid localization", "nominal interface timing") are buried in the claim text, blurring the role of each element and making scope and dependency changes harder to see.
       good: |-
         Claim: Planner safety is acceptable.
-        Context: Planner refers to the motion planning function defined in architecture element PLN-01.
-        Assumptions:
+        Definition: Planner refers to the motion planning function defined in architecture element PLN-01.
+        Dependencies:
         - Valid localization is available.
         - Nominal interface timing conditions apply.
     references:
@@ -673,18 +673,18 @@ guidelines:
       - "If the rationale were removed, would the real support for the claim still remain?"
     example:
       bad: |-
-        Goal: Brake hazards are adequately addressed.
-        Justification: Because tests were passed.
+        Claim: Brake hazards are adequately addressed.
+        Rationale: The verification campaign passed all planned brake fault tests.
       problem: |-
-        The justification is being used to carry evidential weight that should sit in evidence and sub-claims, hiding the missing reasoning and evidence linking the tests to the claim.
+        The rationale is being used as proof. The test results should be cited as evidence and linked to the claim through clear sub-claims or reasoning.
       good: |-
-        Goal: Brake hazards are adequately addressed.
+        Claim: Brake hazards are adequately addressed.
         Sub-claims:
         - Brake hazards are identified.
         - Mitigations for identified brake hazards are implemented.
         - Mitigation effectiveness is verified.
         Evidence: Brake hazard verification report BVR-09.
-        Justification (local rationale only): Hazards are grouped by actuator path because that grouping aligns with the mitigation architecture.
+        Rationale for grouping: Hazards are grouped by actuator path because that grouping matches the mitigation architecture.
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -714,14 +714,14 @@ guidelines:
       - "Could the same text be pasted onto many different elements without change?"
     example:
       bad: |-
-        Goal: Sensor faults are adequately addressed.
-        Justification: The item is intended for highway use.
+        Claim: Sensor faults are adequately addressed.
+        Rationale: The item is intended for highway use.
       problem: |-
-        The justification does not explain why this exact claim, decomposition, or inference is acceptable; "intended for highway use" is contextual scope that belongs elsewhere and could be pasted onto many unrelated elements.
+        The rationale does not explain why this exact claim, breakdown, or reasoning step is acceptable; "intended for highway use" is scope information that belongs elsewhere and could be pasted onto many unrelated elements.
       good: |-
         Claim: Sensor faults are adequately addressed.
-        Context: Applies to the highway operational design domain.
-        Justification (local rationale only): Sensor faults are grouped by detection mechanism because the mitigation set is organized along the same lines.
+        Scope: Applies to the highway operational design domain.
+        Local rationale: Sensor faults are grouped by detection mechanism because the mitigation set is organized along the same lines.
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -795,12 +795,12 @@ guidelines:
         Claim: Perception validation evidence is sufficient for this claim.
         Evidence: Engineer working file WF-27.
       problem: |-
-        The artifact is being used as safety case evidence, but it is not an approved evidence type for this purpose, or it is not shown to meet the criteria required for that evidence type. The reviewer therefore cannot assess it consistently as acceptable evidence.
+        WF-27 is an engineer working file, not an approved evidence type for this claim. The reviewer cannot tell how to assess it.
       good: |-
         Claim: Perception validation evidence is sufficient for this claim.
         Evidence: Perception validation report PVR-08, rev B.
-        Context: Validation report is an approved evidence type for this kind of claim.
-        Evidence basis: The cited artifact meets the defined criteria for that evidence type.
+        Evidence type: A validation report is an approved evidence type for this kind of claim.
+        Evidence basis: PVR-08 meets the defined criteria for that evidence type.
     references:
       - source_id: "Weaver"
       - source_id: "Hawkins"
@@ -1035,11 +1035,11 @@ guidelines:
         Claim: Unsafe torque requests are prevented during degraded localization.
         The safety case includes a free-text explanation of the controller behavior, but the relevant design basis is not identified through context and no supporting artifacts are linked.
       problem: |-
-        The branch relies on undocumented system knowledge written into the safety case itself rather than on cited specifications, design descriptions, and verification evidence.
+        The claim relies on undocumented system knowledge instead of controlled artifacts.
       good: |-
         Claim: Unsafe torque requests are prevented during degraded localization.
-        Context: Refers to braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
-        Evidence: Verification report VFR-11 demonstrating the specified behavior is implemented and verified.
+        Design basis: Braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
+        Evidence: Verification report VFR-11 shows that the specified behavior is implemented and verified.
     references:
       - source_id: "UL4600"
         clauses: ["5.1.1.2(e)", "5.3.2.1(a)(2)", "5.7.1.6.1"]
@@ -1264,7 +1264,7 @@ guidelines:
       good: |-
         Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
         Support: field incident history and operational monitoring.
-        Treatment: The three anomalies are recorded, grouped, and evaluated as adverse operational evidence. The argument addresses whether they challenge the rarity assumption, whether they indicate a gap in object coverage, and whether reassessment or additional mitigation is required.
+        Treatment: The three anomalies are recorded, grouped, and evaluated as negative field feedback. The argument explains whether they challenge the rarity assumption, whether they show a gap in object coverage, and whether more analysis or mitigation is needed.
     references:
       - source_id: "RA1205"
       - source_id: "ONR-SAPs"
@@ -1430,15 +1430,15 @@ guidelines:
           description: "Check whether each assumption is narrow, specific, and monitorable where needed."
   - id: "SU.11"
     category: "SU"
-    title: "Turn plausible reviewer challenges into explicit Counter Claims and resolve them"
+    title: "Make plausible reviewer challenges explicit and resolve them"
     guideline: |-
-      When review raises a plausible What if X? challenge, make that challenge explicit as a Counter Claim and resolve it visibly in the safety case. The resolution may reject the Counter Claim, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
+      When review raises a plausible What if X? challenge, make that challenge explicit and resolve it visibly in the safety case. Depending on the method, this may be represented as a GSN Counter Claim, a CAE defeater, or another explicit challenge element. The resolution may reject the challenge, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
     why: |-
       A credible safety case should not leave plausible challenges only in review comments or reviewer intuition. Good reviews expose weaknesses early. Making the challenge explicit helps ensure that it is either resolved properly or left visible until it is resolved.
     review_prompts:
       - "What exactly is the reviewer challenge?"
-      - "Should this challenge be made explicit as a Counter Claim?"
-      - "Has the Counter Claim been rejected, sustained, or left unresolved?"
+      - "Should this challenge be made explicit as a Counter Claim, defeater, or other challenge element?"
+      - "Has the challenge been rejected, sustained, or left unresolved?"
       - "If sustained, has the original branch been updated appropriately?"
       - "If unresolved, is the open issue visible and traceable?"
     example:
@@ -1451,13 +1451,14 @@ guidelines:
         A plausible reviewer challenge has been left in review comments and reviewer intuition rather than made explicit in the safety case, so it cannot be tracked, resolved, or shown as an open issue.
       good: |-
         Make the challenge explicit:
-        Counter Claim: Fallback behavior is not acceptably safe if localization drops out during fallback.
+        Challenge: Fallback behavior may not be acceptably safe if localization drops out during fallback.
+        Representation: In GSN this may be shown as a Counter Claim; in CAE this may be shown as a defeater.
         Status: Undeveloped (while analysis is ongoing).
 
         Possible resolutions:
-        - Counter Claim rejected: Add evidence (Fallback localization analysis FLA-04, Fallback test report FTR-09); claim retained.
-        - Counter Claim sustained: Narrow the claim to "Fallback behavior is acceptably safe under conditions with validated localization continuity."
-        - Counter Claim partly sustained: Add Assumption "Localization continuity is maintained during fallback" plus monitoring of continuity violations.
+        - Challenge rejected: Add evidence (Fallback localization analysis FLA-04, Fallback test report FTR-09); claim retained.
+        - Challenge sustained: Narrow the claim to "Fallback behavior is acceptably safe under conditions with validated localization continuity."
+        - Challenge partly sustained: Add dependency "Localization continuity is maintained during fallback" plus monitoring of continuity violations.
         - Not yet resolved: Open Issue "Impact of localization dropout during fallback remains unresolved and requires additional analysis."
     references:
       - source_id: "CAE-Review"
@@ -1467,12 +1468,12 @@ guidelines:
         clauses: ["5.3.2.2(a)", "5.3.2.3(c)(1)-(2)", "5.4.2.2(b)", "5.4.2.3(a)"]
       - source_id: "GSN-v3"
     tool_guidance:
-      applicable_elements: ["GSN Goal", "GSN Counter Claim"]
+      applicable_elements: ["GSN Goal", "GSN Counter Claim", "CAE Claim", "CAE Defeater"]
       detection_hints:
         - "Look for plausible reviewer challenges that have not been promoted into the safety case."
       suggested_checks:
         - id: "check-counter-claims-resolved"
-          description: "Check whether plausible reviewer challenges are made explicit as Counter Claims and visibly resolved."
+          description: "Check whether plausible reviewer challenges are made explicit and visibly resolved."
 
   # ===== LF. Logical fallacy rules =====
 
@@ -1757,10 +1758,10 @@ guidelines:
         The sentence mixes claim, context, assumption, and evidential reasoning in one statement; the reader must infer the role of each part.
       good: |-
         Claim: Braking controller safety is acceptable.
-        Context: Applies in automated mode.
-        Assumption: Valid localization is available.
+        Scope: Applies in automated mode.
+        Dependency: Valid localization is available.
         Evidence: Brake controller verification report BVR-09.
-        Justification: The cited verification evidence is relevant to the defined operating conditions.
+        Reasoning: The cited verification evidence is relevant to the defined operating conditions.
     references:
       - source_id: "UL4600"
         clauses: ["5.3.3.1(b)", "5.3.3.2(b)"]
