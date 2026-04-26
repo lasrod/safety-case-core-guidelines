@@ -10,7 +10,7 @@ The canonical source of the guidelines is the structured data file:
 
 - [data/guidelines.yaml](data/guidelines.yaml)
 
-The schema contract version is pinned via `schema_version` and currently must be `0.3.0`. Tooling consumers should treat a different value as incompatible until they explicitly add support.
+The schema contract version is pinned via `schema_version` and currently must be `0.4.0`. Tooling consumers should treat a different value as incompatible until they explicitly add support.
 
 The human-readable site page [index.md](index.md) is **generated** from that YAML between these marker blocks:
 

@@ -24,13 +24,19 @@
 {% endfor %}
 
 **Example**
-{{ g.example.markdown }}
 
-{% if g.note is defined and g.note %}
-**Note**
-{{ g.note }}
+*Bad*
 
-{% endif %}
+{{ g.example.bad }}
+
+*Problem*
+
+{{ g.example.problem }}
+
+*Good*
+
+{{ g.example.good }}
+
 **References**
 
 {{ g.references_display }}

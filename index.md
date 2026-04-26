@@ -180,7 +180,7 @@ Example review comments:
 
 - `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10)
 
-- `SU.11` [Turn plausible reviewer challenges into explicit Counter Claims and resolve them](#su11)
+- `SU.11` [Make plausible reviewer challenges explicit and resolve them](#su11)
 
 
 
@@ -248,8 +248,18 @@ A safety case is built from claims that can be challenged, supported, or refuted
 - Is the claim understandable without extra interpretation?
 
 **Example**
-- Bad: Brake monitor safety
-- Better: Brake monitor response time meets the defined acceptance criterion.
+
+*Bad*
+
+Brake monitor safety
+
+*Problem*
+
+This is a topic label, not a falsifiable proposition. A reviewer cannot tell what would have to be true or false to accept or reject it.
+
+*Good*
+
+Brake monitor response time meets the defined acceptance criterion.
 
 **References**
 
@@ -273,9 +283,22 @@ Bundled claims hide missing decomposition, make evidence assignment unclear, and
 - Could one part of the statement be acceptable while another could fail?
 
 **Example**
-- Bad: `Planning software is safe and secure.`
-- Better: `Planning software safety is acceptable.`
-  - And separately: `Planning software cybersecurity is acceptable.`
+
+*Bad*
+
+Planning software is safe and secure.
+
+*Problem*
+
+The claim bundles two distinct properties (safety and cybersecurity) that need different evidence and review treatment, hiding missing decomposition.
+
+*Good*
+
+Planning software safety is acceptable.
+
+And separately:
+
+Planning software cybersecurity is acceptable.
 
 **References**
 
@@ -300,21 +323,27 @@ When a claim contains the whole story, reviewers cannot clearly see what is bein
 - Would the argument become clearer if the parent claim were shortened and the included topics moved into strategy and child claims?
 
 **Example**
-- Bad: The product concept and system design, including faults, failures, interfaces, dependencies, degraded operation and transitions to safe states, are acceptably safe for operation within the defined ODD.
-- Better:
-  - Goal: Design safety is acceptable.
-  - Context: Applies within the defined ODD.
-  - Strategy: Argument by decomposition over safety-relevant design topics.
-  - Possible sub-claims:
-    - Fault handling safety is acceptable.
-    - Failure response safety is acceptable.
-    - Safety-relevant interfaces are acceptable.
-    - Safety-relevant dependencies are acceptable.
-    - Degraded operation safety is acceptable.
-    - Transitions to safe states are acceptable.
 
-**Note**
-Rewrite the parent as one short claim, move scope to context, move the reasoning to strategy, and express included topics as child claims.
+*Bad*
+
+The product concept and system design, including faults, failures, interfaces, dependencies, degraded operation and transitions to safe states, are acceptably safe for operation within the defined ODD.
+
+*Problem*
+
+The claim packs scope, decomposition topics, and caveats into one sentence, hiding the argument structure that should be visible through context, strategy, and sub-claims.
+
+*Good*
+
+Claim: Design safety is acceptable.
+Context: Applies within the defined ODD.
+Reasoning: Break the design safety claim into safety-relevant design topics.
+Sub-claims:
+- Fault handling safety is acceptable.
+- Failure response safety is acceptable.
+- Safety-relevant interfaces are acceptable.
+- Safety-relevant dependencies are acceptable.
+- Degraded operation safety is acceptable.
+- Transitions to safe states are acceptable.
 
 **References**
 
@@ -338,8 +367,18 @@ Ambiguous claims undermine review, traceability, and evidence relevance. This gu
 - Is the property being claimed clear?
 
 **Example**
-- Bad: Software requirements development is acceptably safe.
-- Better: The process used to develop software functional requirements is acceptably controlled.
+
+*Bad*
+
+Software requirements development is acceptably safe.
+
+*Problem*
+
+Both the object (development activity vs. resulting requirements) and the property (safe vs. controlled) are ambiguous, so competent reviewers may interpret the claim differently.
+
+*Good*
+
+The process used to develop software functional requirements satisfies the defined safety assurance criteria.
 
 **References**
 
@@ -364,8 +403,18 @@ Terms such as safe, timely, effective, normal, robust, all, every, and never can
 - Would the claim remain reviewable if read on its own?
 
 **Example**
-- Example A Acceptable when bounded: The item is acceptably safe for operation within the defined ODD.
-- Example B Bad: The monitor provides timely mitigation. Better: Upon detection of condition C4, the monitor initiates minimum risk maneuver entry within the defined threshold.
+
+*Bad*
+
+The monitor provides timely mitigation.
+
+*Problem*
+
+"Timely" is an unbounded evaluative qualifier; without a defined threshold or condition it cannot be reviewed consistently.
+
+*Good*
+
+Upon detection of condition C4, the monitor initiates minimum risk maneuver entry within the defined threshold.
 
 **References**
 
@@ -389,12 +438,22 @@ These are different claim types with different evidence and different review que
 - Should the branch be decomposed before evidence is attached?
 
 **Example**
-- Bad: All identified hazards have been mitigated and validated.
-  - Better parent: Hazards are acceptably addressed.
-  - Possible sub-claims:
-    - Hazards are identified.
-    - Defined mitigations are implemented.
-    - Validation evidence is sufficient.
+
+*Bad*
+
+All identified hazards have been mitigated and validated.
+
+*Problem*
+
+The claim chains identification, implementation, and validation steps into one sentence; each step needs different evidence and a different review question.
+
+*Good*
+
+Parent claim: Hazards are acceptably addressed.
+Sub-claims:
+- Hazards are identified.
+- Defined mitigations are implemented.
+- Validation evidence is sufficient.
 
 **References**
 
@@ -412,7 +471,7 @@ Use the assurance case structure to make each element's role clear. Claims state
 
 **Why**
 
-When one GSN element is used to do another element’s job, the argument becomes harder to inspect, review, and challenge.
+When one assurance case element is used to do another element's job, the argument becomes harder to inspect, review, and challenge.
 
 **Review prompts**
 - Is a claim carrying reasoning that belongs in an argument, strategy, or warrant?
@@ -422,18 +481,25 @@ When one GSN element is used to do another element’s job, the argument becomes
 - Is a justification being used as if it were support?
 
 **Example**
-- Better notation-neutral pattern:
-  - Claim: Functional design safety is acceptable.
-  - Argument: Argument by autonomy hazard topic.
-  - Context: Functional design refers to the ISO 26262 functional design scope for the item.
-  - Rationale: This claim is included because the project requires ISO 26262 compliance.
-  - Possible sub-claims:
-    - Functional safety requirements are defined.
-    - Required safety mechanisms are defined.
-    - Safety-relevant interfaces are defined.
 
-**Note**
-Notation note: In GSN, the generic roles map to goals, strategies, context, assumptions, justifications, and solutions. In CAE, the same concern maps to claims, arguments or warrants, evidence, and explicit context or assumption information. Apply this guideline to role clarity rather than to a mandatory GSN element set.
+*Bad*
+
+Claim: We argue that functional design safety is acceptable by decomposing into autonomy hazard topics, given that the ISO 26262 functional design scope applies and the project requires ISO 26262 compliance, supported by the functional safety requirements, safety mechanisms, and interfaces being defined.
+
+*Problem*
+
+The single statement bundles claim, strategy, context, justification, and sub-claims; each element's role is hidden inside one sentence rather than carried by the structure.
+
+*Good*
+
+Claim: Functional design safety is acceptable.
+Reasoning: Break the claim down by autonomy hazard topic.
+Scope: Functional design refers to the ISO 26262 functional design scope for the item.
+Reason for including the claim: The project requires ISO 26262 compliance.
+Sub-claims:
+- Functional safety requirements are defined.
+- Required safety mechanisms are defined.
+- Safety-relevant interfaces are defined.
 
 **References**
 
@@ -457,20 +523,30 @@ A hidden reasoning step is a common source of argument gaps.
 - Does the strategy explain why these children support this parent?
 
 **Example**
-- Bad: Perception, planning, control, timing, and interfaces are adequately addressed.
-  - Better goal: Autonomy function safety is acceptable.
-  - Better strategy: Argument by decomposition over autonomy function topics identified by UL 4600.
-  - Justification (if needed): This decomposition follows the autonomy-related topics that UL 4600 requires the safety case to address.
-  - Possible sub-claims:
-    - ODD-related safety is acceptable.
-    - Sensing safety is acceptable.
-    - Perception safety is acceptable.
-    - Machine learning and AI technique safety is acceptable.
-    - Planning safety is acceptable.
-    - Prediction safety is acceptable.
-    - Trajectory and control safety is acceptable.
-    - Actuation safety is acceptable.
-    - Timing safety is acceptable.
+
+*Bad*
+
+Perception, planning, control, timing, and interfaces are adequately addressed.
+
+*Problem*
+
+The decomposition rule is not stated; a reviewer cannot tell why these specific children were chosen or whether they together support the parent.
+
+*Good*
+
+Claim: Autonomy function safety is acceptable.
+Reasoning: Break the claim down by the autonomy function topics identified by UL 4600.
+Reason for this breakdown: These topics match the autonomy-related topics that UL 4600 expects the safety case to address.
+Sub-claims:
+- ODD-related safety is acceptable.
+- Sensing safety is acceptable.
+- Perception safety is acceptable.
+- Machine learning and AI technique safety is acceptable.
+- Planning safety is acceptable.
+- Prediction safety is acceptable.
+- Trajectory and control safety is acceptable.
+- Actuation safety is acceptable.
+- Timing safety is acceptable.
 
 **References**
 
@@ -495,13 +571,24 @@ This keeps the claim interpretable and makes clear which information defines the
 - If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?
 
 **Example**
-- Bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
-  - Better claim: Braking controller safety is acceptable.
-  - Better context: Applies in Highway ODD. / Applies in automated mode.
-  - Better assumptions: Valid localization available. / Nominal interface timing conditions apply.
 
-**Note**
-Notation note: GSN provides context and assumption elements for this purpose. CAE may represent context as claim scope, attached information, or supporting explanatory text depending on the notation/tool. The SCCG requirement is explicitness and reviewability, not a mandatory representation form.
+*Bad*
+
+The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
+
+*Problem*
+
+Scope (ODD, mode) and dependencies (localization, interface timing) are hidden inside the claim text instead of being represented as separate context and assumption elements.
+
+*Good*
+
+Claim: Braking controller safety is acceptable.
+Scope:
+- Applies in Highway ODD.
+- Applies in automated mode.
+Dependencies:
+- Valid localization available.
+- Nominal interface timing conditions apply.
 
 **References**
 
@@ -525,10 +612,20 @@ Top-level claims need readability and stability. Lower-level claims need assessa
 - Could the claim stay short because linked criteria already make it objective?
 
 **Example**
-- Examples of increasing precision at different levels of the argument, not necessarily adjacent nodes:
-  - Upper level: Functional design safety is acceptable.
-  - Lower level: Sensing-related hazards are identified.
-  - Evidence-facing level: Detection timing meets the defined acceptance criterion.
+
+*Bad*
+
+Upper-level claim: Detection timing meets the defined acceptance criterion.
+
+*Problem*
+
+Using an evidence-facing precision at the top of the argument makes the upper level brittle and tied to specific measurements; upper-level claims should remain short and stable while leaf claims carry the precision needed to assess against evidence.
+
+*Good*
+
+Upper level: Functional design safety is acceptable.
+Lower level: Sensing-related hazards are identified.
+Evidence-facing level: Detection timing meets the defined acceptance criterion.
 
 **References**
 
@@ -552,13 +649,29 @@ Silent redefinition can leave higher-level claims only partially supported while
 - Is inherited context still valid at this level?
 
 **Example**
-- Bad pattern:
-  - Parent claim: Software safety is acceptable.
-  - Strategy: Argument by software component type.
-  - Child claims:
-    - Application software safety is acceptable.
-    - Middleware software safety is acceptable.
-- Problem: the parent claim refers to all software, but the child claims silently narrow the scope to only part of the software. The branch appears complete while leaving other software out of scope without saying so.
+
+*Bad*
+
+Parent claim: Software safety is acceptable.
+Strategy: Argument by software component type.
+Child claims:
+- Application software safety is acceptable.
+- Middleware software safety is acceptable.
+
+*Problem*
+
+The parent claim refers to all software, but the child claims silently narrow the scope to only part of the software. The branch appears complete while leaving other software out of scope without saying so.
+
+*Good*
+
+Parent claim: Software safety is acceptable.
+Context: Software in scope comprises application, middleware, platform, and driver layers.
+Reasoning: Break the software safety claim down by software component type, covering all layers in scope.
+Child claims:
+- Application software safety is acceptable.
+- Middleware software safety is acceptable.
+- Platform software safety is acceptable.
+- Driver software safety is acceptable.
 
 **References**
 
@@ -583,10 +696,19 @@ This guideline is about whether the branch contains enough context at all. In GS
 - Would two independent reviewers understand the claim in the same way?
 
 **Example**
-- Bad: Perception performance is acceptable.
-- Problem: Perception performance is not defined, so different reviewers may understand different outputs, measures, or success conditions.
-  - Better goal: Perception performance is acceptable.
-  - Better context: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
+
+*Bad*
+
+Perception performance is acceptable.
+
+*Problem*
+
+Perception performance is not defined, so different reviewers may understand different outputs, measures, or success conditions.
+
+*Good*
+
+Claim: Perception performance is acceptable.
+Definition: Perception performance refers to object detection, classification, and tracking performance as defined in Specification PER-01.
 
 **References**
 
@@ -611,13 +733,22 @@ This guideline is about placement, clarity, and maintainability. Hidden qualifie
 - Are dependencies explicit and traceable rather than hidden inside readable but overloaded claim text?
 
 **Example**
-- Bad: Planner safety is acceptable with valid localization and nominal interface timing.
-  - Better claim: Planner safety is acceptable.
-  - Better context: Planner refers to the motion planning function defined in architecture element PLN-01.
-  - Better assumptions: Valid localization is available. / Nominal interface timing conditions apply.
 
-**Note**
-Notation note: This guideline is stricter for GSN, where context and assumptions should usually be represented by their own elements. In CAE, claim text may legitimately include scope when needed to make the claim true or false. The SCCG requirement is that qualifiers be clear, consistent, and reviewable.
+*Bad*
+
+Planner safety is acceptable with valid localization and nominal interface timing.
+
+*Problem*
+
+Qualifiers ("with valid localization", "nominal interface timing") are buried in the claim text, blurring the role of each element and making scope and dependency changes harder to see.
+
+*Good*
+
+Claim: Planner safety is acceptable.
+Definition: Planner refers to the motion planning function defined in architecture element PLN-01.
+Dependencies:
+- Valid localization is available.
+- Nominal interface timing conditions apply.
 
 **References**
 
@@ -640,11 +771,25 @@ Rationale can explain local reasoning choices, but it cannot replace sub-claims,
 - If the rationale were removed, would the real support for the claim still remain?
 
 **Example**
-- Bad: Goal Brake hazards are adequately addressed. with justification Because tests were passed.
-- Better: Use evidence and sub-claims for test support. Reserve justification for local rationale such as why a hazard grouping or decomposition choice is acceptable.
 
-**Note**
-Notation note: In GSN, this applies directly to justification elements. In CAE, this applies to warrants, side-warrants, side-claims, and explanatory notes: they may explain an inference, but they should not replace the evidence or sub-claims needed to support the claim.
+*Bad*
+
+Claim: Brake hazards are adequately addressed.
+Rationale: The verification campaign passed all planned brake fault tests.
+
+*Problem*
+
+The rationale is being used as proof. The test results should be cited as evidence and linked to the claim through clear sub-claims or reasoning.
+
+*Good*
+
+Claim: Brake hazards are adequately addressed.
+Sub-claims:
+- Brake hazards are identified.
+- Mitigations for identified brake hazards are implemented.
+- Mitigation effectiveness is verified.
+Evidence: Brake hazard verification report BVR-09.
+Rationale for grouping: Hazards are grouped by actuator path because that grouping matches the mitigation architecture.
 
 **References**
 
@@ -668,11 +813,21 @@ Misaligned rationale creates false confidence and often reveals that the real co
 - Could the same text be pasted onto many different elements without change?
 
 **Example**
-- Bad: Goal Sensor faults are adequately addressed. with justification The item is intended for highway use.
-- Better: Put highway use in context and use any justification to explain a local choice such as why a particular fault grouping is appropriate.
 
-**Note**
-Notation note: In GSN, this applies directly to justification elements. In CAE, this applies to warrants, side-warrants, side-claims, and explanatory notes used to qualify or explain an inference. The rationale must match the exact element or inference it is attached to.
+*Bad*
+
+Claim: Sensor faults are adequately addressed.
+Rationale: The item is intended for highway use.
+
+*Problem*
+
+The rationale does not explain why this exact claim, breakdown, or reasoning step is acceptable; "intended for highway use" is scope information that belongs elsewhere and could be pasted onto many unrelated elements.
+
+*Good*
+
+Claim: Sensor faults are adequately addressed.
+Scope: Applies to the highway operational design domain.
+Local rationale: Sensor faults are grouped by detection mechanism because the mitigation set is organized along the same lines.
 
 **References**
 
@@ -698,10 +853,21 @@ A safety case without traceability cannot be effectively reviewed or maintained.
 - Would two reviewers follow the same trace to the same evidence?
 
 **Example**
-- Bad pattern:
-  - Claim: Detection timing is acceptable.
-  - Linked solution: System validation report.
-- Problem: the reviewer cannot tell which test, section, or lower-level argument is intended to show that detection timing is acceptable. The trace exists only in the author’s head.
+
+*Bad*
+
+Claim: Detection timing is acceptable.
+Linked solution: System validation report.
+
+*Problem*
+
+The reviewer cannot tell which test, section, or lower-level argument is intended to show that detection timing is acceptable. The trace exists only in the author's head.
+
+*Good*
+
+Claim: Detection timing is acceptable.
+Sub-claim: Detection latency meets acceptance criterion AC-DET-07 for scenarios S1-S12.
+Solution: System validation report SVR-04, section 6.3, table 12 (scenarios S1-S12).
 
 **References**
 
@@ -727,16 +893,22 @@ A reviewer should be able to recognize what kind of evidence is being used, what
 - Could an independent reviewer examine the artifact consistently without relying on undocumented local knowledge?
 
 **Example**
-- Bad pattern:
-  - Claim: Perception validation evidence is sufficient for this claim.
-  - Evidence: Engineer working file WF-27.
-- Problem:
-  - The artifact is being used as safety case evidence, but it is not an approved evidence type for this purpose, or it is not shown to meet the criteria required for that evidence type. The reviewer therefore cannot assess it consistently as acceptable evidence.
-- Better notation-neutral pattern:
-  - Claim: Perception validation evidence is sufficient for this claim.
-  - Evidence: Perception validation report PVR-08, rev B.
-  - Context: Validation report is an approved evidence type for this kind of claim.
-  - Evidence basis: The cited artifact meets the defined criteria for that evidence type.
+
+*Bad*
+
+Claim: Perception validation evidence is sufficient for this claim.
+Evidence: Engineer working file WF-27.
+
+*Problem*
+
+WF-27 is an engineer working file, not an approved evidence type for this claim. The reviewer cannot tell how to assess it.
+
+*Good*
+
+Claim: Perception validation evidence is sufficient for this claim.
+Evidence: Perception validation report PVR-08, rev B.
+Evidence type: A validation report is an approved evidence type for this kind of claim.
+Evidence basis: PVR-08 meets the defined criteria for that evidence type.
 
 **References**
 
@@ -760,8 +932,18 @@ Evidence usually supports a specific fact or bounded property, not the whole saf
 - Would the claim remain meaningful if the artifact name changed?
 
 **Example**
-- Bad: TR-21 proves the braking controller is safe.
-- Better: Braking controller stopping distance meets acceptance criterion AC-BRK-04.
+
+*Bad*
+
+TR-21 proves the braking controller is safe.
+
+*Problem*
+
+A test report supports a specific bounded property, not a whole safety conclusion; making the document the subject of the claim overreaches what the cited artifact can show.
+
+*Good*
+
+Braking controller stopping distance meets acceptance criterion AC-BRK-04.
 
 **References**
 
@@ -785,8 +967,18 @@ Broad references to whole reports create the illusion of support without making 
 - Is the reference proportionate to the actual support being used?
 
 **Example**
-- Bad: See validation report.
-- Better: See validation report VR-04, section 6.3, table 12, scenarios S14-S21.
+
+*Bad*
+
+See validation report.
+
+*Problem*
+
+A whole-report citation creates the appearance of support without making the evidential link easy to review; the reviewer cannot find the relevant material quickly.
+
+*Good*
+
+See validation report VR-04, section 6.3, table 12, scenarios S14-S21.
 
 **References**
 
@@ -812,15 +1004,22 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
 - Is the branch showing only that the evidence is relevant, or also that it is enough?
 
 **Example**
-- Bad pattern:
-  - Claim: Perception performance is acceptable.
-  - Evidence: Perception validation report PVR-08.
-- Problem: The report is cited, but the argument does not state what coverage, thresholds, configurations, or limitations make that report sufficient for this claim.
-- Better notation-neutral pattern:
-  - Claim: Perception performance is acceptable for ODD-A daytime operation.
-  - Evidence: Perception validation report PVR-08.
-  - Context: Applies to software build SB-14 and sensor configuration C3.
-  - Justification: Sufficiency is based on scenario coverage SC-21, acceptance thresholds AC-PER-04 to AC-PER-07, and the stated exclusion of dense fog conditions.
+
+*Bad*
+
+Claim: Perception performance is acceptable.
+Evidence: Perception validation report PVR-08.
+
+*Problem*
+
+The report is cited, but the argument does not state what coverage, thresholds, configurations, or limitations make that report sufficient for this claim.
+
+*Good*
+
+Claim: Perception performance is acceptable for ODD-A daytime operation.
+Evidence: Perception validation report PVR-08.
+Context: Applies to software build SB-14 and sensor configuration C3.
+Justification: Sufficiency is based on scenario coverage SC-21, acceptance thresholds AC-PER-04 to AC-PER-07, and the stated exclusion of dense fog conditions.
 
 **References**
 
@@ -845,19 +1044,21 @@ Evidence does not speak for itself. The safety case or linked assessment record 
 - Has confirmation bias been considered?
 
 **Example**
-- Bad pattern:
-  - GSN claim: Detection timing meets acceptance criterion AC-DET-07.
-  - GSN solution: Timing test report TR-18, section 5.2.
-- Problem: the evidence is linked, but the reason it supports the claim is not explicitly documented anywhere reviewable.
-- Better notation-neutral pattern:
-  - Claim: Detection timing meets acceptance criterion AC-DET-07.
-  - Solution: Timing test report TR-18, section 5.2.
-  - Linked assessment documentation explains:
-    - why TR-18 is relevant to this claim
-    - which scenarios, configurations, or conditions are covered
-    - any uncovered limitations or possible refutation
-  - Example CSE note:
-  - TR-18 shows measured detection latency below AC-DET-07 for scenarios S1-S12 in configuration C4. This supports the claim for that scenario set and configuration. Degraded sensor mode D3 is not covered and remains outside the supported scope.
+
+*Bad*
+
+Claim: Detection timing meets acceptance criterion AC-DET-07.
+Solution: Timing test report TR-18, section 5.2.
+
+*Problem*
+
+The evidence is linked, but the reason it supports the claim is not explicitly documented anywhere reviewable; relevance, coverage, and limitations remain implicit.
+
+*Good*
+
+Claim: Detection timing meets acceptance criterion AC-DET-07.
+Solution: Timing test report TR-18, section 5.2.
+Inferential explanation: TR-18 shows measured detection latency below AC-DET-07 for scenarios S1-S12 in configuration C4. This supports the claim for that scenario set and configuration. Degraded sensor mode D3 is not covered and remains outside the supported scope.
 
 **References**
 
@@ -884,15 +1085,18 @@ Uncontrolled or mutable evidence is hard to verify, maintain, and re-assess. If 
 - Is its status clear, for example draft, in review, approved, or released?
 
 **Example**
-- Bad: Evidence: Test summary on team wiki.
-- Problem: The cited source has no fixed revision, no clear approval state, and no stable retrieval point for future review.
-- Better:
-  - Evidence: Test summary TSR-11, rev D, approved 2026-03-14, owner Safety Validation Team, stored in the controlled evidence repository.
 
-**Note**
-If a live source is used operationally, the cited version and the re-assessment trigger are both defined explicitly.
+*Bad*
 
-This control information does not need to be stored inside the safety case argument itself. It may be managed in a linked repository, evidence register, document management system, or other controlled mechanism, provided the cited evidence remains uniquely identifiable, retrievable, and stable for review.
+Evidence: Test summary on team wiki.
+
+*Problem*
+
+The cited source has no fixed revision, no clear approval state, and no stable retrieval point for future review; the argument may silently lose validity if the page changes.
+
+*Good*
+
+Evidence: Test summary TSR-11, rev D, approved 2026-03-14, owner Safety Validation Team, stored in the controlled evidence repository.
 
 **References**
 
@@ -917,9 +1121,20 @@ This rule is the specific citation case of EV.7. If cited evidence can change af
 - If the source is live, is there an explicit process that triggers re-assessment of affected claims when it changes?
 
 **Example**
-- Bad: See braking verification page in Confluence.
-- Better: See Braking Verification Plan BVP-04, rev C, approved 2026-03-11.
-- Also acceptable: See archived snapshot of Confluence page CP-118, version 17, captured 2026-03-11.
+
+*Bad*
+
+See braking verification page in Confluence.
+
+*Problem*
+
+The cited page is mutable; future reviewers cannot retrieve the same content that was originally reviewed, which breaks reproducibility and configuration control.
+
+*Good*
+
+See Braking Verification Plan BVP-04, rev C, approved 2026-03-11.
+
+Or, equivalently: See archived snapshot of Confluence page CP-118, version 17, captured 2026-03-11.
 
 **References**
 
@@ -944,13 +1159,21 @@ A safety case should argue from reviewable evidence, not from what engineers hap
 - Should this material be moved to a specification, design description, interface definition, hazard analysis, or other work product and then cited as evidence?
 
 **Example**
-- Bad pattern:
-  - Claim: `Unsafe torque requests are prevented during degraded localization.` The safety case includes a free-text explanation of the controller behavior, but the relevant design basis is not identified through context and no supporting artifacts are linked.
-- Problem: the branch relies on undocumented system knowledge written into the safety case itself rather than on explicit specification context and reviewable evidence.
-- Better notation-neutral pattern:
-  - Claim: `Unsafe torque requests are prevented during degraded localization.` Context identifies the relevant braking control design specification, degraded-mode requirements, and interface definition.
-  - Evidence supports that the specified behavior is implemented and verified.
-  - The safety case argues from those documented artifacts instead of serving as the primary description of the design.
+
+*Bad*
+
+Claim: Unsafe torque requests are prevented during degraded localization.
+The safety case includes a free-text explanation of the controller behavior, but the relevant design basis is not identified through context and no supporting artifacts are linked.
+
+*Problem*
+
+The claim relies on undocumented system knowledge instead of controlled artifacts.
+
+*Good*
+
+Claim: Unsafe torque requests are prevented during degraded localization.
+Design basis: Braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
+Evidence: Verification report VFR-11 shows that the specified behavior is implemented and verified.
 
 **References**
 
@@ -978,17 +1201,24 @@ A credible safety case should not only present supporting material. It should al
 - Are important doubts visible in the argument, or left unstated?
 
 **Example**
-- Bad pattern:
-  - Claim: Hazard analysis is complete for the defined ODD.
-  - Evidence: Hazard analysis report HAR-03.
-- Problem: a reviewer could reasonably ask whether the analysis covered scenarios introduced after the most recent ODD revision, whether the chosen method has known coverage limits for emergent multi-actor interactions, and whether the ODD assumptions still hold. None of these challenges are visible in the argument.
-- Better notation-neutral pattern:
-  - Claim: Hazard analysis is complete for the defined ODD.
-  - Evidence: Hazard analysis report HAR-03.
-  - Challenge: The analysis may not cover scenarios introduced after the most recent ODD revision.
-  - Response: Change-impact review CIR-12 confirms newly added scenarios were re-examined.
-  - Challenge: The chosen method has known coverage limits for emergent multi-actor interactions.
-  - Response: Supplementary scenario-based analysis SBA-04 addresses that gap.
+
+*Bad*
+
+Claim: Hazard analysis is complete for the defined ODD.
+Evidence: Hazard analysis report HAR-03.
+
+*Problem*
+
+A reviewer could reasonably ask whether the analysis covered scenarios introduced after the most recent ODD revision, whether the chosen method has known coverage limits for emergent multi-actor interactions, and whether the ODD assumptions still hold. None of these challenges are visible in the argument.
+
+*Good*
+
+Claim: Hazard analysis is complete for the defined ODD.
+Evidence: Hazard analysis report HAR-03.
+Challenge: The analysis may not cover scenarios introduced after the most recent ODD revision.
+Response: Change-impact review CIR-12 confirms newly added scenarios were re-examined.
+Challenge: The chosen method has known coverage limits for emergent multi-actor interactions.
+Response: Supplementary scenario-based analysis SBA-04 addresses that gap.
 
 **References**
 
@@ -1012,15 +1242,22 @@ Unstated or weakly founded assumptions are a common cause of later argument inva
 - Is this really an assumption, or should it instead be represented as context, a claim, or evidence?
 
 **Example**
-- Bad pattern:
-  - Claim: Localization accuracy is acceptable within the defined ODD.
-  - The argument silently relies on the assumption that map data used at runtime is current, but this assumption is not recorded.
-- Problem: a reviewer cannot judge whether the assumption is reasonable, whether it is monitored, or what would invalidate it. If the assumption fails, the affected claim may silently lose support.
-- Better notation-neutral pattern:
-  - Claim: Localization accuracy is acceptable within the defined ODD.
-  - Assumption: Map data used at runtime is no more than 7 days out of date.
-  - Justification: Map update process MAP-PROC-02 enforces a 7-day refresh cycle and is monitored by KPI MAP-KPI-01.
-  - Re-assessment trigger: Sustained KPI breach or change to the map update process.
+
+*Bad*
+
+Claim: Localization accuracy is acceptable within the defined ODD.
+Hidden assumption (not stated): Map data used at runtime is current.
+
+*Problem*
+
+A reviewer cannot judge whether the assumption is reasonable, whether it is monitored, or what would invalidate it. If the assumption fails, the affected claim may silently lose support.
+
+*Good*
+
+Claim: Localization accuracy is acceptable within the defined ODD.
+Assumption: Map data used at runtime is no more than 7 days out of date.
+Justification: Map update process MAP-PROC-02 enforces a 7-day refresh cycle and is monitored by KPI MAP-KPI-01.
+Re-assessment trigger: Sustained KPI breach or change to the map update process.
 
 **References**
 
@@ -1044,16 +1281,24 @@ Expert opinion may be useful, but unsupported opinion is weak support and can ea
 - If the opinion remains weakly supported, is lifecycle monitoring in place where needed?
 
 **Example**
-- Bad pattern:
-  - Claim: Residual risk is acceptable.
-  - Evidence: Safety review board statement that residual risk is considered acceptable.
-- Problem: expert judgment is being used as the sole basis for the claim, with no analysis, data, or independent corroboration that a reviewer can examine.
-- Better notation-neutral pattern:
-  - Claim: Residual risk is acceptable.
-  - Evidence: Quantitative risk analysis QRA-09 showing residual risk below the defined threshold.
-  - Evidence: Operational data summary ODS-03 covering 18 months of comparable exposure with no injury-class events.
-  - Expert review: Safety review board record SRB-2026-04 confirming the analysis method, inputs, and conclusion are consistent with established practice.
-  - Note: Expert review is corroborating, not substituting for, the underlying analysis and data.
+
+*Bad*
+
+Claim: Residual risk is acceptable.
+Evidence: Safety review board statement that residual risk is considered acceptable.
+
+*Problem*
+
+Expert judgment is being used as the sole basis for the claim, with no analysis, data, or independent corroboration that a reviewer can examine.
+
+*Good*
+
+Claim: Residual risk is acceptable.
+Evidence:
+- Quantitative risk analysis QRA-09 showing residual risk below the defined threshold.
+- Operational data summary ODS-03 covering 18 months of comparable exposure with no injury-class events.
+Expert review: Safety review board record SRB-2026-04 confirming the analysis method, inputs, and conclusion are consistent with established practice.
+Note: Expert review is corroborating, not substituting for, the underlying analysis and data.
 
 **References**
 
@@ -1078,14 +1323,23 @@ Some claims depend partly on assumptions, limited evidence, or expected field be
 - Are reassessment triggers identified?
 
 **Example**
-- Claim: Unexpected roadside object class X is sufficiently rare that residual risk is acceptable.
-- Current support: design-time analysis suggests object class X is rare, but the available data is limited and does not fully establish its operational frequency.
-- Acceptable treatment:
-  - state explicitly that the rarity assumption is not fully confirmed at design time
-  - define field monitoring for the occurrence of roadside object class X
-  - define reassessment triggers, for example if observed frequency or associated incidents exceed threshold T
-- Not acceptable:
-  - treat the rarity assumption as fully proven without any operational follow-up
+
+*Bad*
+
+Claim: Unexpected roadside object class X is sufficiently rare that residual risk is acceptable.
+Evidence: Design-time analysis suggesting object class X is rare.
+Justification: The design-time rarity assumption is treated as fully proven; no operational follow-up is defined.
+
+*Problem*
+
+The available data does not fully establish the operational frequency of object class X, but the remaining uncertainty is not made explicit and no lifecycle monitoring is defined to confirm or challenge the claim during operation.
+
+*Good*
+
+Claim: Unexpected roadside object class X is sufficiently rare that residual risk is acceptable.
+Acknowledged uncertainty: The rarity assumption is not fully confirmed at design time.
+Field monitoring: Occurrence of roadside object class X is monitored in operation.
+Reassessment trigger: Observed frequency or associated incidents exceed threshold T.
 
 **References**
 
@@ -1110,23 +1364,28 @@ Safety confidence gained in one context does not automatically remain valid in a
 - Have the limitations of the original assessment been stated?
 
 **Example**
-- Bad claim:
-  - This camera is proven in use and is therefore acceptable for autonomous truck operation.
-- Problem:
-  - The claim takes safety credit from another context without showing that the original application, operating conditions, interfaces, and safety role are sufficiently comparable.
-- Better claim:
-  - Reuse of camera safety credit is justified for the current application.
-  - Context:
-  - Original application: conventional passenger vehicle ADAS use.
-  - Current application: autonomous heavy truck operation.
-  - Justification (if needed):
-  - Safety credit may only be reused if the original and current contexts are shown to be sufficiently comparable in the aspects that matter to safety.
-  - Possible subclaims:
-    - The original and current operating environments are sufficiently comparable.
-    - The original and current duty cycles are sufficiently comparable.
-    - The original and current interfaces and installation conditions are sufficiently comparable.
-    - The original and current safety roles and failure consequences are sufficiently comparable.
-    - Any non-comparable differences are addressed by additional evidence or explicit limitations.
+
+*Bad*
+
+This camera is proven in use and is therefore acceptable for autonomous truck operation.
+
+*Problem*
+
+The claim takes safety credit from another context (passenger vehicle ADAS use) without showing that the original application, operating conditions, interfaces, and safety role are sufficiently comparable to autonomous heavy truck operation.
+
+*Good*
+
+Claim: Reuse of camera safety credit is justified for the current application.
+Context:
+- Original application: conventional passenger vehicle ADAS use.
+- Current application: autonomous heavy truck operation.
+Justification: Safety credit may only be reused if the original and current contexts are shown to be sufficiently comparable in the aspects that matter to safety.
+Sub-claims:
+- The original and current operating environments are sufficiently comparable.
+- The original and current duty cycles are sufficiently comparable.
+- The original and current interfaces and installation conditions are sufficiently comparable.
+- The original and current safety roles and failure consequences are sufficiently comparable.
+- Any non-comparable differences are addressed by additional evidence or explicit limitations.
 
 **References**
 
@@ -1152,15 +1411,22 @@ Operational feedback is often used to support claims about residual risk, rarity
 - Is adverse operational evidence explicitly recorded, evaluated, and addressed?
 
 **Example**
-- Bad pattern:
-  - Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
-  - Support used: field incident history and operational monitoring.
-  - Safety case note: Three roadside-object anomalies were reported, but none caused injury and none could be reproduced, so they are not safety-relevant.
-- Problem: the argument is using operational feedback, but dismisses adverse signals simply because they were non-injury and non-reproducible.
-- Better notation-neutral pattern:
-  - Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
-  - Support used: field incident history and operational monitoring.
-  - Safety case treatment: the three anomalies are recorded, grouped, and evaluated as adverse operational evidence. The argument explains whether they challenge the rarity assumption, whether they indicate a gap in object coverage, and whether reassessment or additional mitigation is required.
+
+*Bad*
+
+Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
+Support: field incident history and operational monitoring.
+Note: Three roadside-object anomalies were reported, but none caused injury and none could be reproduced, so they are not safety-relevant.
+
+*Problem*
+
+The argument uses operational feedback but dismisses adverse signals simply because they were non-injury and non-reproducible; together they may indicate the rarity assumption is less reliable than it appears.
+
+*Good*
+
+Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
+Support: field incident history and operational monitoring.
+Treatment: The three anomalies are recorded, grouped, and evaluated as negative field feedback. The argument explains whether they challenge the rarity assumption, whether they show a gap in object coverage, and whether more analysis or mitigation is needed.
 
 **References**
 
@@ -1185,17 +1451,25 @@ Operational exposure can miss catastrophic but rare outcomes. Simulation can mis
 - Are corroborating evidence, scenario limits, or model limitations missing?
 
 **Example**
-- Bad pattern:
-  - Claim: Collision risk with cut-in vehicles is low.
-  - Evidence: Simulation results SIM-12.
-  - Justification: No collisions were observed in the simulation results, therefore the risk is low.
-- Problem: the branch treats simulation results alone as sufficient proof that risk is low, without showing that the simulation is valid for this claim, that the modeled scenarios are adequate, or that important model limitations are understood.
-- Better notation-neutral pattern:
-  - Claim: Collision risk with cut-in vehicles is acceptably low.
-  - Evidence: Simulation results SIM-12.
-  - Evidence: Track test report TR-08.
-  - Evidence: Field incident review FR-03.
-  - The argument explains: why SIM-12 is valid for this hazard and what scenario space it covers what limitations remain in the simulation model how TR-08 corroborates important behaviors in representative test conditions how FR-03 is used to check whether operational experience challenges the claim
+
+*Bad*
+
+Claim: Collision risk with cut-in vehicles is low.
+Evidence: Simulation results SIM-12.
+Justification: No collisions were observed in the simulation results, therefore the risk is low.
+
+*Problem*
+
+The branch treats simulation results alone as sufficient proof that risk is low, without showing that the simulation is valid for this claim, that the modeled scenarios are adequate, or that important model limitations are understood.
+
+*Good*
+
+Claim: Collision risk with cut-in vehicles is acceptably low.
+Evidence:
+- Simulation results SIM-12.
+- Track test report TR-08.
+- Field incident review FR-03.
+Argument: Why SIM-12 is valid for this hazard and what scenario space it covers; what limitations remain in the simulation model; how TR-08 corroborates important behaviors in representative test conditions; how FR-03 is used to check whether operational experience challenges the claim.
 
 **References**
 
@@ -1220,17 +1494,25 @@ Autonomous systems can encounter operating situations and failure combinations t
 - Is there evidence that the test basis covers autonomy-specific failures, not only human-driving situations?
 
 **Example**
-- Bad pattern:
-  - Claim: Planning failure modes are adequately covered by the test set.
-  - Evidence: Scenario Selection Report SSR-04.
-  - Justification: The scenario set is based on human-driven fleet data and therefore covers relevant road situations.
-- Problem: the branch assumes that human-driven data is enough to cover planning failures, but the autonomous planner may enter unusual states or produce behaviors that human drivers would not normally create.
-- Better notation-neutral pattern:
-  - Claim: Planning failure modes are adequately covered by the test set.
-  - Evidence: Scenario Selection Report SSR-04.
-  - Evidence: Planner Failure Analysis Report PFA-03.
-  - Evidence: Edge Case Test Specification ETS-07.
-  - Justification: Coverage is based not only on human-driven scenarios, but also on autonomy-specific planner failure analysis and identified edge cases.
+
+*Bad*
+
+Claim: Planning failure modes are adequately covered by the test set.
+Evidence: Scenario Selection Report SSR-04.
+Justification: The scenario set is based on human-driven fleet data and therefore covers relevant road situations.
+
+*Problem*
+
+The branch assumes that human-driven data is enough to cover planning failures, but the autonomous planner may enter unusual states or produce behaviors that human drivers would not normally create.
+
+*Good*
+
+Claim: Planning failure modes are adequately covered by the test set.
+Evidence:
+- Scenario Selection Report SSR-04.
+- Planner Failure Analysis Report PFA-03.
+- Edge Case Test Specification ETS-07.
+Justification: Coverage is based not only on human-driven scenarios, but also on autonomy-specific planner failure analysis and identified edge cases.
 
 **References**
 
@@ -1254,16 +1536,25 @@ Hidden dependencies are a common reason for late argument invalidation. Making t
 - Should this dependency be represented as an assumption, as context, or as a claim that must be proved?
 
 **Example**
-- Bad pattern:
-  - Claim: Localization integrity is sufficient for safe fallback.
-- Problem: the branch depends on an unstated condition about localization performance during fallback, but that dependency is only implicit.
-- Better notation-neutral pattern:
-  - Claim: Localization integrity is sufficient for safe fallback.
-  - Assumption: Localization integrity remains within bound L1 during fallback maneuver.
-- Or, if that dependency should be argued rather than assumed:
-  - Claim: Localization integrity is sufficient for safe fallback.
-  - Subclaim: Localization integrity remains within bound L1 during fallback maneuver.
-  - Evidence: Fallback localization analysis report FLA-03.
+
+*Bad*
+
+Claim: Localization integrity is sufficient for safe fallback.
+
+*Problem*
+
+The branch depends on an unstated condition about localization performance during fallback (that integrity remains within bound L1), but that dependency is only implicit and a reviewer cannot see what must hold for the claim to be valid.
+
+*Good*
+
+Claim: Localization integrity is sufficient for safe fallback.
+Assumption: Localization integrity remains within bound L1 during fallback maneuver.
+
+Or, if that dependency should be argued rather than assumed:
+
+Claim: Localization integrity is sufficient for safe fallback.
+Sub-claim: Localization integrity remains within bound L1 during fallback maneuver.
+Evidence: Fallback localization analysis report FLA-03.
 
 **References**
 
@@ -1288,17 +1579,25 @@ Over-broad assumptions can make a claim appear closed while removing most of its
 - Would the branch become clearer if the assumption were narrowed or split?
 
 **Example**
-- Bad pattern:
-  - Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
-  - Assumption: Infrastructure behaves correctly.
-- Problem: the assumption is too broad. It does not identify which infrastructure, which behaviors, which authorities, or what kinds of failure are being assumed away.
-- Better notation-neutral pattern:
-  - Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
-  - Assumption: Within the defined ODD, traffic signals managed by the identified road authorities are assumed to conform to the referenced control standard.
-  - Monitoring / follow-up support where needed: Violations are tracked through field feedback and incident analysis.
-- Or, if several dependencies are actually involved:
-  - Assumption: Traffic signal installations in the defined ODD conform to the referenced control standard.
-  - Assumption: Detected traffic signal anomalies are captured through field feedback.
+
+*Bad*
+
+Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
+Assumption: Infrastructure behaves correctly.
+
+*Problem*
+
+The assumption is too broad; it does not identify which infrastructure, which behaviors, which authorities, or what kinds of failure are being assumed away, so it cannot be checked, challenged, or monitored.
+
+*Good*
+
+Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
+Assumption: Within the defined ODD, traffic signals managed by the identified road authorities are assumed to conform to the referenced control standard.
+Monitoring: Violations are tracked through field feedback and incident analysis.
+
+Or, if several dependencies are involved, split into multiple assumptions:
+- Traffic signal installations in the defined ODD conform to the referenced control standard.
+- Detected traffic signal anomalies are captured through field feedback.
 
 **References**
 
@@ -1306,11 +1605,11 @@ UL 4600 5.4.2.2(a)(3); 10.5.1.2(b),(h); 12.5.1.2(c)(1); 12.5.2.2(b), GSN v3 1:2.
 
 <a id="su11"></a>
 
-### SU.11: Turn plausible reviewer challenges into explicit Counter Claims and resolve them
+### SU.11: Make plausible reviewer challenges explicit and resolve them
 
 **Guideline**
 
-When review raises a plausible What if X? challenge, make that challenge explicit as a Counter Claim and resolve it visibly in the safety case. The resolution may reject the Counter Claim, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
+When review raises a plausible What if X? challenge, make that challenge explicit and resolve it visibly in the safety case. Depending on the method, this may be represented as a GSN Counter Claim, a CAE defeater, or another explicit challenge element. The resolution may reject the challenge, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
 
 **Why**
 
@@ -1318,31 +1617,36 @@ A credible safety case should not leave plausible challenges only in review comm
 
 **Review prompts**
 - What exactly is the reviewer challenge?
-- Should this challenge be made explicit as a Counter Claim?
-- Has the Counter Claim been rejected, sustained, or left unresolved?
+- Should this challenge be made explicit as a Counter Claim, defeater, or other challenge element?
+- Has the challenge been rejected, sustained, or left unresolved?
 - If sustained, has the original branch been updated appropriately?
 - If unresolved, is the open issue visible and traceable?
 
 **Example**
-- Initial branch:
-  - Claim: Fallback behavior is acceptably safe.
-- Reviewer challenge:
-  - What if localization drops out during fallback?
-- Make the challenge explicit:
-  - Counter Claim: Fallback behavior is not acceptably safe if localization drops out during fallback.
-  - Status: Undeveloped (while analysis is ongoing)
-- Possible resolution 1 — Counter Claim rejected:
-  - Evidence: Fallback localization analysis FLA-04.
-  - Evidence: Fallback test report FTR-09.
-  - Updated Claim: Fallback behavior is acceptably safe.
-- Possible resolution 2 — Counter Claim sustained, original claim narrowed:
-  - Updated Claim: Fallback behavior is acceptably safe under conditions with validated localization continuity.
-- Possible resolution 3 — Counter Claim partly sustained, assumption plus monitoring added:
-  - Claim: Fallback behavior is acceptably safe.
-  - Assumption: Localization continuity is maintained during fallback.
-  - Monitoring: Localization continuity violations are tracked through operational monitoring and incident review.
-- Possible resolution 4 — not yet resolved:
-  - Open Issue: Impact of localization dropout during fallback remains unresolved and requires additional analysis.
+
+*Bad*
+
+Initial branch:
+Claim: Fallback behavior is acceptably safe.
+Reviewer challenge raised informally: What if localization drops out during fallback?
+The challenge is not promoted into the safety case and remains in review notes only.
+
+*Problem*
+
+A plausible reviewer challenge has been left in review comments and reviewer intuition rather than made explicit in the safety case, so it cannot be tracked, resolved, or shown as an open issue.
+
+*Good*
+
+Make the challenge explicit:
+Challenge: Fallback behavior may not be acceptably safe if localization drops out during fallback.
+Representation: In GSN this may be shown as a Counter Claim; in CAE this may be shown as a defeater.
+Status: Undeveloped (while analysis is ongoing).
+
+Possible resolutions:
+- Challenge rejected: Add evidence (Fallback localization analysis FLA-04, Fallback test report FTR-09); claim retained.
+- Challenge sustained: Narrow the claim to "Fallback behavior is acceptably safe under conditions with validated localization continuity."
+- Challenge partly sustained: Add dependency "Localization continuity is maintained during fallback" plus monitoring of continuity violations.
+- Not yet resolved: Open Issue "Impact of localization dropout during fallback remains unresolved and requires additional analysis."
 
 **References**
 
@@ -1369,7 +1673,18 @@ Circular support creates the appearance of argument without adding any new suppo
 - Is the same conclusion being repeated with different words?
 
 **Example**
-- Bad claim: The system is acceptably safe because the safety case shows acceptable safety.
+
+*Bad*
+
+The system is acceptably safe because the safety case shows acceptable safety.
+
+*Problem*
+
+The support restates the claim using different words; it provides no independent grounds for the conclusion.
+
+*Good*
+
+The system is acceptably safe because hazards H1-H12 are mitigated by controls C1-C8, and the controls are verified by reports VR-01 to VR-08 against acceptance criteria AC-01 to AC-12.
 
 **References**
 
@@ -1393,15 +1708,25 @@ A common defect is to attach true or relevant material to the wrong claim, so th
 - Is the missing support actually a different intermediate claim that has not been stated?
 
 **Example**
-- Bad claim: Brake fault handling is acceptable.
-  - Bad evidence: Brake fault handling requirements are documented.
-- Problem: documented requirements may be necessary, but they do not by themselves show that brake fault handling is acceptable.
-- Better notation-neutral pattern:
-  - Claim: Brake fault handling is acceptable.
-  - Subclaim: Brake fault handling requirements are correctly defined.
-  - Subclaim: Implemented brake fault handling satisfies the defined requirements.
-  - Evidence: Brake fault handling requirements specification BRS-04.
-  - Evidence: Brake fault handling verification report BVR-09.
+
+*Bad*
+
+Claim: Brake fault handling is acceptable.
+Evidence: Brake fault handling requirements are documented.
+
+*Problem*
+
+Documented requirements may be necessary, but they do not by themselves show that brake fault handling is acceptable; the inferential link between requirements existing and acceptable fault handling is missing.
+
+*Good*
+
+Claim: Brake fault handling is acceptable.
+Sub-claims:
+- Brake fault handling requirements are correctly defined.
+- Implemented brake fault handling satisfies the defined requirements.
+Evidence:
+- Brake fault handling requirements specification BRS-04.
+- Brake fault handling verification report BVR-09.
 
 **References**
 
@@ -1425,18 +1750,26 @@ Not finding a problem is not the same as showing that the problem does not exist
 - Was the search for contrary evidence demonstrably adequate for the stated scope?
 
 **Example**
-- Bad pattern:
-  - Claim: No other credible hazards exist.
-  - Evidence: HARA report HAR-03.
-  - Justification: The HARA identified all relevant hazards, and no further hazards were found.
-- Problem: the branch treats the absence of newly discovered hazards as proof that no other credible hazards exist.
-- Better notation-neutral pattern:
-  - Claim: Hazard identification is sufficiently complete for the defined scope.
-  - Context: Applies to the defined item, ODD, and lifecycle scope.
-  - Evidence: HARA report HAR-03.
-  - Evidence: STPA report STP-02.
-  - Evidence: Hazard review record HRR-07.
-  - Justification: Complementary hazard identification methods and review coverage have been applied for the defined scope.
+
+*Bad*
+
+Claim: No other credible hazards exist.
+Evidence: HARA report HAR-03.
+Justification: The HARA identified all relevant hazards, and no further hazards were found.
+
+*Problem*
+
+The branch treats absence of newly discovered hazards as proof that no other credible hazards exist, rather than as a bounded completeness claim about the search.
+
+*Good*
+
+Claim: Hazard identification is sufficiently complete for the defined scope.
+Context: Applies to the defined item, ODD, and lifecycle scope.
+Evidence:
+- HARA report HAR-03.
+- STPA report STP-02.
+- Hazard review record HRR-07.
+Justification: Complementary hazard identification methods and review coverage have been applied for the defined scope.
 
 **References**
 
@@ -1461,18 +1794,26 @@ Comparison-based arguments can look persuasive while hiding differences in scope
 - If a difference is claimed, is it shown why that difference matters to the argument?
 
 **Example**
-- Bad pattern:
-  - Claim: The autonomous vehicle is safer than a human driver.
-  - Evidence: Simulation report SIM-09.
-  - Justification: The autonomous vehicle had fewer simulated collisions than the human-driver baseline.
-- Problem: the comparison may be unjustified if the simulation conditions, scenario coverage, driver model, metrics, and confidence are not shown to be appropriate and comparable.
-- Better notation-neutral pattern:
-  - Claim: For the defined ODD and stated comparison metric, the autonomous vehicle has lower collision rate than the specified human-driver baseline.
-  - Context: Comparison applies to ODD-A, metric M1, and baseline definition BD-02.
-  - Evidence: Simulation report SIM-09.
-  - Evidence: Baseline comparison report BCR-03.
-  - Evidence: Scenario validity report SVR-04.
-  - Justification: The compared cases use matched scope, scenarios, metrics, and confidence basis.
+
+*Bad*
+
+Claim: The autonomous vehicle is safer than a human driver.
+Evidence: Simulation report SIM-09.
+Justification: The autonomous vehicle had fewer simulated collisions than the human-driver baseline.
+
+*Problem*
+
+The comparison may be unjustified if the simulation conditions, scenario coverage, driver model, metrics, and confidence are not shown to be appropriate and comparable.
+
+*Good*
+
+Claim: For the defined ODD and stated comparison metric, the autonomous vehicle has lower collision rate than the specified human-driver baseline.
+Context: Comparison applies to ODD-A, metric M1, and baseline definition BD-02.
+Evidence:
+- Simulation report SIM-09.
+- Baseline comparison report BCR-03.
+- Scenario validity report SVR-04.
+Justification: The compared cases use matched scope, scenarios, metrics, and confidence basis.
 
 **References**
 
@@ -1496,22 +1837,32 @@ A small or skewed data set can support only a correspondingly narrow claim.
 - Is the claim broader than the sample supports?
 
 **Example**
-- Bad pattern:
-  - Claim: The item is acceptably safe across the defined ODD.
-  - Evidence: Road test report RTR-05 covering 12 daylight highway runs in dry conditions.
-  - Justification: No safety-critical events were observed during testing.
-- Problem: the claim covers the full ODD, but the evidence covers only a small and narrow subset of operating conditions. The sample is too limited in size and representativeness to support the broader claim.
-- Better notation-neutral pattern:
-  - Claim: The item is acceptably safe for the tested daytime highway subset of the ODD.
-  - Context: Applies only to dry daytime highway operation under the conditions covered in RTR-05.
-  - Evidence: Road test report RTR-05.
-- Or, if the broader claim is to be kept:
-  - Claim: The item is acceptably safe across the defined ODD.
-  - Evidence: Road test report RTR-05.
-  - Evidence: Night and weather test report NWT-03.
-  - Evidence: Scenario coverage analysis SCA-04.
-  - Evidence: Edge-case test report ETR-02.
-  - Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.
+
+*Bad*
+
+Claim: The item is acceptably safe across the defined ODD.
+Evidence: Road test report RTR-05 covering 12 daylight highway runs in dry conditions.
+Justification: No safety-critical events were observed during testing.
+
+*Problem*
+
+The claim covers the full ODD, but the evidence covers only a small and narrow subset of operating conditions; the sample is too limited in size and representativeness to support the broader claim.
+
+*Good*
+
+Either narrow the claim:
+Claim: The item is acceptably safe for the tested daytime highway subset of the ODD.
+Context: Applies only to dry daytime highway operation under the conditions covered in RTR-05.
+Evidence: Road test report RTR-05.
+
+Or expand the evidence to match the broader claim:
+Claim: The item is acceptably safe across the defined ODD.
+Evidence:
+- Road test report RTR-05.
+- Night and weather test report NWT-03.
+- Scenario coverage analysis SCA-04.
+- Edge-case test report ETR-02.
+Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.
 
 **References**
 
@@ -1536,19 +1887,27 @@ A highly precise number can give a false impression of certainty. When uncertain
 - Would a rounded value or bounded statement better reflect the real knowledge state?
 
 **Example**
-- Bad pattern:
-  - Claim: Residual collision risk is 3.742 x 10^-7 per hour.
-  - Evidence: Quantitative risk analysis report QRA-05.
-- Problem: the stated value suggests a level of certainty that may not be justified by the model assumptions, input data quality, scenario coverage, or confidence bounds.
-- Better notation-neutral pattern:
-  - Claim: Residual collision risk is below the accepted threshold for the defined operating conditions.
-  - Context: Applies under the assumptions and scenario scope defined in QRA-05.
-  - Evidence: Quantitative risk analysis report QRA-05.
-  - Justification: The result is reported with precision consistent with model uncertainty and stated confidence.
-- Or, where a numeric claim is still appropriate:
-  - Claim: Residual collision risk is estimated to be on the order of 10^-7 per hour for the defined operating conditions.
-  - Context: Estimate is subject to the assumptions, uncertainty, and confidence limits stated in QRA-05.
-  - Evidence: Quantitative risk analysis report QRA-05.
+
+*Bad*
+
+Claim: Residual collision risk is 3.742 x 10^-7 per hour.
+Evidence: Quantitative risk analysis report QRA-05.
+
+*Problem*
+
+The stated value suggests a level of certainty that may not be justified by the model assumptions, input data quality, scenario coverage, or confidence bounds.
+
+*Good*
+
+Claim: Residual collision risk is below the accepted threshold for the defined operating conditions.
+Context: Applies under the assumptions and scenario scope defined in QRA-05.
+Evidence: Quantitative risk analysis report QRA-05.
+Justification: The result is reported with precision consistent with model uncertainty and stated confidence.
+
+Or, where a numeric claim is still appropriate:
+Claim: Residual collision risk is estimated to be on the order of 10^-7 per hour for the defined operating conditions.
+Context: Estimate is subject to the assumptions, uncertainty, and confidence limits stated in QRA-05.
+Evidence: Quantitative risk analysis report QRA-05.
 
 **References**
 
@@ -1573,23 +1932,33 @@ A safety case becomes misleading when it presents only supporting material and l
 - Is contrary evidence explicitly addressed rather than silently ignored?
 
 **Example**
-- Bad pattern:
-  - Claim: Sensor robustness is acceptable.
-  - Evidence: Sensor performance test report SPR-08.
-  - Justification: The reported test results show robust detection performance.
-- Problem: the branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
-- Better notation-neutral pattern:
-  - Claim: Sensor robustness is acceptable for the defined conditions.
-  - Evidence: Sensor performance test report SPR-08.
-  - Evidence: Obscuration test report OTR-03.
-  - Evidence: Environmental degradation test report EDR-05.
-  - Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
-- Or, if contrary evidence exists:
-  - Claim: Sensor robustness is acceptable for the defined conditions.
-  - Evidence: Sensor performance test report SPR-08.
-  - Evidence: Environmental degradation anomaly review EAR-02.
-  - Context: Claim excludes heavy mud obscuration beyond the tested condition range.
-  - Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
+
+*Bad*
+
+Claim: Sensor robustness is acceptable.
+Evidence: Sensor performance test report SPR-08.
+Justification: The reported test results show robust detection performance.
+
+*Problem*
+
+The branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
+
+*Good*
+
+Claim: Sensor robustness is acceptable for the defined conditions.
+Evidence:
+- Sensor performance test report SPR-08.
+- Obscuration test report OTR-03.
+- Environmental degradation test report EDR-05.
+Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
+
+Or, if contrary evidence exists, scope it:
+Claim: Sensor robustness is acceptable for the defined conditions.
+Evidence:
+- Sensor performance test report SPR-08.
+- Environmental degradation anomaly review EAR-02.
+Context: Claim excludes heavy mud obscuration beyond the tested condition range.
+Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
 
 **References**
 
@@ -1617,15 +1986,22 @@ Review becomes harder when the reader must infer the role of a statement. Clear 
 - Is evidence clearly identifiable as evidence rather than explanation or claim text?
 
 **Example**
-- Bad pattern:
-  - The braking controller is safe in automated mode with valid localization because tests passed.
-- Problem: the sentence mixes claim, context, assumption, and evidential reasoning in one statement.
-- Better notation-neutral pattern:
-  - Claim: Braking controller safety is acceptable.
-  - Context: Applies in automated mode.
-  - Assumption: Valid localization is available.
-  - Evidence: Brake controller verification report BVR-09.
-  - Justification (if needed): The cited verification evidence is relevant to the defined operating conditions.
+
+*Bad*
+
+The braking controller is safe in automated mode with valid localization because tests passed.
+
+*Problem*
+
+The sentence mixes claim, context, assumption, and evidential reasoning in one statement; the reader must infer the role of each part.
+
+*Good*
+
+Claim: Braking controller safety is acceptable.
+Scope: Applies in automated mode.
+Dependency: Valid localization is available.
+Evidence: Brake controller verification report BVR-09.
+Reasoning: The cited verification evidence is relevant to the defined operating conditions.
 
 **References**
 
@@ -1650,8 +2026,18 @@ Safety cases should communicate justified confidence, not absolute assurance whe
 - Does the confidence language match the actual support?
 
 **Example**
-- Bad: The item is safe.
-- Better: The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior.
+
+*Bad*
+
+The item is safe.
+
+*Problem*
+
+The claim has no operating scope and uses absolute confidence language; it overstates closure and hides any unresolved uncertainty.
+
+*Good*
+
+The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior.
 
 **References**
 
@@ -1675,23 +2061,30 @@ A safety case is easier to review and trust when it shows not only supporting ma
 - Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?
 
 **Example**
-- Bad pattern:
-  - Claim: Perception robustness is acceptable.
-  - Evidence: Simulation report SIM-04.
-  - Evidence: Road test report RTR-07.
-- Problem: the branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
-- Better notation-neutral pattern:
-  - Claim: Perception robustness is acceptable for the defined visible-object conditions.
-  - Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
-  - Evidence: Simulation report SIM-04.
-  - Evidence: Road test report RTR-07.
-  - Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
-- Or, if the objection is addressed rather than excluded:
-  - Claim: Perception robustness is acceptable for the defined visible-object conditions.
-  - Evidence: Simulation report SIM-04.
-  - Evidence: Road test report RTR-07.
-  - Evidence: Occlusion test report OTR-03.
-  - Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
+
+*Bad*
+
+Claim: Perception robustness is acceptable.
+Evidence:
+- Simulation report SIM-04.
+- Road test report RTR-07.
+
+*Problem*
+
+The branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
+
+*Good*
+
+Claim: Perception robustness is acceptable for the defined visible-object conditions.
+Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
+Evidence:
+- Simulation report SIM-04.
+- Road test report RTR-07.
+Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
+
+Or, if the objection is addressed rather than excluded:
+Evidence: Occlusion test report OTR-03.
+Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
 
 **References**
 
@@ -1715,8 +2108,18 @@ Safety arguments should build confidence through explicit claims, reasoning, and
 - Is the wording trying to create confidence through tone rather than support?
 
 **Example**
-- Bad claim: A world-class, cutting-edge safety architecture delivers outstanding assurance.
-- Better claim: The architecture prevents hazardous actuation for fault classes F1-F4 under assumptions A1-A3.
+
+*Bad*
+
+A world-class, cutting-edge safety architecture delivers outstanding assurance.
+
+*Problem*
+
+The wording uses promotional adjectives intended to impress the reader rather than to make a reviewable claim; removing the promotional language would lose nothing argumentative.
+
+*Good*
+
+The architecture prevents hazardous actuation for fault classes F1-F4 under assumptions A1-A3.
 
 **References**
 
@@ -1740,8 +2143,18 @@ When a review, judgment, approval, or decision is stated without naming who perf
 - Would naming the actor improve traceability or auditability?
 
 **Example**
-- Bad: It was determined that the claim is adequately supported.
-- Better: Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the claim is adequately supported.
+
+*Bad*
+
+It was determined that the claim is adequately supported.
+
+*Problem*
+
+The passive wording hides who performed the determination; the reviewer cannot identify the responsible actor or hold the judgment to account.
+
+*Good*
+
+Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the claim is adequately supported.
 
 **References**
 
@@ -1766,19 +2179,27 @@ A safety case should make important boundaries visible where the claim is read. 
 - Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?
 
 **Example**
-- Bad pattern:
-  - Claim: Perception robustness is acceptable.
-  - Evidence: Perception validation report PVR-08.
-  - A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
-- Problem: the main claim appears broad, but important limiting conditions are only visible outside the main branch.
-- Better notation-neutral pattern:
-  - Claim: Perception robustness is acceptable for the validated visibility conditions.
-  - Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
-  - Evidence: Perception validation report PVR-08.
-- Or, where the dependency is really an assumption:
-  - Claim: Perception robustness is acceptable.
-  - Assumption: Visibility conditions remain within the validated range defined in PVR-08.
-  - Evidence: Perception validation report PVR-08.
+
+*Bad*
+
+Claim: Perception robustness is acceptable.
+Evidence: Perception validation report PVR-08.
+A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
+
+*Problem*
+
+The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
+
+*Good*
+
+Claim: Perception robustness is acceptable for the validated visibility conditions.
+Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
+Evidence: Perception validation report PVR-08.
+
+Or, where the dependency is really an assumption:
+Claim: Perception robustness is acceptable.
+Assumption: Visibility conditions remain within the validated range defined in PVR-08.
+Evidence: Perception validation report PVR-08.
 
 **References**
 
