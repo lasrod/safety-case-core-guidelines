@@ -423,10 +423,10 @@ When one GSN element is used to do another element’s job, the argument becomes
 
 **Example**
 - Better notation-neutral pattern:
-  - Goal: Functional design safety is acceptable.
-  - Strategy: Argument by autonomy hazard topic.
+  - Claim: Functional design safety is acceptable.
+  - Argument: Argument by autonomy hazard topic.
   - Context: Functional design refers to the ISO 26262 functional design scope for the item.
-  - Justification: This claim is included because the project requires ISO 26262 compliance.
+  - Rationale: This claim is included because the project requires ISO 26262 compliance.
   - Possible sub-claims:
     - Functional safety requirements are defined.
     - Required safety mechanisms are defined.
@@ -498,7 +498,7 @@ This keeps the claim interpretable and makes clear which information defines the
 - Bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
   - Better claim: Braking controller safety is acceptable.
   - Better context: Applies in Highway ODD. / Applies in automated mode.
-  - Better assumptions: Valid localization available. / nominal interface timing conditions apply.
+  - Better assumptions: Valid localization available. / Nominal interface timing conditions apply.
 
 **Note**
 Notation note: GSN provides context and assumption elements for this purpose. CAE may represent context as claim scope, attached information, or supporting explanatory text depending on the notation/tool. The SCCG requirement is explicitness and reviewability, not a mandatory representation form.
@@ -612,7 +612,7 @@ This guideline is about placement, clarity, and maintainability. Hidden qualifie
 
 **Example**
 - Bad: Planner safety is acceptable with valid localization and nominal interface timing.
-  - Better goal: Planner safety is acceptable.
+  - Better claim: Planner safety is acceptable.
   - Better context: Planner refers to the motion planning function defined in architecture element PLN-01.
   - Better assumptions: Valid localization is available. / Nominal interface timing conditions apply.
 

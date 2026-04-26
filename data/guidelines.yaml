@@ -57,7 +57,7 @@ document:
     - guideline_id: "CL.4"
       text: "Claim is structurally ambiguous. Reword so the object and property are clear."
     - guideline_id: "AR.2"
-      text: "The inference step is hidden in the claim text. Make the reasoning element explicit, for example as a GSN strategy or CAE argument/warrant."
+      text: "The inference step is hidden in the claim text. Make the reasoning element explicit, for example as a GSN strategy or CAE argument."
     - guideline_id: "EV.4"
       text: "Evidence reference is too broad. Point to the exact section, figure, table, or dataset actually used."
     - guideline_id: "SU.6"
@@ -534,10 +534,10 @@ guidelines:
     example:
       markdown: |-
         - Better notation-neutral pattern:
-          - Goal: Functional design safety is acceptable.
-          - Strategy: Argument by autonomy hazard topic.
+          - Claim: Functional design safety is acceptable.
+          - Argument: Argument by autonomy hazard topic.
           - Context: Functional design refers to the ISO 26262 functional design scope for the item.
-          - Justification: This claim is included because the project requires ISO 26262 compliance.
+          - Rationale: This claim is included because the project requires ISO 26262 compliance.
           - Possible sub-claims:
             - Functional safety requirements are defined.
             - Required safety mechanisms are defined.
@@ -564,7 +564,7 @@ guidelines:
       - source_id: "GSN-v3"
         clauses: ["1:2.2.10-1:2.2.19", "1:2.3.2-1:2.3.6"]
     tool_guidance:
-      applicable_elements: ["GSN Goal", "GSN Strategy", "GSN Context", "GSN Assumption", "GSN Justification", "GSN Solution"]
+      applicable_elements: ["GSN Goal", "GSN Strategy", "GSN Context", "GSN Assumption", "GSN Justification", "GSN Solution", "CAE Claim", "CAE Argument", "CAE Warrant", "CAE Evidence", "CAE Context", "CAE Assumption"]
       detection_hints:
         - "Look for goals containing reasoning verbs (we argue that, by decomposing)."
         - "Look for solutions phrased as claims rather than evidence references."
@@ -638,7 +638,7 @@ guidelines:
         clauses: ["1:2.3.3"]
       - source_id: "CAE"
     tool_guidance:
-      applicable_elements: ["GSN Strategy", "CAE Argument"]
+      applicable_elements: ["GSN Strategy", "CAE Argument", "CAE Warrant"]
       detection_hints:
         - "Look for branches with sub-claims but no strategy element explaining the decomposition rule."
         - "Look for parent claims whose decomposition rule is implicit in the wording."
@@ -668,7 +668,7 @@ guidelines:
         - Bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
           - Better claim: Braking controller safety is acceptable.
           - Better context: Applies in Highway ODD. / Applies in automated mode.
-          - Better assumptions: Valid localization available. / nominal interface timing conditions apply.
+          - Better assumptions: Valid localization available. / Nominal interface timing conditions apply.
       cases:
         - role: "bad"
           label: "Bad"
@@ -682,7 +682,7 @@ guidelines:
               - "Applies in automated mode."
             assumptions:
               - "Valid localization available."
-              - "nominal interface timing conditions apply."
+              - "Nominal interface timing conditions apply."
     references:
       - source_id: "OMG-SACM"
       - source_id: "ONR"
@@ -867,7 +867,7 @@ guidelines:
     example:
       markdown: |-
         - Bad: Planner safety is acceptable with valid localization and nominal interface timing.
-          - Better goal: Planner safety is acceptable.
+          - Better claim: Planner safety is acceptable.
           - Better context: Planner refers to the motion planning function defined in architecture element PLN-01.
           - Better assumptions: Valid localization is available. / Nominal interface timing conditions apply.
       cases:
@@ -938,7 +938,7 @@ guidelines:
       - source_id: "GSN-v3"
         clauses: ["1:2.2.14", "1:2.3.6"]
     tool_guidance:
-      applicable_elements: ["GSN Justification"]
+      applicable_elements: ["GSN Justification", "CAE Warrant", "CAE Side-warrant", "CAE Side-claim"]
       detection_hints:
         - "Look for justifications that cite test results or evidence rather than rationale."
       suggested_checks:
@@ -2598,26 +2598,3 @@ guidelines:
       suggested_ai_prompt: |-
         Identify limiting conditions or hidden assumptions that should be co-located with this claim. Propose context, assumption, or narrower claim wording.
     tags: ["rhetoric", "limitations", "assumption"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
