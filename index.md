@@ -124,11 +124,11 @@ Example review comments:
 
 - `AR.6` [Provide the context needed to interpret the claim](#ar6)
 
-- `AR.7` [Keep context out of claim text unless context is itself the claim](#ar7)
+- `AR.7` [Make claim qualifiers explicit and maintainable](#ar7)
 
-- `AR.8` [Use justification only for local rationale, not as hidden support](#ar8)
+- `AR.8` [Do not use rationale as hidden support](#ar8)
 
-- `AR.9` [Match each justification to the element it justifies](#ar9)
+- `AR.9` [Match each rationale to the element or inference it explains](#ar9)
 
 
 
@@ -408,29 +408,32 @@ ISO/IEC/IEEE 15026-2:2022, OMG SACM 2.3, CAE guidance, UL 4600 5.2.3; 5.3.1; 5.3
 
 **Guideline**
 
-Use goals for claims, strategies for reasoning and decomposition approach, context for scope and definitions when needed, assumptions for dependencies when needed, justifications for local rationale when needed, and solutions for evidence references.
+Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support.
 
 **Why**
 
 When one GSN element is used to do another element’s job, the argument becomes harder to inspect, review, and challenge.
 
 **Review prompts**
-- Is the goal text carrying reasoning that belongs in a strategy?
-- Is local scope or meaning hidden inside the claim instead of expressed through context?
-- Is an assumption or justification hidden in claim or strategy text?
-- Is a solution being used as if it were a claim?
+- Is a claim carrying reasoning that belongs in an argument, strategy, or warrant?
+- Is local scope or meaning hidden inside the claim instead of being made explicit?
+- Is a dependency or rationale hidden in claim or argument text?
+- Is an evidence reference being used as if it were a claim?
 - Is a justification being used as if it were support?
 
 **Example**
-- Better pattern:
-  - Goal: Functional design safety is acceptable.
-  - Strategy: Argument by autonomy hazard topic.
+- Better notation-neutral pattern:
+  - Claim: Functional design safety is acceptable.
+  - Argument: Argument by autonomy hazard topic.
   - Context: Functional design refers to the ISO 26262 functional design scope for the item.
-  - Justification: This claim is included because the project requires ISO 26262 compliance.
+  - Rationale: This claim is included because the project requires ISO 26262 compliance.
   - Possible sub-claims:
     - Functional safety requirements are defined.
     - Required safety mechanisms are defined.
     - Safety-relevant interfaces are defined.
+
+**Note**
+Notation note: In GSN, the generic roles map to goals, strategies, context, assumptions, justifications, and solutions. In CAE, the same concern maps to claims, arguments or warrants, evidence, and explicit context or assumption information. Apply this guideline to role clarity rather than to a mandatory GSN element set.
 
 **References**
 
@@ -479,23 +482,26 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.3.2.1(a); 5.3.2.1
 
 **Guideline**
 
-Put information that explains how a claim should be understood into context elements, and put conditions that must hold for the claim to remain valid into assumption elements, unless that information is itself the claim being made.
+Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.
 
 **Why**
 
-This keeps claims readable and makes it clear which information defines the claim’s scope and meaning, and which information the argument depends on being true.
+This keeps the claim interpretable and makes clear which information defines the claim's scope and meaning, and which conditions the argument depends on being true.
 
 **Review prompts**
-- Is this text making the claim itself, or only explaining how the claim should be interpreted?
-- Is any condition required for the claim to hold embedded in the claim text instead of stated explicitly?
-- Should this information be shown as context, as an assumption, or as part of the claim itself?
-- Would the branch be clearer if scope moved to context and dependencies moved to assumptions?
+- Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
+- Is any condition required for the claim to hold hidden in wording rather than made explicit?
+- Would the argument be clearer if scope, definitions, or dependencies were represented separately?
+- If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?
 
 **Example**
-- Bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal power supply.
-  - Better goal: Braking controller safety is acceptable.
+- Bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
+  - Better claim: Braking controller safety is acceptable.
   - Better context: Applies in Highway ODD. / Applies in automated mode.
-  - Better assumptions: Valid localization available. / Nominal power supply conditions apply.
+  - Better assumptions: Valid localization available. / Nominal interface timing conditions apply.
+
+**Note**
+Notation note: GSN provides context and assumption elements for this purpose. CAE may represent context as claim scope, attached information, or supporting explanatory text depending on the notation/tool. The SCCG requirement is explicitness and reviewability, not a mandatory representation form.
 
 **References**
 
@@ -588,27 +594,30 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2
 
 <a id="ar7"></a>
 
-### AR.7: Keep context out of claim text unless context is itself the claim
+### AR.7: Make claim qualifiers explicit and maintainable
 
 **Guideline**
 
-Do not pack claim text with qualifiers, definitions, interface conditions, or dependency clauses when those are better represented as context or assumption elements.
+Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
 
 **Why**
 
-This guideline is about placement, not completeness. Context or assumptions embedded in claim text blur element roles, make scope and dependency changes harder to see, and often create claims that are harder to review and maintain.
+This guideline is about placement, clarity, and maintainability. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
 
 **Review prompts**
-- Which words in this claim are really qualifiers rather than the claim itself?
-- Is the claim mixing its core assertion with local context or dependencies?
-- Could the goal remain stable if a configuration, interface condition, or dependency changed?
-- Should one or more qualifiers be moved to context or assumptions?
+- Which words in this claim are qualifiers rather than the core assertion?
+- Are the qualifiers clear enough for review, or would they be better represented as context or assumptions?
+- Could the core claim remain stable if a configuration, interface condition, or dependency changed?
+- Are dependencies explicit and traceable rather than hidden inside readable but overloaded claim text?
 
 **Example**
 - Bad: Planner safety is acceptable with valid localization and nominal interface timing.
-  - Better goal: Planner safety is acceptable.
+  - Better claim: Planner safety is acceptable.
   - Better context: Planner refers to the motion planning function defined in architecture element PLN-01.
   - Better assumptions: Valid localization is available. / Nominal interface timing conditions apply.
+
+**Note**
+Notation note: This guideline is stricter for GSN, where context and assumptions should usually be represented by their own elements. In CAE, claim text may legitimately include scope when needed to make the claim true or false. The SCCG requirement is that qualifiers be clear, consistent, and reviewable.
 
 **References**
 
@@ -616,23 +625,26 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), 
 
 <a id="ar8"></a>
 
-### AR.8: Use justification only for local rationale, not as hidden support
+### AR.8: Do not use rationale as hidden support
 
 **Guideline**
 
-Use a justification element only to explain why the wording, boundary, or reasoning choice for a goal or strategy is acceptable; do not use justification as proof that a claim is true.
+Use rationale, warrant, or justification text to explain why a wording, boundary, decomposition, or inference choice is acceptable; do not use it as the proof that a claim is true.
 
 **Why**
 
-In GSN, a justification explains a local wording or structuring choice; it does not provide the proof that makes the claim true. Treating justification as proof hides missing strategy, sub-claims, or evidence.
+Rationale can explain local reasoning choices, but it cannot replace sub-claims, evidence, or a clear argument linking evidence to the claim. Treating rationale as support hides missing reasoning, missing evidence, or unsupported assumptions.
 
 **Review prompts**
-- Is the justification explaining why the element is acceptable, or trying to carry evidential weight?
-- Ensure that removing the justification would not remove the real support for the claim. Should this material actually be a strategy, context, assumption, sub-claim, or solution?
+- Is the rationale explaining a local choice, or trying to carry evidential weight?
+- If the rationale were removed, would the real support for the claim still remain?
 
 **Example**
 - Bad: Goal Brake hazards are adequately addressed. with justification Because tests were passed.
 - Better: Use evidence and sub-claims for test support. Reserve justification for local rationale such as why a hazard grouping or decomposition choice is acceptable.
+
+**Note**
+Notation note: In GSN, this applies directly to justification elements. In CAE, this applies to warrants, side-warrants, side-claims, and explanatory notes: they may explain an inference, but they should not replace the evidence or sub-claims needed to support the claim.
 
 **References**
 
@@ -640,24 +652,27 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), 
 
 <a id="ar9"></a>
 
-### AR.9: Match each justification to the element it justifies
+### AR.9: Match each rationale to the element or inference it explains
 
 **Guideline**
 
-A justification shall address the exact goal or strategy to which it is attached and shall not explain some different issue elsewhere in the branch.
+Any rationale, warrant, or justification shall address the exact claim, argument, or inference step to which it is attached and shall not explain a different issue elsewhere in the branch.
 
 **Why**
 
-Misaligned justifications create false confidence and often reveal that the real concern is missing context, missing decomposition, or missing evidence.
+Misaligned rationale creates false confidence and often reveals that the real concern is missing context, missing decomposition, missing evidence, or an unstated inference rule.
 
 **Review prompts**
-- Does the justification answer why this exact claim or strategy formulation is acceptable?
+- Does the rationale explain why this exact claim formulation, decomposition, or inference is acceptable?
 - Is it local, or is it trying to justify the whole branch?
 - Could the same text be pasted onto many different elements without change?
 
 **Example**
 - Bad: Goal Sensor faults are adequately addressed. with justification The item is intended for highway use.
 - Better: Put highway use in context and use any justification to explain a local choice such as why a particular fault grouping is appropriate.
+
+**Note**
+Notation note: In GSN, this applies directly to justification elements. In CAE, this applies to warrants, side-warrants, side-claims, and explanatory notes used to qualify or explain an inference. The rationale must match the exact element or inference it is attached to.
 
 **References**
 
@@ -717,7 +732,7 @@ A reviewer should be able to recognize what kind of evidence is being used, what
   - Evidence: Engineer working file WF-27.
 - Problem:
   - The artifact is being used as safety case evidence, but it is not an approved evidence type for this purpose, or it is not shown to meet the criteria required for that evidence type. The reviewer therefore cannot assess it consistently as acceptable evidence.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Perception validation evidence is sufficient for this claim.
   - Evidence: Perception validation report PVR-08, rev B.
   - Context: Validation report is an approved evidence type for this kind of claim.
@@ -801,7 +816,7 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
   - Claim: Perception performance is acceptable.
   - Evidence: Perception validation report PVR-08.
 - Problem: The report is cited, but the argument does not state what coverage, thresholds, configurations, or limitations make that report sufficient for this claim.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Perception performance is acceptable for ODD-A daytime operation.
   - Evidence: Perception validation report PVR-08.
   - Context: Applies to software build SB-14 and sensor configuration C3.
@@ -834,7 +849,7 @@ Evidence does not speak for itself. The safety case or linked assessment record 
   - GSN claim: Detection timing meets acceptance criterion AC-DET-07.
   - GSN solution: Timing test report TR-18, section 5.2.
 - Problem: the evidence is linked, but the reason it supports the claim is not explicitly documented anywhere reviewable.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Detection timing meets acceptance criterion AC-DET-07.
   - Solution: Timing test report TR-18, section 5.2.
   - Linked assessment documentation explains:
@@ -932,7 +947,7 @@ A safety case should argue from reviewable evidence, not from what engineers hap
 - Bad pattern:
   - Claim: `Unsafe torque requests are prevented during degraded localization.` The safety case includes a free-text explanation of the controller behavior, but the relevant design basis is not identified through context and no supporting artifacts are linked.
 - Problem: the branch relies on undocumented system knowledge written into the safety case itself rather than on explicit specification context and reviewable evidence.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: `Unsafe torque requests are prevented during degraded localization.` Context identifies the relevant braking control design specification, degraded-mode requirements, and interface definition.
   - Evidence supports that the specified behavior is implemented and verified.
   - The safety case argues from those documented artifacts instead of serving as the primary description of the design.
@@ -967,7 +982,7 @@ A credible safety case should not only present supporting material. It should al
   - Claim: Hazard analysis is complete for the defined ODD.
   - Evidence: Hazard analysis report HAR-03.
 - Problem: a reviewer could reasonably ask whether the analysis covered scenarios introduced after the most recent ODD revision, whether the chosen method has known coverage limits for emergent multi-actor interactions, and whether the ODD assumptions still hold. None of these challenges are visible in the argument.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Hazard analysis is complete for the defined ODD.
   - Evidence: Hazard analysis report HAR-03.
   - Challenge: The analysis may not cover scenarios introduced after the most recent ODD revision.
@@ -1001,7 +1016,7 @@ Unstated or weakly founded assumptions are a common cause of later argument inva
   - Claim: Localization accuracy is acceptable within the defined ODD.
   - The argument silently relies on the assumption that map data used at runtime is current, but this assumption is not recorded.
 - Problem: a reviewer cannot judge whether the assumption is reasonable, whether it is monitored, or what would invalidate it. If the assumption fails, the affected claim may silently lose support.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Localization accuracy is acceptable within the defined ODD.
   - Assumption: Map data used at runtime is no more than 7 days out of date.
   - Justification: Map update process MAP-PROC-02 enforces a 7-day refresh cycle and is monitored by KPI MAP-KPI-01.
@@ -1033,7 +1048,7 @@ Expert opinion may be useful, but unsupported opinion is weak support and can ea
   - Claim: Residual risk is acceptable.
   - Evidence: Safety review board statement that residual risk is considered acceptable.
 - Problem: expert judgment is being used as the sole basis for the claim, with no analysis, data, or independent corroboration that a reviewer can examine.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Residual risk is acceptable.
   - Evidence: Quantitative risk analysis QRA-09 showing residual risk below the defined threshold.
   - Evidence: Operational data summary ODS-03 covering 18 months of comparable exposure with no injury-class events.
@@ -1142,7 +1157,7 @@ Operational feedback is often used to support claims about residual risk, rarity
   - Support used: field incident history and operational monitoring.
   - Safety case note: Three roadside-object anomalies were reported, but none caused injury and none could be reproduced, so they are not safety-relevant.
 - Problem: the argument is using operational feedback, but dismisses adverse signals simply because they were non-injury and non-reproducible.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Residual risk from unexpected roadside object encounters is acceptable in operation.
   - Support used: field incident history and operational monitoring.
   - Safety case treatment: the three anomalies are recorded, grouped, and evaluated as adverse operational evidence. The argument explains whether they challenge the rarity assumption, whether they indicate a gap in object coverage, and whether reassessment or additional mitigation is required.
@@ -1175,7 +1190,7 @@ Operational exposure can miss catastrophic but rare outcomes. Simulation can mis
   - Evidence: Simulation results SIM-12.
   - Justification: No collisions were observed in the simulation results, therefore the risk is low.
 - Problem: the branch treats simulation results alone as sufficient proof that risk is low, without showing that the simulation is valid for this claim, that the modeled scenarios are adequate, or that important model limitations are understood.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Collision risk with cut-in vehicles is acceptably low.
   - Evidence: Simulation results SIM-12.
   - Evidence: Track test report TR-08.
@@ -1210,7 +1225,7 @@ Autonomous systems can encounter operating situations and failure combinations t
   - Evidence: Scenario Selection Report SSR-04.
   - Justification: The scenario set is based on human-driven fleet data and therefore covers relevant road situations.
 - Problem: the branch assumes that human-driven data is enough to cover planning failures, but the autonomous planner may enter unusual states or produce behaviors that human drivers would not normally create.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Planning failure modes are adequately covered by the test set.
   - Evidence: Scenario Selection Report SSR-04.
   - Evidence: Planner Failure Analysis Report PFA-03.
@@ -1242,7 +1257,7 @@ Hidden dependencies are a common reason for late argument invalidation. Making t
 - Bad pattern:
   - Claim: Localization integrity is sufficient for safe fallback.
 - Problem: the branch depends on an unstated condition about localization performance during fallback, but that dependency is only implicit.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Localization integrity is sufficient for safe fallback.
   - Assumption: Localization integrity remains within bound L1 during fallback maneuver.
 - Or, if that dependency should be argued rather than assumed:
@@ -1277,7 +1292,7 @@ Over-broad assumptions can make a claim appear closed while removing most of its
   - Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
   - Assumption: Infrastructure behaves correctly.
 - Problem: the assumption is too broad. It does not identify which infrastructure, which behaviors, which authorities, or what kinds of failure are being assumed away.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Traffic signal interpretation is sufficiently reliable for safe intersection handling.
   - Assumption: Within the defined ODD, traffic signals managed by the identified road authorities are assumed to conform to the referenced control standard.
   - Monitoring / follow-up support where needed: Violations are tracked through field feedback and incident analysis.
@@ -1381,7 +1396,7 @@ A common defect is to attach true or relevant material to the wrong claim, so th
 - Bad claim: Brake fault handling is acceptable.
   - Bad evidence: Brake fault handling requirements are documented.
 - Problem: documented requirements may be necessary, but they do not by themselves show that brake fault handling is acceptable.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Brake fault handling is acceptable.
   - Subclaim: Brake fault handling requirements are correctly defined.
   - Subclaim: Implemented brake fault handling satisfies the defined requirements.
@@ -1415,7 +1430,7 @@ Not finding a problem is not the same as showing that the problem does not exist
   - Evidence: HARA report HAR-03.
   - Justification: The HARA identified all relevant hazards, and no further hazards were found.
 - Problem: the branch treats the absence of newly discovered hazards as proof that no other credible hazards exist.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Hazard identification is sufficiently complete for the defined scope.
   - Context: Applies to the defined item, ODD, and lifecycle scope.
   - Evidence: HARA report HAR-03.
@@ -1451,7 +1466,7 @@ Comparison-based arguments can look persuasive while hiding differences in scope
   - Evidence: Simulation report SIM-09.
   - Justification: The autonomous vehicle had fewer simulated collisions than the human-driver baseline.
 - Problem: the comparison may be unjustified if the simulation conditions, scenario coverage, driver model, metrics, and confidence are not shown to be appropriate and comparable.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: For the defined ODD and stated comparison metric, the autonomous vehicle has lower collision rate than the specified human-driver baseline.
   - Context: Comparison applies to ODD-A, metric M1, and baseline definition BD-02.
   - Evidence: Simulation report SIM-09.
@@ -1486,7 +1501,7 @@ A small or skewed data set can support only a correspondingly narrow claim.
   - Evidence: Road test report RTR-05 covering 12 daylight highway runs in dry conditions.
   - Justification: No safety-critical events were observed during testing.
 - Problem: the claim covers the full ODD, but the evidence covers only a small and narrow subset of operating conditions. The sample is too limited in size and representativeness to support the broader claim.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: The item is acceptably safe for the tested daytime highway subset of the ODD.
   - Context: Applies only to dry daytime highway operation under the conditions covered in RTR-05.
   - Evidence: Road test report RTR-05.
@@ -1525,7 +1540,7 @@ A highly precise number can give a false impression of certainty. When uncertain
   - Claim: Residual collision risk is 3.742 x 10^-7 per hour.
   - Evidence: Quantitative risk analysis report QRA-05.
 - Problem: the stated value suggests a level of certainty that may not be justified by the model assumptions, input data quality, scenario coverage, or confidence bounds.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Residual collision risk is below the accepted threshold for the defined operating conditions.
   - Context: Applies under the assumptions and scenario scope defined in QRA-05.
   - Evidence: Quantitative risk analysis report QRA-05.
@@ -1563,7 +1578,7 @@ A safety case becomes misleading when it presents only supporting material and l
   - Evidence: Sensor performance test report SPR-08.
   - Justification: The reported test results show robust detection performance.
 - Problem: the branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Sensor robustness is acceptable for the defined conditions.
   - Evidence: Sensor performance test report SPR-08.
   - Evidence: Obscuration test report OTR-03.
@@ -1605,7 +1620,7 @@ Review becomes harder when the reader must infer the role of a statement. Clear 
 - Bad pattern:
   - The braking controller is safe in automated mode with valid localization because tests passed.
 - Problem: the sentence mixes claim, context, assumption, and evidential reasoning in one statement.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Braking controller safety is acceptable.
   - Context: Applies in automated mode.
   - Assumption: Valid localization is available.
@@ -1665,7 +1680,7 @@ A safety case is easier to review and trust when it shows not only supporting ma
   - Evidence: Simulation report SIM-04.
   - Evidence: Road test report RTR-07.
 - Problem: the branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Perception robustness is acceptable for the defined visible-object conditions.
   - Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
   - Evidence: Simulation report SIM-04.
@@ -1756,7 +1771,7 @@ A safety case should make important boundaries visible where the claim is read. 
   - Evidence: Perception validation report PVR-08.
   - A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
 - Problem: the main claim appears broad, but important limiting conditions are only visible outside the main branch.
-- Better pattern:
+- Better notation-neutral pattern:
   - Claim: Perception robustness is acceptable for the validated visibility conditions.
   - Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
   - Evidence: Perception validation report PVR-08.
