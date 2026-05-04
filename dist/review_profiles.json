@@ -97,13 +97,11 @@
       "description": "Reviews whether a strategy or reasoning step explains the inference between parent and supporting claims.",
       "display_name": "Strategy review",
       "guideline_ids": [
+        "AR.1",
         "AR.2",
         "AR.4",
         "AR.5",
-        "AR.8",
-        "AR.9",
-        "LF.1",
-        "LF.3"
+        "LF.1"
       ],
       "id": "strategy_review",
       "optional_data": [

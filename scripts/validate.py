@@ -7,10 +7,11 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+import yaml
 from jsonschema import Draft7Validator
 
 from build_dist import build_outputs as build_dist_outputs
-from build_site import render_index
+from build_site import MarkerError, render_index
 from check_coverage import build_outputs as build_coverage_outputs
 from sccg_common import (
     CONTENT,
@@ -37,6 +38,40 @@ def _schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
     return errors
 
 
+def _load_yaml_for_validation(path: Path, label: str) -> tuple[Any | None, list[str]]:
+    try:
+        data = load_yaml(path)
+    except FileNotFoundError:
+        return None, [f"[schema] {label}: file is missing"]
+    except yaml.YAMLError as error:
+        return None, [f"[schema] {label}: YAML parse error: {error}"]
+    if not isinstance(data, dict):
+        return None, [f"[schema] {label} <root>: YAML does not parse to a mapping"]
+    return data, []
+
+
+def _load_json_for_validation(path: Path, label: str) -> tuple[Any | None, list[str]]:
+    try:
+        data = load_json(path)
+    except FileNotFoundError:
+        return None, [f"[schema] {label}: file is missing"]
+    except json.JSONDecodeError as error:
+        return None, [f"[schema] {label}: JSON parse error: {error.msg}"]
+    return data, []
+
+
+def _safe_schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
+    schema, errors = _load_json_for_validation(schema_path, str(schema_path))
+    if errors:
+        return errors
+    validator = Draft7Validator(schema)
+    result = []
+    for error in sorted(validator.iter_errors(instance), key=lambda item: list(item.absolute_path)):
+        location = "/".join(str(part) for part in error.absolute_path) or "<root>"
+        result.append(f"[schema] {label} {location}: {error.message}")
+    return result
+
+
 def _duplicates(values: list[str]) -> list[str]:
     return sorted(value for value, count in Counter(values).items() if count > 1)
 
@@ -52,13 +87,24 @@ def _check_file_current(path: Path, expected: str, label: str) -> list[str]:
 
 def _validate_schemas() -> list[str]:
     errors: list[str] = []
-    errors.extend(_schema_errors(load_yaml(CONTENT / "sccg.yaml"), SCHEMAS / "sccg.schema.json", "content/sccg.yaml"))
-    errors.extend(_schema_errors(load_yaml(CONTENT / "references.yaml"), SCHEMAS / "references.schema.json", "content/references.yaml"))
+    schema_targets = [
+        (CONTENT / "sccg.yaml", SCHEMAS / "sccg.schema.json", "content/sccg.yaml"),
+        (CONTENT / "references.yaml", SCHEMAS / "references.schema.json", "content/references.yaml"),
+        (TOOL_SUPPORT_DIR / "review_profiles.yaml", SCHEMAS / "review_profiles.schema.json", "content/tool_support/review_profiles.yaml"),
+        (TOOL_SUPPORT_DIR / "data_packages.yaml", SCHEMAS / "data_packages.schema.json", "content/tool_support/data_packages.yaml"),
+        (TOOL_SUPPORT_DIR / "prechecks.yaml", SCHEMAS / "prechecks.schema.json", "content/tool_support/prechecks.yaml"),
+    ]
+    for data_path, schema_path, label in schema_targets:
+        instance, load_errors = _load_yaml_for_validation(data_path, label)
+        errors.extend(load_errors)
+        if instance is not None:
+            errors.extend(_safe_schema_errors(instance, schema_path, label))
     for path in sorted(GUIDELINES_DIR.glob("*.yaml")):
-        errors.extend(_schema_errors(load_yaml(path), SCHEMAS / "guideline_category.schema.json", str(path.relative_to(CONTENT.parent))))
-    errors.extend(_schema_errors(load_yaml(TOOL_SUPPORT_DIR / "review_profiles.yaml"), SCHEMAS / "review_profiles.schema.json", "content/tool_support/review_profiles.yaml"))
-    errors.extend(_schema_errors(load_yaml(TOOL_SUPPORT_DIR / "data_packages.yaml"), SCHEMAS / "data_packages.schema.json", "content/tool_support/data_packages.yaml"))
-    errors.extend(_schema_errors(load_yaml(TOOL_SUPPORT_DIR / "prechecks.yaml"), SCHEMAS / "prechecks.schema.json", "content/tool_support/prechecks.yaml"))
+        label = str(path.relative_to(CONTENT.parent))
+        instance, load_errors = _load_yaml_for_validation(path, label)
+        errors.extend(load_errors)
+        if instance is not None:
+            errors.extend(_safe_schema_errors(instance, SCHEMAS / "guideline_category.schema.json", label))
     return errors
 
 
@@ -77,6 +123,8 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
         errors.append(f"[guidelines] duplicate guideline id {duplicate_id!r}")
     for duplicate_id in _duplicates([profile["id"] for profile in model["review_profiles"]]):
         errors.append(f"[review_profiles] duplicate profile id {duplicate_id!r}")
+    for duplicate_id in _duplicates([package["id"] for package in model["data_packages"]]):
+        errors.append(f"[data_packages] duplicate data package id {duplicate_id!r}")
     for duplicate_id in _duplicates([precheck["id"] for precheck in model["prechecks"]]):
         errors.append(f"[prechecks] duplicate pre-check id {duplicate_id!r}")
 
@@ -128,7 +176,14 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
             if package_id not in data_package_ids:
                 errors.append(f"[review_profiles] {profile['id']}: data package {package_id!r} is not defined")
 
+    suggested_check_ids = {
+        check["id"]
+        for guideline in model["guidelines"]
+        for check in guideline.get("tool", {}).get("suggested_checks", [])
+    }
     for precheck in model["prechecks"]:
+        if precheck["id"] not in suggested_check_ids:
+            errors.append(f"[prechecks] {precheck['id']}: id is not referenced by any guideline tool.suggested_checks")
         for guideline_id in precheck.get("related_guideline_ids", []):
             if guideline_id not in valid_guideline_ids:
                 errors.append(f"[prechecks] {precheck['id']}: guideline_id {guideline_id!r} is not defined")
@@ -158,7 +213,12 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
                     f"[schema] dist/ai_rule_export.jsonl line {line_number} {location}: {schema_error.message}"
                 )
     original_index = INDEX.read_text(encoding="utf-8")
-    errors.extend(_check_file_current(INDEX, render_index(original_index, model), "index.md"))
+    try:
+        expected_index = render_index(original_index, model)
+    except MarkerError as error:
+        errors.append(f"[generated] index.md: {error}")
+    else:
+        errors.extend(_check_file_current(INDEX, expected_index, "index.md"))
     for path, expected in build_coverage_outputs(model).items():
         errors.extend(_check_file_current(path, expected, str(path)))
     return errors
@@ -166,6 +226,13 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
 
 def main() -> int:
     errors = _validate_schemas()
+    if errors:
+        sys.stderr.write("Validation FAILED:\n")
+        for error in errors:
+            sys.stderr.write(f"  - {error}\n")
+        sys.stderr.write("\nSchema validation failed; skipped cross-reference and generated-output checks.\n")
+        sys.stderr.write(f"\n{len(errors)} error(s).\n")
+        return 1
     model = load_content_model()
     errors.extend(_validate_cross_references(model))
     errors.extend(_validate_generated(model))

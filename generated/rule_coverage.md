@@ -32,7 +32,7 @@
 
 ### AR.2
 
-- check_goal_has_children_but_no_strategy
+- check-explicit-strategy
 
 ### AR.3
 
@@ -64,7 +64,7 @@
 
 ### EV.1
 
-- check_no_evidence_path
+- check-evidence-trace
 
 ### EV.2
 
@@ -76,7 +76,7 @@
 
 ### EV.4
 
-- check_evidence_reference_too_broad
+- check-evidence-citation-precision
 
 ### EV.5
 
@@ -88,11 +88,11 @@
 
 ### EV.7
 
-- check_evidence_missing_control_attributes
+- check-evidence-control-attributes
 
 ### EV.8
 
-- check_live_mutable_evidence_reference
+- check-evidence-state-fixed
 
 ### EV.9
 
@@ -196,30 +196,26 @@
 
 ## Related guidelines by pre-check
 
-### Goal has children but no explicit strategy (`check_goal_has_children_but_no_strategy`)
+### Goal has children but no explicit strategy (`check-explicit-strategy`)
 
 - AR.2
 
-### No evidence path (`check_no_evidence_path`)
+### No evidence path (`check-evidence-trace`)
 
 - EV.1
 
-### Evidence reference too broad (`check_evidence_reference_too_broad`)
+### Evidence reference too broad (`check-evidence-citation-precision`)
 
 - EV.4
 
-### Evidence missing control attributes (`check_evidence_missing_control_attributes`)
+### Evidence missing control attributes (`check-evidence-control-attributes`)
 
 - EV.7
 
-### Live mutable evidence reference (`check_live_mutable_evidence_reference`)
+### Live mutable evidence reference (`check-evidence-state-fixed`)
 
 - EV.8
 
 ## Pre-checks not referenced by guideline tool metadata
 
-> WARNING: check_goal_has_children_but_no_strategy
-> WARNING: check_no_evidence_path
-> WARNING: check_evidence_reference_too_broad
-> WARNING: check_evidence_missing_control_attributes
-> WARNING: check_live_mutable_evidence_reference
+No unreferenced pre-checks.

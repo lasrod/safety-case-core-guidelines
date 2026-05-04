@@ -16,6 +16,10 @@ Q_BEGIN_MARK = "<!-- BEGIN GENERATED: quick-index -->"
 Q_END_MARK = "<!-- END GENERATED: quick-index -->"
 
 
+class MarkerError(ValueError):
+    pass
+
+
 def _load_model() -> dict:
     full_json = DIST / "sccg.full.json"
     if full_json.exists():
@@ -46,11 +50,10 @@ def _render_quick_index(model: dict) -> str:
 def _splice_between_markers(original: str, begin_mark: str, end_mark: str, generated: str) -> str:
     pattern = re.compile(rf"({re.escape(begin_mark)})(.*?)({re.escape(end_mark)})", re.DOTALL)
     if not pattern.search(original):
-        sys.stderr.write(
-            "ERROR: index.md does not contain generation markers.\n"
-            f"  Expected: {begin_mark} ... {end_mark}\n"
+        raise MarkerError(
+            "index.md does not contain generation markers. "
+            f"Expected: {begin_mark} ... {end_mark}"
         )
-        raise SystemExit(2)
     block = f"{begin_mark}\n{generated.rstrip()}\n{end_mark}"
     return pattern.sub(lambda _match: block, original, count=1)
 
@@ -66,7 +69,11 @@ def render_index(original: str, model: dict | None = None) -> str:
 
 def main() -> int:
     original = INDEX.read_text(encoding="utf-8")
-    updated = render_index(original)
+    try:
+        updated = render_index(original)
+    except MarkerError as error:
+        sys.stderr.write(f"ERROR: {error}\n")
+        return 2
     if write_if_changed(INDEX, updated):
         print(f"Updated {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
     else:

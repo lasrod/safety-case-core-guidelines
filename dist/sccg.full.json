@@ -2720,7 +2720,7 @@
         "CHILDREN",
         "STRATEGY"
       ],
-      "id": "check_goal_has_children_but_no_strategy",
+      "id": "check-explicit-strategy",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
         "AR.2"
@@ -2734,7 +2734,7 @@
         "SEL",
         "EVIDENCE_PATH"
       ],
-      "id": "check_no_evidence_path",
+      "id": "check-evidence-trace",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
         "EV.1"
@@ -2747,7 +2747,7 @@
       "expected_data": [
         "EVIDENCE_ITEM"
       ],
-      "id": "check_evidence_reference_too_broad",
+      "id": "check-evidence-citation-precision",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
         "EV.4"
@@ -2760,7 +2760,7 @@
       "expected_data": [
         "EVIDENCE_ITEM"
       ],
-      "id": "check_evidence_missing_control_attributes",
+      "id": "check-evidence-control-attributes",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
         "EV.7"
@@ -2773,7 +2773,7 @@
       "expected_data": [
         "EVIDENCE_ITEM"
       ],
-      "id": "check_live_mutable_evidence_reference",
+      "id": "check-evidence-state-fixed",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
         "EV.8"
@@ -2988,13 +2988,11 @@
       "description": "Reviews whether a strategy or reasoning step explains the inference between parent and supporting claims.",
       "display_name": "Strategy review",
       "guideline_ids": [
+        "AR.1",
         "AR.2",
         "AR.4",
         "AR.5",
-        "AR.8",
-        "AR.9",
-        "LF.1",
-        "LF.3"
+        "LF.1"
       ],
       "id": "strategy_review",
       "optional_data": [

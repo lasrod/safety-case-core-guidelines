@@ -19,7 +19,6 @@ GENERATED = ROOT / "generated"
 TEMPLATES = ROOT / "templates"
 INDEX = ROOT / "index.md"
 
-CATEGORY_ORDER = ["CL", "AR", "EV", "SU", "LF", "RD"]
 LEGACY_GUIDELINE_KEYS = {"guideline", "why", "example", "tool_guidance"}
 ID_RE = re.compile(r"^([A-Z]{2})\.(\d+)$")
 
@@ -54,20 +53,26 @@ def write_if_changed(path: Path, text: str) -> bool:
     return True
 
 
-def category_sort_key(category_id: str) -> tuple[int, str]:
+def category_order_from_id_scheme(id_scheme: list[dict[str, Any]] | None) -> list[str]:
+    if not id_scheme:
+        return []
+    return [entry["prefix"] for entry in id_scheme if isinstance(entry, dict) and entry.get("prefix")]
+
+
+def category_sort_key(category_id: str, category_order: list[str]) -> tuple[int, str]:
     try:
-        return (CATEGORY_ORDER.index(category_id), "")
+        return (category_order.index(category_id), "")
     except ValueError:
-        return (len(CATEGORY_ORDER), category_id)
+        return (len(category_order), category_id)
 
 
-def guideline_sort_key(guideline: dict[str, Any]) -> tuple[int, int, str]:
+def guideline_sort_key(guideline: dict[str, Any], category_order: list[str]) -> tuple[int, int, str]:
     guideline_id = guideline.get("id", "")
     match = ID_RE.match(guideline_id)
     if not match:
-        return (len(CATEGORY_ORDER), 0, guideline_id)
+        return (len(category_order), 0, guideline_id)
     category_id, suffix = match.groups()
-    return (category_sort_key(category_id)[0], int(suffix), guideline_id)
+    return (category_sort_key(category_id, category_order)[0], int(suffix), guideline_id)
 
 
 def slugify_anchor(text: str) -> str:
@@ -95,6 +100,7 @@ def load_content_model() -> dict[str, Any]:
     review_profiles = load_yaml(TOOL_SUPPORT_DIR / "review_profiles.yaml")
     data_packages = load_yaml(TOOL_SUPPORT_DIR / "data_packages.yaml")
     prechecks = load_yaml(TOOL_SUPPORT_DIR / "prechecks.yaml")
+    category_order = category_order_from_id_scheme(sccg.get("id_scheme"))
 
     categories: list[dict[str, Any]] = []
     guidelines: list[dict[str, Any]] = []
@@ -107,8 +113,8 @@ def load_content_model() -> dict[str, Any]:
         categories.append(category)
         guidelines.extend(category_document.get("guidelines", []))
 
-    categories.sort(key=lambda category: category_sort_key(category["id"]))
-    guidelines.sort(key=guideline_sort_key)
+    categories.sort(key=lambda category: category_sort_key(category["id"], category_order))
+    guidelines.sort(key=lambda guideline: guideline_sort_key(guideline, category_order))
 
     return {
         "schema_version": sccg["schema_version"],

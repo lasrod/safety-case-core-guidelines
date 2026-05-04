@@ -34,7 +34,12 @@ jobs:
 
       - name: Fail if generated files are out of sync
         run: |
-          if ! git diff --exit-code; then
+          untracked_files="$(git ls-files --others --exclude-standard)"
+          if ! git diff --exit-code || [ -n "$untracked_files" ]; then
+            if [ -n "$untracked_files" ]; then
+              echo "Untracked files detected:"
+              printf '%s\n' "$untracked_files"
+            fi
             echo ""
             echo "::error::Generated files are out of sync with authored content."
             echo "Run: python scripts/build_dist.py, python scripts/build_site.py, and python scripts/check_coverage.py, then commit the result."

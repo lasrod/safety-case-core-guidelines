@@ -6,6 +6,8 @@
   "required": [
     "schema_version",
     "sccg_version",
+    "id",
+    "category",
     "rule_id",
     "category_id",
     "title",
@@ -14,11 +16,16 @@
     "review_prompts",
     "examples",
     "references",
-    "tool"
+    "tool",
+    "reference_source_ids",
+    "review_profile_ids",
+    "data_package_ids"
   ],
   "properties": {
     "schema_version": { "const": "1.0.0" },
     "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+    "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
     "rule_id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
     "category_id": { "type": "string", "pattern": "^[A-Z]{2}$" },
     "title": { "type": "string", "minLength": 1 },
@@ -31,6 +38,18 @@
     },
     "examples": { "type": "object" },
     "references": { "type": "array" },
-    "tool": { "type": "object" }
+    "tool": { "type": "object" },
+    "reference_source_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "review_profile_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "data_package_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
   }
 }

@@ -78,13 +78,11 @@ review_profiles:
   - SACM ArgumentReasoning
   - CAE Argument
   guideline_ids:
+  - AR.1
   - AR.2
   - AR.4
   - AR.5
-  - AR.8
-  - AR.9
   - LF.1
-  - LF.3
   required_data:
   - SEL
   - PARENT

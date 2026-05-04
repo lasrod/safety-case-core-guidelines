@@ -33,13 +33,11 @@
 
 ### Strategy review (`strategy_review`)
 
+- AR.1
 - AR.2
 - AR.4
 - AR.5
-- AR.8
-- AR.9
 - LF.1
-- LF.3
 
 ### Evidence item review (`evidence_item_review`)
 
@@ -112,7 +110,7 @@
 
 ### AR.1
 
-- None
+- strategy_review
 
 ### AR.2
 
@@ -144,12 +142,10 @@
 
 ### AR.8
 
-- strategy_review
 - justification_review
 
 ### AR.9
 
-- strategy_review
 - justification_review
 
 ### EV.1
@@ -245,7 +241,6 @@
 
 ### LF.3
 
-- strategy_review
 - justification_review
 
 ### LF.4
@@ -291,7 +286,6 @@
 
 ## Guidelines not mapped to any review profile
 
-> WARNING: AR.1
 > WARNING: AR.6
 > WARNING: SU.1
 > WARNING: SU.4

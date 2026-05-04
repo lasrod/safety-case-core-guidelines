@@ -21,7 +21,7 @@
           "interpretation"
         ],
         "properties": {
-          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:[-_][a-z0-9]+)*$" },
           "display_name": { "type": "string", "minLength": 1 },
           "related_guideline_ids": {
             "type": "array",

@@ -20,6 +20,27 @@ def _compact_guideline(guideline: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _guideline_metadata(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any]:
+    review_profile_ids = [
+        profile["id"]
+        for profile in model["review_profiles"]
+        if guideline["id"] in profile.get("guideline_ids", [])
+    ]
+    data_package_ids = sorted(
+        {
+            package_id
+            for profile in model["review_profiles"]
+            if guideline["id"] in profile.get("guideline_ids", [])
+            for package_id in profile.get("required_data", []) + profile.get("optional_data", [])
+        }
+    )
+    return {
+        "reference_source_ids": [ref["source_id"] for ref in guideline.get("references", [])],
+        "review_profile_ids": review_profile_ids,
+        "data_package_ids": data_package_ids,
+    }
+
+
 def _rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema_version": model["schema_version"],
@@ -33,6 +54,7 @@ def _rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any
         "examples": guideline["examples"],
         "references": guideline["references"],
         "tool": guideline.get("tool", {}),
+        **_guideline_metadata(model, guideline),
     }
 
 
@@ -40,6 +62,8 @@ def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, 
     return {
         "schema_version": "1.0.0",
         "sccg_version": model["sccg_version"],
+        "id": guideline["id"],
+        "category": guideline["category"],
         "rule_id": guideline["id"],
         "category_id": guideline["category"],
         "title": guideline["title"],
@@ -49,6 +73,7 @@ def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, 
         "examples": guideline["examples"],
         "references": guideline["references"],
         "tool": guideline.get("tool", {}),
+        **_guideline_metadata(model, guideline),
     }
 
 
