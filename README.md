@@ -2,19 +2,52 @@
 
 Published site: https://lasrod.github.io/safety-case-core-guidelines/
 
-This repository contains the source for the Safety Case Core Guidelines.
+This repository contains the authored source, generated website page, and tool-facing distribution files for the Safety Case Core Guidelines (SCCG).
 
-## Authoritative source
+## Repository structure
 
-The canonical source of the guidelines is the structured data file:
+- [content/](content/) is the authored source of truth.
+- [dist/](dist/) contains generated files for tools and integrations.
+- [generated/](generated/) contains generated coverage reports.
+- [index.md](index.md) is the generated human-readable website page.
+- [schemas/](schemas/) contains JSON Schema contracts for authored content and exports.
+- [scripts/](scripts/) contains validation and build tooling.
 
-- [data/guidelines.yaml](data/guidelines.yaml)
+Do not edit generated files by hand. Edit [content/](content/) and regenerate outputs.
 
-The schema contract version is pinned via `schema_version` and currently must be `0.4.0`. Tooling consumers should treat a different value as incompatible until they explicitly add support.
+## Authored content
 
-The human-readable site page [index.md](index.md) is **generated** from that YAML between these marker blocks:
+The guideline source is split by responsibility:
 
-```
+- [content/sccg.yaml](content/sccg.yaml) contains document metadata, source policy, method guidance, ID scheme, and required section names.
+- [content/references.yaml](content/references.yaml) contains the reference source registry.
+- [content/guidelines/](content/guidelines/) contains one file per guideline category.
+- [content/tool_support/](content/tool_support/) contains review profiles, data packages, and deterministic pre-check metadata.
+
+Guideline entries use the current field names `statement`, `rationale`, `examples`, and `tool`. The older monolithic `data/guidelines.yaml` source has been removed; [content/](content/) is canonical.
+
+## Generated outputs
+
+Tool-facing files are generated into [dist/](dist/):
+
+- `sccg.full.json` and `sccg.full.yaml` contain the complete normalized model.
+- `sccg.compact.json` contains a smaller guideline-focused model.
+- `sccg.rules.jsonl` and `ai_rule_export.jsonl` provide one guideline per JSONL line.
+- `review_profiles.json`, `data_packages.json`, and `prechecks.json` expose tool-support registries.
+- `vectorstore_manifest.json` describes recommended files and chunking guidance.
+- `research_metadata.json` records deterministic counts and export metadata.
+
+Coverage reports are generated into [generated/](generated/):
+
+- `review_profile_coverage.md`
+- `data_package_coverage.md`
+- `rule_coverage.md`
+
+## Website generation
+
+The human-readable page [index.md](index.md) is generated between these marker blocks:
+
+```text
 <!-- BEGIN GENERATED: quick-index -->
 <!-- END GENERATED: quick-index -->
 
@@ -22,37 +55,40 @@ The human-readable site page [index.md](index.md) is **generated** from that YAM
 <!-- END GENERATED: guidelines -->
 ```
 
-Everything outside those markers (preamble, scope, how to use) is hand-maintained.
+Everything outside those markers remains hand-maintained. Generated anchors are stable and ID-based, for example `#cl1` for `CL.1`.
 
-Do not edit the generated section of `index.md` by hand. Edit `data/guidelines.yaml` instead and regenerate.
-
-## Tooling consumers
-
-Tools that build on these guidelines (linters, advisors, model prompts) should consume `data/guidelines.yaml` directly. The schema is defined in [schemas/guidelines.schema.json](schemas/guidelines.schema.json).
-
-Each guideline carries an optional `tool_guidance` block (applicable elements, detection hints, suggested checks, and a suggested AI prompt). This block is metadata for tooling and does not appear on the published site.
-
-References are authored in structured form (`references`) and rendered automatically. If a guideline needs source wording more specific than the canonical source name, set `references[].display_name` on that guideline reference entry.
-
-Generated guideline section anchors are stable and ID-based (for example `#cl1`), so link targets remain stable even if guideline titles are edited.
-
-## Regenerating the site page
+## Commands
 
 Requires Python 3.11+.
 
-```
+```bash
 pip install -r requirements.txt
-python scripts/validate_guidelines.py
-python scripts/generate_index.py
+python scripts/validate.py
+python scripts/build_dist.py
+python scripts/build_site.py
+python scripts/check_coverage.py
 ```
 
-The generator is idempotent. Running it twice on the same YAML produces the same `index.md`.
+For local edits, the usual flow is:
 
-CI runs both scripts and fails if `index.md` is not in sync with `data/guidelines.yaml`.
+```bash
+python scripts/build_dist.py
+python scripts/build_site.py
+python scripts/check_coverage.py
+python scripts/validate.py
+```
+
+CI runs the validation and generation commands and fails if generated files are not committed.
+
+## Tooling consumers
+
+Tools should consume [dist/](dist/) rather than the authored YAML unless they specifically need source-level authoring data. See [docs/tool-support.md](docs/tool-support.md), [docs/ai-integration.md](docs/ai-integration.md), [docs/review-profiles.md](docs/review-profiles.md), and [docs/prechecks.md](docs/prechecks.md).
+
+Schema details are summarized in [docs/schema-reference.md](docs/schema-reference.md).
 
 ## Contributing
 
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to contribute to this project.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidance.
 
 ## License
 

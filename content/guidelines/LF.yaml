@@ -1,0 +1,269 @@
+schema_version: 1.0.0
+category:
+  id: LF
+  title: LF. Logical fallacy rules
+  index_title: LF. Logical fallacy guidance
+  description: These guideline entries identify reasoning errors that weaken safety arguments. They are intended to support the development and review of safety cases by helping authors and reviewers examine whether claims, strategies, and evidence are argued soundly.
+guidelines:
+- id: LF.1
+  category: LF
+  title: Avoid circular reasoning
+  statement: Do not support a claim by restating it, renaming it, or assuming it in the support.
+  rationale: Circular support creates the appearance of argument without adding any new support.
+  review_prompts:
+  - Would the support still work if the parent claim were not assumed true?
+  - Is the same conclusion being repeated with different words?
+  examples:
+    bad: The system is acceptably safe because the safety case shows acceptable safety.
+    problem: The support restates the claim using different words; it provides no independent grounds for the conclusion.
+    good: The system is acceptably safe because hazards H1-H12 are mitigated by controls C1-C8, and the controls are verified by reports VR-01 to VR-08 against acceptance criteria AC-01 to AC-12.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(a)
+    - 5.3.3.2(a)
+    - 5.3.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Strategy
+    detection_hints:
+    - Look for support that restates or renames the parent claim.
+    suggested_checks:
+    - id: check-circular-support
+      description: Check whether support adds independent reasoning or merely restates the claim.
+- id: LF.2
+  category: LF
+  title: Avoid irrelevant premises
+  statement: Do not use evidence or supporting statements that may be true but do not support the immediate claim being made.
+  rationale: A common defect is to attach true or relevant material to the wrong claim, so the branch appears supported even though the actual inference is missing.
+  review_prompts:
+  - Does this evidence support this exact claim?
+  - Is the evidence only relevant to a different or neighboring claim?
+  - Is the missing support actually a different intermediate claim that has not been stated?
+  examples:
+    bad: |-
+      Claim: Brake fault handling is acceptable.
+      Evidence: Brake fault handling requirements are documented.
+    problem: Documented requirements may be necessary, but they do not by themselves show that brake fault handling is acceptable; the inferential link between requirements existing and acceptable fault handling is missing.
+    good: |-
+      Claim: Brake fault handling is acceptable.
+      Sub-claims:
+      - Brake fault handling requirements are correctly defined.
+      - Implemented brake fault handling satisfies the defined requirements.
+      Evidence:
+      - Brake fault handling requirements specification BRS-04.
+      - Brake fault handling verification report BVR-09.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(a)
+    - 5.3.3.2(a)
+    - 5.3.2.1(a)(1)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - GSN Goal
+    detection_hints:
+    - Look for evidence whose actual scope supports a different claim than the one it is attached to.
+    suggested_checks:
+    - id: check-evidence-relevance
+      description: Check whether each evidence item supports the immediate claim it is attached to.
+- id: LF.3
+  category: LF
+  title: Avoid arguing from ignorance
+  statement: Do not treat lack of discovered evidence against a claim as positive evidence for the claim.
+  rationale: Not finding a problem is not the same as showing that the problem does not exist. Claims about completeness or absence need support from the search basis, scope, and adequacy of the methods used.
+  review_prompts:
+  - Is not found being treated as does not exist?
+  - Is the claim really about completeness of the search, rather than absolute absence?
+  - Was the search for contrary evidence demonstrably adequate for the stated scope?
+  examples:
+    bad: |-
+      Claim: No other credible hazards exist.
+      Evidence: HARA report HAR-03.
+      Justification: The HARA identified all relevant hazards, and no further hazards were found.
+    problem: The branch treats absence of newly discovered hazards as proof that no other credible hazards exist, rather than as a bounded completeness claim about the search.
+    good: |-
+      Claim: Hazard identification is sufficiently complete for the defined scope.
+      Context: Applies to the defined item, ODD, and lifecycle scope.
+      Evidence:
+      - HARA report HAR-03.
+      - STPA report STP-02.
+      - Hazard review record HRR-07.
+      Justification: Complementary hazard identification methods and review coverage have been applied for the defined scope.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(a)
+    - 5.3.3.2(a)
+    - 5.4.2.3(a)
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Justification
+    detection_hints:
+    - Look for completeness or absence claims justified only by absence-of-finding.
+    suggested_checks:
+    - id: check-completeness-vs-absence
+      description: Check whether absence-based claims are reframed as bounded completeness claims with adequate search coverage.
+- id: LF.4
+  category: LF
+  title: Avoid unjustified comparison or unjustified distinction
+  statement: Do not claim that one case is equivalent to, safer than, better than, or different from another unless the basis of comparison or distinction is explicit and relevant to the claim being made.
+  rationale: Comparison-based arguments can look persuasive while hiding differences in scope, operating conditions, metrics, evidence quality, or confidence. Distinctions can also be misused to dismiss relevant comparators without showing why the difference matters.
+  review_prompts:
+  - What exactly is being compared or distinguished?
+  - Is the basis of comparison or distinction explicit?
+  - Are the compared cases matched in scope, operating conditions, metrics, and confidence level?
+  - If a difference is claimed, is it shown why that difference matters to the argument?
+  examples:
+    bad: |-
+      Claim: The autonomous vehicle is safer than a human driver.
+      Evidence: Simulation report SIM-09.
+      Justification: The autonomous vehicle had fewer simulated collisions than the human-driver baseline.
+    problem: The comparison may be unjustified if the simulation conditions, scenario coverage, driver model, metrics, and confidence are not shown to be appropriate and comparable.
+    good: |-
+      Claim: For the defined ODD and stated comparison metric, the autonomous vehicle has lower collision rate than the specified human-driver baseline.
+      Context: Comparison applies to ODD-A, metric M1, and baseline definition BD-02.
+      Evidence:
+      - Simulation report SIM-09.
+      - Baseline comparison report BCR-03.
+      - Scenario validity report SVR-04.
+      Justification: The compared cases use matched scope, scenarios, metrics, and confidence basis.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(a)
+    - 5.3.3.2(a)
+    - 5.3.3.2(c)
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Justification
+    detection_hints:
+    - Look for safer-than or different-from claims without an explicit basis of comparison.
+    suggested_checks:
+    - id: check-comparison-basis
+      description: Check whether comparisons or distinctions are matched in scope, conditions, metrics, and confidence.
+- id: LF.5
+  category: LF
+  title: Avoid sample-size and representativeness fallacies
+  statement: Do not generalize too far from too little data, or from data that does not match the operating context being claimed.
+  rationale: A small or skewed data set can support only a correspondingly narrow claim.
+  review_prompts:
+  - Is the sample size adequate for the confidence implied?
+  - Does the data distribution match the ODD and edge cases?
+  - Is the claim broader than the sample supports?
+  examples:
+    bad: |-
+      Claim: The item is acceptably safe across the defined ODD.
+      Evidence: Road test report RTR-05 covering 12 daylight highway runs in dry conditions.
+      Justification: No safety-critical events were observed during testing.
+    problem: The claim covers the full ODD, but the evidence covers only a small and narrow subset of operating conditions; the sample is too limited in size and representativeness to support the broader claim.
+    good: |-
+      Either narrow the claim:
+      Claim: The item is acceptably safe for the tested daytime highway subset of the ODD.
+      Context: Applies only to dry daytime highway operation under the conditions covered in RTR-05.
+      Evidence: Road test report RTR-05.
+
+      Or expand the evidence to match the broader claim:
+      Claim: The item is acceptably safe across the defined ODD.
+      Evidence:
+      - Road test report RTR-05.
+      - Night and weather test report NWT-03.
+      - Scenario coverage analysis SCA-04.
+      - Edge-case test report ETR-02.
+      Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.
+  references:
+  - source_id: Greenwell-2006
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - GSN Goal
+    detection_hints:
+    - Look for broad claims supported by narrow or small data sets.
+    suggested_checks:
+    - id: check-sample-coverage
+      description: Check whether sample size and representativeness match the breadth of the claim.
+- id: LF.6
+  category: LF
+  title: Avoid pseudo-precision
+  statement: Do not present numerical precision beyond what the evidence, model, assumptions, or method can justify.
+  rationale: A highly precise number can give a false impression of certainty. When uncertainty, confidence, model limits, or input assumptions are weak, the stated precision should reflect that.
+  review_prompts:
+  - Does the number imply a level of certainty the method cannot support?
+  - Are uncertainty, assumptions, and confidence bounds stated where needed?
+  - Is the stated precision greater than the quality of the underlying evidence or model?
+  - Would a rounded value or bounded statement better reflect the real knowledge state?
+  examples:
+    bad: |-
+      Claim: Residual collision risk is 3.742 x 10^-7 per hour.
+      Evidence: Quantitative risk analysis report QRA-05.
+    problem: The stated value suggests a level of certainty that may not be justified by the model assumptions, input data quality, scenario coverage, or confidence bounds.
+    good: |-
+      Claim: Residual collision risk is below the accepted threshold for the defined operating conditions.
+      Context: Applies under the assumptions and scenario scope defined in QRA-05.
+      Evidence: Quantitative risk analysis report QRA-05.
+      Justification: The result is reported with precision consistent with model uncertainty and stated confidence.
+
+      Or, where a numeric claim is still appropriate:
+      Claim: Residual collision risk is estimated to be on the order of 10^-7 per hour for the defined operating conditions.
+      Context: Estimate is subject to the assumptions, uncertainty, and confidence limits stated in QRA-05.
+      Evidence: Quantitative risk analysis report QRA-05.
+  references:
+  - source_id: Greenwell-2006
+  tool:
+    applicable_elements:
+    - GSN Goal
+    detection_hints:
+    - Look for many-significant-digit numerical claims without uncertainty or confidence statement.
+    suggested_checks:
+    - id: check-stated-precision
+      description: Check whether numerical precision is consistent with model and data uncertainty.
+- id: LF.7
+  category: LF
+  title: Avoid omission of key evidence and ignoring counter-evidence
+  statement: Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
+  rationale: A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
+  review_prompts:
+  - What evidence would a critical reviewer reasonably expect to see for this claim?
+  - Is any known anomaly, failure, exclusion, or limitation being left unaddressed?
+  - Does the omitted material affect the meaning, scope, or credibility of the claim?
+  - Is contrary evidence explicitly addressed rather than silently ignored?
+  examples:
+    bad: |-
+      Claim: Sensor robustness is acceptable.
+      Evidence: Sensor performance test report SPR-08.
+      Justification: The reported test results show robust detection performance.
+    problem: The branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
+    good: |-
+      Claim: Sensor robustness is acceptable for the defined conditions.
+      Evidence:
+      - Sensor performance test report SPR-08.
+      - Obscuration test report OTR-03.
+      - Environmental degradation test report EDR-05.
+      Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
+
+      Or, if contrary evidence exists, scope it:
+      Claim: Sensor robustness is acceptable for the defined conditions.
+      Evidence:
+      - Sensor performance test report SPR-08.
+      - Environmental degradation anomaly review EAR-02.
+      Context: Claim excludes heavy mud obscuration beyond the tested condition range.
+      Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
+  references:
+  - source_id: Greenwell-2006
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - GSN Goal
+    detection_hints:
+    - Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence.
+    suggested_checks:
+    - id: check-counter-evidence-treatment
+      description: Check whether known limiting or contrary evidence is addressed or scoped out.

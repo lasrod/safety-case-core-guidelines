@@ -1,0 +1,74 @@
+{
+  "prechecks": [
+    {
+      "description": "Detects candidate cases where a claim is decomposed without an explicit reasoning step.",
+      "display_name": "Goal has children but no explicit strategy",
+      "expected_data": [
+        "SEL",
+        "CHILDREN",
+        "STRATEGY"
+      ],
+      "id": "check_goal_has_children_but_no_strategy",
+      "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
+      "related_guideline_ids": [
+        "AR.2"
+      ],
+      "result_type": "boolean_candidate"
+    },
+    {
+      "description": "Detects candidate cases where a claim has no path to evidence and is not intentionally undeveloped.",
+      "display_name": "No evidence path",
+      "expected_data": [
+        "SEL",
+        "EVIDENCE_PATH"
+      ],
+      "id": "check_no_evidence_path",
+      "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
+      "related_guideline_ids": [
+        "EV.1"
+      ],
+      "result_type": "boolean_candidate"
+    },
+    {
+      "description": "Detects candidate cases where a solution cites a broad artifact without precise location.",
+      "display_name": "Evidence reference too broad",
+      "expected_data": [
+        "EVIDENCE_ITEM"
+      ],
+      "id": "check_evidence_reference_too_broad",
+      "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
+      "related_guideline_ids": [
+        "EV.4"
+      ],
+      "result_type": "boolean_candidate"
+    },
+    {
+      "description": "Detects evidence references without useful control attributes such as owner, version, status, date, or location.",
+      "display_name": "Evidence missing control attributes",
+      "expected_data": [
+        "EVIDENCE_ITEM"
+      ],
+      "id": "check_evidence_missing_control_attributes",
+      "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
+      "related_guideline_ids": [
+        "EV.7"
+      ],
+      "result_type": "missing_fields"
+    },
+    {
+      "description": "Detects evidence references that appear to point to mutable live documents without a fixed version.",
+      "display_name": "Live mutable evidence reference",
+      "expected_data": [
+        "EVIDENCE_ITEM"
+      ],
+      "id": "check_live_mutable_evidence_reference",
+      "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
+      "related_guideline_ids": [
+        "EV.8"
+      ],
+      "result_type": "boolean_candidate"
+    }
+  ],
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}

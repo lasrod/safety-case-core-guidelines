@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SCCG AI rule export row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sccg_version",
+    "rule_id",
+    "category_id",
+    "title",
+    "statement",
+    "rationale",
+    "review_prompts",
+    "examples",
+    "references",
+    "tool"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "rule_id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+    "category_id": { "type": "string", "pattern": "^[A-Z]{2}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "statement": { "type": "string", "minLength": 1 },
+    "rationale": { "type": "string", "minLength": 1 },
+    "review_prompts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "examples": { "type": "object" },
+    "references": { "type": "array" },
+    "tool": { "type": "object" }
+  }
+}

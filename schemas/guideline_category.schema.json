@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SCCG guideline category",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "category", "guidelines"],
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "category": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "index_title", "description"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "index_title": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] }
+      }
+    },
+    "guidelines": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/guideline" }
+    }
+  },
+  "definitions": {
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id"],
+      "properties": {
+        "source_id": { "type": "string", "minLength": 1 },
+        "display_name": { "type": "string", "minLength": 1 },
+        "clauses": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "examples": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bad", "problem", "good"],
+      "properties": {
+        "bad": { "type": "string", "minLength": 1 },
+        "problem": { "type": "string", "minLength": 1 },
+        "good": { "type": "string", "minLength": 1 }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "applicable_elements": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "detection_hints": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "suggested_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "description"],
+            "properties": {
+              "id": { "type": "string", "minLength": 1 },
+              "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "guideline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "title",
+        "statement",
+        "rationale",
+        "review_prompts",
+        "examples",
+        "references"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+        "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "title": { "type": "string", "minLength": 1 },
+        "statement": { "type": "string", "minLength": 1 },
+        "rationale": { "type": "string", "minLength": 1 },
+        "review_prompts": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "examples": { "$ref": "#/definitions/examples" },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/reference" }
+        },
+        "tool": { "$ref": "#/definitions/tool" }
+      },
+      "not": {
+        "anyOf": [
+          { "required": ["guideline"] },
+          { "required": ["why"] },
+          { "required": ["example"] },
+          { "required": ["tool_guidance"] }
+        ]
+      }
+    }
+  }
+}

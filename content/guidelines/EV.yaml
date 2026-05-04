@@ -1,0 +1,332 @@
+schema_version: 1.0.0
+category:
+  id: EV
+  title: EV. Evidence rules
+  index_title: EV. Evidence guidance
+  description: null
+guidelines:
+- id: EV.1
+  category: EV
+  title: Make the evidence-support path explicit for every claim
+  statement: Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments.
+  rationale: A safety case without traceability cannot be effectively reviewed or maintained.
+  review_prompts:
+  - Can the reviewer identify the intended evidence path without having to infer it?
+  - Is it clear which evidence path ultimately supports this claim?
+  - Would two reviewers follow the same trace to the same evidence?
+  examples:
+    bad: |-
+      Claim: Detection timing is acceptable.
+      Linked solution: System validation report.
+    problem: The reviewer cannot tell which test, section, or lower-level argument is intended to show that detection timing is acceptable. The trace exists only in the author's head.
+    good: |-
+      Claim: Detection timing is acceptable.
+      Sub-claim: Detection latency meets acceptance criterion AC-DET-07 for scenarios S1-S12.
+      Solution: System validation report SVR-04, section 6.3, table 12 (scenarios S1-S12).
+  references:
+  - source_id: ONR
+  - source_id: UNECE-ADS
+  - source_id: UL4600
+    clauses:
+    - 5.4.1.1(a)
+    - 5.4.1.6.1
+  - source_id: GSN-v3
+    clauses:
+    - 2:3.7.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for claims with no traceable path to evidence.
+    - Look for solutions linked to claims without intermediate sub-claims when needed.
+    suggested_checks:
+    - id: check-evidence-trace
+      description: Check whether each claim has an explicit evidence path through sub-claims or direct solutions.
+- id: EV.2
+  category: EV
+  title: Use evidence types that can be independently reviewed
+  statement: Do not use evidence unless its artifact type is defined for safety case use and the artifact meets the criteria required for that type, so that it can be reviewed and assessed consistently.
+  rationale: A reviewer should be able to recognize what kind of evidence is being used, what makes it acceptable for this purpose, and how it should be interpreted. If an artifact is not an approved evidence type, or does not meet the criteria required for that type, it becomes difficult to review consistently and easy to misuse in a safety argument.
+  review_prompts:
+  - Is the evidence type clearly defined?
+  - Is the expected structure or content of the artifact defined?
+  - Is it clear how the artifact is to be interpreted?
+  - Is there a defined basis for reviewing, validating, or accepting this evidence type?
+  - Could an independent reviewer examine the artifact consistently without relying on undocumented local knowledge?
+  examples:
+    bad: |-
+      Claim: Perception validation evidence is sufficient for this claim.
+      Evidence: Engineer working file WF-27.
+    problem: WF-27 is an engineer working file, not an approved evidence type for this claim. The reviewer cannot tell how to assess it.
+    good: |-
+      Claim: Perception validation evidence is sufficient for this claim.
+      Evidence: Perception validation report PVR-08, rev B.
+      Evidence type: A validation report is an approved evidence type for this kind of claim.
+      Evidence basis: PVR-08 meets the defined criteria for that evidence type.
+  references:
+  - source_id: Weaver
+  - source_id: Hawkins
+  - source_id: CAE-Concepts
+  - source_id: UL4600
+    clauses:
+    - 5.2.2
+    - 5.2.2.1(a)-(b)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for evidence references to ad-hoc or working artifacts (working file, draft notes).
+    suggested_checks:
+    - id: check-evidence-type-defined
+      description: Check whether the evidence type is defined and the artifact meets the type's criteria.
+- id: EV.3
+  category: EV
+  title: Claim the fact supported by the evidence, not the document
+  statement: Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion.
+  rationale: Evidence usually supports a specific fact or bounded property, not the whole safety conclusion by itself.
+  review_prompts:
+  - Is the goal naming a document instead of a supported property?
+  - Is the evidential link too large for the cited artifact?
+  - Would the claim remain meaningful if the artifact name changed?
+  examples:
+    bad: TR-21 proves the braking controller is safe.
+    problem: A test report supports a specific bounded property, not a whole safety conclusion; making the document the subject of the claim overreaches what the cited artifact can show.
+    good: Braking controller stopping distance meets acceptance criterion AC-BRK-04.
+  references:
+  - source_id: UL4600
+    clauses:
+    - 5.4.2.1(c)(1)
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.3.4
+    - 2:3.7.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    detection_hints:
+    - Look for claim text that names a report, document, or analysis as the subject.
+    suggested_checks:
+    - id: check-claim-subject-not-document
+      description: Check whether the claim subject is a property rather than a document.
+- id: EV.4
+  category: EV
+  title: Cite precise evidence locations; avoid annex dumping
+  statement: Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical.
+  rationale: Broad references to whole reports create the illusion of support without making the evidential link easy to review.
+  review_prompts:
+  - Could a reviewer find the relevant support quickly?
+  - Is the cited location precise enough?
+  - Is the reference proportionate to the actual support being used?
+  examples:
+    bad: See validation report.
+    problem: A whole-report citation creates the appearance of support without making the evidential link easy to review; the reviewer cannot find the relevant material quickly.
+    good: See validation report VR-04, section 6.3, table 12, scenarios S14-S21.
+  references:
+  - source_id: ONR
+  - source_id: UNECE-ADS
+  - source_id: UL4600
+    clauses:
+    - 5.4.1.1(a)
+    - 5.4.2.1(c)(1)
+  - source_id: GSN-v3
+    clauses:
+    - 2:3.7.4
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for evidence references that name an entire report without section/table/figure.
+    suggested_checks:
+    - id: check-evidence-citation-precision
+      description: Check whether evidence references are specific enough to be quickly verified.
+- id: EV.5
+  category: EV
+  title: Make the basis for evidence sufficiency explicit
+  statement: When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
+  rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
+  review_prompts:
+  - What makes this evidence enough for this claim?
+  - Is the required scope, configuration, scenario set, or operating condition clear?
+  - Is any threshold, pass criterion, or completeness expectation stated?
+  - Are known limitations or uncovered conditions explicit?
+  - Is the branch showing only that the evidence is relevant, or also that it is enough?
+  examples:
+    bad: |-
+      Claim: Perception performance is acceptable.
+      Evidence: Perception validation report PVR-08.
+    problem: The report is cited, but the argument does not state what coverage, thresholds, configurations, or limitations make that report sufficient for this claim.
+    good: |-
+      Claim: Perception performance is acceptable for ODD-A daytime operation.
+      Evidence: Perception validation report PVR-08.
+      Context: Applies to software build SB-14 and sensor configuration C3.
+      Justification: Sufficiency is based on scenario coverage SC-21, acceptance thresholds AC-PER-04 to AC-PER-07, and the stated exclusion of dense fog conditions.
+  references:
+  - source_id: Weaver
+  - source_id: Hawkins
+  - source_id: CAE-Concepts
+  - source_id: UL4600
+    clauses:
+    - 5.4.2.1(b)-(c)
+    - 5.3.2.1(a)(1)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - GSN Justification
+    detection_hints:
+    - Look for evidence cited without scope, threshold, or coverage justification.
+    suggested_checks:
+    - id: check-evidence-sufficiency-basis
+      description: Check whether the basis for evidence sufficiency is explicit.
+- id: EV.6
+  category: EV
+  title: Explain how the evidence supports or refutes the claim
+  statement: Ensure the inferential link between claim and evidence is explicitly documented and reviewable. The documentation shall explain how the cited evidence supports the claim, and where relevant how it reveals limitations or possible refutation.
+  rationale: Evidence does not speak for itself. The safety case or linked assessment record must explain why the evidence bears on the claim.
+  review_prompts:
+  - Is it explicit why this evidence matters for this claim?
+  - Is the inferential link documented in a reviewable form?
+  - Does the documentation explain only support, or also limitations and possible refutation?
+  - Has confirmation bias been considered?
+  examples:
+    bad: |-
+      Claim: Detection timing meets acceptance criterion AC-DET-07.
+      Solution: Timing test report TR-18, section 5.2.
+    problem: The evidence is linked, but the reason it supports the claim is not explicitly documented anywhere reviewable; relevance, coverage, and limitations remain implicit.
+    good: |-
+      Claim: Detection timing meets acceptance criterion AC-DET-07.
+      Solution: Timing test report TR-18, section 5.2.
+      Inferential explanation: TR-18 shows measured detection latency below AC-DET-07 for scenarios S1-S12 in configuration C4. This supports the claim for that scenario set and configuration. Degraded sensor mode D3 is not covered and remains outside the supported scope.
+  references:
+  - source_id: Weaver
+  - source_id: Hawkins
+  - source_id: CAE-Concepts
+  - source_id: UL4600
+    clauses:
+    - 5.4.2.1(c)(1)-(2)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for evidence linked to claims without an accompanying inferential explanation.
+    suggested_checks:
+    - id: check-inferential-link-documented
+      description: Check whether the inferential link between claim and evidence is reviewable.
+- id: EV.7
+  category: EV
+  title: 'Keep evidence controlled: owner, version, date, status, repository'
+  statement: Evidence cited in the safety case should be under configuration or document control, with clear ownership, version or revision, date, status, and a stable retrieval location. Do not rely on mutable live documents as evidence unless the cited version is fixed or the change process explicitly triggers re-assessment of the affected claim.
+  rationale: Uncontrolled or mutable evidence is hard to verify, maintain, and re-assess. If a cited artifact can change after review, the argument may silently lose validity while still appearing supported.
+  review_prompts:
+  - Who owns the evidence?
+  - Which version or revision is being cited?
+  - Is the evidence retrieved from a controlled location?
+  - Is the cited artifact fixed, or can it still change?
+  - If it is a live document, is there an explicit mechanism that re-assesses affected claims when the document changes?
+  - Is its status clear, for example draft, in review, approved, or released?
+  examples:
+    bad: 'Evidence: Test summary on team wiki.'
+    problem: The cited source has no fixed revision, no clear approval state, and no stable retrieval point for future review; the argument may silently lose validity if the page changes.
+    good: 'Evidence: Test summary TSR-11, rev D, approved 2026-03-14, owner Safety Validation Team, stored in the controlled evidence repository.'
+  references:
+  - source_id: RA1205
+  - source_id: ONR
+  - source_id: AVSC-CSE
+    clauses:
+    - '3.8'
+    - '6.1'
+    - Table 2
+  - source_id: UL4600
+    clauses:
+    - 5.2.2
+    - 5.4.2.1(b)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for evidence references with no version, date, owner, or controlled location.
+    suggested_checks:
+    - id: check-evidence-control-attributes
+      description: Check whether each evidence reference includes owner, version, date, status, and stable location (directly or via linked control mechanism).
+- id: EV.8
+  category: EV
+  title: Cite fixed evidence, not live mutable content
+  statement: Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content.
+  rationale: This rule is the specific citation case of EV.7. If cited evidence can change after review, the safety case may appear supported while its actual evidential basis has changed or disappeared. This breaks reproducibility, reviewability, and configuration control.
+  review_prompts:
+  - Could this cited content change without the safety case being updated?
+  - Is the cited state fixed, versioned, or archived?
+  - Can a future reviewer retrieve the exact same content that was reviewed?
+  - If the source is live, is there an explicit process that triggers re-assessment of affected claims when it changes?
+  examples:
+    bad: See braking verification page in Confluence.
+    problem: The cited page is mutable; future reviewers cannot retrieve the same content that was originally reviewed, which breaks reproducibility and configuration control.
+    good: |-
+      See Braking Verification Plan BVP-04, rev C, approved 2026-03-11.
+
+      Or, equivalently: See archived snapshot of Confluence page CP-118, version 17, captured 2026-03-11.
+  references:
+  - source_id: RA1205
+  - source_id: ONR
+  - source_id: AVSC-CSE
+    clauses:
+    - '3.8'
+    - '6.1'
+    - Table 2
+  - source_id: UL4600
+    clauses:
+    - 5.1.1.1(b)-(c)
+    - 5.2.2
+    - 5.4.1.1(a)
+  tool:
+    applicable_elements:
+    - GSN Solution
+    - CAE Evidence
+    detection_hints:
+    - Look for citations to wikis, live shared docs, or other mutable URLs without a fixed version or snapshot.
+    suggested_checks:
+    - id: check-evidence-state-fixed
+      description: Check whether the cited content state is fixed, versioned, or archived.
+- id: EV.9
+  category: EV
+  title: Do not argue directly from undocumented system knowledge
+  statement: Do not support claims by relying on undocumented engineering knowledge, design understanding, or verbal explanation. Claims about system behavior, design, interfaces, mitigations, or operating limits should be grounded in controlled documentation or other identified evidence.
+  rationale: A safety case should argue from reviewable evidence, not from what engineers happen to know. When system knowledge is written directly into the safety case without a supporting source, the argument becomes hard to verify, hard to maintain, and difficult to assess for completeness. It also becomes unclear whether the claim is supported by an approved design basis or only by current team understanding.
+  review_prompts:
+  - Is this claim supported by controlled documentation or other identified evidence?
+  - Is the safety case describing how the system works instead of arguing from documented sources?
+  - Would the claim still be supportable if the original engineer were unavailable?
+  - Should this material be moved to a specification, design description, interface definition, hazard analysis, or other work product and then cited as evidence?
+  examples:
+    bad: |-
+      Claim: Unsafe torque requests are prevented during degraded localization.
+      The safety case includes a free-text explanation of the controller behavior, but the relevant design basis is not identified through context and no supporting artifacts are linked.
+    problem: The claim relies on undocumented system knowledge instead of controlled artifacts.
+    good: |-
+      Claim: Unsafe torque requests are prevented during degraded localization.
+      Design basis: Braking control design specification BCS-02, degraded-mode requirements DMR-04, and interface definition IFD-07.
+      Evidence: Verification report VFR-11 shows that the specified behavior is implemented and verified.
+  references:
+  - source_id: UL4600
+    clauses:
+    - 5.1.1.2(e)
+    - 5.3.2.1(a)(2)
+    - 5.7.1.6.1
+  - source_id: GSN-v3
+    clauses:
+    - 2:3.7.3
+  - source_id: CAE
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Strategy
+    detection_hints:
+    - Look for free-text design explanations in the safety case without linked specification or evidence.
+    suggested_checks:
+    - id: check-undocumented-knowledge
+      description: Check whether the argument relies on undocumented system knowledge rather than cited artifacts.

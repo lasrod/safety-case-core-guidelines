@@ -1,0 +1,113 @@
+schema_version: 1.0.0
+data_packages:
+- id: SEL
+  display_name: Selected element
+  description: The selected assurance-case element being reviewed.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - role
+  - status
+  - undeveloped
+  - tags
+  - notes
+- id: PARENT
+  display_name: Parent element
+  description: The immediate parent claim, goal, strategy, or reasoning element.
+  required_fields: []
+  optional_fields:
+  - parent_id
+  - parent_type
+  - parent_text
+  - relationship_type
+- id: CHILDREN
+  display_name: Child elements
+  description: Immediate supporting claims, strategies, solutions, or evidence links.
+  required_fields: []
+  optional_fields:
+  - child_elements
+  - relationship_types
+- id: DIRECT_CONTEXT
+  display_name: Direct context
+  description: Context, assumptions, and justifications directly attached to the selected element.
+  required_fields: []
+  optional_fields:
+  - context_elements
+  - assumptions
+  - justifications
+- id: INHERITED_CONTEXT
+  display_name: Inherited context
+  description: Context and assumptions inherited from ancestor elements.
+  required_fields: []
+  optional_fields:
+  - ancestor_context
+  - ancestor_assumptions
+- id: STRATEGY
+  display_name: Strategy
+  description: The strategy or reasoning element connecting a parent claim to supporting claims.
+  required_fields: []
+  optional_fields:
+  - strategy_id
+  - strategy_text
+  - strategy_context
+- id: EVIDENCE_ITEM
+  display_name: Evidence item
+  description: Metadata for a selected evidence artifact or evidence reference.
+  required_fields: []
+  optional_fields:
+  - evidence_id
+  - evidence_text
+  - artifact_type
+  - owner
+  - version
+  - status
+  - date
+  - location
+  - cited_section
+- id: EVIDENCE_PATH
+  display_name: Evidence path
+  description: Path from a selected claim to descendant evidence.
+  required_fields: []
+  optional_fields:
+  - path_elements
+  - evidence_items
+- id: EVIDENCE_BASIS
+  display_name: Evidence basis
+  description: Information used to judge whether evidence is sufficient for the claim.
+  required_fields: []
+  optional_fields:
+  - acceptance_criteria
+  - coverage
+  - thresholds
+  - scenario_set
+  - configuration
+  - limitations
+- id: PROJECT_GLOSSARY
+  display_name: Project glossary
+  description: Relevant project terms and definitions.
+  required_fields: []
+  optional_fields:
+  - terms
+- id: STANDARD_LINKS
+  display_name: Standard links
+  description: Linked external standard requirements or guidance references.
+  required_fields: []
+  optional_fields:
+  - linked_requirements
+- id: CHANGE_HISTORY
+  display_name: Change history
+  description: Relevant review comments, prior findings, proposal history, and baseline or version state.
+  required_fields: []
+  optional_fields:
+  - review_comments
+  - prior_findings
+  - proposal_history
+  - baseline
+- id: USER_REVIEW_INTENT
+  display_name: User review intent
+  description: Optional user-provided review concern or focus.
+  required_fields: []
+  optional_fields:
+  - review_intent

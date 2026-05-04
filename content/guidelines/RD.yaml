@@ -1,0 +1,207 @@
+schema_version: 1.0.0
+category:
+  id: RD
+  title: RD. Rhetorical device rules
+  index_title: RD. Rhetorical device guidance
+  description: These guideline entries identify presentation choices that affect how safety arguments are understood and reviewed. They help distinguish between wording that improves clarity and wording that increases confidence without increasing support.
+guidelines:
+- id: RD.1
+  category: RD
+  title: Use explicit signposting of argument element roles
+  statement: Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification.
+  rationale: Review becomes harder when the reader must infer the role of a statement. Clear signposting reduces confusion between argument elements and makes the structure easier to inspect.
+  review_prompts:
+  - Is the reader forced to infer the role of the statement?
+  - Are claims, context, assumptions, and justifications mixed together?
+  - Is evidence clearly identifiable as evidence rather than explanation or claim text?
+  examples:
+    bad: The braking controller is safe in automated mode with valid localization because tests passed.
+    problem: The sentence mixes claim, context, assumption, and evidential reasoning in one statement; the reader must infer the role of each part.
+    good: |-
+      Claim: Braking controller safety is acceptable.
+      Scope: Applies in automated mode.
+      Dependency: Valid localization is available.
+      Evidence: Brake controller verification report BVR-09.
+      Reasoning: The cited verification evidence is relevant to the defined operating conditions.
+  references:
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(b)
+    - 5.3.3.2(b)
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.2.10-1:2.2.19
+    - 1:2.3.2-1:2.3.6
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Context
+    - GSN Assumption
+    - GSN Solution
+    - GSN Justification
+    detection_hints:
+    - Look for prose statements that mix claim, context, assumption, and evidence in one sentence.
+    suggested_checks:
+    - id: check-element-signposting
+      description: Check whether each statement is clearly signposted with its argument element role.
+- id: RD.2
+  category: RD
+  title: Use scoped claims and qualified confidence language
+  statement: State the operating scope and use confidence language that reflects the actual support and any open issues.
+  rationale: Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.
+  review_prompts:
+  - Is the scope of the claim explicit?
+  - Is unresolved uncertainty visible?
+  - Does the wording overstate closure?
+  - Does the confidence language match the actual support?
+  examples:
+    bad: The item is safe.
+    problem: The claim has no operating scope and uses absolute confidence language; it overstates closure and hides any unresolved uncertainty.
+    good: The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior.
+  references:
+  - source_id: UL4600
+    clauses:
+    - 5.3.3.1(b)
+    - 5.3.3.2(b)
+    - 5.2.3.3(d)
+  tool:
+    applicable_elements:
+    - GSN Goal
+    detection_hints:
+    - Look for unscoped claims using absolute confidence language (is safe, is correct).
+    suggested_checks:
+    - id: check-scope-and-confidence-language
+      description: Check whether claims state operating scope and use confidence language matched to actual support.
+- id: RD.3
+  category: RD
+  title: Make limitations, objections, and responses explicit
+  statement: Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
+  rationale: A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
+  review_prompts:
+  - Are important limitations visible at the point where they affect the claim?
+  - Are plausible objections or challenges addressed explicitly?
+  - Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?
+  examples:
+    bad: |-
+      Claim: Perception robustness is acceptable.
+      Evidence:
+      - Simulation report SIM-04.
+      - Road test report RTR-07.
+    problem: The branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
+    good: |-
+      Claim: Perception robustness is acceptable for the defined visible-object conditions.
+      Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
+      Evidence:
+      - Simulation report SIM-04.
+      - Road test report RTR-07.
+      Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
+
+      Or, if the objection is addressed rather than excluded:
+      Evidence: Occlusion test report OTR-03.
+      Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
+  references:
+  - source_id: CAE-Review
+  - source_id: CAE-Defeaters
+  - source_id: RA1205
+  - source_id: ONR
+  - source_id: EASA
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Context
+    - GSN Open Issue
+    detection_hints:
+    - Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage.
+    suggested_checks:
+    - id: check-limitations-visible
+      description: Check whether known limitations and objections are visible at the point of the affected claim.
+- id: RD.4
+  category: RD
+  title: Avoid promotional and inflated language
+  statement: Do not use promotional, boastful, or image-enhancing language in the safety case.
+  rationale: Safety arguments should build confidence through explicit claims, reasoning, and evidence, not through language intended to impress the reader.
+  review_prompts:
+  - Does the wording sound promotional rather than argumentative?
+  - Would the sentence lose nothing important if the praise-like wording were removed?
+  - Is the wording trying to create confidence through tone rather than support?
+  examples:
+    bad: A world-class, cutting-edge safety architecture delivers outstanding assurance.
+    problem: The wording uses promotional adjectives intended to impress the reader rather than to make a reviewable claim; removing the promotional language would lose nothing argumentative.
+    good: The architecture prevents hazardous actuation for fault classes F1-F4 under assumptions A1-A3.
+  references:
+  - source_id: CAE
+  - source_id: OMG-SACM
+  - source_id: EASA
+  - source_id: RA1205
+  tool:
+    applicable_elements:
+    - GSN Goal
+    detection_hints:
+    - Look for promotional adjectives such as world-class, cutting-edge, outstanding, best-in-class.
+    suggested_checks:
+    - id: check-promotional-language
+      description: Check whether claims use promotional or image-enhancing language.
+- id: RD.5
+  category: RD
+  title: Avoid passive voice when it hides agency
+  statement: Do not use passive wording when the identity of the actor matters to understanding, reviewing, or challenging the argument.
+  rationale: When a review, judgment, approval, or decision is stated without naming who performed it, accountability becomes harder to inspect and challenge.
+  review_prompts:
+  - Who performed the review, judgment, or approval?
+  - Does the wording hide who is responsible?
+  - Would naming the actor improve traceability or auditability?
+  examples:
+    bad: It was determined that the claim is adequately supported.
+    problem: The passive wording hides who performed the determination; the reviewer cannot identify the responsible actor or hold the judgment to account.
+    good: Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the claim is adequately supported.
+  references:
+  - source_id: RA1205
+  - source_id: HSE
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Justification
+    detection_hints:
+    - Look for it was determined / has been reviewed / is considered without a named actor.
+    suggested_checks:
+    - id: check-active-voice-with-actor
+      description: Check whether reviews, judgments, and approvals name the responsible actor.
+- id: RD.6
+  category: RD
+  title: Do not bury important limitations or hidden assumptions
+  statement: Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
+  rationale: A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
+  review_prompts:
+  - Is an important limitation easy to miss?
+  - Is an important assumption stated explicitly as an assumption, or only implied elsewhere?
+  - Would a reviewer be misled by reading only the main branch?
+  - Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?
+  examples:
+    bad: |-
+      Claim: Perception robustness is acceptable.
+      Evidence: Perception validation report PVR-08.
+      A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
+    problem: The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
+    good: |-
+      Claim: Perception robustness is acceptable for the validated visibility conditions.
+      Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
+      Evidence: Perception validation report PVR-08.
+
+      Or, where the dependency is really an assumption:
+      Claim: Perception robustness is acceptable.
+      Assumption: Visibility conditions remain within the validated range defined in PVR-08.
+      Evidence: Perception validation report PVR-08.
+  references:
+  - source_id: CAE-Defeaters
+  - source_id: RA1205
+  - source_id: UNECE-ADS
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - GSN Context
+    - GSN Assumption
+    detection_hints:
+    - Look for important limiting conditions stated only in appendices or distant free text.
+    suggested_checks:
+    - id: check-limitations-collocated
+      description: Check whether important limitations and assumptions are visible where the claim is read.

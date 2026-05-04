@@ -1,4 +1,4 @@
-name: Validate and check index.md sync
+name: Validate and check generated outputs
 
 on:
   push:
@@ -20,17 +20,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Validate guidelines.yaml
-        run: python scripts/validate_guidelines.py
+      - name: Validate authored content and generated outputs
+        run: python scripts/validate.py
 
-      - name: Regenerate index.md
-        run: python scripts/generate_index.py
+      - name: Build distribution files
+        run: python scripts/build_dist.py
 
-      - name: Fail if index.md is out of sync with data/guidelines.yaml
+      - name: Build site page
+        run: python scripts/build_site.py
+
+      - name: Build coverage reports
+        run: python scripts/check_coverage.py
+
+      - name: Fail if generated files are out of sync
         run: |
-          if ! git diff --exit-code -- index.md; then
+          if ! git diff --exit-code; then
             echo ""
-            echo "::error::index.md is out of sync with data/guidelines.yaml."
-            echo "Run: python scripts/generate_index.py and commit the result."
+            echo "::error::Generated files are out of sync with authored content."
+            echo "Run: python scripts/build_dist.py, python scripts/build_site.py, and python scripts/check_coverage.py, then commit the result."
             exit 1
           fi

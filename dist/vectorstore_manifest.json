@@ -1,0 +1,32 @@
+{
+  "chunking_hint": "Use one guideline per JSONL line.",
+  "metadata_fields": [
+    "schema_version",
+    "sccg_version",
+    "id",
+    "category",
+    "title",
+    "reference_source_ids",
+    "review_profile_ids",
+    "data_package_ids"
+  ],
+  "recommended_files": [
+    {
+      "content_type": "application/jsonl",
+      "path": "dist/sccg.rules.jsonl",
+      "purpose": "One SCCG guideline per line for retrieval or rule loading."
+    },
+    {
+      "content_type": "application/jsonl",
+      "path": "dist/ai_rule_export.jsonl",
+      "purpose": "AI-oriented rule export with one guideline per line."
+    },
+    {
+      "content_type": "application/json",
+      "path": "dist/sccg.full.json",
+      "purpose": "Complete normalized SCCG model."
+    }
+  ],
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}

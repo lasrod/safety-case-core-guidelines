@@ -1,0 +1,45 @@
+schema_version: 1.0.0
+sccg_version: 0.5.0
+document:
+  title: Safety Case Core Guidelines
+  copyright: © 2026 Jesper Brännström
+  license:
+    id: CC-BY-4.0
+    name: Creative Commons Attribution 4.0 International License
+    url: https://creativecommons.org/licenses/by/4.0/
+  purpose: |-
+    This document consolidates review guidance for safety cases into one
+    guideline-based review framework that can be cited during reviews.
+source_policy:
+  summary: |-
+    These guidelines draw on several source classes. The wording in this
+    document is intended to paraphrase source material and established
+    practice rather than reproduce source text.
+method_application_guidance:
+  summary: SCCG guidelines should be interpreted as notation-neutral quality expectations where possible. When a development process uses a specific assurance-case notation or method, apply the guideline through the corresponding notation elements and make any method-specific interpretation explicit in the guideline text, example, or tool guidance.
+  recommendations:
+  - method: GSN-based development
+    recommendation: Apply the full SCCG set. Interpret claims as GSN goals, inference or decomposition steps as strategies, context as GSN context, assumptions as GSN assumptions, and evidence as GSN solutions.
+  - method: CAE-based development
+    recommendation: Apply the full SCCG set, but interpret GSN-oriented terms through CAE concepts. Interpret claims as CAE claims, inference or decomposition steps as CAE arguments or warrants, and evidence as CAE evidence or supporting information.
+  - method: SACM or tool-neutral interchange
+    recommendation: Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model.
+id_scheme:
+- prefix: CL
+  meaning: Claim guidance
+- prefix: AR
+  meaning: Argument structure and decomposition guidance
+- prefix: EV
+  meaning: Evidence guidance
+- prefix: SU
+  meaning: Sufficiency, uncertainty, and pitfall guidance
+- prefix: LF
+  meaning: Logical fallacy guidance
+- prefix: RD
+  meaning: Rhetorical device guidance
+required_guideline_sections:
+- Guideline
+- Why
+- Review prompts
+- Example
+- References

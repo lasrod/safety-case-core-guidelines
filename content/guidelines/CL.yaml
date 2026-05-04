@@ -1,0 +1,234 @@
+schema_version: 1.0.0
+category:
+  id: CL
+  title: CL. Claim rules
+  index_title: CL. Claim guidance
+  description: null
+guidelines:
+- id: CL.1
+  category: CL
+  title: Write each claim as a falsifiable proposition
+  statement: State each claim as a sentence that can in principle be shown true or false.
+  rationale: A safety case is built from claims that can be challenged, supported, or refuted. Statements that are merely labels, headings, slogans, or references are poor safety claims.
+  review_prompts:
+  - Could a reviewer tell what would make this claim false?
+  - Is this a proposition, or only a topic label?
+  - Is the claim understandable without extra interpretation?
+  examples:
+    bad: Brake monitor safety
+    problem: This is a topic label, not a falsifiable proposition. A reviewer cannot tell what would have to be true or false to accept or reject it.
+    good: Brake monitor response time meets the defined acceptance criterion.
+  references:
+  - source_id: ISO-IEC-IEEE-15026-2
+  - source_id: OMG-SACM
+  - source_id: CAE
+  - source_id: UL4600
+    clauses:
+    - 4.2.9
+    - 5.2.3.1(a)
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.3.2
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    - SACM Claim
+    detection_hints:
+    - Look for goal text that is a noun phrase or topic label rather than a proposition.
+    - Look for goals lacking a verb expressing a property or a measurable condition.
+    suggested_checks:
+    - id: check-claim-is-proposition
+      description: Check whether the claim text is a complete proposition that can be true or false.
+- id: CL.2
+  category: CL
+  title: Put one main claim in one goal
+  statement: Do not bundle multiple distinct properties, conclusions, or obligations into one goal.
+  rationale: Bundled claims hide missing decomposition, make evidence assignment unclear, and produce review findings that are hard to localize.
+  review_prompts:
+  - Does the statement contain more than one property?
+  - Would different evidence sets be needed for different parts of the claim?
+  - Could one part of the statement be acceptable while another could fail?
+  examples:
+    bad: Planning software is safe and secure.
+    problem: The claim bundles two distinct properties (safety and cybersecurity) that need different evidence and review treatment, hiding missing decomposition.
+    good: |-
+      Planning software safety is acceptable.
+
+      And separately:
+
+      Planning software cybersecurity is acceptable.
+  references:
+  - source_id: ISO-IEC-IEEE-15026-2
+  - source_id: OMG-SACM
+  - source_id: CAE
+  - source_id: UL4600
+    clauses:
+    - 5.2.3
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.3.2
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    - SACM Claim
+    detection_hints:
+    - Look for conjunctions linking distinct properties (safe and secure, complete and correct).
+    - Look for goals where different properties would be supported by different evidence sets.
+    suggested_checks:
+    - id: check-single-property
+      description: Check whether the claim asserts a single property or bundles several distinct properties.
+- id: CL.3
+  category: CL
+  title: Avoid the essay-in-the-box
+  statement: Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims.
+  rationale: When a claim contains the whole story, reviewers cannot clearly see what is being claimed, what constrains the claim, and how the argument is intended to proceed. In GSN, that information should be visible in the structure, not hidden inside one sentence.
+  review_prompts:
+  - Is the goal text trying to describe both the claim and its decomposition?
+  - Is scope that should be in context embedded in the claim text?
+  - Are included topics listed in the claim instead of being expressed as sub-claims?
+  - Would the argument become clearer if the parent claim were shortened and the included topics moved into strategy and child claims?
+  examples:
+    bad: The product concept and system design, including faults, failures, interfaces, dependencies, degraded operation and transitions to safe states, are acceptably safe for operation within the defined ODD.
+    problem: The claim packs scope, decomposition topics, and caveats into one sentence, hiding the argument structure that should be visible through context, strategy, and sub-claims.
+    good: |-
+      Claim: Design safety is acceptable.
+      Context: Applies within the defined ODD.
+      Reasoning: Break the design safety claim into safety-relevant design topics.
+      Sub-claims:
+      - Fault handling safety is acceptable.
+      - Failure response safety is acceptable.
+      - Safety-relevant interfaces are acceptable.
+      - Safety-relevant dependencies are acceptable.
+      - Degraded operation safety is acceptable.
+      - Transitions to safe states are acceptable.
+  references:
+  - source_id: UL4600
+    clauses:
+    - 5.2.3
+    - 5.3.2.1(a)
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.3.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    - SACM Claim
+    detection_hints:
+    - Look for claims that contain long comma-separated lists of topics.
+    - Look for claim text that mixes scope, reasoning, caveats, and decomposition.
+    - Look for phrases such as including, covering, considering, or with respect to introducing multiple subtopics.
+    suggested_checks:
+    - id: check-claim-length-and-role-mixing
+      description: Check whether the claim contains argument structure or scope that should be represented through context, strategy, assumptions, or sub-claims.
+    - id: check-decomposition-hidden-in-claim
+      description: Check whether the claim lists child topics instead of making the decomposition visible in the argument structure.
+- id: CL.4
+  category: CL
+  title: Avoid ambiguity and overloaded wording
+  statement: Write claims so that their meaning is clear enough that competent reviewers are likely to understand them in the same way.
+  rationale: Ambiguous claims undermine review, traceability, and evidence relevance. This guideline directly supports UL 4600’s requirement to avoid substantive ambiguity in claims and arguments.
+  review_prompts:
+  - Could two competent reviewers understand the claim differently?
+  - Is the object of the claim clear?
+  - Is the property being claimed clear?
+  examples:
+    bad: Software requirements development is acceptably safe.
+    problem: Both the object (development activity vs. resulting requirements) and the property (safe vs. controlled) are ambiguous, so competent reviewers may interpret the claim differently.
+    good: The process used to develop software functional requirements satisfies the defined safety assurance criteria.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: NPSA-CAE
+  - source_id: UL4600
+    clauses:
+    - 5.2.3
+    - 5.2.3.1(d)
+  - source_id: GSN-v3
+    clauses:
+    - 2:5.4.1-2:5.4.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    - SACM Claim
+    detection_hints:
+    - Look for ambiguous subjects or properties (e.g. development is safe).
+    - Look for claim text whose object or measured property is unclear.
+    suggested_checks:
+    - id: check-claim-ambiguity
+      description: Check whether competent reviewers would interpret the claim consistently.
+- id: CL.5
+  category: CL
+  title: Bound vague and universal qualifiers
+  statement: Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.
+  rationale: Terms such as safe, timely, effective, normal, robust, all, every, and never can sound stronger or broader than the argument actually shows unless they are properly bounded.
+  review_prompts:
+  - Is the term bounded by context, lower-level argument, or linked criteria?
+  - If safe is used, is it clear what safety judgment is being claimed at this level?
+  - Is the scope of all, every, or never explicitly defined?
+  - Would the claim remain reviewable if read on its own?
+  examples:
+    bad: The monitor provides timely mitigation.
+    problem: '"Timely" is an unbounded evaluative qualifier; without a defined threshold or condition it cannot be reviewed consistently.'
+    good: Upon detection of condition C4, the monitor initiates minimum risk maneuver entry within the defined threshold.
+  references:
+  - source_id: Greenwell-2006
+  - source_id: NPSA-CAE
+  - source_id: UL4600
+    clauses:
+    - 5.2.3
+    - 5.2.3.1(d)
+  - source_id: GSN-v3
+    clauses:
+    - 2:5.5.1-2:5.6.1
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    detection_hints:
+    - 'Look for unbounded evaluative terms: safe, robust, effective, timely, normal.'
+    - 'Look for universal qualifiers without scope: all, every, never, always.'
+    suggested_checks:
+    - id: check-bounded-qualifiers
+      description: Check whether evaluative or universal qualifiers in the claim are bounded by context or measurable criteria.
+- id: CL.6
+  category: CL
+  title: Do not mix different logical steps in one claim
+  statement: Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit
+  rationale: These are different claim types with different evidence and different review questions.
+  review_prompts:
+  - Is this claim actually several claims chained together?
+  - Would different teams or documents support different parts?
+  - Should the branch be decomposed before evidence is attached?
+  examples:
+    bad: All identified hazards have been mitigated and validated.
+    problem: The claim chains identification, implementation, and validation steps into one sentence; each step needs different evidence and a different review question.
+    good: |-
+      Parent claim: Hazards are acceptably addressed.
+      Sub-claims:
+      - Hazards are identified.
+      - Defined mitigations are implemented.
+      - Validation evidence is sufficient.
+  references:
+  - source_id: ISO-IEC-IEEE-15026-2
+  - source_id: OMG-SACM
+  - source_id: CAE
+  - source_id: UL4600
+    clauses:
+    - 5.2.3
+    - 5.3.1
+    - 5.3.2
+  - source_id: GSN-v3
+    clauses:
+    - 1:2.3.2-1:2.3.3
+  tool:
+    applicable_elements:
+    - GSN Goal
+    - CAE Claim
+    detection_hints:
+    - Look for claims that chain identification + implementation + validation in one sentence.
+    suggested_checks:
+    - id: check-claim-step-mixing
+      description: Check whether the claim mixes identification, adequacy, implementation, validation, and sufficiency steps.
