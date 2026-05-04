@@ -1,0 +1,233 @@
+{
+  "review_profiles": [
+    {
+      "applies_to": [
+        "GSN Goal",
+        "SACM Claim",
+        "CAE Claim"
+      ],
+      "description": "Reviews whether a selected claim is clear, falsifiable, bounded, and not overloaded.",
+      "display_name": "Claim wording review",
+      "guideline_ids": [
+        "CL.1",
+        "CL.2",
+        "CL.3",
+        "CL.4",
+        "CL.5",
+        "CL.6",
+        "RD.4",
+        "LF.6"
+      ],
+      "id": "claim_wording_review",
+      "optional_data": [
+        "PARENT",
+        "CHILDREN",
+        "INHERITED_CONTEXT",
+        "PROJECT_GLOSSARY"
+      ],
+      "required_data": [
+        "SEL",
+        "DIRECT_CONTEXT"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Goal",
+        "SACM Claim",
+        "CAE Claim"
+      ],
+      "description": "Reviews whether the selected claim has enough context, scope, assumptions, and definitions.",
+      "display_name": "Claim context review",
+      "guideline_ids": [
+        "CL.4",
+        "CL.5",
+        "AR.3",
+        "SU.2",
+        "RD.6"
+      ],
+      "id": "claim_context_review",
+      "optional_data": [
+        "PARENT",
+        "PROJECT_GLOSSARY",
+        "STANDARD_LINKS"
+      ],
+      "required_data": [
+        "SEL",
+        "DIRECT_CONTEXT",
+        "INHERITED_CONTEXT"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Goal",
+        "SACM Claim",
+        "CAE Claim"
+      ],
+      "description": "Reviews whether the selected claim is decomposed using clear, complete, and appropriate reasoning.",
+      "display_name": "Decomposition review",
+      "guideline_ids": [
+        "CL.2",
+        "CL.3",
+        "CL.6",
+        "AR.2",
+        "AR.4",
+        "AR.5",
+        "LF.1"
+      ],
+      "id": "decomposition_review",
+      "optional_data": [
+        "EVIDENCE_PATH",
+        "PROJECT_GLOSSARY"
+      ],
+      "required_data": [
+        "SEL",
+        "PARENT",
+        "CHILDREN",
+        "STRATEGY",
+        "DIRECT_CONTEXT",
+        "INHERITED_CONTEXT"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Strategy",
+        "SACM ArgumentReasoning",
+        "CAE Argument"
+      ],
+      "description": "Reviews whether a strategy or reasoning step explains the inference between parent and supporting claims.",
+      "display_name": "Strategy review",
+      "guideline_ids": [
+        "AR.1",
+        "AR.2",
+        "AR.4",
+        "AR.5",
+        "LF.1"
+      ],
+      "id": "strategy_review",
+      "optional_data": [
+        "INHERITED_CONTEXT",
+        "PROJECT_GLOSSARY",
+        "STANDARD_LINKS"
+      ],
+      "required_data": [
+        "SEL",
+        "PARENT",
+        "CHILDREN",
+        "DIRECT_CONTEXT"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Solution",
+        "SACM ArtifactReference",
+        "CAE Evidence"
+      ],
+      "description": "Reviews whether an evidence item is precise, controlled, stable, and usable for review.",
+      "display_name": "Evidence item review",
+      "guideline_ids": [
+        "EV.2",
+        "EV.4",
+        "EV.7",
+        "EV.8",
+        "SU.3",
+        "SU.7"
+      ],
+      "id": "evidence_item_review",
+      "optional_data": [
+        "EVIDENCE_BASIS",
+        "CHANGE_HISTORY"
+      ],
+      "required_data": [
+        "SEL",
+        "EVIDENCE_ITEM"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Goal",
+        "SACM Claim",
+        "CAE Claim"
+      ],
+      "description": "Reviews whether the selected claim is ultimately supported by appropriate evidence.",
+      "display_name": "Evidence path review",
+      "guideline_ids": [
+        "EV.1",
+        "EV.3",
+        "EV.5",
+        "EV.6",
+        "EV.9",
+        "LF.2",
+        "LF.5",
+        "LF.7"
+      ],
+      "id": "evidence_path_review",
+      "optional_data": [
+        "STRATEGY",
+        "EVIDENCE_ITEM",
+        "EVIDENCE_BASIS",
+        "DIRECT_CONTEXT"
+      ],
+      "required_data": [
+        "SEL",
+        "EVIDENCE_PATH",
+        "CHILDREN"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Assumption",
+        "SACM Claim",
+        "CAE Assumption"
+      ],
+      "description": "Reviews whether assumptions are explicit, appropriate, and not hiding unsupported claims.",
+      "display_name": "Assumption review",
+      "guideline_ids": [
+        "AR.3",
+        "AR.7",
+        "SU.2",
+        "SU.9",
+        "SU.10",
+        "RD.6"
+      ],
+      "id": "assumption_review",
+      "optional_data": [
+        "PARENT"
+      ],
+      "required_data": [
+        "SEL",
+        "DIRECT_CONTEXT",
+        "INHERITED_CONTEXT"
+      ]
+    },
+    {
+      "applies_to": [
+        "GSN Justification",
+        "SACM ArgumentReasoning",
+        "CAE Justification"
+      ],
+      "description": "Reviews whether justifications explain rationale without replacing needed argument or evidence.",
+      "display_name": "Justification review",
+      "guideline_ids": [
+        "AR.8",
+        "AR.9",
+        "SU.3",
+        "SU.5",
+        "LF.3",
+        "RD.5"
+      ],
+      "id": "justification_review",
+      "optional_data": [
+        "STRATEGY",
+        "EVIDENCE_PATH",
+        "EVIDENCE_ITEM",
+        "CHANGE_HISTORY"
+      ],
+      "required_data": [
+        "SEL",
+        "PARENT"
+      ]
+    }
+  ],
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}

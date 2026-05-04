@@ -1,0 +1,62 @@
+schema_version: 1.0.0
+reference_sources:
+- id: UL4600
+  display_name: UL 4600
+  type: standard
+- id: ISO-IEC-IEEE-15026-2
+  display_name: ISO/IEC/IEEE 15026-2:2022
+  type: standard
+- id: ISO-21448
+  display_name: ISO 21448:2022
+  type: standard
+- id: OMG-SACM
+  display_name: OMG SACM 2.3
+  type: standard
+- id: GSN-v3
+  display_name: GSN v3
+  type: standard
+- id: UNECE-ADS
+  display_name: UNECE ADS safety case clauses
+  type: guidance
+- id: CAE
+  display_name: CAE guidance
+  type: guidance
+- id: CAE-Concepts
+  display_name: CAE Concepts / Building Blocks
+  type: guidance
+- id: CAE-Defeaters
+  display_name: CAE Defeaters
+  type: guidance
+- id: CAE-Review
+  display_name: CAE Review and Challenge
+  type: guidance
+- id: ONR
+  display_name: ONR
+  type: guidance
+- id: ONR-SAPs
+  display_name: ONR SAPs
+  type: guidance
+- id: EASA
+  display_name: EASA guidance
+  type: guidance
+- id: NPSA-CAE
+  display_name: NPSA CAE Concepts
+  type: guidance
+- id: RA1205
+  display_name: RA 1205
+  type: guidance
+- id: AVSC-CSE
+  display_name: AVSC CSE
+  type: guidance
+- id: HSE
+  display_name: HSE review guidance
+  type: guidance
+- id: Greenwell-2006
+  display_name: Greenwell et al. 2006
+  type: research
+- id: Weaver
+  display_name: Weaver et al.
+  type: research
+- id: Hawkins
+  display_name: Hawkins et al.
+  type: research

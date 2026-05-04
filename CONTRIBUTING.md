@@ -4,111 +4,91 @@ Thank you for contributing to the Safety Case Core Guidelines.
 
 ## Where to make changes
 
-The canonical source is [data/guidelines.yaml](data/guidelines.yaml). The published page [index.md](index.md) is **generated** from that YAML between these marker blocks:
+The canonical authored source is [content/](content/):
+
+- Edit [content/sccg.yaml](content/sccg.yaml) for document metadata, policy, method guidance, ID scheme, and required sections.
+- Edit [content/references.yaml](content/references.yaml) for reference source registry changes.
+- Edit [content/guidelines/](content/guidelines/) for guideline text, examples, references, review prompts, and tool metadata.
+- Edit [content/tool_support/](content/tool_support/) for review profiles, data packages, and pre-check metadata.
+
+Do not edit [dist/](dist/), [generated/](generated/), or generated regions of [index.md](index.md) by hand. They are rebuilt from [content/](content/).
+
+## Generated files
+
+[index.md](index.md) is generated between these marker blocks:
 
 - `<!-- BEGIN GENERATED: quick-index -->` / `<!-- END GENERATED: quick-index -->`
 - `<!-- BEGIN GENERATED: guidelines -->` / `<!-- END GENERATED: guidelines -->`
 
-- Edit `data/guidelines.yaml` for any change to a guideline (text, examples, references, tool guidance).
-- Do not edit the generated region of `index.md` by hand — it will be overwritten and CI will reject out-of-sync pull requests.
-- Preamble, scope, and "how to use" in `index.md` are still hand-maintained outside the markers.
+Preamble, scope, and usage text outside those markers remain hand-maintained.
 
-## Scope
-
-Contributions are welcome for:
-- clarification of existing guideline text
-- correction of errors or inconsistencies
-- improvement of examples and review prompts
-- additional publicly supportable references
-- improvements to `tool_guidance` metadata
-- formatting and navigation improvements
-- creation of new guidelines
-
-## Contribution principles
-
-- Keep the text clear, concise, and review-oriented.
-- Prefer one clear point per guideline entry.
-- Preserve the existing guideline structure where practical.
-- Keep examples realistic and easy to review.
-- Avoid promotional or unnecessary wording.
-- Avoid copying protected source text. Use paraphrasing and cite the source where relevant.
-- Prefer publicly accessible references where possible.
-
-## ID stability
-
-Guideline `id` values (for example `CL.3`, `EV.7`) are stable identifiers. Do not renumber existing guidelines. When adding a new guideline:
-
-- pick the next unused number suffix in the relevant category
-- set `category` to the two-letter prefix
-- the generator orders guidelines within a category by the numeric suffix of the `id`
-
-If a guideline is retired, leave its id reserved rather than reusing the id.
-
-Generated section anchors are ID-based. Keep IDs stable because external links and tools should target the ID anchor (for example `#cl1`) rather than title-derived anchors.
-
-## Required fields per guideline
+## Guideline fields
 
 Every guideline entry must include:
 
-- `id` (for example `CL.1`)
-- `category` (matches the id prefix)
+- `id`, for example `CL.1`
+- `category`, matching the ID prefix
 - `title`
-- `guideline`
-- `why`
-- `review_prompts` (non-empty list)
-- `example` with non-empty `bad`, `problem`, and `good` strings
-- `references` (structured list of `{source_id, clauses?}` referencing entries in `reference_sources`)
+- `statement`
+- `rationale`
+- `review_prompts`
+- `examples` with non-empty `bad`, `problem`, and `good` strings
+- `references`, using `source_id` values from [content/references.yaml](content/references.yaml)
 
-At document root, `schema_version` is a strict compatibility contract and must match the currently supported value (`0.4.0`) unless a deliberate versioned migration is being performed.
+Optional tool metadata belongs in `tool`. Do not reintroduce the legacy field names `guideline`, `why`, `example`, or `tool_guidance`.
 
-No other top-level guideline fields are accepted. The previously supported `note`, `tags`, `number`, and `order` fields have been removed; do not reintroduce them.
+## ID stability
 
-## Tool guidance
+Guideline IDs are stable identifiers. Do not renumber existing guidelines. When adding a new guideline:
 
-Each guideline may carry an optional `tool_guidance` block consumed by tools that build on these guidelines (linters, advisors, AI prompts). It is not rendered on the site. Keep it:
+- Pick the next unused number suffix in the relevant category.
+- Set `category` to the two-letter prefix.
+- Add it to the matching category file in [content/guidelines/](content/guidelines/).
 
-- specific to the guideline
-- concise
-- focused on what a tool would need to detect or check
+If a guideline is retired, leave its ID reserved rather than reusing it. Generated anchors are ID-based, so external links and tools should target IDs such as `#cl1`.
 
-Fields: `applicable_elements`, `detection_hints`, and `suggested_checks` (each with `id` and `description`).
+## Tool support metadata
+
+Review profiles map review intents to guideline IDs and data packages. Data packages describe expected review context. Pre-checks define deterministic candidate checks; they do not replace reviewer or AI judgment.
+
+Keep tool-support metadata concise, deterministic, and linked only to existing guideline and data package IDs. Broken references fail validation.
 
 ## References
 
 When proposing a new reference:
-- ensure it is relevant to the specific guideline
-- cite the specific source, not only a general document name
-- if it is a new source, add it once to `reference_sources` and reference its `source_id` from each guideline that uses it
-- if a guideline needs more specific wording than the canonical source name, set `display_name` on that specific `references` entry for that guideline
-- avoid adding references that do not materially support the guideline
 
-## Regenerating and validating locally
+- Add the source once to [content/references.yaml](content/references.yaml).
+- Reference it from guidelines using `references[].source_id`.
+- Use `references[].clauses` where useful.
+- Use `references[].display_name` only when a guideline needs a more specific display label.
+- Avoid copying protected source text; paraphrase and cite instead.
+
+## Local validation
 
 Requires Python 3.11+.
 
-```
+```bash
 pip install -r requirements.txt
-python scripts/validate_guidelines.py
-python scripts/generate_index.py
+python scripts/build_dist.py
+python scripts/build_site.py
+python scripts/check_coverage.py
+python scripts/validate.py
 ```
 
-The generator is idempotent — running it twice produces the same `index.md`.
+The build scripts are deterministic. Running them repeatedly on unchanged content should produce no diff.
 
 ## Pull request checklist
 
-Before opening a pull request, please confirm:
+Before opening a pull request, confirm:
 
-- [ ] Changes were made in `data/guidelines.yaml` (not in the generated region of `index.md`).
-- [ ] `python scripts/validate_guidelines.py` passes.
-- [ ] `python scripts/generate_index.py` was run and the resulting `index.md` is committed.
-- [ ] Running the generator a second time produces no diff (idempotency).
-- [ ] No guideline `id` was renumbered or reused.
-- [ ] Any new reference source was added to `reference_sources`.
-- [ ] The PR description identifies affected guideline IDs and any reference updates.
-
-## Major changes
-
-For significant structural changes (schema, category set, marker layout, generator behavior), please open an issue first so the proposal can be discussed before drafting a larger update.
+- [ ] Changes were made in [content/](content/), not generated files.
+- [ ] `python scripts/build_dist.py` was run.
+- [ ] `python scripts/build_site.py` was run.
+- [ ] `python scripts/check_coverage.py` was run.
+- [ ] `python scripts/validate.py` passes.
+- [ ] `git diff --exit-code` passes after generated files are committed.
+- [ ] No guideline ID was renumbered or reused.
+- [ ] Any new references, review profile links, data package links, or pre-check links validate.
 
 ## License
 

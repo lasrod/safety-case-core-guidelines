@@ -1,0 +1,29 @@
+{
+  "category_count": 6,
+  "category_ids": [
+    "CL",
+    "AR",
+    "EV",
+    "SU",
+    "LF",
+    "RD"
+  ],
+  "data_package_count": 13,
+  "generated_exports": [
+    "dist/sccg.full.json",
+    "dist/sccg.full.yaml",
+    "dist/sccg.compact.json",
+    "dist/sccg.rules.jsonl",
+    "dist/ai_rule_export.jsonl",
+    "dist/review_profiles.json",
+    "dist/data_packages.json",
+    "dist/prechecks.json",
+    "dist/vectorstore_manifest.json",
+    "dist/research_metadata.json"
+  ],
+  "guideline_count": 48,
+  "precheck_count": 5,
+  "review_profile_count": 8,
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,157 @@
+{
+  "data_packages": [
+    {
+      "description": "The selected assurance-case element being reviewed.",
+      "display_name": "Selected element",
+      "id": "SEL",
+      "optional_fields": [
+        "role",
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ]
+    },
+    {
+      "description": "The immediate parent claim, goal, strategy, or reasoning element.",
+      "display_name": "Parent element",
+      "id": "PARENT",
+      "optional_fields": [
+        "parent_id",
+        "parent_type",
+        "parent_text",
+        "relationship_type"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Immediate supporting claims, strategies, solutions, or evidence links.",
+      "display_name": "Child elements",
+      "id": "CHILDREN",
+      "optional_fields": [
+        "child_elements",
+        "relationship_types"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Context, assumptions, and justifications directly attached to the selected element.",
+      "display_name": "Direct context",
+      "id": "DIRECT_CONTEXT",
+      "optional_fields": [
+        "context_elements",
+        "assumptions",
+        "justifications"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Context and assumptions inherited from ancestor elements.",
+      "display_name": "Inherited context",
+      "id": "INHERITED_CONTEXT",
+      "optional_fields": [
+        "ancestor_context",
+        "ancestor_assumptions"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "The strategy or reasoning element connecting a parent claim to supporting claims.",
+      "display_name": "Strategy",
+      "id": "STRATEGY",
+      "optional_fields": [
+        "strategy_id",
+        "strategy_text",
+        "strategy_context"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Metadata for a selected evidence artifact or evidence reference.",
+      "display_name": "Evidence item",
+      "id": "EVIDENCE_ITEM",
+      "optional_fields": [
+        "evidence_id",
+        "evidence_text",
+        "artifact_type",
+        "owner",
+        "version",
+        "status",
+        "date",
+        "location",
+        "cited_section"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Path from a selected claim to descendant evidence.",
+      "display_name": "Evidence path",
+      "id": "EVIDENCE_PATH",
+      "optional_fields": [
+        "path_elements",
+        "evidence_items"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Information used to judge whether evidence is sufficient for the claim.",
+      "display_name": "Evidence basis",
+      "id": "EVIDENCE_BASIS",
+      "optional_fields": [
+        "acceptance_criteria",
+        "coverage",
+        "thresholds",
+        "scenario_set",
+        "configuration",
+        "limitations"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Relevant project terms and definitions.",
+      "display_name": "Project glossary",
+      "id": "PROJECT_GLOSSARY",
+      "optional_fields": [
+        "terms"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Linked external standard requirements or guidance references.",
+      "display_name": "Standard links",
+      "id": "STANDARD_LINKS",
+      "optional_fields": [
+        "linked_requirements"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Relevant review comments, prior findings, proposal history, and baseline or version state.",
+      "display_name": "Change history",
+      "id": "CHANGE_HISTORY",
+      "optional_fields": [
+        "review_comments",
+        "prior_findings",
+        "proposal_history",
+        "baseline"
+      ],
+      "required_fields": []
+    },
+    {
+      "description": "Optional user-provided review concern or focus.",
+      "display_name": "User review intent",
+      "id": "USER_REVIEW_INTENT",
+      "optional_fields": [
+        "review_intent"
+      ],
+      "required_fields": []
+    }
+  ],
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}
