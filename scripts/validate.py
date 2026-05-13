@@ -41,6 +41,9 @@ DECOMPOSITION_REVIEW_APPLIES_TO = [
     "SACM ArgumentReasoning",
     "CAE Argument",
 ]
+DECOMPOSITION_REVIEW_REQUIRED_GUIDELINE_IDS = [
+    "AR.1",
+]
 
 
 def _schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
@@ -121,6 +124,12 @@ def _validate_decomposition_review_contract(profile: dict[str, Any] | None, labe
             f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.description must cover claim- and "
             "strategy-selected decomposition review"
         )
+    guideline_ids = profile.get("guideline_ids", [])
+    for guideline_id in DECOMPOSITION_REVIEW_REQUIRED_GUIDELINE_IDS:
+        if guideline_id not in guideline_ids:
+            errors.append(
+                f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.guideline_ids must include {guideline_id!r}"
+            )
     return errors
 
 
@@ -252,6 +261,15 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
             _validate_decomposition_review_contract(
                 _find_profile(sccg_full_yaml.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
                 "dist/sccg.full.yaml",
+            )
+        )
+    sccg_full_json_path = DIST / "sccg.full.json"
+    if sccg_full_json_path.exists():
+        sccg_full_json = load_json(sccg_full_json_path)
+        errors.extend(
+            _validate_decomposition_review_contract(
+                _find_profile(sccg_full_json.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
+                "dist/sccg.full.json",
             )
         )
     ai_export_schema = load_json(SCHEMAS / "ai_rule_export.schema.json")
