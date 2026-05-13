@@ -26,6 +26,7 @@
 - CL.2
 - CL.3
 - CL.6
+- AR.1
 - AR.2
 - AR.4
 - AR.5
@@ -110,6 +111,7 @@
 
 ### AR.1
 
+- decomposition_review
 - strategy_review
 
 ### AR.2

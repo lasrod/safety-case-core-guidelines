@@ -28,6 +28,21 @@ from sccg_common import (
 )
 
 
+DECOMPOSITION_REVIEW_ID = "decomposition_review"
+DECOMPOSITION_REVIEW_DESCRIPTION = (
+    "Reviews whether a selected claim is decomposed by clear child claims and reasoning, or whether a selected "
+    "strategy or reasoning step explains why child claims support the parent claim."
+)
+DECOMPOSITION_REVIEW_APPLIES_TO = [
+    "GSN Goal",
+    "SACM Claim",
+    "CAE Claim",
+    "GSN Strategy",
+    "SACM ArgumentReasoning",
+    "CAE Argument",
+]
+
+
 def _schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
     schema = load_json(schema_path)
     validator = Draft7Validator(schema)
@@ -83,6 +98,30 @@ def _check_file_current(path: Path, expected: str, label: str) -> list[str]:
     if actual != expected:
         return [f"[generated] {label}: {path} is out of date"]
     return []
+
+
+def _find_profile(profiles: list[dict[str, Any]], profile_id: str) -> dict[str, Any] | None:
+    for profile in profiles:
+        if profile.get("id") == profile_id:
+            return profile
+    return None
+
+
+def _validate_decomposition_review_contract(profile: dict[str, Any] | None, label: str) -> list[str]:
+    if profile is None:
+        return [f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID!r} is missing"]
+    errors: list[str] = []
+    if profile.get("applies_to") != DECOMPOSITION_REVIEW_APPLIES_TO:
+        errors.append(
+            f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.applies_to must be "
+            f"{DECOMPOSITION_REVIEW_APPLIES_TO!r}"
+        )
+    if profile.get("description") != DECOMPOSITION_REVIEW_DESCRIPTION:
+        errors.append(
+            f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.description must cover claim- and "
+            "strategy-selected decomposition review"
+        )
+    return errors
 
 
 def _validate_schemas() -> list[str]:
@@ -197,6 +236,24 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     for path, expected in build_dist_outputs(model).items():
         errors.extend(_check_file_current(path, expected, str(path)))
+    review_profiles_path = DIST / "review_profiles.json"
+    if review_profiles_path.exists():
+        review_profiles = load_json(review_profiles_path)
+        errors.extend(
+            _validate_decomposition_review_contract(
+                _find_profile(review_profiles.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
+                "dist/review_profiles.json",
+            )
+        )
+    sccg_full_yaml_path = DIST / "sccg.full.yaml"
+    if sccg_full_yaml_path.exists():
+        sccg_full_yaml = load_yaml(sccg_full_yaml_path)
+        errors.extend(
+            _validate_decomposition_review_contract(
+                _find_profile(sccg_full_yaml.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
+                "dist/sccg.full.yaml",
+            )
+        )
     ai_export_schema = load_json(SCHEMAS / "ai_rule_export.schema.json")
     ai_export_validator = Draft7Validator(ai_export_schema)
     ai_export_path = DIST / "ai_rule_export.jsonl"

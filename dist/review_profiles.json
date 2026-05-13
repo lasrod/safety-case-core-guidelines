@@ -61,14 +61,18 @@
       "applies_to": [
         "GSN Goal",
         "SACM Claim",
-        "CAE Claim"
+        "CAE Claim",
+        "GSN Strategy",
+        "SACM ArgumentReasoning",
+        "CAE Argument"
       ],
-      "description": "Reviews whether the selected claim is decomposed using clear, complete, and appropriate reasoning.",
+      "description": "Reviews whether a selected claim is decomposed by clear child claims and reasoning, or whether a selected strategy or reasoning step explains why child claims support the parent claim.",
       "display_name": "Decomposition review",
       "guideline_ids": [
         "CL.2",
         "CL.3",
         "CL.6",
+        "AR.1",
         "AR.2",
         "AR.4",
         "AR.5",
