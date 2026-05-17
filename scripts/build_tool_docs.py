@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import html
 import re
-import sys
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
