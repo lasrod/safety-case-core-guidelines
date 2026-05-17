@@ -7,7 +7,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-from build_tool_docs import build_outputs as build_tool_doc_outputs
+from build_tool_docs import MarkerError as ToolDocMarkerError, build_outputs as build_tool_doc_outputs
 from sccg_common import DIST, INDEX, TEMPLATES, guidelines_by_category, load_content_model, load_json, write_if_changed
 
 
@@ -80,7 +80,12 @@ def main() -> int:
         print(f"Updated {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
     else:
         print(f"No change to {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
-    for path, text in build_tool_doc_outputs(model).items():
+    try:
+        tool_outputs = build_tool_doc_outputs(model)
+    except ToolDocMarkerError as error:
+        sys.stderr.write(f"ERROR: {error}\n")
+        return 2
+    for path, text in tool_outputs.items():
         if write_if_changed(path, text):
             print(f"Updated {path.relative_to(Path(__file__).resolve().parents[1])}")
     return 0

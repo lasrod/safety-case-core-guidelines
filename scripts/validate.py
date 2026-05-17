@@ -12,7 +12,7 @@ from jsonschema import Draft7Validator
 
 from build_dist import build_outputs as build_dist_outputs
 from build_site import MarkerError, render_index
-from build_tool_docs import build_outputs as build_tool_doc_outputs
+from build_tool_docs import MarkerError as ToolDocMarkerError, build_outputs as build_tool_doc_outputs
 from check_coverage import build_outputs as build_coverage_outputs
 from sccg_common import (
     CONTENT,
@@ -309,8 +309,13 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
         errors.append(f"[generated] index.md: {error}")
     else:
         errors.extend(_check_file_current(INDEX, expected_index, "index.md"))
-    for path, expected in build_tool_doc_outputs(model).items():
-        errors.extend(_check_file_current(path, expected, str(path)))
+    try:
+        tool_doc_outputs = build_tool_doc_outputs(model)
+    except ToolDocMarkerError as error:
+        errors.append(f"[generated] tool-integration.md: {error}")
+    else:
+        for path, expected in tool_doc_outputs.items():
+            errors.extend(_check_file_current(path, expected, str(path)))
     for path, expected in build_coverage_outputs(model).items():
         errors.extend(_check_file_current(path, expected, str(path)))
     return errors
