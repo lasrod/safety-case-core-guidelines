@@ -12,6 +12,7 @@ from jsonschema import Draft7Validator
 
 from build_dist import build_outputs as build_dist_outputs
 from build_site import MarkerError, render_index
+from build_tool_docs import MarkerError as ToolDocMarkerError, build_outputs as build_tool_doc_outputs
 from check_coverage import build_outputs as build_coverage_outputs
 from sccg_common import (
     CONTENT,
@@ -140,6 +141,7 @@ def _validate_schemas() -> list[str]:
         (CONTENT / "references.yaml", SCHEMAS / "references.schema.json", "content/references.yaml"),
         (TOOL_SUPPORT_DIR / "review_profiles.yaml", SCHEMAS / "review_profiles.schema.json", "content/tool_support/review_profiles.yaml"),
         (TOOL_SUPPORT_DIR / "data_packages.yaml", SCHEMAS / "data_packages.schema.json", "content/tool_support/data_packages.yaml"),
+        (TOOL_SUPPORT_DIR / "data_package_diagram_layout.yaml", SCHEMAS / "data_package_diagram_layout.schema.json", "content/tool_support/data_package_diagram_layout.yaml"),
         (TOOL_SUPPORT_DIR / "prechecks.yaml", SCHEMAS / "prechecks.schema.json", "content/tool_support/prechecks.yaml"),
     ]
     for data_path, schema_path, label in schema_targets:
@@ -223,6 +225,19 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
         for package_id in profile.get("required_data", []) + profile.get("optional_data", []):
             if package_id not in data_package_ids:
                 errors.append(f"[review_profiles] {profile['id']}: data package {package_id!r} is not defined")
+        data_rationale = profile.get("data_rationale", {})
+        rationale_checks = [
+            ("required", "required_data"),
+            ("optional", "optional_data"),
+        ]
+        for rationale_key, data_key in rationale_checks:
+            expected_ids = profile.get(data_key, [])
+            actual_ids = [entry.get("id") for entry in data_rationale.get(rationale_key, [])]
+            if actual_ids != expected_ids:
+                errors.append(
+                    f"[review_profiles] {profile['id']}: data_rationale.{rationale_key} ids must match "
+                    f"{data_key} exactly; expected {expected_ids!r}, got {actual_ids!r}"
+                )
 
     suggested_check_ids = {
         check["id"]
@@ -294,6 +309,13 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
         errors.append(f"[generated] index.md: {error}")
     else:
         errors.extend(_check_file_current(INDEX, expected_index, "index.md"))
+    try:
+        tool_doc_outputs = build_tool_doc_outputs(model)
+    except ToolDocMarkerError as error:
+        errors.append(f"[generated] tool-integration.md: {error}")
+    else:
+        for path, expected in tool_doc_outputs.items():
+            errors.extend(_check_file_current(path, expected, str(path)))
     for path, expected in build_coverage_outputs(model).items():
         errors.extend(_check_file_current(path, expected, str(path)))
     return errors

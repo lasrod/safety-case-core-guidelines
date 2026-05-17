@@ -11,7 +11,7 @@ The canonical authored source is [content/](content/):
 - Edit [content/guidelines/](content/guidelines/) for guideline text, examples, references, review prompts, and tool metadata.
 - Edit [content/tool_support/](content/tool_support/) for review profiles, data packages, and pre-check metadata.
 
-Do not edit [dist/](dist/), [generated/](generated/), or generated regions of [index.md](index.md) by hand. They are rebuilt from [content/](content/).
+Do not edit [dist/](dist/), [generated/](generated/), generated regions of [index.md](index.md), generated regions of [tool-integration.md](tool-integration.md), or files in [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/) by hand. They are rebuilt from [content/](content/).
 
 ## Generated files
 
@@ -21,6 +21,14 @@ Do not edit [dist/](dist/), [generated/](generated/), or generated regions of [i
 - `<!-- BEGIN GENERATED: guidelines -->` / `<!-- END GENERATED: guidelines -->`
 
 Preamble, scope, and usage text outside those markers remain hand-maintained.
+
+[tool-integration.md](tool-integration.md) is also generated in part between these marker blocks:
+
+- `<!-- BEGIN GENERATED: tool-overview -->` / `<!-- END GENERATED: tool-overview -->`
+- `<!-- BEGIN GENERATED: review-profiles -->` / `<!-- END GENERATED: review-profiles -->`
+- `<!-- BEGIN GENERATED: prechecks -->` / `<!-- END GENERATED: prechecks -->`
+
+Review-profile SVG diagrams are generated into [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/). These files are ignored by Git and should be regenerated locally when needed.
 
 ## Guideline fields
 

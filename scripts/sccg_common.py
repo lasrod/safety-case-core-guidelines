@@ -99,6 +99,7 @@ def load_content_model() -> dict[str, Any]:
     references = load_yaml(CONTENT / "references.yaml")
     review_profiles = load_yaml(TOOL_SUPPORT_DIR / "review_profiles.yaml")
     data_packages = load_yaml(TOOL_SUPPORT_DIR / "data_packages.yaml")
+    data_package_diagram_layout = load_yaml(TOOL_SUPPORT_DIR / "data_package_diagram_layout.yaml")
     prechecks = load_yaml(TOOL_SUPPORT_DIR / "prechecks.yaml")
     category_order = category_order_from_id_scheme(sccg.get("id_scheme"))
 
@@ -129,6 +130,7 @@ def load_content_model() -> dict[str, Any]:
         "guidelines": guidelines,
         "review_profiles": review_profiles["review_profiles"],
         "data_packages": data_packages["data_packages"],
+        "review_profile_diagram_layout": data_package_diagram_layout["review_profile_diagram_layout"],
         "prechecks": prechecks["prechecks"],
         "_category_files": category_files,
     }

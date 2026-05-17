@@ -1,0 +1,66 @@
+## Tool-facing assets
+
+Tools should normally consume generated files in `dist/` rather than authored YAML in `content/`.
+
+### Core files
+
+{% for asset in assets %}
+- `{{ asset.path }}`: {{ asset.description }}
+{% endfor %}
+
+### Review workflow model
+
+1. Select an assurance-case element.
+2. Choose the review profile that matches the intended review question.
+3. Collect the required data packages and any useful optional data.
+4. Run deterministic pre-checks where they exist.
+5. Apply guideline judgment and cite SCCG guideline IDs in the result.
+
+## Review profiles
+
+{% for profile in profiles %}
+### {{ profile.display_name }}
+
+{{ profile.description }}
+
+- Profile ID: `{{ profile.id }}`
+- Applies to: {{ profile.applies_to | join(', ') }}
+- Required data: {{ profile.required_data | join(', ') if profile.required_data else 'None' }}
+- Optional data: {{ profile.optional_data | join(', ') if profile.optional_data else 'None' }}
+- Guidelines: {{ profile.guideline_ids | join(', ') }}
+- Diagram: [SVG diagram](assets/generated/review_profile_diagrams/{{ profile.id }}.svg)
+
+#### Data package rationale
+
+Required data:
+
+{%- for item in profile.data_rationale.required %}
+- `{{ item.id }}`: {{ item.rationale }}
+{% endfor %}
+
+Optional data:
+
+{%- if profile.data_rationale.optional %}
+{%- for item in profile.data_rationale.optional %}
+- `{{ item.id }}`: {{ item.rationale }}
+{% endfor %}
+{%- else %}
+- None.
+{% endif %}
+
+{% endfor %}
+
+## Deterministic pre-checks
+
+{% for precheck in prechecks %}
+### {{ precheck.display_name }}
+
+{{ precheck.description }}
+
+- Pre-check ID: `{{ precheck.id }}`
+- Expected data: {{ precheck.expected_data | join(', ') if precheck.expected_data else 'None' }}
+- Related guidelines: {{ precheck.related_guideline_ids | join(', ') }}
+- Result type: `{{ precheck.result_type }}`
+- Interpretation: {{ precheck.interpretation }}
+
+{% endfor %}

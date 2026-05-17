@@ -86,6 +86,8 @@ Example review comments:
 - `LF.3`: This branch argues from ignorance; absence of discovered evidence is being treated as evidence of absence.
 - `RD.4`: The wording uses promotional language that makes the claim sound stronger than it is.
 
+Engineers integrating SCCG into tools should use the generated tool documentation on [tool-integration.md](tool-integration.md).
+
 <!-- BEGIN GENERATED: quick-index -->
 ## Quick index
 
