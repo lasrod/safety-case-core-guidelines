@@ -254,12 +254,13 @@ def render_review_profile_svg(
     for category_id in [prefix for prefix in category_order if prefix in category_groups]:
         guidelines = category_groups[category_id]
         color = category_colors.get(category_id, "#555")
+        category_label = CATEGORY_LABELS.get(category_id, category_id)
         block = [
             f'<rect x="1060" y="{cat_y}" width="490" height="74" rx="16" fill="#fff" stroke="#e1e5ee"/>',
             f'<rect x="1060" y="{cat_y}" width="86" height="74" rx="16" fill="{color}"/>',
             f'<text x="1103" y="{cat_y + 31}" font-size="22" font-weight="800" fill="white" text-anchor="middle">{category_id}</text>',
             f'<text x="1103" y="{cat_y + 53}" font-size="11" font-weight="700" fill="white" text-anchor="middle">{len(guidelines)} rule{"s" if len(guidelines) != 1 else ""}</text>',
-            f'<text x="1162" y="{cat_y + 23}" font-size="15" font-weight="700" fill="#222">{html.escape(CATEGORY_LABELS[category_id])}</text>',
+            f'<text x="1162" y="{cat_y + 23}" font-size="15" font-weight="700" fill="#222">{html.escape(category_label)}</text>',
         ]
         chip_x = 1162
         chip_y = cat_y + 38
