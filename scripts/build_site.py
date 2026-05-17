@@ -7,6 +7,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from build_tool_docs import build_outputs as build_tool_doc_outputs
 from sccg_common import DIST, INDEX, TEMPLATES, guidelines_by_category, load_content_model, load_json, write_if_changed
 
 
@@ -68,9 +69,10 @@ def render_index(original: str, model: dict | None = None) -> str:
 
 
 def main() -> int:
+    model = _load_model()
     original = INDEX.read_text(encoding="utf-8")
     try:
-        updated = render_index(original)
+        updated = render_index(original, model)
     except MarkerError as error:
         sys.stderr.write(f"ERROR: {error}\n")
         return 2
@@ -78,6 +80,9 @@ def main() -> int:
         print(f"Updated {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
     else:
         print(f"No change to {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
+    for path, text in build_tool_doc_outputs(model).items():
+        if write_if_changed(path, text):
+            print(f"Updated {path.relative_to(Path(__file__).resolve().parents[1])}")
     return 0
 
 

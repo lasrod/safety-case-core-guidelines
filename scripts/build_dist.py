@@ -101,6 +101,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
         "dist/ai_rule_export.jsonl",
         "dist/review_profiles.json",
         "dist/data_packages.json",
+        "dist/data_package_diagram_layout.json",
         "dist/prechecks.json",
         "dist/vectorstore_manifest.json",
         "dist/research_metadata.json",
@@ -166,6 +167,13 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
                 "data_packages": model["data_packages"],
+            }
+        ),
+        DIST / "data_package_diagram_layout.json": json_text(
+            {
+                "schema_version": model["schema_version"],
+                "sccg_version": model["sccg_version"],
+                "review_profile_diagram_layout": model["review_profile_diagram_layout"],
             }
         ),
         DIST / "prechecks.json": json_text(

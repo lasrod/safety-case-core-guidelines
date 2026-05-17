@@ -1,0 +1,79 @@
+{
+  "review_profile_diagram_layout": {
+    "canvas": {
+      "height": 1040,
+      "width": 1600
+    },
+    "center": {
+      "height": 94,
+      "id": "SEL",
+      "width": 220,
+      "x": 410,
+      "y": 507
+    },
+    "package_positions": [
+      {
+        "id": "PARENT",
+        "x": 437,
+        "y": 172
+      },
+      {
+        "id": "INHERITED_CONTEXT",
+        "x": 607,
+        "y": 218
+      },
+      {
+        "id": "PROJECT_GLOSSARY",
+        "x": 731,
+        "y": 342
+      },
+      {
+        "id": "STANDARD_LINKS",
+        "x": 777,
+        "y": 512
+      },
+      {
+        "id": "CHILDREN",
+        "x": 731,
+        "y": 682
+      },
+      {
+        "id": "EVIDENCE_ITEM",
+        "x": 607,
+        "y": 806
+      },
+      {
+        "id": "EVIDENCE_BASIS",
+        "x": 437,
+        "y": 852
+      },
+      {
+        "id": "DIRECT_CONTEXT",
+        "x": 267,
+        "y": 806
+      },
+      {
+        "id": "USER_REVIEW_INTENT",
+        "x": 143,
+        "y": 682
+      },
+      {
+        "id": "CHANGE_HISTORY",
+        "x": 97,
+        "y": 512
+      },
+      {
+        "id": "EVIDENCE_PATH",
+        "x": 143,
+        "y": 342
+      },
+      {
+        "id": "STRATEGY",
+        "x": 267,
+        "y": 218
+      }
+    ]
+  },
+  "sccg_version": "0.5.0",
+  "schema_version": "1.0.0"
+}

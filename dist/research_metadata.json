@@ -17,6 +17,7 @@
     "dist/ai_rule_export.jsonl",
     "dist/review_profiles.json",
     "dist/data_packages.json",
+    "dist/data_package_diagram_layout.json",
     "dist/prechecks.json",
     "dist/vectorstore_manifest.json",
     "dist/research_metadata.json"
