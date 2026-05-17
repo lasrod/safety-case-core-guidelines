@@ -225,6 +225,19 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
         for package_id in profile.get("required_data", []) + profile.get("optional_data", []):
             if package_id not in data_package_ids:
                 errors.append(f"[review_profiles] {profile['id']}: data package {package_id!r} is not defined")
+        data_rationale = profile.get("data_rationale", {})
+        rationale_checks = [
+            ("required", "required_data"),
+            ("optional", "optional_data"),
+        ]
+        for rationale_key, data_key in rationale_checks:
+            expected_ids = profile.get(data_key, [])
+            actual_ids = [entry.get("id") for entry in data_rationale.get(rationale_key, [])]
+            if actual_ids != expected_ids:
+                errors.append(
+                    f"[review_profiles] {profile['id']}: data_rationale.{rationale_key} ids must match "
+                    f"{data_key} exactly; expected {expected_ids!r}, got {actual_ids!r}"
+                )
 
     suggested_check_ids = {
         check["id"]

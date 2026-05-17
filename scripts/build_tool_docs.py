@@ -188,9 +188,10 @@ def _status_node_block(package: dict, x: int, y: int, state: str, width: int, he
     label_fill = style["stroke"]
     header_height = 26
     center_x = x + (width / 2)
+    dash = ' stroke-dasharray="8 6"' if state == "optional" else ""
     return (
         f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="18" fill="{fill}" '
-        f'stroke="{stroke}" stroke-width="2.5"/>'
+        f'stroke="{stroke}" stroke-width="2.5"{dash}/>'
         f'<rect x="{x}" y="{y}" width="{width}" height="{header_height}" rx="18" fill="{header_fill}"/>'
         f'<text x="{center_x}" y="{y + 19}" text-anchor="middle" font-size="13" font-weight="800" fill="white">{html.escape(package_id)}</text>'
         f'<text x="{center_x}" y="{y + 50}" text-anchor="middle" font-size="15" font-weight="700" fill="#1c1c1c">{html.escape(package["display_name"])}</text>'
@@ -325,6 +326,15 @@ def render_review_profile_svg(
 def render_diagram_index(model: dict) -> str:
     cards = []
     for profile in model["review_profiles"]:
+        required_rationale = "".join(
+            f"<li><code>{html.escape(item['id'])}</code>: {html.escape(item['rationale'])}</li>"
+            for item in profile["data_rationale"]["required"]
+        )
+        optional_items = profile["data_rationale"]["optional"]
+        optional_rationale = "".join(
+            f"<li><code>{html.escape(item['id'])}</code>: {html.escape(item['rationale'])}</li>"
+            for item in optional_items
+        ) or "<li>None.</li>"
         cards.append(
             "<section class=\"card\">"
             f"<h2>{html.escape(profile['display_name'])}</h2>"
@@ -332,11 +342,17 @@ def render_diagram_index(model: dict) -> str:
             f"<p><b>Required:</b> {html.escape(', '.join(profile.get('required_data', [])) or 'None')}</p>"
             f"<p><b>Optional:</b> {html.escape(', '.join(profile.get('optional_data', [])) or 'None')}</p>"
             f"<p><a href=\"{profile['id']}.svg\">Open SVG diagram</a></p>"
-            f"<img src=\"{profile['id']}.svg\" alt=\"{html.escape(profile['display_name'])} diagram\"/></section>"
+            f"<img src=\"{profile['id']}.svg\" alt=\"{html.escape(profile['display_name'])} diagram\"/>"
+            "<h3>Data package rationale</h3>"
+            "<h4>Required data</h4>"
+            f"<ul>{required_rationale}</ul>"
+            "<h4>Optional data</h4>"
+            f"<ul>{optional_rationale}</ul>"
+            "</section>"
         )
     return (
         "<!doctype html><html><head><meta charset=\"utf-8\"><title>SCCG Review Profile Diagrams</title>"
-        "<style>body{font-family:Segoe UI,Arial,sans-serif;margin:32px;background:#f6f7fb;color:#222}.card{background:#fff;border:1px solid #e0e4ee;border-radius:18px;padding:20px;margin:0 0 28px;box-shadow:0 4px 16px rgba(0,0,0,.06)}img{max-width:100%;border:1px solid #e6e8ef;border-radius:12px}h1{margin-bottom:8px}a{color:#245a9c}</style>"
+        "<style>body{font-family:Segoe UI,Arial,sans-serif;margin:32px;background:#f6f7fb;color:#222}.card{background:#fff;border:1px solid #e0e4ee;border-radius:18px;padding:20px;margin:0 0 28px;box-shadow:0 4px 16px rgba(0,0,0,.06)}img{max-width:100%;border:1px solid #e6e8ef;border-radius:12px}h1{margin-bottom:8px}h3{margin:24px 0 8px}h4{margin:16px 0 6px}li{margin:0 0 8px;line-height:1.45}code{background:#f3f5f9;border:1px solid #e1e5ee;border-radius:4px;padding:1px 4px}a{color:#245a9c}</style>"
         "</head><body><h1>SCCG Review Profile Diagrams</h1><p>These diagrams are generated from the canonical review profile and data package metadata.</p>"
         + "".join(cards)
         + "</body></html>"

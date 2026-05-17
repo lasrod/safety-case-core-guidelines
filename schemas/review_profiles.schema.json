@@ -18,7 +18,8 @@
           "applies_to",
           "guideline_ids",
           "required_data",
-          "optional_data"
+          "optional_data",
+          "data_rationale"
         ],
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
@@ -41,8 +42,34 @@
           "optional_data": {
             "type": "array",
             "items": { "type": "string", "pattern": "^[A-Z0-9_]+$" }
+          },
+          "data_rationale": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["required", "optional"],
+            "properties": {
+              "required": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/data_rationale_entry" }
+              },
+              "optional": {
+                "type": "array",
+                "items": { "$ref": "#/definitions/data_rationale_entry" }
+              }
+            }
           }
         }
+      }
+    }
+  },
+  "definitions": {
+    "data_rationale_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rationale"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+        "rationale": { "type": "string", "minLength": 1 }
       }
     }
   }
