@@ -5,7 +5,7 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 ### Core files
 
 {% for asset in assets %}
-- `{{ asset.path }}`: {{ asset.description }}
+- [{{ asset.path }}]({{ asset.path }}): {{ asset.description }}
 {% endfor %}
 
 ### Review workflow model
