@@ -20,9 +20,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Validate authored content and generated outputs
-        run: python scripts/validate.py
-
       - name: Build distribution files
         run: python scripts/build_dist.py
 
@@ -31,6 +28,9 @@ jobs:
 
       - name: Build coverage reports
         run: python scripts/check_coverage.py
+
+      - name: Validate authored content and generated outputs
+        run: python scripts/validate.py
 
       - name: Fail if generated files are out of sync
         run: |
@@ -42,6 +42,6 @@ jobs:
             fi
             echo ""
             echo "::error::Generated files are out of sync with authored content."
-            echo "Run: python scripts/build_dist.py, python scripts/build_site.py, and python scripts/check_coverage.py, then commit the result."
+            echo "Run: python scripts/build_dist.py, python scripts/build_site.py, python scripts/check_coverage.py, and python scripts/validate.py, then commit the result."
             exit 1
           fi

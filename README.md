@@ -73,10 +73,10 @@ Requires Python 3.11+.
 
 ```bash
 pip install -r requirements.txt
-python scripts/validate.py
 python scripts/build_dist.py
 python scripts/build_site.py
 python scripts/check_coverage.py
+python scripts/validate.py
 ```
 
 For local edits, the usual flow is:
