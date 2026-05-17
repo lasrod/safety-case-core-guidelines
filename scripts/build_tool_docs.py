@@ -291,7 +291,7 @@ def render_review_profile_svg(
         for index, line in enumerate(description_lines)
     )
 
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
 <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#444"/></marker></defs>
 <rect width="{width}" height="{height}" fill="#ffffff"/>
 <rect x="0" y="0" width="{width}" height="88" fill="#f7f8fb"/>
