@@ -28,7 +28,7 @@ Preamble, scope, and usage text outside those markers remain hand-maintained.
 - `<!-- BEGIN GENERATED: review-profiles -->` / `<!-- END GENERATED: review-profiles -->`
 - `<!-- BEGIN GENERATED: prechecks -->` / `<!-- END GENERATED: prechecks -->`
 
-Review-profile SVG diagrams are generated into [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/). These files are ignored by Git and should be regenerated locally when needed.
+Review-profile SVG diagrams are generated into [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/). These files are ignored by Git and should be regenerated locally when needed. The GitHub Pages deployment workflow also regenerates them before publishing the site.
 
 ## Guideline fields
 

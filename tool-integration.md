@@ -22,23 +22,37 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 ### Core files
 
 
-- `dist/sccg.full.json`: Complete normalized SCCG model, including guidelines, review profiles, data packages, and pre-checks.
+- [dist/sccg.full.json](dist/sccg.full.json): Complete normalized SCCG model, including guidelines, review profiles, data packages, and pre-checks.
 
-- `dist/review_profiles.json`: Review profile registry for selecting review intent and expected tool context.
+- [dist/review_profiles.json](dist/review_profiles.json): Review profile registry for selecting review intent and expected tool context.
 
-- `dist/data_packages.json`: Data package registry describing the context a tool may provide to a review workflow.
+- [dist/data_packages.json](dist/data_packages.json): Data package registry describing the context a tool may provide to a review workflow.
 
-- `dist/data_package_diagram_layout.json`: Fixed diagram layout for review-profile visualizations, with SEL centered and all other package types pinned to stable positions.
+- [dist/data_package_diagram_layout.json](dist/data_package_diagram_layout.json): Fixed diagram layout for review-profile visualizations, with SEL centered and all other package types pinned to stable positions.
 
-- `dist/prechecks.json`: Deterministic candidate checks that a tool can run before human or AI judgment.
+- [dist/prechecks.json](dist/prechecks.json): Deterministic candidate checks that a tool can run before human or AI judgment.
 
-- `dist/sccg.rules.jsonl`: One guideline per JSONL line for retrieval or rule loading.
+- [dist/sccg.rules.jsonl](dist/sccg.rules.jsonl): One guideline per JSONL line for retrieval or rule loading.
 
-- `dist/ai_rule_export.jsonl`: AI-oriented export with one SCCG guideline per line and tool-facing metadata.
+- [dist/ai_rule_export.jsonl](dist/ai_rule_export.jsonl): AI-oriented export with one SCCG guideline per line and tool-facing metadata.
 
-- `dist/vectorstore_manifest.json`: Recommended ingestion files and metadata fields for retrieval systems.
+- [dist/vectorstore_manifest.json](dist/vectorstore_manifest.json): Recommended ingestion files and metadata fields for retrieval systems.
 
-- `schemas/`: JSON Schema contracts for authored content and exports.
+- [schemas/sccg.schema.json](schemas/sccg.schema.json): JSON Schema contract for the canonical document metadata model.
+
+- [schemas/guideline_category.schema.json](schemas/guideline_category.schema.json): JSON Schema contract for authored guideline category files.
+
+- [schemas/references.schema.json](schemas/references.schema.json): JSON Schema contract for the reference source registry.
+
+- [schemas/review_profiles.schema.json](schemas/review_profiles.schema.json): JSON Schema contract for authored review profiles.
+
+- [schemas/data_packages.schema.json](schemas/data_packages.schema.json): JSON Schema contract for data package metadata.
+
+- [schemas/data_package_diagram_layout.schema.json](schemas/data_package_diagram_layout.schema.json): JSON Schema contract for review-profile diagram layout metadata.
+
+- [schemas/prechecks.schema.json](schemas/prechecks.schema.json): JSON Schema contract for deterministic pre-check metadata.
+
+- [schemas/ai_rule_export.schema.json](schemas/ai_rule_export.schema.json): JSON Schema contract for AI rule export rows.
 
 
 ### Review workflow model

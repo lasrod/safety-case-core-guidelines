@@ -86,7 +86,14 @@ def _tool_assets() -> list[dict[str, str]]:
         {"path": "dist/sccg.rules.jsonl", "description": "One guideline per JSONL line for retrieval or rule loading."},
         {"path": "dist/ai_rule_export.jsonl", "description": "AI-oriented export with one SCCG guideline per line and tool-facing metadata."},
         {"path": "dist/vectorstore_manifest.json", "description": "Recommended ingestion files and metadata fields for retrieval systems."},
-        {"path": "schemas/", "description": "JSON Schema contracts for authored content and exports."},
+        {"path": "schemas/sccg.schema.json", "description": "JSON Schema contract for the canonical document metadata model."},
+        {"path": "schemas/guideline_category.schema.json", "description": "JSON Schema contract for authored guideline category files."},
+        {"path": "schemas/references.schema.json", "description": "JSON Schema contract for the reference source registry."},
+        {"path": "schemas/review_profiles.schema.json", "description": "JSON Schema contract for authored review profiles."},
+        {"path": "schemas/data_packages.schema.json", "description": "JSON Schema contract for data package metadata."},
+        {"path": "schemas/data_package_diagram_layout.schema.json", "description": "JSON Schema contract for review-profile diagram layout metadata."},
+        {"path": "schemas/prechecks.schema.json", "description": "JSON Schema contract for deterministic pre-check metadata."},
+        {"path": "schemas/ai_rule_export.schema.json", "description": "JSON Schema contract for AI rule export rows."},
     ]
 
 

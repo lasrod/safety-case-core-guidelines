@@ -49,7 +49,7 @@ Tool documentation assets are generated into [assets/generated/review_profile_di
 - one SVG diagram per review profile
 - `index.html` for direct browsing of the generated diagrams
 
-These diagram assets are generated locally from canonical content and are ignored by Git.
+These diagram assets are generated from canonical content and are ignored by Git. The GitHub Pages deployment workflow regenerates them before building the published site, so the public tool integration page can link to them without committing generated SVGs.
 
 ## Website generation
 
@@ -89,6 +89,8 @@ python scripts/validate.py
 ```
 
 CI runs the validation and generation commands and fails if tracked generated files are not committed. The ignored diagram assets under [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/) are regenerated as needed and are not tracked.
+
+GitHub Pages is deployed by a dedicated workflow that runs the same generation and validation commands before Jekyll builds the site artifact. This ensures generated diagram assets and tool-facing files are available on the published site even when they are ignored locally.
 
 ## Tooling consumers
 
