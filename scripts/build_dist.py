@@ -159,6 +159,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "selectable_elements": model["selectable_elements"],
                 "review_profiles": model["review_profiles"],
             }
         ),

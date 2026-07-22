@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import json
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
@@ -27,24 +27,6 @@ from sccg_common import (
     load_json,
     load_yaml,
 )
-
-
-DECOMPOSITION_REVIEW_ID = "decomposition_review"
-DECOMPOSITION_REVIEW_DESCRIPTION = (
-    "Reviews whether a selected claim is decomposed by clear child claims and reasoning, or whether a selected "
-    "strategy or reasoning step explains why child claims support the parent claim."
-)
-DECOMPOSITION_REVIEW_APPLIES_TO = [
-    "GSN Goal",
-    "SACM Claim",
-    "CAE Claim",
-    "GSN Strategy",
-    "SACM ArgumentReasoning",
-    "CAE Argument",
-]
-DECOMPOSITION_REVIEW_REQUIRED_GUIDELINE_IDS = [
-    "AR.1",
-]
 
 
 def _schema_errors(instance: Any, schema_path: Path, label: str) -> list[str]:
@@ -102,36 +84,6 @@ def _check_file_current(path: Path, expected: str, label: str) -> list[str]:
     if actual != expected:
         return [f"[generated] {label}: {path} is out of date"]
     return []
-
-
-def _find_profile(profiles: list[dict[str, Any]], profile_id: str) -> dict[str, Any] | None:
-    for profile in profiles:
-        if profile.get("id") == profile_id:
-            return profile
-    return None
-
-
-def _validate_decomposition_review_contract(profile: dict[str, Any] | None, label: str) -> list[str]:
-    if profile is None:
-        return [f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID!r} is missing"]
-    errors: list[str] = []
-    if profile.get("applies_to") != DECOMPOSITION_REVIEW_APPLIES_TO:
-        errors.append(
-            f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.applies_to must be "
-            f"{DECOMPOSITION_REVIEW_APPLIES_TO!r}"
-        )
-    if profile.get("description") != DECOMPOSITION_REVIEW_DESCRIPTION:
-        errors.append(
-            f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.description must cover claim- and "
-            "strategy-selected decomposition review"
-        )
-    guideline_ids = profile.get("guideline_ids", [])
-    for guideline_id in DECOMPOSITION_REVIEW_REQUIRED_GUIDELINE_IDS:
-        if guideline_id not in guideline_ids:
-            errors.append(
-                f"[review_profiles] {label}: {DECOMPOSITION_REVIEW_ID}.guideline_ids must include {guideline_id!r}"
-            )
-    return errors
 
 
 def _validate_schemas() -> list[str]:
@@ -239,6 +191,39 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
                     f"{data_key} exactly; expected {expected_ids!r}, got {actual_ids!r}"
                 )
 
+    element_usage: dict[str, list[str]] = defaultdict(list)
+    for profile in model["review_profiles"]:
+        for element in profile.get("applies_to", []):
+            element_usage[element].append(profile["id"])
+    for element, profile_ids in sorted(element_usage.items()):
+        if len(profile_ids) > 1:
+            errors.append(
+                f"[review_profiles] element {element!r} is claimed by multiple profiles "
+                f"{sorted(profile_ids)!r}; each element type must map to exactly one review profile"
+            )
+
+    selectable = model.get("selectable_elements", [])
+    for duplicate_element in _duplicates([entry["element"] for entry in selectable]):
+        errors.append(f"[selectable_elements] duplicate element {duplicate_element!r}")
+    selectable_ids = {entry["element"] for entry in selectable}
+    # Every clickable element must resolve to exactly one profile (totality of the tool lookup).
+    for entry in selectable:
+        element = entry["element"]
+        mapped = element_usage.get(element, [])
+        if not mapped:
+            errors.append(
+                f"[selectable_elements] element {element!r} maps to no review profile; every selectable "
+                "element must be reviewable via exactly one profile"
+            )
+    # Every element a profile claims must be a declared selectable element (no strays or typos).
+    for profile in model["review_profiles"]:
+        for element in profile.get("applies_to", []):
+            if element not in selectable_ids:
+                errors.append(
+                    f"[review_profiles] {profile['id']}: applies_to element {element!r} is not declared in "
+                    "selectable_elements"
+                )
+
     suggested_check_ids = {
         check["id"]
         for guideline in model["guidelines"]
@@ -260,33 +245,6 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     for path, expected in build_dist_outputs(model).items():
         errors.extend(_check_file_current(path, expected, str(path)))
-    review_profiles_path = DIST / "review_profiles.json"
-    if review_profiles_path.exists():
-        review_profiles = load_json(review_profiles_path)
-        errors.extend(
-            _validate_decomposition_review_contract(
-                _find_profile(review_profiles.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
-                "dist/review_profiles.json",
-            )
-        )
-    sccg_full_yaml_path = DIST / "sccg.full.yaml"
-    if sccg_full_yaml_path.exists():
-        sccg_full_yaml = load_yaml(sccg_full_yaml_path)
-        errors.extend(
-            _validate_decomposition_review_contract(
-                _find_profile(sccg_full_yaml.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
-                "dist/sccg.full.yaml",
-            )
-        )
-    sccg_full_json_path = DIST / "sccg.full.json"
-    if sccg_full_json_path.exists():
-        sccg_full_json = load_json(sccg_full_json_path)
-        errors.extend(
-            _validate_decomposition_review_contract(
-                _find_profile(sccg_full_json.get("review_profiles", []), DECOMPOSITION_REVIEW_ID),
-                "dist/sccg.full.json",
-            )
-        )
     ai_export_schema = load_json(SCHEMAS / "ai_rule_export.schema.json")
     ai_export_validator = Draft7Validator(ai_export_schema)
     ai_export_path = DIST / "ai_rule_export.jsonl"

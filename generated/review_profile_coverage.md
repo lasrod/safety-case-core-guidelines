@@ -2,7 +2,7 @@
 
 ## Guidelines by review profile
 
-### Claim wording review (`claim_wording_review`)
+### Claim review (`claim_review`)
 
 - CL.1
 - CL.2
@@ -10,137 +10,168 @@
 - CL.4
 - CL.5
 - CL.6
-- RD.4
-- LF.6
-
-### Claim context review (`claim_context_review`)
-
-- CL.4
-- CL.5
-- AR.3
-- SU.2
-- RD.6
-
-### Decomposition review (`decomposition_review`)
-
-- CL.2
-- CL.3
-- CL.6
 - AR.1
-- AR.2
+- AR.3
 - AR.4
 - AR.5
+- AR.6
+- AR.7
+- EV.1
+- EV.3
+- EV.9
+- SU.1
+- SU.4
+- SU.5
+- SU.6
+- SU.8
+- SU.9
+- SU.11
 - LF.1
+- LF.2
+- LF.3
+- LF.4
+- LF.5
+- LF.6
+- LF.7
+- RD.1
+- RD.2
+- RD.3
+- RD.4
+- RD.5
+- RD.6
 
 ### Strategy review (`strategy_review`)
 
 - AR.1
 - AR.2
-- AR.4
-- AR.5
+- EV.9
+- SU.1
 - LF.1
 
-### Evidence item review (`evidence_item_review`)
+### Evidence review (`evidence_review`)
 
+- AR.1
+- EV.1
 - EV.2
 - EV.4
-- EV.7
-- EV.8
-- SU.3
-- SU.7
-
-### Evidence path review (`evidence_path_review`)
-
-- EV.1
-- EV.3
 - EV.5
 - EV.6
-- EV.9
+- EV.7
+- EV.8
+- SU.1
+- SU.3
+- SU.6
+- SU.7
+- SU.8
 - LF.2
 - LF.5
 - LF.7
+- RD.1
 
 ### Assumption review (`assumption_review`)
 
+- AR.1
 - AR.3
 - AR.7
 - SU.2
+- SU.4
 - SU.9
 - SU.10
+- RD.1
 - RD.6
 
 ### Justification review (`justification_review`)
 
+- AR.1
 - AR.8
 - AR.9
+- EV.5
 - SU.3
 - SU.5
+- SU.7
 - LF.3
+- LF.4
+- RD.1
 - RD.5
+
+### Context review (`context_review`)
+
+- AR.1
+- AR.3
+- AR.6
+- AR.7
+- SU.9
+- RD.1
+- RD.3
+- RD.6
+
+### Challenge review (`challenge_review`)
+
+- SU.11
 
 ## Review profiles by guideline
 
 ### CL.1
 
-- claim_wording_review
+- claim_review
 
 ### CL.2
 
-- claim_wording_review
-- decomposition_review
+- claim_review
 
 ### CL.3
 
-- claim_wording_review
-- decomposition_review
+- claim_review
 
 ### CL.4
 
-- claim_wording_review
-- claim_context_review
+- claim_review
 
 ### CL.5
 
-- claim_wording_review
-- claim_context_review
+- claim_review
 
 ### CL.6
 
-- claim_wording_review
-- decomposition_review
+- claim_review
 
 ### AR.1
 
-- decomposition_review
+- claim_review
 - strategy_review
+- evidence_review
+- assumption_review
+- justification_review
+- context_review
 
 ### AR.2
 
-- decomposition_review
 - strategy_review
 
 ### AR.3
 
-- claim_context_review
+- claim_review
 - assumption_review
+- context_review
 
 ### AR.4
 
-- decomposition_review
-- strategy_review
+- claim_review
 
 ### AR.5
 
-- decomposition_review
-- strategy_review
+- claim_review
 
 ### AR.6
 
-- None
+- claim_review
+- context_review
 
 ### AR.7
 
+- claim_review
 - assumption_review
+- context_review
 
 ### AR.8
 
@@ -152,77 +183,88 @@
 
 ### EV.1
 
-- evidence_path_review
+- claim_review
+- evidence_review
 
 ### EV.2
 
-- evidence_item_review
+- evidence_review
 
 ### EV.3
 
-- evidence_path_review
+- claim_review
 
 ### EV.4
 
-- evidence_item_review
+- evidence_review
 
 ### EV.5
 
-- evidence_path_review
+- evidence_review
+- justification_review
 
 ### EV.6
 
-- evidence_path_review
+- evidence_review
 
 ### EV.7
 
-- evidence_item_review
+- evidence_review
 
 ### EV.8
 
-- evidence_item_review
+- evidence_review
 
 ### EV.9
 
-- evidence_path_review
+- claim_review
+- strategy_review
 
 ### SU.1
 
-- None
+- claim_review
+- strategy_review
+- evidence_review
 
 ### SU.2
 
-- claim_context_review
 - assumption_review
 
 ### SU.3
 
-- evidence_item_review
+- evidence_review
 - justification_review
 
 ### SU.4
 
-- None
+- claim_review
+- assumption_review
 
 ### SU.5
 
+- claim_review
 - justification_review
 
 ### SU.6
 
-- None
+- claim_review
+- evidence_review
 
 ### SU.7
 
-- evidence_item_review
+- evidence_review
+- justification_review
 
 ### SU.8
 
-- None
+- claim_review
+- evidence_review
 
 ### SU.9
 
+- claim_review
 - assumption_review
+- context_review
 
 ### SU.10
 
@@ -230,71 +272,75 @@
 
 ### SU.11
 
-- None
+- claim_review
+- challenge_review
 
 ### LF.1
 
-- decomposition_review
+- claim_review
 - strategy_review
 
 ### LF.2
 
-- evidence_path_review
+- claim_review
+- evidence_review
 
 ### LF.3
 
+- claim_review
 - justification_review
 
 ### LF.4
 
-- None
+- claim_review
+- justification_review
 
 ### LF.5
 
-- evidence_path_review
+- claim_review
+- evidence_review
 
 ### LF.6
 
-- claim_wording_review
+- claim_review
 
 ### LF.7
 
-- evidence_path_review
+- claim_review
+- evidence_review
 
 ### RD.1
 
-- None
+- claim_review
+- evidence_review
+- assumption_review
+- justification_review
+- context_review
 
 ### RD.2
 
-- None
+- claim_review
 
 ### RD.3
 
-- None
+- claim_review
+- context_review
 
 ### RD.4
 
-- claim_wording_review
+- claim_review
 
 ### RD.5
 
+- claim_review
 - justification_review
 
 ### RD.6
 
-- claim_context_review
+- claim_review
 - assumption_review
+- context_review
 
 ## Guidelines not mapped to any review profile
 
-> WARNING: AR.6
-> WARNING: SU.1
-> WARNING: SU.4
-> WARNING: SU.6
-> WARNING: SU.8
-> WARNING: SU.11
-> WARNING: LF.4
-> WARNING: RD.1
-> WARNING: RD.2
-> WARNING: RD.3
+No unmapped guidelines.

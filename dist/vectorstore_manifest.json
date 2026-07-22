@@ -27,6 +27,6 @@
       "purpose": "Complete normalized SCCG model."
     }
   ],
-  "sccg_version": "0.5.2",
+  "sccg_version": "0.6.0",
   "schema_version": "1.0.0"
 }
