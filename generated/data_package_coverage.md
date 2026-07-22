@@ -2,31 +2,7 @@
 
 ## Data packages by review profile
 
-### Claim wording review (`claim_wording_review`)
-
-Required data:
-- SEL
-- DIRECT_CONTEXT
-
-Optional data:
-- PARENT
-- CHILDREN
-- INHERITED_CONTEXT
-- PROJECT_GLOSSARY
-
-### Claim context review (`claim_context_review`)
-
-Required data:
-- SEL
-- DIRECT_CONTEXT
-- INHERITED_CONTEXT
-
-Optional data:
-- PARENT
-- PROJECT_GLOSSARY
-- STANDARD_LINKS
-
-### Decomposition review (`decomposition_review`)
+### Claim review (`claim_review`)
 
 Required data:
 - SEL
@@ -35,10 +11,14 @@ Required data:
 - STRATEGY
 - DIRECT_CONTEXT
 - INHERITED_CONTEXT
+- EVIDENCE_PATH
 
 Optional data:
-- EVIDENCE_PATH
+- EVIDENCE_ITEM
+- EVIDENCE_BASIS
 - PROJECT_GLOSSARY
+- STANDARD_LINKS
+- CHANGE_HISTORY
 
 ### Strategy review (`strategy_review`)
 
@@ -50,31 +30,25 @@ Required data:
 
 Optional data:
 - INHERITED_CONTEXT
+- EVIDENCE_PATH
 - PROJECT_GLOSSARY
 - STANDARD_LINKS
-
-### Evidence item review (`evidence_item_review`)
-
-Required data:
-- SEL
-- EVIDENCE_ITEM
-
-Optional data:
-- EVIDENCE_BASIS
 - CHANGE_HISTORY
 
-### Evidence path review (`evidence_path_review`)
+### Evidence review (`evidence_review`)
 
 Required data:
 - SEL
-- EVIDENCE_PATH
-- CHILDREN
-
-Optional data:
-- STRATEGY
 - EVIDENCE_ITEM
 - EVIDENCE_BASIS
+- PARENT
+
+Optional data:
 - DIRECT_CONTEXT
+- EVIDENCE_PATH
+- PROJECT_GLOSSARY
+- STANDARD_LINKS
+- CHANGE_HISTORY
 
 ### Assumption review (`assumption_review`)
 
@@ -85,6 +59,8 @@ Required data:
 
 Optional data:
 - PARENT
+- CHANGE_HISTORY
+- PROJECT_GLOSSARY
 
 ### Justification review (`justification_review`)
 
@@ -96,93 +72,121 @@ Optional data:
 - STRATEGY
 - EVIDENCE_PATH
 - EVIDENCE_ITEM
+- EVIDENCE_BASIS
+- CHANGE_HISTORY
+
+### Context review (`context_review`)
+
+Required data:
+- SEL
+- PARENT
+
+Optional data:
+- INHERITED_CONTEXT
+- PROJECT_GLOSSARY
+- STANDARD_LINKS
+
+### Challenge review (`challenge_review`)
+
+Required data:
+- SEL
+- PARENT
+
+Optional data:
+- CHILDREN
+- DIRECT_CONTEXT
 - CHANGE_HISTORY
 
 ## Review profiles by data package
 
 ### SEL
 
-- claim_wording_review
-- claim_context_review
-- decomposition_review
+- claim_review
 - strategy_review
-- evidence_item_review
-- evidence_path_review
+- evidence_review
 - assumption_review
 - justification_review
+- context_review
+- challenge_review
 
 ### PARENT
 
-- claim_wording_review
-- claim_context_review
-- decomposition_review
+- claim_review
 - strategy_review
+- evidence_review
 - assumption_review
 - justification_review
+- context_review
+- challenge_review
 
 ### CHILDREN
 
-- claim_wording_review
-- decomposition_review
+- claim_review
 - strategy_review
-- evidence_path_review
+- challenge_review
 
 ### DIRECT_CONTEXT
 
-- claim_wording_review
-- claim_context_review
-- decomposition_review
+- claim_review
 - strategy_review
-- evidence_path_review
+- evidence_review
 - assumption_review
+- challenge_review
 
 ### INHERITED_CONTEXT
 
-- claim_wording_review
-- claim_context_review
-- decomposition_review
+- claim_review
 - strategy_review
 - assumption_review
+- context_review
 
 ### STRATEGY
 
-- decomposition_review
-- evidence_path_review
+- claim_review
 - justification_review
 
 ### EVIDENCE_ITEM
 
-- evidence_item_review
-- evidence_path_review
+- claim_review
+- evidence_review
 - justification_review
 
 ### EVIDENCE_PATH
 
-- decomposition_review
-- evidence_path_review
+- claim_review
+- strategy_review
+- evidence_review
 - justification_review
 
 ### EVIDENCE_BASIS
 
-- evidence_item_review
-- evidence_path_review
+- claim_review
+- evidence_review
+- justification_review
 
 ### PROJECT_GLOSSARY
 
-- claim_wording_review
-- claim_context_review
-- decomposition_review
+- claim_review
 - strategy_review
+- evidence_review
+- assumption_review
+- context_review
 
 ### STANDARD_LINKS
 
-- claim_context_review
+- claim_review
 - strategy_review
+- evidence_review
+- context_review
 
 ### CHANGE_HISTORY
 
-- evidence_item_review
+- claim_review
+- strategy_review
+- evidence_review
+- assumption_review
 - justification_review
+- challenge_review
 
 ### USER_REVIEW_INTENT
 

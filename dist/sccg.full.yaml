@@ -1,5 +1,5 @@
 schema_version: 1.0.0
-sccg_version: 0.5.2
+sccg_version: 0.6.0
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -2161,12 +2161,11 @@ guidelines:
     - id: check-limitations-collocated
       description: Check whether important limitations and assumptions are visible where the claim is read.
 review_profiles:
-- id: claim_wording_review
-  display_name: Claim wording review
-  description: Reviews whether a selected claim is clear, falsifiable, bounded, and not overloaded.
+- id: claim_review
+  display_name: Claim review
+  description: Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency.
   applies_to:
   - GSN Goal
-  - SACM Claim
   - CAE Claim
   guideline_ids:
   - CL.1
@@ -2175,86 +2174,35 @@ review_profiles:
   - CL.4
   - CL.5
   - CL.6
-  - RD.4
-  - LF.6
-  required_data:
-  - SEL
-  - DIRECT_CONTEXT
-  optional_data:
-  - PARENT
-  - CHILDREN
-  - INHERITED_CONTEXT
-  - PROJECT_GLOSSARY
-  data_rationale:
-    required:
-    - id: SEL
-      rationale: The selected claim text is the direct subject of this review. CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.4, and LF.6 all require looking at the claim wording itself to judge whether it is a falsifiable proposition, asserts one main property, avoids essay-in-the-box packing, uses clear bounded language, avoids inflated wording, and does not create false precision.
-    - id: DIRECT_CONTEXT
-      rationale: Direct context explains the immediate scope, definitions, assumptions, and local constraints that may legitimately shape the claim wording. It is required because CL.3 and AR.3 distinguish concise claim text from context that should be represented separately; without direct context, a reviewer cannot tell whether missing qualifiers are properly externalized or accidentally hidden in the claim.
-    optional:
-    - id: PARENT
-      rationale: The parent helps check whether the selected claim wording preserves the intended scope and terminology from the branch above it. It is optional because many wording defects are visible in the selected claim and direct context, but the parent is useful for spotting silent scope shifts, over-narrowing, or wording that no longer supports the parent claim.
-    - id: CHILDREN
-      rationale: Child elements help detect whether the selected claim is bundling several different claims or decomposition topics that should be separated. This supports CL.2, CL.3, and CL.6, but it is optional because a pure wording review can still be performed when child structure is not available.
-    - id: INHERITED_CONTEXT
-      rationale: Inherited context shows scope and assumptions carried down from ancestors. It helps determine whether the claim appears broader or more absolute than the inherited limits allow, especially for CL.5 and RD.6 concerns, but it is optional because not every selected claim relies on inherited context.
-    - id: PROJECT_GLOSSARY
-      rationale: The glossary supports CL.4 by resolving project-specific terms that may otherwise look ambiguous or overloaded. It is optional because many wording issues can be judged directly, but glossary definitions are important when terms such as safe, acceptable, nominal, ODD, or system-specific component names have controlled meanings.
-- id: claim_context_review
-  display_name: Claim context review
-  description: Reviews whether the selected claim has enough context, scope, assumptions, and definitions.
-  applies_to:
-  - GSN Goal
-  - SACM Claim
-  - CAE Claim
-  guideline_ids:
-  - CL.4
-  - CL.5
-  - AR.3
-  - SU.2
-  - RD.6
-  required_data:
-  - SEL
-  - DIRECT_CONTEXT
-  - INHERITED_CONTEXT
-  optional_data:
-  - PARENT
-  - PROJECT_GLOSSARY
-  - STANDARD_LINKS
-  data_rationale:
-    required:
-    - id: SEL
-      rationale: The selected claim is required because the review asks whether that claim has enough surrounding context to be interpreted consistently. CL.4, CL.5, AR.3, SU.2, and RD.6 can only be applied by comparing the claim wording with the context and assumptions that qualify it.
-    - id: DIRECT_CONTEXT
-      rationale: Direct context is the primary evidence that scope, definitions, operating conditions, dependencies, assumptions, and justifications are visible where the claim is read. It is required for AR.3 and SU.2 because the reviewer must see whether needed context and assumptions are explicit rather than hidden in prose.
-    - id: INHERITED_CONTEXT
-      rationale: Inherited context is required because a claim's meaning is often constrained by ancestor scope, assumptions, and definitions. RD.6 warns against hidden limitations, so the reviewer needs inherited context to check whether the selected claim is still bounded by visible upstream constraints and does not contradict or silently ignore them.
-    optional:
-    - id: PARENT
-      rationale: The parent helps explain where inherited context comes from and whether the selected claim aligns with the parent branch. It is optional because inherited context may already be available as a package, but the parent is useful when context inheritance or scope narrowing is unclear.
-    - id: PROJECT_GLOSSARY
-      rationale: The glossary helps determine whether terms in the claim or context have controlled project meanings. It supports CL.4 and AR.3 when terms are domain-specific, but it is optional because not every context review depends on glossary-defined terminology.
-    - id: STANDARD_LINKS
-      rationale: Standard links are useful when the claim context depends on external standards, compliance scope, or referenced operating constraints. They are optional because many claim-context reviews are purely local, but they help verify that cited standards are relevant and not used as vague or hidden context.
-- id: decomposition_review
-  display_name: Decomposition review
-  description: Reviews whether a selected claim is decomposed by clear child claims and reasoning, or whether a selected strategy or reasoning step explains why child claims support the parent claim.
-  applies_to:
-  - GSN Goal
-  - SACM Claim
-  - CAE Claim
-  - GSN Strategy
-  - SACM ArgumentReasoning
-  - CAE Argument
-  guideline_ids:
-  - CL.2
-  - CL.3
-  - CL.6
   - AR.1
-  - AR.2
+  - AR.3
   - AR.4
   - AR.5
+  - AR.6
+  - AR.7
+  - EV.1
+  - EV.3
+  - EV.9
+  - SU.1
+  - SU.4
+  - SU.5
+  - SU.6
+  - SU.8
+  - SU.9
+  - SU.11
   - LF.1
+  - LF.2
+  - LF.3
+  - LF.4
+  - LF.5
+  - LF.6
+  - LF.7
+  - RD.1
+  - RD.2
+  - RD.3
+  - RD.4
+  - RD.5
+  - RD.6
   required_data:
   - SEL
   - PARENT
@@ -2262,153 +2210,155 @@ review_profiles:
   - STRATEGY
   - DIRECT_CONTEXT
   - INHERITED_CONTEXT
-  optional_data:
   - EVIDENCE_PATH
-  - PROJECT_GLOSSARY
-  data_rationale:
-    required:
-    - id: SEL
-      rationale: The selected element is required because the profile may review either a parent claim being decomposed or a strategy/reasoning element that explains a decomposition. CL.2, CL.3, CL.6, AR.1, AR.2, AR.4, AR.5, and LF.1 all depend on understanding the selected element's role in the branch.
-    - id: PARENT
-      rationale: The parent is required because decomposition quality is judged against the claim or reasoning step being supported. AR.2 asks whether the decomposition rule explains how children support the parent, AR.5 asks whether scope and terminology remain consistent, and LF.1 requires checking that support does not merely restate the parent.
-    - id: CHILDREN
-      rationale: Child elements are required because they are the actual decomposition being reviewed. CL.2 and CL.6 require checking whether the child set separates different logical steps and is complete for the stated parent, while AR.1 and AR.2 require the branch structure to make the decomposition reviewable.
-    - id: STRATEGY
-      rationale: Strategy is required because AR.2 expects the inference or decomposition rule to be explicit rather than inferred from the child list. The strategy explains why these children, in this branch, are intended to support the parent and helps reveal missing or circular reasoning under LF.1.
-    - id: DIRECT_CONTEXT
-      rationale: Direct context is required because decomposition is only valid within the selected element's stated scope, definitions, and assumptions. AR.3, AR.4, and AR.5 require checking that local context is visible and that children or strategy do not silently change the branch scope.
-    - id: INHERITED_CONTEXT
-      rationale: Inherited context is required because parent scope and ancestor assumptions constrain what the decomposition is allowed to cover. It helps identify child claims that overreach, omit inherited scope, or silently narrow terminology across the branch, which is central to AR.5 and CL.6.
-    optional:
-    - id: EVIDENCE_PATH
-      rationale: The evidence path is optional but useful when decomposition completeness depends on whether child claims eventually reach appropriate evidence. It helps distinguish a structurally plausible decomposition from one that leaves unsupported leaves or jumps to evidence without intermediate claims.
-    - id: PROJECT_GLOSSARY
-      rationale: The glossary is optional because decomposition can often be assessed from the local branch, but it helps when strategy or child claims use controlled terms whose scope must remain consistent across parent and children under AR.5.
-- id: strategy_review
-  display_name: Strategy review
-  description: Reviews whether a strategy or reasoning step explains the inference between parent and supporting claims.
-  applies_to:
-  - GSN Strategy
-  - SACM ArgumentReasoning
-  - CAE Argument
-  guideline_ids:
-  - AR.1
-  - AR.2
-  - AR.4
-  - AR.5
-  - LF.1
-  required_data:
-  - SEL
-  - PARENT
-  - CHILDREN
-  - DIRECT_CONTEXT
   optional_data:
-  - INHERITED_CONTEXT
+  - EVIDENCE_ITEM
+  - EVIDENCE_BASIS
   - PROJECT_GLOSSARY
   - STANDARD_LINKS
-  data_rationale:
-    required:
-    - id: SEL
-      rationale: The selected strategy or reasoning element is required because its text is the object of review. AR.1 and AR.2 require the strategy to make the inference rule explicit, and LF.1 requires checking whether the reasoning adds independent support rather than restating the conclusion.
-    - id: PARENT
-      rationale: The parent is required because a strategy can only be judged relative to the claim it is intended to support. AR.2 asks whether the strategy explains how the parent is decomposed or argued, and AR.5 asks whether the strategy preserves the parent's scope and terminology.
-    - id: CHILDREN
-      rationale: Children are required because the strategy must explain why these specific supporting elements are appropriate and sufficient for the parent. Without the children, the reviewer cannot judge whether the strategy is generic, incomplete, circular, or disconnected from the actual branch.
-    - id: DIRECT_CONTEXT
-      rationale: Direct context is required because strategies often rely on local scope, assumptions, decomposition criteria, or dependencies. AR.4 and AR.5 require those constraints to be visible so the reviewer can decide whether the reasoning is valid for the branch.
-    optional:
-    - id: INHERITED_CONTEXT
-      rationale: Inherited context is optional but useful for confirming that the strategy does not silently override ancestor scope or assumptions. It supports AR.5 when the strategy uses terms or boundaries inherited from higher levels of the argument.
-    - id: PROJECT_GLOSSARY
-      rationale: The glossary is optional but useful when the strategy refers to project-specific decomposition categories, functions, hazards, ODD terms, or acceptance concepts. It supports consistent interpretation of the reasoning rule.
-    - id: STANDARD_LINKS
-      rationale: Standard links are optional but useful when a strategy claims to decompose by a standard, regulation, or external guidance structure. They help verify that the referenced decomposition basis is real, relevant, and not used as a vague appeal to authority.
-- id: evidence_item_review
-  display_name: Evidence item review
-  description: Reviews whether an evidence item is precise, controlled, stable, and usable for review.
-  applies_to:
-  - GSN Solution
-  - SACM ArtifactReference
-  - CAE Evidence
-  guideline_ids:
-  - EV.2
-  - EV.4
-  - EV.7
-  - EV.8
-  - SU.3
-  - SU.7
-  required_data:
-  - SEL
-  - EVIDENCE_ITEM
-  optional_data:
-  - EVIDENCE_BASIS
   - CHANGE_HISTORY
   data_rationale:
     required:
     - id: SEL
-      rationale: The selected evidence element is required because the profile reviews the evidence reference or solution as it appears in the case. The reviewer needs the selected element to know which artifact is being cited and what role it is playing in the argument.
-    - id: EVIDENCE_ITEM
-      rationale: Evidence item metadata is required because EV.2, EV.4, EV.7, and EV.8 ask whether the artifact type is reviewable, the cited location is precise, and the owner, version, date, status, and retrieval location are controlled and stable. Without this package, the profile cannot judge whether the evidence can be independently reviewed.
+      rationale: The selected claim is the subject of the whole review. Its wording drives CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.2, RD.4, and LF.6, and its scope drives every structural, evidential, and sufficiency check applied to the claim.
+    - id: PARENT
+      rationale: The parent claim or reasoning step is needed to check that the claim preserves inherited scope and terminology (AR.5), still supports the branch above it, and does not merely restate it (LF.1).
+    - id: CHILDREN
+      rationale: Child elements are the decomposition and first support step below the claim. They are required for CL.2, CL.6, AR.4, LF.1, and LF.2, and to check whether evidence is attached at the correct level.
+    - id: STRATEGY
+      rationale: The connecting strategy or reasoning element shows whether the inference is made explicit rather than inferred from wording (AR.1) and whether support adds independent reasoning rather than restating the claim (LF.1); its absence is itself a finding.
+    - id: DIRECT_CONTEXT
+      rationale: Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.3, AR.6, AR.7, RD.1, RD.6) and whether limitations are visible where the claim is read (RD.3, SU.9).
+    - id: INHERITED_CONTEXT
+      rationale: Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.6) and reveal hidden or contradicted limitations under SU.9.
+    - id: EVIDENCE_PATH
+      rationale: The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness (LF.5), and omission of expected or contrary evidence (LF.7, SU.6, SU.8).
     optional:
+    - id: EVIDENCE_ITEM
+      rationale: Metadata for terminal evidence helps confirm that the traced support is precise and controlled where the claim's credibility depends on the cited artifact (EV.1, EV.3).
     - id: EVIDENCE_BASIS
-      rationale: Evidence basis is optional but valuable when the review goes beyond citation hygiene to ask why the item is enough for its intended claim. It provides scope, thresholds, coverage, configurations, scenario sets, and limitations relevant to EV.5, EV.6, SU.3, and SU.7.
+      rationale: Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, LF.7, SU.6, SU.8).
+    - id: PROJECT_GLOSSARY
+      rationale: Controlled definitions of terms such as safe, acceptable, nominal, or ODD resolve apparent ambiguity or overloaded wording (CL.4, AR.6).
+    - id: STANDARD_LINKS
+      rationale: Linked standard requirements help confirm that decomposition or scope claims that appeal to a standard are grounded rather than vague (AR.6), and that reused safety credit is tied to a real conformance basis (SU.5).
     - id: CHANGE_HISTORY
-      rationale: Change history is optional because an evidence item can be reviewed from its current metadata, but prior findings, review comments, proposal history, and baseline changes help identify unstable, challenged, or stale evidence under EV.7 and EV.8.
-- id: evidence_path_review
-  display_name: Evidence path review
-  description: Reviews whether the selected claim is ultimately supported by appropriate evidence.
+      rationale: Prior findings, review comments, and baseline state show whether the claim has been challenged, whether reused credit still applies (SU.5), and whether monitoring or open-issue commitments exist (SU.4, SU.11).
+- id: strategy_review
+  display_name: Strategy review
+  description: Complete review of a selected strategy or reasoning step, covering whether the inference between the parent claim and its supporting claims is explicit and sound.
   applies_to:
-  - GSN Goal
-  - SACM Claim
-  - CAE Claim
+  - GSN Strategy
+  - CAE Argument
   guideline_ids:
-  - EV.1
-  - EV.3
-  - EV.5
-  - EV.6
+  - AR.1
+  - AR.2
   - EV.9
-  - LF.2
-  - LF.5
-  - LF.7
+  - SU.1
+  - LF.1
   required_data:
   - SEL
-  - EVIDENCE_PATH
+  - PARENT
   - CHILDREN
-  optional_data:
-  - STRATEGY
-  - EVIDENCE_ITEM
-  - EVIDENCE_BASIS
   - DIRECT_CONTEXT
+  optional_data:
+  - INHERITED_CONTEXT
+  - EVIDENCE_PATH
+  - PROJECT_GLOSSARY
+  - STANDARD_LINKS
+  - CHANGE_HISTORY
   data_rationale:
     required:
     - id: SEL
-      rationale: The selected claim is required because the evidence path must be evaluated for the exact claim being supported. EV.1, EV.3, LF.2, LF.5, and LF.7 all depend on comparing the claim's wording and scope with the evidence chain below it.
-    - id: EVIDENCE_PATH
-      rationale: Evidence path is required because EV.1 explicitly requires the path from claim to evidence to be visible and traceable. The reviewer needs the path elements and terminal evidence items to determine whether the support can be followed without inference and whether two reviewers would trace the same support.
+      rationale: The selected strategy or reasoning element is the object of review. AR.1 and AR.2 require it to make the inference rule explicit, and LF.1 requires checking that it adds independent support rather than restating the parent.
+    - id: PARENT
+      rationale: A strategy can only be judged against the claim it supports. AR.2 asks whether it explains how the parent is decomposed or argued, and LF.1 whether the reasoning merely restates the parent.
     - id: CHILDREN
-      rationale: Children are required because they are the immediate first step below the selected claim. They help determine whether evidence is attached at the correct level, whether intermediate claims are skipped, and whether the branch avoids irrelevant premises under LF.2.
-    optional:
-    - id: STRATEGY
-      rationale: Strategy is optional but useful when the evidence path passes through intermediate reasoning. It explains how child claims and evidence are intended to support the selected claim and helps reveal missing inferential links under EV.6.
-    - id: EVIDENCE_ITEM
-      rationale: Evidence item metadata is optional but useful for checking whether the terminal evidence actually supports the selected claim with precise, controlled citations. It supports EV.4, EV.7, and EV.8 when path traceability depends on artifact quality.
-    - id: EVIDENCE_BASIS
-      rationale: Evidence basis is optional but important for judging sufficiency rather than mere traceability. It provides the coverage, criteria, scenarios, thresholds, and limitations needed for EV.5, EV.6, LF.5, and LF.7.
+      rationale: The supporting elements are needed to judge whether the reasoning rule actually produces this child set and whether the decomposition is complete, relevant, and non-circular (AR.2, LF.1).
     - id: DIRECT_CONTEXT
-      rationale: Direct context is optional but useful because the claim's local scope and assumptions define what the evidence must cover. It helps detect evidence that is relevant to a neighboring or broader claim but not sufficient for this claim's actual boundaries.
+      rationale: Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2).
+    optional:
+    - id: INHERITED_CONTEXT
+      rationale: Inherited scope and assumptions help confirm that the strategy does not silently override ancestor terminology or boundaries (AR.2 consistency).
+    - id: EVIDENCE_PATH
+      rationale: The descendant evidence path is useful when the reasoning relies on undocumented system knowledge (EV.9) or leaves plausible challenges to the decomposition unaddressed (SU.1).
+    - id: PROJECT_GLOSSARY
+      rationale: The glossary resolves project-specific decomposition categories, functions, hazards, or ODD terms used in the reasoning rule.
+    - id: STANDARD_LINKS
+      rationale: Standard links help verify that a decomposition claiming to follow a standard or external structure is grounded rather than a vague appeal to authority (AR.2).
+    - id: CHANGE_HISTORY
+      rationale: Prior findings and review comments reveal whether plausible challenges to the reasoning step have already been raised and left unaddressed (SU.1).
+- id: evidence_review
+  display_name: Evidence review
+  description: Complete review of a selected evidence item (solution), covering reviewability, control, citation precision, sufficiency, and inferential fit to the supported claim.
+  applies_to:
+  - GSN Solution
+  - CAE Evidence
+  guideline_ids:
+  - AR.1
+  - EV.1
+  - EV.2
+  - EV.4
+  - EV.5
+  - EV.6
+  - EV.7
+  - EV.8
+  - SU.1
+  - SU.3
+  - SU.6
+  - SU.7
+  - SU.8
+  - LF.2
+  - LF.5
+  - LF.7
+  - RD.1
+  required_data:
+  - SEL
+  - EVIDENCE_ITEM
+  - EVIDENCE_BASIS
+  - PARENT
+  optional_data:
+  - DIRECT_CONTEXT
+  - EVIDENCE_PATH
+  - PROJECT_GLOSSARY
+  - STANDARD_LINKS
+  - CHANGE_HISTORY
+  data_rationale:
+    required:
+    - id: SEL
+      rationale: The selected solution or evidence reference is the element under review. It identifies which artifact is cited and what role it plays, which is the basis for AR.1, EV.1, and RD.1.
+    - id: EVIDENCE_ITEM
+      rationale: Artifact metadata such as type, owner, version, date, status, location, and cited section is required to judge whether the evidence type is reviewable and the citation precise, controlled, and stable (EV.2, EV.4, EV.7, EV.8).
+    - id: EVIDENCE_BASIS
+      rationale: Scope, coverage, thresholds, scenarios, configurations, and limitations are required to judge sufficiency and inferential fit rather than citation hygiene alone (EV.5, EV.6, LF.5, LF.7, SU.3, SU.6, SU.7, SU.8).
+    - id: PARENT
+      rationale: The claim the evidence supports is required to judge relevance to the immediate claim (LF.2), a correct and traceable evidence path (EV.1), and whether the inferential link is explained (EV.6).
+    optional:
+    - id: DIRECT_CONTEXT
+      rationale: The claim's local scope and assumptions define what the evidence must cover and help detect evidence that is relevant to a neighboring or broader claim but not sufficient here (LF.2, EV.5).
+    - id: EVIDENCE_PATH
+      rationale: The path from claim to this evidence helps confirm traceable support and correct attachment level, especially where intermediate claims are skipped (EV.1, LF.2).
+    - id: PROJECT_GLOSSARY
+      rationale: The glossary resolves controlled terms used in the artifact or its acceptance criteria so the evidence is interpreted consistently.
+    - id: STANDARD_LINKS
+      rationale: Standard links confirm that an evidence type or acceptance criterion that appeals to a standard is grounded rather than assumed (EV.2, EV.5).
+    - id: CHANGE_HISTORY
+      rationale: Prior findings, review comments, and baseline state identify unstable, challenged, stale, or dismissed evidence (EV.7, EV.8, SU.1, SU.6).
 - id: assumption_review
   display_name: Assumption review
-  description: Reviews whether assumptions are explicit, appropriate, and not hiding unsupported claims.
+  description: Complete review of a selected assumption, covering whether it is explicit, bounded, correctly placed, monitorable, and not hiding an unsupported claim.
   applies_to:
   - GSN Assumption
-  - SACM Claim
   - CAE Assumption
   guideline_ids:
+  - AR.1
   - AR.3
   - AR.7
   - SU.2
+  - SU.4
   - SU.9
   - SU.10
+  - RD.1
   - RD.6
   required_data:
   - SEL
@@ -2416,30 +2366,42 @@ review_profiles:
   - INHERITED_CONTEXT
   optional_data:
   - PARENT
+  - CHANGE_HISTORY
+  - PROJECT_GLOSSARY
   data_rationale:
     required:
     - id: SEL
-      rationale: The selected assumption or assumption-bearing claim is required because the review focuses on the actual dependency being asserted. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether the assumption is explicit, bounded, monitorable, and placed where it constrains the argument.
+      rationale: The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role.
     - id: DIRECT_CONTEXT
-      rationale: Direct context is required because assumptions and justifications attached at the selected point show whether the dependency is explicit and locally visible. It supports SU.2 and SU.9 by exposing the reasonableness basis, monitoring expectation, and whether a condition should instead be context or a claim.
+      rationale: Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2, SU.9).
     - id: INHERITED_CONTEXT
-      rationale: Inherited context is required because assumptions often propagate from ancestors and constrain lower-level claims. The reviewer needs inherited assumptions to detect conflicts, over-broad inherited dependencies, or limitations that would otherwise be hidden from the selected branch under RD.6.
+      rationale: Assumptions often propagate from ancestors, so inherited context is required to detect conflicts, over-broad inherited dependencies, or limitations otherwise hidden from the branch (RD.6, SU.10).
     optional:
     - id: PARENT
-      rationale: The parent is optional but useful for understanding the scope and argument location that the assumption qualifies. It helps decide whether the assumption is local to the selected element, should be inherited more broadly, or should be converted into a claim that requires support.
+      rationale: The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.9).
+    - id: CHANGE_HISTORY
+      rationale: Prior findings and baseline state show whether the assumption is monitored, has been challenged, or needs a defined re-assessment trigger (SU.2, SU.4).
+    - id: PROJECT_GLOSSARY
+      rationale: Controlled definitions help judge whether the assumption is specific enough to be checked, challenged, and monitored (SU.10).
 - id: justification_review
   display_name: Justification review
-  description: Reviews whether justifications explain rationale without replacing needed argument or evidence.
+  description: Complete review of a selected justification or warrant, covering whether it explains local rationale without replacing needed argument or evidence.
   applies_to:
   - GSN Justification
-  - SACM ArgumentReasoning
-  - CAE Justification
+  - CAE Warrant
+  - CAE Side-warrant
+  - CAE Side-claim
   guideline_ids:
+  - AR.1
   - AR.8
   - AR.9
+  - EV.5
   - SU.3
   - SU.5
+  - SU.7
   - LF.3
+  - LF.4
+  - RD.1
   - RD.5
   required_data:
   - SEL
@@ -2448,22 +2410,137 @@ review_profiles:
   - STRATEGY
   - EVIDENCE_PATH
   - EVIDENCE_ITEM
+  - EVIDENCE_BASIS
   - CHANGE_HISTORY
   data_rationale:
     required:
     - id: SEL
-      rationale: The selected justification is required because the review asks whether the justification text is local rationale or hidden support. AR.8, AR.9, SU.3, SU.5, LF.3, and RD.5 all require inspecting what the justification actually says.
+      rationale: The selected justification or warrant is the object of review. AR.8, AR.9, EV.5, SU.3, SU.5, LF.3, LF.4, RD.1, and RD.5 all require inspecting what the rationale actually says and whether it names the responsible actor.
     - id: PARENT
-      rationale: The parent is required because a justification can only be judged against the element or inference it is attached to. AR.8 asks whether the justification is replacing evidence or argument, and AR.9 asks whether it explains this exact parent rather than a different issue elsewhere in the branch.
+      rationale: A justification can only be judged against the element or inference it is attached to. AR.8 asks whether it replaces evidence or argument, and AR.9 whether it explains this exact parent rather than a different issue elsewhere in the branch.
     optional:
     - id: STRATEGY
-      rationale: Strategy is optional but useful when the justification explains a decomposition or inference choice. It helps determine whether the justification is local rationale for that strategy or whether it is trying to carry the argument itself.
+      rationale: When the justification explains a decomposition or inference choice, the strategy shows whether it is local rationale for that step or is trying to carry the argument itself (AR.8, AR.9).
     - id: EVIDENCE_PATH
-      rationale: Evidence path is optional but useful when the justification discusses evidence sufficiency, absence of contrary evidence, or why support is enough. It helps detect AR.8 misuse, SU.3 unsupported expert judgment, and LF.3 arguments from ignorance.
+      rationale: The evidence path helps detect rationale used as hidden support, arguments from ignorance, and low-risk claims resting only on simulation or uneventful operation (AR.8, LF.3, SU.7).
     - id: EVIDENCE_ITEM
-      rationale: Evidence item metadata is optional but useful when the justification cites expert review, prior practice, proven-in-use evidence, or another artifact. It helps check whether the cited basis is controlled and reviewable rather than unsupported opinion.
+      rationale: When the justification cites expert review, prior practice, or proven-in-use evidence, artifact metadata shows whether the cited basis is controlled and reviewable rather than unsupported opinion (SU.3, SU.5).
+    - id: EVIDENCE_BASIS
+      rationale: Coverage, thresholds, and comparison basis help judge sufficiency appeals and unjustified comparisons or distinctions (EV.5, LF.4, SU.7).
     - id: CHANGE_HISTORY
-      rationale: Change history is optional but valuable because prior review comments, unresolved findings, proposal changes, or baseline shifts can show whether the justification has been challenged, whether agency is clear under RD.5, and whether reused safety credit remains applicable under SU.5.
+      rationale: Prior review comments, unresolved findings, and baseline shifts show whether the justification has been challenged, whether agency is clear (RD.5), and whether reused safety credit still applies (SU.5).
+- id: context_review
+  display_name: Context review
+  description: Complete review of a selected context element, covering whether it provides sufficient, relevant, and consistent scope and definitions for the claim it qualifies.
+  applies_to:
+  - GSN Context
+  - CAE Context
+  guideline_ids:
+  - AR.1
+  - AR.3
+  - AR.6
+  - AR.7
+  - SU.9
+  - RD.1
+  - RD.3
+  - RD.6
+  required_data:
+  - SEL
+  - PARENT
+  optional_data:
+  - INHERITED_CONTEXT
+  - PROJECT_GLOSSARY
+  - STANDARD_LINKS
+  data_rationale:
+    required:
+    - id: SEL
+      rationale: The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions.
+    - id: PARENT
+      rationale: The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and dependencies are correctly externalized to it (AR.3, AR.7), and whether limitations are visible where the claim is read (RD.3, RD.6).
+    optional:
+    - id: INHERITED_CONTEXT
+      rationale: Ancestor scope and assumptions show whether this context is consistent with, or silently narrows or contradicts, inherited limits (RD.6, SU.9).
+    - id: PROJECT_GLOSSARY
+      rationale: Controlled definitions confirm that terms introduced or relied on by the context are used consistently across the branch (AR.6).
+    - id: STANDARD_LINKS
+      rationale: When the context cites external standards or operating constraints, standard links help verify the reference is relevant and not used as vague or hidden context (AR.3).
+- id: challenge_review
+  display_name: Challenge review
+  description: Complete review of a selected counter claim or defeater, covering whether the challenge is stated explicitly and carried to a visible resolution.
+  applies_to:
+  - GSN Counter Claim
+  - CAE Defeater
+  guideline_ids:
+  - SU.11
+  required_data:
+  - SEL
+  - PARENT
+  optional_data:
+  - CHILDREN
+  - DIRECT_CONTEXT
+  - CHANGE_HISTORY
+  data_rationale:
+    required:
+    - id: SEL
+      rationale: The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition.
+    - id: PARENT
+      rationale: The claim, reasoning step, or evidence being challenged is required to judge whether the challenge is relevant to its target and whether the branch has been updated to resolve it (SU.11).
+    optional:
+    - id: CHILDREN
+      rationale: Supporting elements added in response show whether the challenge was resolved by added evidence, a narrowed claim, or new assumptions and monitoring (SU.11).
+    - id: DIRECT_CONTEXT
+      rationale: Context and assumptions attached to the challenge or its target help judge whether the challenge is in scope and how its resolution constrains the affected claim (SU.11).
+    - id: CHANGE_HISTORY
+      rationale: Review comments, prior findings, and proposal history show whether the challenge was rejected, sustained, or left as a visible and traceable open issue (SU.11).
+selectable_elements:
+- element: GSN Goal
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Goal).
+- element: GSN Strategy
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Strategy).
+- element: GSN Solution
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Solution).
+- element: GSN Context
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Context).
+- element: GSN Assumption
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Assumption).
+- element: GSN Justification
+  notation: GSN
+  basis: GSN Community Standard v3 core element (Justification).
+- element: GSN Counter Claim
+  notation: GSN
+  basis: Dialectic extension used for explicit challenges; referenced by SU.11.
+- element: CAE Claim
+  notation: CAE
+  basis: Claims-Arguments-Evidence core element (Claim).
+- element: CAE Argument
+  notation: CAE
+  basis: Claims-Arguments-Evidence core element (Argument / reasoning).
+- element: CAE Evidence
+  notation: CAE
+  basis: Claims-Arguments-Evidence core element (Evidence).
+- element: CAE Context
+  notation: CAE
+  basis: Claims-Arguments-Evidence contextual element (Context).
+- element: CAE Assumption
+  notation: CAE
+  basis: Claims-Arguments-Evidence contextual element (Assumption).
+- element: CAE Warrant
+  notation: CAE
+  basis: CAE building block for the reasoning warrant / rationale; the CAE analogue of a GSN Justification.
+- element: CAE Side-warrant
+  notation: CAE
+  basis: CAE building block that backs a warrant with additional rationale.
+- element: CAE Side-claim
+  notation: CAE
+  basis: CAE building block that supports a warrant with a subsidiary claim.
+- element: CAE Defeater
+  notation: CAE
+  basis: CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.
 data_packages:
 - id: SEL
   display_name: Selected element

@@ -129,6 +129,7 @@ def load_content_model() -> dict[str, Any]:
         "categories": categories,
         "guidelines": guidelines,
         "review_profiles": review_profiles["review_profiles"],
+        "selectable_elements": review_profiles["selectable_elements"],
         "data_packages": data_packages["data_packages"],
         "review_profile_diagram_layout": data_package_diagram_layout["review_profile_diagram_layout"],
         "prechecks": prechecks["prechecks"],
