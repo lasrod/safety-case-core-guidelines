@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 category:
   id: RD
   title: RD. Rhetorical device rules
@@ -9,6 +9,7 @@ guidelines:
   category: RD
   title: Use explicit signposting of argument element roles
   statement: Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification.
+  short_rule: Signpost each element's role in its wording so no reader has to guess what it does.
   rationale: Review becomes harder when the reader must infer the role of a statement. Clear signposting reduces confusion between argument elements and makes the structure easier to inspect.
   review_prompts:
   - Is the reader forced to infer the role of the statement?
@@ -39,15 +40,35 @@ guidelines:
     - GSN Assumption
     - GSN Solution
     - GSN Justification
+    - CAE Claim
+    - CAE Context
+    - CAE Assumption
+    - CAE Evidence
+    - CAE Warrant
     detection_hints:
     - Look for prose statements that mix claim, context, assumption, and evidence in one sentence.
+    markers:
+    - kind: inference_connective
+      effect: candidate
+      terms:
+      - because
+      - therefore
+      - hence
+      - thus
+      - so that
+      - since
+      - as a result
     suggested_checks:
     - id: check-element-signposting
-      description: Check whether each statement is clearly signposted with its argument element role.
+      description: Check whether each statement is clearly signposted with its argument element role. Candidate when an inference connective appears inside claim text, which signals reasoning that the structure should carry.
+    repair:
+    - action: move_text
+      statement: Split the statement so that each part sits in the element whose role it plays.
 - id: RD.2
   category: RD
   title: Use scoped claims and qualified confidence language
   statement: State the operating scope and use confidence language that reflects the actual support and any open issues.
+  short_rule: State the operating scope, and match confidence language to the actual support.
   rationale: Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.
   review_prompts:
   - Is the scope of the claim explicit?
@@ -67,15 +88,33 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - CAE Claim
     detection_hints:
     - Look for unscoped claims using absolute confidence language (is safe, is correct).
+    markers:
+    - kind: absolute_confidence_marker
+      effect: candidate
+      terms:
+      - is safe
+      - is correct
+      - is complete
+      - fully
+      - entirely
+      - guarantees
+      - ensures
+      - proves
+      - no risk
     suggested_checks:
     - id: check-scope-and-confidence-language
       description: Check whether claims state operating scope and use confidence language matched to actual support.
+    repair:
+    - action: reword_element
+      statement: State the operating scope and match the confidence wording to the actual support.
 - id: RD.3
   category: RD
   title: Make limitations, objections, and responses explicit
   statement: Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
+  short_rule: Make limitations, objections, and their responses visible where the claim is read.
   rationale: A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
   review_prompts:
   - Are important limitations visible at the point where they affect the claim?
@@ -109,16 +148,29 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Context
-    - GSN Open Issue
+    - GSN Counter Claim
+    - CAE Claim
+    - CAE Context
+    - CAE Defeater
     detection_hints:
     - Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage.
     suggested_checks:
     - id: check-limitations-visible
       description: Check whether known limitations and objections are visible at the point of the affected claim.
+    repair:
+    - action: add_element
+      element_role: context
+      attach_to: selected
+      statement: State the limitation as context where the claim is read.
+    - action: add_element
+      element_role: challenge
+      attach_to: selected
+      statement: Record the objection as an explicit challenge element.
 - id: RD.4
   category: RD
   title: Avoid promotional and inflated language
   statement: Do not use promotional, boastful, or image-enhancing language in the safety case.
+  short_rule: Use no promotional language; persuade through structure and evidence.
   rationale: Safety arguments should build confidence through explicit claims, reasoning, and evidence, not through language intended to impress the reader.
   review_prompts:
   - Does the wording sound promotional rather than argumentative?
@@ -136,15 +188,34 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - CAE Claim
     detection_hints:
     - Look for promotional adjectives such as world-class, cutting-edge, outstanding, best-in-class.
+    markers:
+    - kind: promotional_term
+      effect: candidate
+      terms:
+      - world-class
+      - cutting-edge
+      - state-of-the-art
+      - best-in-class
+      - outstanding
+      - excellent
+      - unparalleled
+      - industry-leading
+      - market-leading
+      - superior
     suggested_checks:
     - id: check-promotional-language
-      description: Check whether claims use promotional or image-enhancing language.
+      description: Check whether claims use promotional or image-enhancing language. Candidate when a promotional term appears in any element text.
+    repair:
+    - action: reword_element
+      statement: Remove the promotional wording and state what is achieved, for what, under which conditions.
 - id: RD.5
   category: RD
   title: Avoid passive voice when it hides agency
   statement: Do not use passive wording when the identity of the actor matters to understanding, reviewing, or challenging the argument.
+  short_rule: Name the actor who performed a review, judgment, or approval.
   rationale: When a review, judgment, approval, or decision is stated without naming who performed it, accountability becomes harder to inspect and challenge.
   review_prompts:
   - Who performed the review, judgment, or approval?
@@ -161,15 +232,33 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Justification
+    - CAE Claim
+    - CAE Warrant
     detection_hints:
     - Look for it was determined / has been reviewed / is considered without a named actor.
+    markers:
+    - kind: agentless_passive_marker
+      effect: candidate
+      terms:
+      - it was determined
+      - it was decided
+      - has been reviewed
+      - is considered
+      - was assessed
+      - it is assumed
+      - has been approved
+      - it was concluded
     suggested_checks:
     - id: check-active-voice-with-actor
-      description: Check whether reviews, judgments, and approvals name the responsible actor.
+      description: Check whether reviews, judgments, and approvals name the responsible actor. Candidate when an agentless passive marker appears and no actor is named in the same element.
+    repair:
+    - action: reword_element
+      statement: Name the actor who performed the review, judgment, or approval.
 - id: RD.6
   category: RD
   title: Do not bury important limitations or hidden assumptions
   statement: Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
+  short_rule: Keep important limitations and assumptions attached to the claim they qualify.
   rationale: A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
   review_prompts:
   - Is an important limitation easy to miss?
@@ -200,8 +289,28 @@ guidelines:
     - GSN Goal
     - GSN Context
     - GSN Assumption
+    - CAE Claim
+    - CAE Context
+    - CAE Assumption
     detection_hints:
     - Look for important limiting conditions stated only in appendices or distant free text.
+    markers:
+    - kind: distant_location_marker
+      effect: candidate
+      terms:
+      - appendix
+      - annex
+      - footnote
+      - attachment
+      - elsewhere in the document
+      - see also
     suggested_checks:
     - id: check-limitations-collocated
-      description: Check whether important limitations and assumptions are visible where the claim is read.
+      description: Check whether important limitations and assumptions are visible where the claim is read. Candidate when a limitation is stated only in a distant location marker rather than attached to the claim it qualifies.
+    repair:
+    - action: move_text
+      element_role: context
+      statement: Move the buried limitation into context attached to the claim it qualifies.
+    - action: move_text
+      element_role: assumption
+      statement: Move a buried dependency into an assumption attached to the claim.

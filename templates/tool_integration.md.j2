@@ -16,6 +16,56 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 4. Run deterministic pre-checks where they exist.
 5. Apply guideline judgment and cite SCCG guideline IDs in the result.
 
+### Authoring workflow model
+
+1. Deliver the authoring guidance set below while the author or agent is writing.
+2. Write or change an element.
+3. Run the mechanical checks the tool implements, and report which checks ran.
+4. Offer the repair each guideline prescribes, rather than rewriting the argument.
+5. Leave judgment to a review; authoring-time checks are not a conformance statement.
+
+### Element vocabulary
+
+A review profile applies to notation elements. `element_role` is the notation-neutral role behind them: a tool whose internal model is neither GSN nor CAE maps its own element types onto the role, and presents element names in the notation its users see.
+
+| Element | Notation | Element role |
+| --- | --- | --- |
+{% for element in selectable_elements -%}
+| {{ element.element }} | {{ element.notation }} | `{{ element.element_role }}` |
+{% endfor %}
+
+### Data package availability
+
+A tool that cannot supply a package should say which of these applies, rather than omitting the package silently. A review told nothing cannot tell absent data from an unimplemented source, and may report a sufficiency finding that is an artifact of what it was not shown.
+
+{% for state in availability_states -%}
+- `{{ state.id }}`: {{ state.meaning }}
+{% endfor %}
+
+## Authoring-time guidance
+
+{{ authoring.description }}
+
+{{ authoring.usage }}
+
+### Core rules
+
+| Guideline | Rule |
+| --- | --- |
+{% for rule in authoring.core_rules -%}
+| [{{ rule.id }}](index.md#{{ rule.id | lower | replace('.', '') }}) | {{ rule.short_rule }} |
+{% endfor %}
+
+### Review criteria by element role
+
+An element written now is reviewed later under one profile. A tool delivering authoring guidance for an element should draw it from that profile, so that writing guidance and review criteria cannot drift apart.
+
+| Element role | Elements | Review profile | Guidelines |
+| --- | --- | --- | --- |
+{% for entry in authoring.element_rules -%}
+| `{{ entry.element_role }}` | {{ entry.elements | join(', ') }} | `{{ entry.review_profile_id }}` | {{ entry.guideline_ids | join(', ') }} |
+{% endfor %}
+
 ## Review profiles
 
 {% for profile in profiles %}
@@ -25,6 +75,7 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 
 - Profile ID: `{{ profile.id }}`
 - Applies to: {{ profile.applies_to | join(', ') }}
+- Selected element package: `{{ profile.selected_package }}`
 - Required data: {{ profile.required_data | join(', ') if profile.required_data else 'None' }}
 - Optional data: {{ profile.optional_data | join(', ') if profile.optional_data else 'None' }}
 - Guidelines: {{ profile.guideline_ids | join(', ') }}
@@ -47,6 +98,14 @@ Optional data:
 {%- else %}
 - None.
 {% endif %}
+{%- if profile.when_absent %}
+
+#### When required data cannot be supplied
+
+{%- for item in profile.when_absent %}
+- `{{ item.id }}` absent: {{ item.statement }} Not assessable without it: {{ item.unassessable_guideline_ids | join(', ') }}.
+{% endfor %}
+{%- endif %}
 
 {% endfor %}
 
@@ -61,6 +120,7 @@ Optional data:
 - Expected data: {{ precheck.expected_data | join(', ') if precheck.expected_data else 'None' }}
 - Related guidelines: {{ precheck.related_guideline_ids | join(', ') }}
 - Result type: `{{ precheck.result_type }}`
+- Fires when: {{ precheck.fires_when }}
 - Interpretation: {{ precheck.interpretation }}
 
 {% endfor %}

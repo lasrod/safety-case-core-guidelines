@@ -1,64 +1,167 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
+availability_states:
+- id: available
+  display_name: Available
+  meaning: The package is supplied and carries the data the profile expects.
+- id: not_implemented
+  display_name: Not implemented
+  meaning: The tool has no source for this package at all.
+- id: empty
+  display_name: Empty
+  meaning: The tool has a source for this package and this case has nothing in it.
+- id: withheld
+  display_name: Withheld
+  meaning: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
 data_packages:
-- id: SEL
-  display_name: Selected element
-  description: The selected assurance-case element being reviewed.
+- id: SELECTED_CLAIM
+  role: selected_element
+  element_role: claim
+  display_name: Selected claim
+  description: The claim under review, as the selected element of a claim review.
   required_fields:
   - element_id
   - element_type
   - text
   optional_fields:
-  - role
+  - status
+  - undeveloped
+  - tags
+  - notes
+- id: SELECTED_STRATEGY
+  role: selected_element
+  element_role: strategy
+  display_name: Selected strategy
+  description: The strategy or reasoning element under review, as the selected element of a strategy review.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - status
+  - undeveloped
+  - tags
+  - notes
+- id: SELECTED_EVIDENCE
+  role: selected_element
+  element_role: evidence
+  display_name: Selected evidence element
+  description: The evidence element under review, as the selected element of an evidence review. Its control attributes are carried by EVIDENCE_ITEM.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - status
+  - undeveloped
+  - tags
+  - notes
+- id: SELECTED_CONTEXT
+  role: selected_element
+  element_role: context
+  display_name: Selected context element
+  description: The context element under review, as the selected element of a context review.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - status
+  - tags
+  - notes
+- id: SELECTED_ASSUMPTION
+  role: selected_element
+  element_role: assumption
+  display_name: Selected assumption
+  description: The assumption under review, as the selected element of an assumption review.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - status
+  - tags
+  - notes
+- id: SELECTED_JUSTIFICATION
+  role: selected_element
+  element_role: justification
+  display_name: Selected justification
+  description: The justification, warrant, or rationale element under review, as the selected element of a justification review.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
+  - status
+  - tags
+  - notes
+- id: SELECTED_CHALLENGE
+  role: selected_element
+  element_role: challenge
+  display_name: Selected challenge
+  description: The counter claim, defeater, or other explicit challenge element under review, as the selected element of a challenge review.
+  required_fields:
+  - element_id
+  - element_type
+  - text
+  optional_fields:
   - status
   - undeveloped
   - tags
   - notes
 - id: PARENT
+  role: supporting
   display_name: Parent element
-  description: The immediate parent claim, goal, strategy, or reasoning element.
-  required_fields: []
+  description: The immediate parent claim, goal, strategy, or reasoning element of the selected element.
+  required_fields:
+  - element_id
+  - element_type
+  - text
   optional_fields:
-  - parent_id
-  - parent_type
-  - parent_text
   - relationship_type
 - id: CHILDREN
+  role: supporting
   display_name: Child elements
-  description: Immediate supporting claims, strategies, solutions, or evidence links.
-  required_fields: []
-  optional_fields:
+  description: Immediate supporting claims, strategies, solutions, or evidence links below the selected element.
+  required_fields:
   - child_elements
+  optional_fields:
   - relationship_types
 - id: DIRECT_CONTEXT
+  role: supporting
   display_name: Direct context
   description: Context, assumptions, and justifications directly attached to the selected element.
-  required_fields: []
-  optional_fields:
+  required_fields:
   - context_elements
   - assumptions
   - justifications
+  optional_fields: []
 - id: INHERITED_CONTEXT
+  role: supporting
   display_name: Inherited context
   description: Context and assumptions inherited from ancestor elements.
-  required_fields: []
-  optional_fields:
+  required_fields:
   - ancestor_context
   - ancestor_assumptions
+  optional_fields: []
 - id: STRATEGY
-  display_name: Strategy
-  description: The strategy or reasoning element connecting a parent claim to supporting claims.
-  required_fields: []
+  role: supporting
+  display_name: Connecting strategy
+  description: The strategy or reasoning element connecting a parent claim to supporting claims. Distinct from SELECTED_STRATEGY, which is the strategy being reviewed.
+  required_fields:
+  - element_id
+  - element_type
+  - text
   optional_fields:
-  - strategy_id
-  - strategy_text
   - strategy_context
 - id: EVIDENCE_ITEM
+  role: supporting
   display_name: Evidence item
-  description: Metadata for a selected evidence artifact or evidence reference.
-  required_fields: []
+  description: Control metadata for a cited evidence artifact or evidence reference.
+  required_fields:
+  - element_id
+  - element_type
+  - text
   optional_fields:
-  - evidence_id
-  - evidence_text
   - artifact_type
   - owner
   - version
@@ -67,15 +170,17 @@ data_packages:
   - location
   - cited_section
 - id: EVIDENCE_PATH
+  role: supporting
   display_name: Evidence path
   description: Path from a selected claim to descendant evidence.
-  required_fields: []
-  optional_fields:
+  required_fields:
   - path_elements
   - evidence_items
+  optional_fields: []
 - id: EVIDENCE_BASIS
+  role: supporting
   display_name: Evidence basis
-  description: Information used to judge whether evidence is sufficient for the claim.
+  description: Information used to judge whether evidence is sufficient for the claim, rather than merely relevant to it.
   required_fields: []
   optional_fields:
   - acceptance_criteria
@@ -85,18 +190,21 @@ data_packages:
   - configuration
   - limitations
 - id: PROJECT_GLOSSARY
+  role: supporting
   display_name: Project glossary
   description: Relevant project terms and definitions.
-  required_fields: []
-  optional_fields:
+  required_fields:
   - terms
+  optional_fields: []
 - id: STANDARD_LINKS
+  role: supporting
   display_name: Standard links
   description: Linked external standard requirements or guidance references.
-  required_fields: []
-  optional_fields:
+  required_fields:
   - linked_requirements
+  optional_fields: []
 - id: CHANGE_HISTORY
+  role: supporting
   display_name: Change history
   description: Relevant review comments, prior findings, proposal history, and baseline or version state.
   required_fields: []
@@ -106,8 +214,9 @@ data_packages:
   - proposal_history
   - baseline
 - id: USER_REVIEW_INTENT
+  role: supporting
   display_name: User review intent
-  description: Optional user-provided review concern or focus.
-  required_fields: []
-  optional_fields:
+  description: A review concern or focus supplied by the user requesting the review.
+  required_fields:
   - review_intent
+  optional_fields: []

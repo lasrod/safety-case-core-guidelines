@@ -6,7 +6,7 @@
     },
     "center": {
       "height": 94,
-      "id": "SEL",
+      "role": "selected_element",
       "width": 220,
       "x": 410,
       "y": 507
@@ -74,6 +74,6 @@
       }
     ]
   },
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0"
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0"
 }

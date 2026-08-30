@@ -9,7 +9,7 @@ The canonical authored source is [content/](content/):
 - Edit [content/sccg.yaml](content/sccg.yaml) for document metadata, policy, method guidance, ID scheme, and required sections.
 - Edit [content/references.yaml](content/references.yaml) for reference source registry changes.
 - Edit [content/guidelines/](content/guidelines/) for guideline text, examples, references, review prompts, and tool metadata.
-- Edit [content/tool_support/](content/tool_support/) for review profiles, data packages, and pre-check metadata.
+- Edit [content/tool_support/](content/tool_support/) for review profiles, data packages, pre-check metadata, and the authoring guidance set.
 
 Do not edit [dist/](dist/), [generated/](generated/), generated regions of [index.md](index.md), generated regions of [tool-integration.md](tool-integration.md), or files in [assets/generated/review_profile_diagrams/](assets/generated/review_profile_diagrams/) by hand. They are rebuilt from [content/](content/).
 
@@ -25,6 +25,7 @@ Preamble, scope, and usage text outside those markers remain hand-maintained.
 [tool-integration.md](tool-integration.md) is also generated in part between these marker blocks:
 
 - `<!-- BEGIN GENERATED: tool-overview -->` / `<!-- END GENERATED: tool-overview -->`
+- `<!-- BEGIN GENERATED: authoring-guidance -->` / `<!-- END GENERATED: authoring-guidance -->`
 - `<!-- BEGIN GENERATED: review-profiles -->` / `<!-- END GENERATED: review-profiles -->`
 - `<!-- BEGIN GENERATED: prechecks -->` / `<!-- END GENERATED: prechecks -->`
 
@@ -38,12 +39,39 @@ Every guideline entry must include:
 - `category`, matching the ID prefix
 - `title`
 - `statement`
+- `short_rule`
 - `rationale`
 - `review_prompts`
 - `examples` with non-empty `bad`, `problem`, and `good` strings
 - `references`, using `source_id` values from [content/references.yaml](content/references.yaml)
 
 Optional tool metadata belongs in `tool`. Do not reintroduce the legacy field names `guideline`, `why`, `example`, or `tool_guidance`.
+
+`short_rule` is the guideline in one imperative line, for tools that deliver SCCG while an author or an AI agent is writing. Keep it under 140 characters, keep it faithful to `statement`, and write it as an instruction rather than a description; tools quote it verbatim instead of paraphrasing the guideline.
+
+## Examples are a published test corpus
+
+`examples.bad` and `examples.good` are consumed by tools, not only read by people. A tool implementing a mechanical check for a guideline is expected to hold the check against them: fire on the bad example, stay silent on the good one.
+
+That makes them part of the published contract:
+
+- Do not reword an example to improve its prose. Changing an example can turn a downstream tool's tests red, and it changes what the check is calibrated against.
+- Change an example when the guideline's meaning changes, or when the example is wrong. Say so in the pull request, so consumers can see it in the release.
+- When adding lexical `markers` to a guideline, check them against that guideline's own examples first.
+
+## Markers, thresholds, and repairs
+
+Three optional `tool` fields exist so that tools do not have to invent their own:
+
+- `markers` publishes the lexical signals for a guideline. Each entry has a `kind`, an `effect`, and lower-case English `terms` matched case-insensitively on word or phrase boundaries. `candidate` means presence is a candidate signal, `suppress` means presence cancels one, and `expected` means absence is the signal. An `expected` list must match something in the guideline's own good example, which validation enforces.
+- `thresholds` publishes numeric parameters, such as a word count or a number of significant digits. Publish one only where a check genuinely needs a number, and say in the `note` what the number means.
+- `repair` states the repair the guideline prescribes, using the actions `add_element`, `split_element`, `reword_element`, `move_text`, `define_term`, and `mark_undeveloped`, and the notation-neutral element roles. `add_element` must name the `element_role` it adds.
+
+Add markers only where the signature is genuinely lexical. Where a guideline can only be judged by a reader, leave it without markers rather than publishing a list that a tool would fire on indiscriminately: a published list becomes the rule that tools enforce under that guideline id. Each guideline's `suggested_checks` description should say how its markers combine, so that two tools implement the same check.
+
+## Notation vocabulary
+
+SCCG names elements in GSN and CAE, because those are the notations authors and reviewers see. `selectable_elements` in [content/tool_support/review_profiles.yaml](content/tool_support/review_profiles.yaml) is the whole vocabulary, and `tool.applicable_elements` on a guideline may only use names from it; validation rejects anything else. Do not add a tool's or an interchange format's internal element names: a tool whose model is neither GSN nor CAE maps its own types onto `element_role`.
 
 ## ID stability
 
@@ -57,9 +85,25 @@ If a guideline is retired, leave its ID reserved rather than reusing it. Generat
 
 ## Tool support metadata
 
-Review profiles map review intents to guideline IDs and data packages. Data packages describe expected review context. Pre-checks define deterministic candidate checks; they do not replace reviewer or AI judgment.
+Review profiles map review intents to guideline IDs and data packages. Data packages describe expected review context. Pre-checks define deterministic candidate checks; they do not replace reviewer or AI judgment. The authoring guidance set names the guidelines a tool should deliver while an author or an agent is writing.
 
 Keep tool-support metadata concise, deterministic, and linked only to existing guideline and data package IDs. Broken references fail validation.
+
+Rules that validation enforces, because tools rely on them:
+
+- Every selectable element maps to exactly one review profile, and a profile's `applies_to` elements all share one `element_role`.
+- Every profile requires exactly one data package whose `role` is `selected_element`, and that package's `element_role` matches the profile's elements.
+- Every pre-check names exactly one selected-element package in `expected_data`, so the element the check runs on is unambiguous. A pre-check's `fires_when` sentence is its definition: a check answering a different question must not carry that id.
+- A `when_absent` entry may only name a required package of that profile, and may only list guidelines that profile applies.
+- Every guideline category is represented in the authoring guidance set, so a tool carrying only that set never hides a whole family.
+
+## Versioning
+
+`schema_version` is the version of the published contract: the file names under `dist/`, their top-level keys, and their field names. Bump the major when a consumer may need to change code, and update the `const` in every schema plus the `schema_version` in every authored file in the same change.
+
+`sccg_version` in [content/sccg.yaml](content/sccg.yaml) is the version of the guideline content, and moves whenever the guidelines, examples, profiles, or checks change.
+
+Record any contract change in the versioning section of [tool-integration.md](tool-integration.md), including what a consumer has to do about it.
 
 ## References
 

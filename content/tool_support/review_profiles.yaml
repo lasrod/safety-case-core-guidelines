@@ -1,52 +1,68 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 selectable_elements:
 - element: GSN Goal
   notation: GSN
+  element_role: claim
   basis: GSN Community Standard v3 core element (Goal).
 - element: GSN Strategy
   notation: GSN
+  element_role: strategy
   basis: GSN Community Standard v3 core element (Strategy).
 - element: GSN Solution
   notation: GSN
+  element_role: evidence
   basis: GSN Community Standard v3 core element (Solution).
 - element: GSN Context
   notation: GSN
+  element_role: context
   basis: GSN Community Standard v3 core element (Context).
 - element: GSN Assumption
   notation: GSN
+  element_role: assumption
   basis: GSN Community Standard v3 core element (Assumption).
 - element: GSN Justification
   notation: GSN
+  element_role: justification
   basis: GSN Community Standard v3 core element (Justification).
 - element: GSN Counter Claim
   notation: GSN
+  element_role: challenge
   basis: Dialectic extension used for explicit challenges; referenced by SU.11.
 - element: CAE Claim
   notation: CAE
+  element_role: claim
   basis: Claims-Arguments-Evidence core element (Claim).
 - element: CAE Argument
   notation: CAE
+  element_role: strategy
   basis: Claims-Arguments-Evidence core element (Argument / reasoning).
 - element: CAE Evidence
   notation: CAE
+  element_role: evidence
   basis: Claims-Arguments-Evidence core element (Evidence).
 - element: CAE Context
   notation: CAE
+  element_role: context
   basis: Claims-Arguments-Evidence contextual element (Context).
 - element: CAE Assumption
   notation: CAE
+  element_role: assumption
   basis: Claims-Arguments-Evidence contextual element (Assumption).
 - element: CAE Warrant
   notation: CAE
+  element_role: justification
   basis: CAE building block for the reasoning warrant / rationale; the CAE analogue of a GSN Justification.
 - element: CAE Side-warrant
   notation: CAE
+  element_role: justification
   basis: CAE building block that backs a warrant with additional rationale.
 - element: CAE Side-claim
   notation: CAE
+  element_role: justification
   basis: CAE building block that supports a warrant with a subsidiary claim.
 - element: CAE Defeater
   notation: CAE
+  element_role: challenge
   basis: CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.
 review_profiles:
 - id: claim_review
@@ -92,7 +108,7 @@ review_profiles:
   - RD.5
   - RD.6
   required_data:
-  - SEL
+  - SELECTED_CLAIM
   - PARENT
   - CHILDREN
   - STRATEGY
@@ -107,7 +123,7 @@ review_profiles:
   - CHANGE_HISTORY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_CLAIM
       rationale: >-
         The selected claim is the subject of the whole review. Its wording drives CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.2, RD.4, and LF.6, and its scope drives every structural, evidential, and sufficiency check applied to the claim.
     - id: PARENT
@@ -157,7 +173,7 @@ review_profiles:
   - SU.1
   - LF.1
   required_data:
-  - SEL
+  - SELECTED_STRATEGY
   - PARENT
   - CHILDREN
   - DIRECT_CONTEXT
@@ -169,7 +185,7 @@ review_profiles:
   - CHANGE_HISTORY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_STRATEGY
       rationale: >-
         The selected strategy or reasoning element is the object of review. AR.1 and AR.2 require it to make the inference rule explicit, and LF.1 requires checking that it adds independent support rather than restating the parent.
     - id: PARENT
@@ -222,7 +238,7 @@ review_profiles:
   - LF.7
   - RD.1
   required_data:
-  - SEL
+  - SELECTED_EVIDENCE
   - EVIDENCE_ITEM
   - EVIDENCE_BASIS
   - PARENT
@@ -234,7 +250,7 @@ review_profiles:
   - CHANGE_HISTORY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_EVIDENCE
       rationale: >-
         The selected solution or evidence reference is the element under review. It identifies which artifact is cited and what role it plays, which is the basis for AR.1, EV.1, and RD.1.
     - id: EVIDENCE_ITEM
@@ -262,6 +278,18 @@ review_profiles:
     - id: CHANGE_HISTORY
       rationale: >-
         Prior findings, review comments, and baseline state identify unstable, challenged, stale, or dismissed evidence (EV.7, EV.8, SU.1, SU.6).
+  when_absent:
+  - id: EVIDENCE_BASIS
+    unassessable_guideline_ids:
+    - EV.5
+    - EV.6
+    - SU.3
+    - SU.6
+    - SU.7
+    - SU.8
+    - LF.5
+    - LF.7
+    statement: Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.
 - id: assumption_review
   display_name: Assumption review
   description: Complete review of a selected assumption, covering whether it is explicit, bounded, correctly placed, monitorable, and not hiding an unsupported claim.
@@ -279,7 +307,7 @@ review_profiles:
   - RD.1
   - RD.6
   required_data:
-  - SEL
+  - SELECTED_ASSUMPTION
   - DIRECT_CONTEXT
   - INHERITED_CONTEXT
   optional_data:
@@ -288,7 +316,7 @@ review_profiles:
   - PROJECT_GLOSSARY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_ASSUMPTION
       rationale: >-
         The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role.
     - id: DIRECT_CONTEXT
@@ -328,7 +356,7 @@ review_profiles:
   - RD.1
   - RD.5
   required_data:
-  - SEL
+  - SELECTED_JUSTIFICATION
   - PARENT
   optional_data:
   - STRATEGY
@@ -338,7 +366,7 @@ review_profiles:
   - CHANGE_HISTORY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_JUSTIFICATION
       rationale: >-
         The selected justification or warrant is the object of review. AR.8, AR.9, EV.5, SU.3, SU.5, LF.3, LF.4, RD.1, and RD.5 all require inspecting what the rationale actually says and whether it names the responsible actor.
     - id: PARENT
@@ -376,7 +404,7 @@ review_profiles:
   - RD.3
   - RD.6
   required_data:
-  - SEL
+  - SELECTED_CONTEXT
   - PARENT
   optional_data:
   - INHERITED_CONTEXT
@@ -384,7 +412,7 @@ review_profiles:
   - STANDARD_LINKS
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_CONTEXT
       rationale: >-
         The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions.
     - id: PARENT
@@ -409,7 +437,7 @@ review_profiles:
   guideline_ids:
   - SU.11
   required_data:
-  - SEL
+  - SELECTED_CHALLENGE
   - PARENT
   optional_data:
   - CHILDREN
@@ -417,7 +445,7 @@ review_profiles:
   - CHANGE_HISTORY
   data_rationale:
     required:
-    - id: SEL
+    - id: SELECTED_CHALLENGE
       rationale: >-
         The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition.
     - id: PARENT

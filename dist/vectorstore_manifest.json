@@ -6,6 +6,7 @@
     "id",
     "category",
     "title",
+    "short_rule",
     "reference_source_ids",
     "review_profile_ids",
     "data_package_ids"
@@ -27,6 +28,6 @@
       "purpose": "Complete normalized SCCG model."
     }
   ],
-  "sccg_version": "0.6.0",
+  "sccg_version": "0.7.0",
   "schema_version": "1.0.0"
 }

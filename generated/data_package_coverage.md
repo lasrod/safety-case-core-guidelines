@@ -5,7 +5,7 @@
 ### Claim review (`claim_review`)
 
 Required data:
-- SEL
+- SELECTED_CLAIM
 - PARENT
 - CHILDREN
 - STRATEGY
@@ -23,7 +23,7 @@ Optional data:
 ### Strategy review (`strategy_review`)
 
 Required data:
-- SEL
+- SELECTED_STRATEGY
 - PARENT
 - CHILDREN
 - DIRECT_CONTEXT
@@ -38,7 +38,7 @@ Optional data:
 ### Evidence review (`evidence_review`)
 
 Required data:
-- SEL
+- SELECTED_EVIDENCE
 - EVIDENCE_ITEM
 - EVIDENCE_BASIS
 - PARENT
@@ -53,7 +53,7 @@ Optional data:
 ### Assumption review (`assumption_review`)
 
 Required data:
-- SEL
+- SELECTED_ASSUMPTION
 - DIRECT_CONTEXT
 - INHERITED_CONTEXT
 
@@ -65,7 +65,7 @@ Optional data:
 ### Justification review (`justification_review`)
 
 Required data:
-- SEL
+- SELECTED_JUSTIFICATION
 - PARENT
 
 Optional data:
@@ -78,7 +78,7 @@ Optional data:
 ### Context review (`context_review`)
 
 Required data:
-- SEL
+- SELECTED_CONTEXT
 - PARENT
 
 Optional data:
@@ -89,7 +89,7 @@ Optional data:
 ### Challenge review (`challenge_review`)
 
 Required data:
-- SEL
+- SELECTED_CHALLENGE
 - PARENT
 
 Optional data:
@@ -99,14 +99,32 @@ Optional data:
 
 ## Review profiles by data package
 
-### SEL
+### SELECTED_CLAIM
 
 - claim_review
+
+### SELECTED_STRATEGY
+
 - strategy_review
+
+### SELECTED_EVIDENCE
+
 - evidence_review
-- assumption_review
-- justification_review
+
+### SELECTED_CONTEXT
+
 - context_review
+
+### SELECTED_ASSUMPTION
+
+- assumption_review
+
+### SELECTED_JUSTIFICATION
+
+- justification_review
+
+### SELECTED_CHALLENGE
+
 - challenge_review
 
 ### PARENT

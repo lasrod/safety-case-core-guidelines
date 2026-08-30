@@ -1,11 +1,33 @@
 {
+  "availability_states": [
+    {
+      "display_name": "Available",
+      "id": "available",
+      "meaning": "The package is supplied and carries the data the profile expects."
+    },
+    {
+      "display_name": "Not implemented",
+      "id": "not_implemented",
+      "meaning": "The tool has no source for this package at all."
+    },
+    {
+      "display_name": "Empty",
+      "id": "empty",
+      "meaning": "The tool has a source for this package and this case has nothing in it."
+    },
+    {
+      "display_name": "Withheld",
+      "id": "withheld",
+      "meaning": "The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision."
+    }
+  ],
   "data_packages": [
     {
-      "description": "The selected assurance-case element being reviewed.",
-      "display_name": "Selected element",
-      "id": "SEL",
+      "description": "The claim under review, as the selected element of a claim review.",
+      "display_name": "Selected claim",
+      "element_role": "claim",
+      "id": "SELECTED_CLAIM",
       "optional_fields": [
-        "role",
         "status",
         "undeveloped",
         "tags",
@@ -15,69 +37,182 @@
         "element_id",
         "element_type",
         "text"
-      ]
+      ],
+      "role": "selected_element"
     },
     {
-      "description": "The immediate parent claim, goal, strategy, or reasoning element.",
+      "description": "The strategy or reasoning element under review, as the selected element of a strategy review.",
+      "display_name": "Selected strategy",
+      "element_role": "strategy",
+      "id": "SELECTED_STRATEGY",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The evidence element under review, as the selected element of an evidence review. Its control attributes are carried by EVIDENCE_ITEM.",
+      "display_name": "Selected evidence element",
+      "element_role": "evidence",
+      "id": "SELECTED_EVIDENCE",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The context element under review, as the selected element of a context review.",
+      "display_name": "Selected context element",
+      "element_role": "context",
+      "id": "SELECTED_CONTEXT",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The assumption under review, as the selected element of an assumption review.",
+      "display_name": "Selected assumption",
+      "element_role": "assumption",
+      "id": "SELECTED_ASSUMPTION",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The justification, warrant, or rationale element under review, as the selected element of a justification review.",
+      "display_name": "Selected justification",
+      "element_role": "justification",
+      "id": "SELECTED_JUSTIFICATION",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The counter claim, defeater, or other explicit challenge element under review, as the selected element of a challenge review.",
+      "display_name": "Selected challenge",
+      "element_role": "challenge",
+      "id": "SELECTED_CHALLENGE",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The immediate parent claim, goal, strategy, or reasoning element of the selected element.",
       "display_name": "Parent element",
       "id": "PARENT",
       "optional_fields": [
-        "parent_id",
-        "parent_type",
-        "parent_text",
         "relationship_type"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
-      "description": "Immediate supporting claims, strategies, solutions, or evidence links.",
+      "description": "Immediate supporting claims, strategies, solutions, or evidence links below the selected element.",
       "display_name": "Child elements",
       "id": "CHILDREN",
       "optional_fields": [
-        "child_elements",
         "relationship_types"
       ],
-      "required_fields": []
+      "required_fields": [
+        "child_elements"
+      ],
+      "role": "supporting"
     },
     {
       "description": "Context, assumptions, and justifications directly attached to the selected element.",
       "display_name": "Direct context",
       "id": "DIRECT_CONTEXT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "context_elements",
         "assumptions",
         "justifications"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Context and assumptions inherited from ancestor elements.",
       "display_name": "Inherited context",
       "id": "INHERITED_CONTEXT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "ancestor_context",
         "ancestor_assumptions"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
-      "description": "The strategy or reasoning element connecting a parent claim to supporting claims.",
-      "display_name": "Strategy",
+      "description": "The strategy or reasoning element connecting a parent claim to supporting claims. Distinct from SELECTED_STRATEGY, which is the strategy being reviewed.",
+      "display_name": "Connecting strategy",
       "id": "STRATEGY",
       "optional_fields": [
-        "strategy_id",
-        "strategy_text",
         "strategy_context"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
-      "description": "Metadata for a selected evidence artifact or evidence reference.",
+      "description": "Control metadata for a cited evidence artifact or evidence reference.",
       "display_name": "Evidence item",
       "id": "EVIDENCE_ITEM",
       "optional_fields": [
-        "evidence_id",
-        "evidence_text",
         "artifact_type",
         "owner",
         "version",
@@ -86,20 +221,26 @@
         "location",
         "cited_section"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
       "description": "Path from a selected claim to descendant evidence.",
       "display_name": "Evidence path",
       "id": "EVIDENCE_PATH",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "path_elements",
         "evidence_items"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
-      "description": "Information used to judge whether evidence is sufficient for the claim.",
+      "description": "Information used to judge whether evidence is sufficient for the claim, rather than merely relevant to it.",
       "display_name": "Evidence basis",
       "id": "EVIDENCE_BASIS",
       "optional_fields": [
@@ -110,25 +251,28 @@
         "configuration",
         "limitations"
       ],
-      "required_fields": []
+      "required_fields": [],
+      "role": "supporting"
     },
     {
       "description": "Relevant project terms and definitions.",
       "display_name": "Project glossary",
       "id": "PROJECT_GLOSSARY",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "terms"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Linked external standard requirements or guidance references.",
       "display_name": "Standard links",
       "id": "STANDARD_LINKS",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "linked_requirements"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Relevant review comments, prior findings, proposal history, and baseline or version state.",
@@ -140,18 +284,31 @@
         "proposal_history",
         "baseline"
       ],
-      "required_fields": []
+      "required_fields": [],
+      "role": "supporting"
     },
     {
-      "description": "Optional user-provided review concern or focus.",
+      "description": "A review concern or focus supplied by the user requesting the review.",
       "display_name": "User review intent",
       "id": "USER_REVIEW_INTENT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "review_intent"
       ],
-      "required_fields": []
+      "role": "supporting"
     }
   ],
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0"
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0"
 }

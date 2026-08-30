@@ -1,4 +1,5 @@
 {
+  "authoring_core_rule_count": 18,
   "category_count": 6,
   "category_ids": [
     "CL",
@@ -8,7 +9,7 @@
     "LF",
     "RD"
   ],
-  "data_package_count": 13,
+  "data_package_count": 19,
   "generated_exports": [
     "dist/sccg.full.json",
     "dist/sccg.full.yaml",
@@ -19,12 +20,14 @@
     "dist/data_packages.json",
     "dist/data_package_diagram_layout.json",
     "dist/prechecks.json",
+    "dist/authoring_guidance.json",
     "dist/vectorstore_manifest.json",
     "dist/research_metadata.json"
   ],
   "guideline_count": 48,
   "precheck_count": 5,
   "review_profile_count": 7,
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0"
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0",
+  "selectable_element_count": 16
 }

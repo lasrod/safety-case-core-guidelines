@@ -1,10 +1,10 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 review_profile_diagram_layout:
   canvas:
     width: 1600
     height: 1040
   center:
-    id: SEL
+    role: selected_element
     x: 410
     y: 507
     width: 220

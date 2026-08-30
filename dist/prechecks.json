@@ -1,13 +1,25 @@
 {
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
   "prechecks": [
     {
       "description": "Detects candidate cases where a claim is decomposed without an explicit reasoning step.",
-      "display_name": "Goal has children but no explicit strategy",
+      "display_name": "Claim has children but no explicit reasoning step",
       "expected_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "CHILDREN",
         "STRATEGY"
       ],
+      "fires_when": "The selected claim has at least one supporting child element and no strategy or reasoning element between the claim and those children. It does not fire on a strategy that has no children; that is a different defect and is not this pre-check.",
       "id": "check-explicit-strategy",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -17,11 +29,12 @@
     },
     {
       "description": "Detects candidate cases where a claim has no path to evidence and is not intentionally undeveloped.",
-      "display_name": "No evidence path",
+      "display_name": "Claim has no evidence path",
       "expected_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "EVIDENCE_PATH"
       ],
+      "fires_when": "No descendant of the selected claim is an evidence element, and the claim is not marked undeveloped.",
       "id": "check-evidence-trace",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -30,11 +43,13 @@
       "result_type": "boolean_candidate"
     },
     {
-      "description": "Detects candidate cases where a solution cites a broad artifact without precise location.",
+      "description": "Detects candidate cases where an evidence element cites a broad artifact without a precise location.",
       "display_name": "Evidence reference too broad",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The selected evidence element names an artifact but neither its text nor the evidence item's cited_section identifies a section, clause, table, figure, dataset, or test identifier within it.",
       "id": "check-evidence-citation-precision",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -46,8 +61,10 @@
       "description": "Detects evidence references without useful control attributes such as owner, version, status, date, or location.",
       "display_name": "Evidence missing control attributes",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The evidence item carries none of owner, version, status, date, or location, and no such attribute is stated in the selected evidence element's text. The result names which of those fields are missing.",
       "id": "check-evidence-control-attributes",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -59,8 +76,10 @@
       "description": "Detects evidence references that appear to point to mutable live documents without a fixed version.",
       "display_name": "Live mutable evidence reference",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The evidence reference carries a mutable-source marker (see the EV.8 markers) and carries no fixing marker such as a revision, version, snapshot, or capture date.",
       "id": "check-evidence-state-fixed",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -69,6 +88,6 @@
       "result_type": "boolean_candidate"
     }
   ],
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0"
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0"
 }

@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 category:
   id: SU
   title: SU. Sufficiency, uncertainty, and pitfall rules
@@ -9,6 +9,7 @@ guidelines:
   category: SU
   title: Identify and address plausible challenges to claims, reasoning, and evidence
   statement: Where a reviewer could reasonably question whether a claim, reasoning step, evidence item, assumption, or stated scope is valid, complete, applicable, or sufficiently reliable, make that challenge explicit and address it where needed.
+  short_rule: Make plausible challenges to the claim, reasoning, or evidence visible, and address them.
   rationale: A credible safety case should not only present supporting material. It should also make important doubts visible and show how they are handled. This fits well with GSN-style review, where challenge is used to test whether a claim, inference, or supporting material still stands when subjected to scrutiny.
   review_prompts:
   - What could invalidate this claim or reasoning step?
@@ -42,15 +43,24 @@ guidelines:
     - GSN Goal
     - GSN Strategy
     - GSN Solution
+    - CAE Claim
+    - CAE Argument
+    - CAE Evidence
     detection_hints:
     - Look for branches presenting only supporting material with no challenges or responses.
     suggested_checks:
     - id: check-plausible-challenges-addressed
       description: Check whether plausible reviewer challenges to the claim, reasoning, or evidence are visible and addressed.
+    repair:
+    - action: add_element
+      element_role: challenge
+      attach_to: selected
+      statement: Raise the plausible challenge as an explicit challenge element and resolve it.
 - id: SU.2
   category: SU
   title: Make assumptions explicit and justify why they are reasonable
   statement: Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.
+  short_rule: State assumptions explicitly, justify why each is reasonable, and monitor them where needed.
   rationale: Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
   review_prompts:
   - What must be true for this branch to hold?
@@ -79,15 +89,26 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Assumption
+    - CAE Assumption
     detection_hints:
     - Look for branches whose validity depends on a condition that is not stated as an assumption or context.
     suggested_checks:
     - id: check-explicit-assumptions
       description: Check whether implicit assumptions are made explicit, justified, and monitorable.
+    repair:
+    - action: add_element
+      element_role: assumption
+      attach_to: selected
+      statement: State the hidden condition explicitly as an assumption.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Justify why the assumption is reasonable and how it is monitored.
 - id: SU.3
   category: SU
   title: Do not rely on uncorroborated expert judgment alone
   statement: Do not rely on expert judgment alone unless its basis, limits, and corroborating support are stated, or the residual uncertainty is monitored over the lifecycle where appropriate.
+  short_rule: Do not rest a claim on expert judgment alone; state its basis and corroborate it.
   rationale: Expert opinion may be useful, but unsupported opinion is weak support and can easily outstate what is actually known.
   review_prompts:
   - Is the opinion supported by data, literature, documented analysis, or another explicit technical basis?
@@ -117,15 +138,35 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Justification
+    - CAE Evidence
+    - CAE Warrant
     detection_hints:
     - Look for evidence consisting only of expert statements without supporting analysis or data.
+    markers:
+    - kind: uncorroborated_judgment_marker
+      effect: candidate
+      terms:
+      - expert judgment
+      - expert judgement
+      - expert opinion
+      - engineering judgment
+      - engineering judgement
+      - in the opinion of
+      - is considered acceptable
+      - board statement
     suggested_checks:
     - id: check-expert-judgment-corroboration
-      description: Check whether expert judgment is corroborated by data, analysis, or lifecycle monitoring.
+      description: Check whether expert judgment is corroborated by data, analysis, or lifecycle monitoring. Candidate when an uncorroborated judgment marker carries the support with no analysis or data cited alongside it.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Add the analysis or data that corroborates the judgment.
 - id: SU.4
   category: SU
   title: Monitor claims that cannot be fully supported at design time
   statement: When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.
+  short_rule: Where design-time support is partial, say so and define monitoring and re-assessment triggers.
   rationale: Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
   review_prompts:
   - What part of this claim is not fully supported at design time?
@@ -156,15 +197,25 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Assumption
+    - CAE Claim
+    - CAE Assumption
     detection_hints:
     - Look for claims with partial design-time support and no defined lifecycle monitoring.
     suggested_checks:
     - id: check-lifecycle-monitoring
       description: Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers.
+    repair:
+    - action: add_element
+      element_role: assumption
+      attach_to: selected
+      statement: State the unconfirmed condition as an assumption with a re-assessment trigger.
+    - action: reword_element
+      statement: Narrow the claim to what design-time evidence actually supports.
 - id: SU.5
   category: SU
   title: Do not reuse safety credit from another context without showing it still applies
   statement: Do not rely on safety credit from proven-in-use technology, legacy technology, COTS, prior assessments, standard conformance, or prior practice unless you show that the original context is sufficiently comparable to the current one.
+  short_rule: Show that reused safety credit came from a sufficiently comparable context.
   rationale: Safety confidence gained in one context does not automatically remain valid in another. Differences in operating environment, purpose, interfaces, duty cycle, autonomy role, or assumptions can invalidate the reuse.
   review_prompts:
   - What safety confidence, evidence, or assessment result is being reused from another context?
@@ -195,15 +246,40 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Justification
+    - CAE Claim
+    - CAE Warrant
     detection_hints:
     - Look for proven-in-use or legacy claims with no comparability argument.
+    markers:
+    - kind: reuse_marker
+      effect: candidate
+      terms:
+      - proven in use
+      - proven-in-use
+      - legacy
+      - cots
+      - off the shelf
+      - off-the-shelf
+      - previously certified
+      - prior assessment
+      - previously assessed
     suggested_checks:
     - id: check-context-comparability
-      description: Check whether reused safety credit is supported by an explicit comparability argument.
+      description: Check whether reused safety credit is supported by an explicit comparability argument. Candidate when a reuse marker appears and no comparability argument accompanies it.
+    repair:
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: Argue comparability of the original and current context as sub-claims.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: State the basis on which the reused credit is held to apply.
 - id: SU.6
   category: SU
   title: Do not dismiss operational feedback because it is non-reproducible or non-injury
   statement: When a claim relies on operational experience, field monitoring, incident history, or proven-in-use style reasoning, do not dismiss incidents, near misses, anomalies, or failure reports merely because they have not recurred, cannot yet be reproduced, or did not lead to harm.
+  short_rule: Do not dismiss field anomalies because they caused no injury or could not be reproduced.
   rationale: Operational feedback is often used to support claims about residual risk, rarity, adequacy of existing controls, or continued acceptability in service. In those branches, non-injury or non-reproducibility does not make a signal irrelevant. Several weak signals together may show that the argument is less reliable than it appears.
   review_prompts:
   - Is this branch relying on operational experience or field feedback as part of its support?
@@ -231,15 +307,35 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Solution
+    - CAE Claim
+    - CAE Evidence
     detection_hints:
     - Look for arguments that use operational data and discount non-injury or non-reproducible incidents.
+    markers:
+    - kind: dismissal_marker
+      effect: candidate
+      terms:
+      - could not be reproduced
+      - cannot be reproduced
+      - not reproducible
+      - no injury
+      - non-injury
+      - not safety-relevant
+      - one-off
+      - isolated incident
     suggested_checks:
     - id: check-operational-feedback-treatment
-      description: Check whether adverse operational feedback is recorded, grouped, and evaluated rather than silently dismissed.
+      description: Check whether adverse operational feedback is recorded, grouped, and evaluated rather than silently dismissed. Candidate when a dismissal marker appears in a branch that relies on operational experience.
+    repair:
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Record and evaluate the adverse operational feedback rather than dismissing it.
 - id: SU.7
   category: SU
   title: Do not argue low risk from operational experience or unvalidated simulation alone
   statement: Do not infer low risk for a known hazard solely from uneventful operational history or from simulation whose credibility for the claim has not been demonstrated.
+  short_rule: Do not infer low risk from uneventful operation or unvalidated simulation alone.
   rationale: Operational exposure can miss catastrophic but rare outcomes. Simulation can miss modeling defects and abstraction errors.
   review_prompts:
   - Is simulation alone being treated as enough to show low risk?
@@ -270,15 +366,27 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Justification
+    - CAE Evidence
+    - CAE Warrant
     detection_hints:
     - Look for low-risk claims supported only by simulation or only by uneventful operational time.
     suggested_checks:
     - id: check-low-risk-evidence-mix
       description: Check whether low-risk claims combine multiple corroborating evidence types and address simulation validity.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Add corroborating evidence of a different type.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Argue why the simulation or operational basis is valid for this claim.
 - id: SU.8
   category: SU
   title: Do not assume human data or human-designed tests cover autonomy-specific failures
   statement: Do not assume that human-operated data sets or human-designed test plans are sufficient to cover autonomy-specific failures or edge cases.
+  short_rule: Do not assume human-derived data or human-designed tests cover autonomy-specific failures.
   rationale: Autonomous systems can encounter operating situations and failure combinations that are uncommon in human driving. Human-derived data and human-designed tests may therefore miss important autonomy-specific risks.
   review_prompts:
   - Is the claim supported mainly by human-operated data or human-designed tests?
@@ -313,15 +421,23 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Solution
+    - CAE Claim
+    - CAE Evidence
     detection_hints:
     - Look for claims about autonomy coverage backed only by human-driven datasets or human-designed scenarios.
     suggested_checks:
     - id: check-autonomy-coverage
       description: Check whether the test basis covers autonomy-specific failure modes and edge cases.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Add evidence covering autonomy-specific failure modes and edge cases.
 - id: SU.9
   category: SU
   title: Document unstated assumptions at the point of use
   statement: When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.
+  short_rule: State a dependency where it constrains the argument, as an assumption, context, or claim.
   rationale: Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.
   review_prompts:
   - What must be true for this claim or strategy to hold, but is not currently stated?
@@ -355,15 +471,28 @@ guidelines:
     - GSN Assumption
     - GSN Context
     - GSN Goal
+    - CAE Assumption
+    - CAE Context
+    - CAE Claim
     detection_hints:
     - Look for claims whose validity depends on conditions not stated as assumption, context, or subclaim.
     suggested_checks:
     - id: check-unstated-dependencies
       description: Check whether unstated dependencies are made visible at the point of use.
+    repair:
+    - action: add_element
+      element_role: assumption
+      attach_to: selected
+      statement: State the unstated dependency as an assumption at the point where it constrains the argument.
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: If the dependency must be shown rather than assumed, add it as a sub-claim.
 - id: SU.10
   category: SU
   title: Keep assumptions bounded, specific, and monitorable
   statement: Do not use assumptions that are broader than the claim scope or so vague that they cannot be checked, challenged, or monitored.
+  short_rule: Keep each assumption narrow, specific, and monitorable, and split ones that bundle dependencies.
   rationale: Over-broad assumptions can make a claim appear closed while removing most of its review value. If an argument depends on an assumption, the assumption should be narrow enough to understand, evaluate, and monitor where needed.
   review_prompts:
   - Is the assumption matched to the scope of the claim it constrains?
@@ -397,15 +526,33 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Assumption
+    - CAE Assumption
     detection_hints:
     - Look for assumptions that are vague, universal, or unmonitorable.
+    markers:
+    - kind: unbounded_assumption_marker
+      effect: candidate
+      terms:
+      - behaves correctly
+      - works as intended
+      - functions properly
+      - is correct
+      - is reliable
+      - as expected
+      - operates normally
     suggested_checks:
     - id: check-assumption-bounded
-      description: Check whether each assumption is narrow, specific, and monitorable where needed.
+      description: Check whether each assumption is narrow, specific, and monitorable where needed. Candidate when an unbounded assumption marker appears with no stated scope, threshold, or monitoring.
+    repair:
+    - action: split_element
+      statement: Split an assumption that bundles several dependencies into one assumption each.
+    - action: reword_element
+      statement: Narrow the assumption to something that can be checked, challenged, or monitored.
 - id: SU.11
   category: SU
   title: Make plausible reviewer challenges explicit and resolve them
   statement: When review raises a plausible What if X? challenge, make that challenge explicit and resolve it visibly in the safety case. Depending on the method, this may be represented as a GSN Counter Claim, a CAE defeater, or another explicit challenge element. The resolution may reject the challenge, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.
+  short_rule: Raise a plausible reviewer challenge as an explicit element and resolve it visibly.
   rationale: A credible safety case should not leave plausible challenges only in review comments or reviewer intuition. Good reviews expose weaknesses early. Making the challenge explicit helps ensure that it is either resolved properly or left visible until it is resolved.
   review_prompts:
   - What exactly is the reviewer challenge?
@@ -453,3 +600,10 @@ guidelines:
     suggested_checks:
     - id: check-counter-claims-resolved
       description: Check whether plausible reviewer challenges are made explicit and visibly resolved.
+    repair:
+    - action: add_element
+      element_role: challenge
+      attach_to: selected
+      statement: Raise the reviewer challenge as a counter claim or defeater in the argument.
+    - action: reword_element
+      statement: If the challenge is sustained, narrow the claim to what still holds.

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -95,6 +96,7 @@ def _validate_schemas() -> list[str]:
         (TOOL_SUPPORT_DIR / "data_packages.yaml", SCHEMAS / "data_packages.schema.json", "content/tool_support/data_packages.yaml"),
         (TOOL_SUPPORT_DIR / "data_package_diagram_layout.yaml", SCHEMAS / "data_package_diagram_layout.schema.json", "content/tool_support/data_package_diagram_layout.yaml"),
         (TOOL_SUPPORT_DIR / "prechecks.yaml", SCHEMAS / "prechecks.schema.json", "content/tool_support/prechecks.yaml"),
+        (TOOL_SUPPORT_DIR / "authoring_guidance.yaml", SCHEMAS / "authoring_guidance.schema.json", "content/tool_support/authoring_guidance.yaml"),
     ]
     for data_path, schema_path, label in schema_targets:
         instance, load_errors = _load_yaml_for_validation(data_path, label)
@@ -241,6 +243,177 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _matches_any(terms: list[str], text: str) -> bool:
+    """Whether any published marker term appears in the text.
+
+    Word-boundary, case-insensitive matching, which is how the tool integration
+    page tells a tool to match them.
+    """
+    return any(
+        re.search(rf"(?<!\w){re.escape(term)}(?!\w)", text, flags=re.IGNORECASE)
+        for term in terms
+    )
+
+
+def _validate_tool_contract(model: dict[str, Any]) -> list[str]:
+    """Invariants a consuming tool is entitled to rely on.
+
+    These are the rules a tool would otherwise have to rediscover by reading the
+    data: that one element resolves to one profile, that one profile has one
+    selected-element package, that guideline element names come from the
+    published vocabulary, and that a degraded review has a stated meaning.
+    """
+    errors: list[str] = []
+    guideline_ids = {guideline["id"] for guideline in model["guidelines"]}
+    package_by_id = {package["id"]: package for package in model["data_packages"]}
+    role_by_element = {
+        element["element"]: element["element_role"] for element in model["selectable_elements"]
+    }
+    selectable_names = set(role_by_element)
+
+    for duplicate_id in _duplicates([state["id"] for state in model["availability_states"]]):
+        errors.append(f"[availability_states] duplicate state id {duplicate_id!r}")
+
+    selected_by_element_role: dict[str, list[str]] = defaultdict(list)
+    for package in model["data_packages"]:
+        is_selected = package["role"] == "selected_element"
+        has_element_role = "element_role" in package
+        if is_selected and not has_element_role:
+            errors.append(f"[data_packages] {package['id']}: a selected_element package must declare element_role")
+        if not is_selected and has_element_role:
+            errors.append(f"[data_packages] {package['id']}: element_role is only for selected_element packages")
+        if is_selected and has_element_role:
+            selected_by_element_role[package["element_role"]].append(package["id"])
+    for element_role, package_ids in sorted(selected_by_element_role.items()):
+        if len(package_ids) > 1:
+            errors.append(
+                f"[data_packages] element role {element_role!r} has more than one selected-element package "
+                f"{sorted(package_ids)!r}"
+            )
+    for element_role in sorted(set(role_by_element.values())):
+        if element_role not in selected_by_element_role:
+            errors.append(
+                f"[data_packages] element role {element_role!r} is selectable but has no selected-element package"
+            )
+
+    for profile in model["review_profiles"]:
+        roles = {role_by_element[element] for element in profile.get("applies_to", []) if element in role_by_element}
+        if len(roles) > 1:
+            errors.append(
+                f"[review_profiles] {profile['id']}: applies_to mixes element roles {sorted(roles)!r}; "
+                "a profile reviews one kind of element"
+            )
+        selected_ids = [
+            package_id
+            for package_id in profile.get("required_data", [])
+            if package_by_id.get(package_id, {}).get("role") == "selected_element"
+        ]
+        if len(selected_ids) != 1:
+            errors.append(
+                f"[review_profiles] {profile['id']}: required_data must contain exactly one selected-element "
+                f"package, found {sorted(selected_ids)!r}"
+            )
+        elif roles:
+            expected_role = next(iter(roles))
+            actual_role = package_by_id[selected_ids[0]].get("element_role")
+            if actual_role != expected_role:
+                errors.append(
+                    f"[review_profiles] {profile['id']}: selected-element package {selected_ids[0]!r} is for "
+                    f"element role {actual_role!r}, but the profile applies to {expected_role!r} elements"
+                )
+        for package_id in profile.get("optional_data", []):
+            if package_by_id.get(package_id, {}).get("role") == "selected_element":
+                errors.append(
+                    f"[review_profiles] {profile['id']}: selected-element package {package_id!r} cannot be optional"
+                )
+        for entry in profile.get("when_absent", []):
+            if entry["id"] not in profile.get("required_data", []):
+                errors.append(
+                    f"[review_profiles] {profile['id']}: when_absent names {entry['id']!r}, which is not required data"
+                )
+            for guideline_id in entry["unassessable_guideline_ids"]:
+                if guideline_id not in profile.get("guideline_ids", []):
+                    errors.append(
+                        f"[review_profiles] {profile['id']}: when_absent {entry['id']} names guideline "
+                        f"{guideline_id!r}, which this profile does not apply"
+                    )
+        for duplicate_id in _duplicates([entry["id"] for entry in profile.get("when_absent", [])]):
+            errors.append(f"[review_profiles] {profile['id']}: duplicate when_absent entry {duplicate_id!r}")
+
+    for precheck in model["prechecks"]:
+        selected_ids = [
+            package_id
+            for package_id in precheck.get("expected_data", [])
+            if package_by_id.get(package_id, {}).get("role") == "selected_element"
+        ]
+        if len(selected_ids) != 1:
+            errors.append(
+                f"[prechecks] {precheck['id']}: expected_data must name exactly one selected-element package, "
+                f"so that the element the check runs on is unambiguous, found {sorted(selected_ids)!r}"
+            )
+
+    for guideline in model["guidelines"]:
+        guideline_id = guideline["id"]
+        tool = guideline.get("tool", {})
+        for element in tool.get("applicable_elements", []):
+            if element not in selectable_names:
+                errors.append(
+                    f"[guidelines] {guideline_id}: applicable element {element!r} is not a declared selectable element"
+                )
+        for duplicate_kind in _duplicates([entry["kind"] for entry in tool.get("markers", [])]):
+            errors.append(f"[guidelines] {guideline_id}: duplicate marker kind {duplicate_kind!r}")
+        for entry in tool.get("markers", []):
+            for duplicate_term in _duplicates(entry["terms"]):
+                errors.append(f"[guidelines] {guideline_id}: marker {entry['kind']} repeats term {duplicate_term!r}")
+            for term in entry["terms"]:
+                if term != term.strip() or term != term.lower():
+                    errors.append(
+                        f"[guidelines] {guideline_id}: marker term {term!r} must be lower case and trimmed"
+                    )
+        for entry in tool.get("markers", []):
+            # An `expected` list says its terms are what a compliant element
+            # looks like, so the guideline's own good example has to contain at
+            # least one of them. A list that its own good example fails would
+            # make every conforming element a candidate finding.
+            if entry["effect"] == "expected" and not _matches_any(entry["terms"], guideline["examples"]["good"]):
+                errors.append(
+                    f"[guidelines] {guideline_id}: expected marker {entry['kind']} matches nothing in this "
+                    "guideline's own good example"
+                )
+        for duplicate_threshold in _duplicates([entry["id"] for entry in tool.get("thresholds", [])]):
+            errors.append(f"[guidelines] {guideline_id}: duplicate threshold id {duplicate_threshold!r}")
+        for entry in tool.get("repair", []):
+            if entry["action"] == "add_element" and "element_role" not in entry:
+                errors.append(
+                    f"[guidelines] {guideline_id}: repair action 'add_element' must name the element_role to add"
+                )
+            if entry.get("element_role") and entry["element_role"] not in selected_by_element_role:
+                errors.append(
+                    f"[guidelines] {guideline_id}: repair names element role {entry['element_role']!r}, "
+                    "which is not a published element role"
+                )
+
+    guidance = model["authoring_guidance"]
+    core_ids = [entry["id"] for entry in guidance["core_rules"]]
+    for duplicate_id in _duplicates(core_ids):
+        errors.append(f"[authoring_guidance] duplicate core rule {duplicate_id!r}")
+    for core_id in core_ids:
+        if core_id not in guideline_ids:
+            errors.append(f"[authoring_guidance] core rule {core_id!r} is not a defined guideline")
+    represented = {core_id.split(".", 1)[0] for core_id in core_ids}
+    for category in model["categories"]:
+        if category["id"] not in represented:
+            errors.append(
+                f"[authoring_guidance] category {category['id']!r} is represented by no core rule; a tool "
+                "carrying only this set would never show that family"
+            )
+
+    centre = model["review_profile_diagram_layout"]["center"]
+    if centre.get("role") != "selected_element":
+        errors.append("[diagram_layout] the centre slot must carry role 'selected_element'")
+    return errors
+
+
 def _validate_generated(model: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     for path, expected in build_dist_outputs(model).items():
@@ -290,6 +463,7 @@ def main() -> int:
         return 1
     model = load_content_model()
     errors.extend(_validate_cross_references(model))
+    errors.extend(_validate_tool_contract(model))
     errors.extend(_validate_generated(model))
 
     if errors:

@@ -5,17 +5,22 @@
   "additionalProperties": false,
   "required": ["schema_version", "selectable_elements", "review_profiles"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "selectable_elements": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["element", "notation", "basis"],
+        "required": ["element", "notation", "element_role", "basis"],
         "properties": {
           "element": { "type": "string", "minLength": 1 },
           "notation": { "type": "string", "enum": ["GSN", "CAE"] },
+          "element_role": {
+            "description": "Notation-neutral role of this element. A tool whose internal model is neither GSN nor CAE maps its own element types onto this value, and presents the element name of the notation its users see.",
+            "type": "string",
+            "enum": ["claim", "strategy", "evidence", "context", "assumption", "justification", "challenge"]
+          },
           "basis": { "type": "string", "minLength": 1 }
         }
       }
@@ -69,6 +74,25 @@
               "optional": {
                 "type": "array",
                 "items": { "$ref": "#/definitions/data_rationale_entry" }
+              }
+            }
+          },
+          "when_absent": {
+            "description": "What a review may still conclude when a required data package cannot be supplied. Present for required packages a tool may legitimately be unable to build.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "unassessable_guideline_ids", "statement"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+                "unassessable_guideline_ids": {
+                  "description": "Guidelines of this profile that cannot be judged without the package. Must be a subset of the profile's guideline_ids.",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" }
+                },
+                "statement": { "type": "string", "minLength": 1 }
               }
             }
           }
