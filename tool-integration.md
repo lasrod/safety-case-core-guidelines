@@ -131,7 +131,7 @@ Nothing in this section is a separate standard. It is guidance on which publishe
 ### What an AI or agent integration should do
 
 1. **Quote rather than paraphrase.** Use `short_rule` or `statement` verbatim and cite the guideline id. A paraphrase becomes the tool's rule, and drifts from SCCG at the next revision.
-2. **Carry the version.** Every tool-facing file has a `document` block with `sccg_version`. A finding that cites a guideline id without a version cannot be reproduced later.
+2. **Carry the version.** Every tool-facing JSON file carries a `document` block alongside top-level `schema_version` and `sccg_version`, and every JSONL row carries both versions. A finding that cites a guideline id without a version cannot be reproduced later.
 3. **Say what was checked.** An empty finding list means the checks that ran found nothing, not that the argument conforms. Report which check ids ran and which guidelines were not examined.
 4. **Treat pre-checks and markers as candidate signals.** Carry each pre-check's `interpretation` text through to whoever reads the result. A marker hit is a prompt to look, not a finding.
 5. **Never present mechanical results as SCCG conformance.** Most of SCCG can only be judged by a reader. A green result from the decidable subset says nothing about the rest.

@@ -10,6 +10,17 @@
     "RD"
   ],
   "data_package_count": 19,
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
   "generated_exports": [
     "dist/sccg.full.json",
     "dist/sccg.full.yaml",

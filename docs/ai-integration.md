@@ -14,7 +14,7 @@ SCCG's review workflow assumes a tool asking for a judgment about an element tha
 - [dist/vectorstore_manifest.json](../dist/vectorstore_manifest.json) describes recommended files, metadata fields, and chunking.
 - [dist/sccg.full.json](../dist/sccg.full.json) is the complete normalized model, including review profiles, data packages, pre-checks, and the authoring set.
 
-Every tool-facing file carries a `document` block with the title, purpose, licence, `sccg_version`, and `schema_version`, so a tool that loads only one registry can still say what it is quoting.
+Every tool-facing JSON file carries a `document` block with the title, purpose, and licence, alongside top-level `schema_version` and `sccg_version`, so a tool that loads only one registry can still say what it is quoting. The JSONL exports carry both versions on every row instead, since each row stands alone.
 
 ## Rules of the road
 

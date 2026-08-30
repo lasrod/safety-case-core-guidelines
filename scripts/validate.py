@@ -414,9 +414,54 @@ def _validate_tool_contract(model: dict[str, Any]) -> list[str]:
     return errors
 
 
+def _validate_dist_provenance(model: dict[str, Any], outputs: dict[Path, str]) -> list[str]:
+    """Every tool-facing file must say which contract and content it carries.
+
+    A file left on an older `schema_version`, or without the document block,
+    tells an integrator it is quoting something it is not.
+    """
+    errors: list[str] = []
+    for path, text in sorted(outputs.items(), key=lambda item: item[0].name):
+        if path.suffix == ".json":
+            document = json.loads(text)
+            if document.get("schema_version") != model["schema_version"]:
+                errors.append(
+                    f"[dist] {path.name}: schema_version {document.get('schema_version')!r} does not match the "
+                    f"contract version {model['schema_version']!r}"
+                )
+            if document.get("sccg_version") != model["sccg_version"]:
+                errors.append(
+                    f"[dist] {path.name}: sccg_version {document.get('sccg_version')!r} does not match "
+                    f"{model['sccg_version']!r}"
+                )
+            if "document" not in document:
+                errors.append(f"[dist] {path.name}: no document block, so a tool cannot say what it is quoting")
+        elif path.suffix == ".jsonl":
+            for line_number, line in enumerate(text.splitlines(), start=1):
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                if row.get("schema_version") != model["schema_version"]:
+                    errors.append(
+                        f"[dist] {path.name} line {line_number}: schema_version "
+                        f"{row.get('schema_version')!r} does not match the contract version "
+                        f"{model['schema_version']!r}"
+                    )
+                    break
+                if row.get("sccg_version") != model["sccg_version"]:
+                    errors.append(
+                        f"[dist] {path.name} line {line_number}: sccg_version {row.get('sccg_version')!r} "
+                        f"does not match {model['sccg_version']!r}"
+                    )
+                    break
+    return errors
+
+
 def _validate_generated(model: dict[str, Any]) -> list[str]:
     errors: list[str] = []
-    for path, expected in build_dist_outputs(model).items():
+    dist_outputs = build_dist_outputs(model)
+    errors.extend(_validate_dist_provenance(model, dist_outputs))
+    for path, expected in dist_outputs.items():
         errors.extend(_check_file_current(path, expected, str(path)))
     ai_export_schema = load_json(SCHEMAS / "ai_rule_export.schema.json")
     ai_export_validator = Draft7Validator(ai_export_schema)

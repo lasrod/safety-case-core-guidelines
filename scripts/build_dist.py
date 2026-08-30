@@ -173,8 +173,9 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
         "dist/research_metadata.json",
     ]
     vectorstore_manifest = {
-        "schema_version": "1.0.0",
+        "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
+        "document": _document_block(model),
         "recommended_files": [
             {
                 "path": "dist/sccg.rules.jsonl",
@@ -208,6 +209,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     research_metadata = {
         "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
+        "document": _document_block(model),
         "guideline_count": len(model["guidelines"]),
         "category_count": len(model["categories"]),
         "review_profile_count": len(model["review_profiles"]),
@@ -246,6 +248,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "document": _document_block(model),
                 "review_profile_diagram_layout": model["review_profile_diagram_layout"],
             }
         ),
