@@ -54,13 +54,22 @@
 
   /* ---- link targets on this page --------------------------------------- */
 
+  function safeDecode(value) {
+    try {
+      return decodeURIComponent(value);
+    } catch (error) {
+      /* malformed percent-encoding: no anchor can match it anyway */
+      return value;
+    }
+  }
+
   function targetFor(link) {
     var href = link.getAttribute("href") || "";
     var hashIndex = href.indexOf("#");
     if (hashIndex < 0) {
       return null;
     }
-    var id = decodeURIComponent(href.slice(hashIndex + 1));
+    var id = safeDecode(href.slice(hashIndex + 1));
     if (!id) {
       return null;
     }
@@ -101,7 +110,7 @@
     if (!raw || raw.length < 2) {
       return;
     }
-    var id = decodeURIComponent(raw.slice(1)).trim();
+    var id = safeDecode(raw.slice(1)).trim();
     if (document.getElementById(id)) {
       return;
     }
@@ -241,7 +250,11 @@
       matches += categoryMatches;
     });
     sectionItems.forEach(function (item) {
-      item.hidden = item.textContent.toLowerCase().indexOf(query) < 0;
+      var hit = item.textContent.toLowerCase().indexOf(query) >= 0;
+      item.hidden = !hit;
+      if (hit) {
+        matches += 1;
+      }
     });
     if (noMatch) {
       noMatch.hidden = matches > 0;
