@@ -39,7 +39,7 @@
           }
         },
         "center": {
-          "$ref": "#/definitions/node"
+          "$ref": "#/definitions/centerNode"
         },
         "package_positions": {
           "type": "array",
@@ -52,6 +52,40 @@
     }
   },
   "definitions": {
+    "centerNode": {
+      "description": "The slot the reviewed element occupies. It carries a package role rather than a package id, because each review profile has its own selected-element package.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "x",
+        "y"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "selected_element"
+          ]
+        },
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
     "node": {
       "type": "object",
       "additionalProperties": false,

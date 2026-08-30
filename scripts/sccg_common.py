@@ -101,6 +101,7 @@ def load_content_model() -> dict[str, Any]:
     data_packages = load_yaml(TOOL_SUPPORT_DIR / "data_packages.yaml")
     data_package_diagram_layout = load_yaml(TOOL_SUPPORT_DIR / "data_package_diagram_layout.yaml")
     prechecks = load_yaml(TOOL_SUPPORT_DIR / "prechecks.yaml")
+    authoring_guidance = load_yaml(TOOL_SUPPORT_DIR / "authoring_guidance.yaml")
     category_order = category_order_from_id_scheme(sccg.get("id_scheme"))
 
     categories: list[dict[str, Any]] = []
@@ -131,8 +132,10 @@ def load_content_model() -> dict[str, Any]:
         "review_profiles": review_profiles["review_profiles"],
         "selectable_elements": review_profiles["selectable_elements"],
         "data_packages": data_packages["data_packages"],
+        "availability_states": data_packages["availability_states"],
         "review_profile_diagram_layout": data_package_diagram_layout["review_profile_diagram_layout"],
         "prechecks": prechecks["prechecks"],
+        "authoring_guidance": authoring_guidance["authoring_guidance"],
         "_category_files": category_files,
     }
 

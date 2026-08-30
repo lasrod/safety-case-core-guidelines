@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 category:
   id: EV
   title: EV. Evidence rules
@@ -9,6 +9,7 @@ guidelines:
   category: EV
   title: Make the evidence-support path explicit for every claim
   statement: Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments.
+  short_rule: Give every claim a path to evidence, or mark it undeveloped deliberately.
   rationale: A safety case without traceability cannot be effectively reviewed or maintained.
   review_prompts:
   - Can the reviewer identify the intended evidence path without having to infer it?
@@ -38,16 +39,25 @@ guidelines:
     - GSN Goal
     - GSN Solution
     - CAE Evidence
+    - CAE Claim
     detection_hints:
     - Look for claims with no traceable path to evidence.
     - Look for solutions linked to claims without intermediate sub-claims when needed.
     suggested_checks:
     - id: check-evidence-trace
       description: Check whether each claim has an explicit evidence path through sub-claims or direct solutions.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Attach the evidence element that supports the claim.
+    - action: mark_undeveloped
+      statement: If no evidence is intended yet, mark the claim undeveloped deliberately rather than leaving the gap silent.
 - id: EV.2
   category: EV
   title: Use evidence types that can be independently reviewed
   statement: Do not use evidence unless its artifact type is defined for safety case use and the artifact meets the criteria required for that type, so that it can be reviewed and assessed consistently.
+  short_rule: Cite only artifacts whose evidence type is defined and whose criteria for that type are met.
   rationale: A reviewer should be able to recognize what kind of evidence is being used, what makes it acceptable for this purpose, and how it should be interpreted. If an artifact is not an approved evidence type, or does not meet the criteria required for that type, it becomes difficult to review consistently and easy to misuse in a safety argument.
   review_prompts:
   - Is the evidence type clearly defined?
@@ -79,13 +89,28 @@ guidelines:
     - CAE Evidence
     detection_hints:
     - Look for evidence references to ad-hoc or working artifacts (working file, draft notes).
+    markers:
+    - kind: ad_hoc_artifact_marker
+      effect: candidate
+      terms:
+      - working file
+      - draft notes
+      - scratch
+      - personal notes
+      - notebook
+      - work in progress
+      - temporary
     suggested_checks:
     - id: check-evidence-type-defined
-      description: Check whether the evidence type is defined and the artifact meets the type's criteria.
+      description: Check whether the evidence type is defined and the artifact meets the type's criteria. Candidate when an ad-hoc artifact marker names the cited artifact.
+    repair:
+    - action: reword_element
+      statement: Cite an artifact whose evidence type is defined for this use, or state the criteria that make this artifact acceptable for that type.
 - id: EV.3
   category: EV
   title: Claim the fact supported by the evidence, not the document
   statement: Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion.
+  short_rule: Claim the fact the evidence establishes, not the document that holds it.
   rationale: Evidence usually supports a specific fact or bounded property, not the whole safety conclusion by itself.
   review_prompts:
   - Is the goal naming a document instead of a supported property?
@@ -106,15 +131,38 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - CAE Claim
     detection_hints:
     - Look for claim text that names a report, document, or analysis as the subject.
+    markers:
+    - kind: evidential_verb
+      effect: candidate
+      terms:
+      - proves
+      - demonstrates that the system
+      - shows that the system
+      - confirms safety
+    - kind: artifact_noun_subject
+      effect: candidate
+      terms:
+      - report
+      - analysis
+      - document
+      - record
+      - memo
+      - study
+      - assessment
     suggested_checks:
     - id: check-claim-subject-not-document
-      description: Check whether the claim subject is a property rather than a document.
+      description: Check whether the claim subject is a property rather than a document. Candidate when an artifact noun is the subject of the claim, or an evidential verb makes an artifact the thing that proves the conclusion.
+    repair:
+    - action: reword_element
+      statement: Restate the claim as the fact the cited artifact establishes.
 - id: EV.4
   category: EV
   title: Cite precise evidence locations; avoid annex dumping
   statement: Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical.
+  short_rule: Cite the exact section, table, figure, or test identifier, not a whole report.
   rationale: Broad references to whole reports create the illusion of support without making the evidential link easy to review.
   review_prompts:
   - Could a reviewer find the relevant support quickly?
@@ -140,13 +188,33 @@ guidelines:
     - CAE Evidence
     detection_hints:
     - Look for evidence references that name an entire report without section/table/figure.
+    markers:
+    - kind: citation_precision_marker
+      effect: expected
+      terms:
+      - section
+      - clause
+      - table
+      - figure
+      - annex
+      - appendix
+      - page
+      - chapter
+      - dataset
+      - test id
+      - scenario
+      - item
     suggested_checks:
     - id: check-evidence-citation-precision
-      description: Check whether evidence references are specific enough to be quickly verified.
+      description: Check whether evidence references are specific enough to be quickly verified. Candidate when an evidence reference names an artifact and carries no citation precision marker.
+    repair:
+    - action: reword_element
+      statement: Add the section, table, figure, dataset, or test identifier that carries the support.
 - id: EV.5
   category: EV
   title: Make the basis for evidence sufficiency explicit
   statement: When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
+  short_rule: State what makes the cited evidence sufficient for this claim, not only relevant to it.
   rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
   review_prompts:
   - What makes this evidence enough for this claim?
@@ -176,15 +244,36 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Justification
+    - CAE Evidence
+    - CAE Warrant
     detection_hints:
     - Look for evidence cited without scope, threshold, or coverage justification.
+    markers:
+    - kind: sufficiency_basis_marker
+      effect: expected
+      terms:
+      - coverage
+      - threshold
+      - acceptance criterion
+      - scenario
+      - configuration
+      - limitation
+      - exclusion
+      - sample
+      - scope
     suggested_checks:
     - id: check-evidence-sufficiency-basis
-      description: Check whether the basis for evidence sufficiency is explicit.
+      description: Check whether the basis for evidence sufficiency is explicit. Candidate when evidence is cited and no sufficiency basis marker appears in the branch.
+    repair:
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: State the coverage, thresholds, configuration, and limitations that make the evidence sufficient.
 - id: EV.6
   category: EV
   title: Explain how the evidence supports or refutes the claim
   statement: Ensure the inferential link between claim and evidence is explicitly documented and reviewable. The documentation shall explain how the cited evidence supports the claim, and where relevant how it reveals limitations or possible refutation.
+  short_rule: Document why the cited evidence bears on this claim, including what it does not cover.
   rationale: Evidence does not speak for itself. The safety case or linked assessment record must explain why the evidence bears on the claim.
   review_prompts:
   - Is it explicit why this evidence matters for this claim?
@@ -216,10 +305,16 @@ guidelines:
     suggested_checks:
     - id: check-inferential-link-documented
       description: Check whether the inferential link between claim and evidence is reviewable.
+    repair:
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Document why this evidence bears on this claim and what it does not cover.
 - id: EV.7
   category: EV
   title: 'Keep evidence controlled: owner, version, date, status, repository'
   statement: Evidence cited in the safety case should be under configuration or document control, with clear ownership, version or revision, date, status, and a stable retrieval location. Do not rely on mutable live documents as evidence unless the cited version is fixed or the change process explicitly triggers re-assessment of the affected claim.
+  short_rule: 'Keep evidence controlled: owner, version, date, status, and a stable retrieval location.'
   rationale: Uncontrolled or mutable evidence is hard to verify, maintain, and re-assess. If a cited artifact can change after review, the argument may silently lose validity while still appearing supported.
   review_prompts:
   - Who owns the evidence?
@@ -250,13 +345,41 @@ guidelines:
     - CAE Evidence
     detection_hints:
     - Look for evidence references with no version, date, owner, or controlled location.
+    markers:
+    - kind: control_attribute_marker
+      effect: expected
+      terms:
+      - owner
+      - rev
+      - revision
+      - version
+      - issue
+      - approved
+      - released
+      - status
+      - dated
+      - repository
+    - kind: uncontrolled_source_marker
+      effect: candidate
+      terms:
+      - wiki
+      - confluence
+      - sharepoint
+      - google doc
+      - shared drive
+      - team page
+      - draft
     suggested_checks:
     - id: check-evidence-control-attributes
-      description: Check whether each evidence reference includes owner, version, date, status, and stable location (directly or via linked control mechanism).
+      description: Check whether each evidence reference includes owner, version, date, status, and stable location (directly or via linked control mechanism). Candidate when none of the control attribute markers is present; the result names which are missing.
+    repair:
+    - action: reword_element
+      statement: Add owner, version or revision, date, status, and a controlled retrieval location to the reference.
 - id: EV.8
   category: EV
   title: Cite fixed evidence, not live mutable content
   statement: Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content.
+  short_rule: Cite a fixed, versioned, or archived state, never live mutable content.
   rationale: This rule is the specific citation case of EV.7. If cited evidence can change after review, the safety case may appear supported while its actual evidential basis has changed or disappeared. This breaks reproducibility, reviewability, and configuration control.
   review_prompts:
   - Could this cited content change without the safety case being updated?
@@ -289,13 +412,45 @@ guidelines:
     - CAE Evidence
     detection_hints:
     - Look for citations to wikis, live shared docs, or other mutable URLs without a fixed version or snapshot.
+    markers:
+    - kind: mutable_source_marker
+      effect: candidate
+      terms:
+      - wiki
+      - confluence
+      - sharepoint
+      - google doc
+      - live
+      - latest
+      - current
+      - main branch
+      - trunk
+      - page
+    - kind: fixing_marker
+      effect: suppress
+      terms:
+      - rev
+      - revision
+      - version
+      - snapshot
+      - captured
+      - archived
+      - baseline
+      - tag
+      - commit
+      - approved
+      - dated
     suggested_checks:
     - id: check-evidence-state-fixed
-      description: Check whether the cited content state is fixed, versioned, or archived.
+      description: Check whether the cited content state is fixed, versioned, or archived. Candidate when a mutable source marker is present and no fixing marker accompanies it.
+    repair:
+    - action: reword_element
+      statement: Cite a fixed revision, version, or archived snapshot rather than live content.
 - id: EV.9
   category: EV
   title: Do not argue directly from undocumented system knowledge
   statement: Do not support claims by relying on undocumented engineering knowledge, design understanding, or verbal explanation. Claims about system behavior, design, interfaces, mitigations, or operating limits should be grounded in controlled documentation or other identified evidence.
+  short_rule: Argue from cited documentation, not from undocumented engineering knowledge.
   rationale: A safety case should argue from reviewable evidence, not from what engineers happen to know. When system knowledge is written directly into the safety case without a supporting source, the argument becomes hard to verify, hard to maintain, and difficult to assess for completeness. It also becomes unclear whether the claim is supported by an approved design basis or only by current team understanding.
   review_prompts:
   - Is this claim supported by controlled documentation or other identified evidence?
@@ -325,8 +480,19 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Strategy
+    - CAE Claim
+    - CAE Argument
     detection_hints:
     - Look for free-text design explanations in the safety case without linked specification or evidence.
     suggested_checks:
     - id: check-undocumented-knowledge
       description: Check whether the argument relies on undocumented system knowledge rather than cited artifacts.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Cite the design basis as evidence rather than describing system behaviour in the argument.
+    - action: add_element
+      element_role: context
+      attach_to: selected
+      statement: Identify the specification or interface definition as context.

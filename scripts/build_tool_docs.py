@@ -7,6 +7,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from build_dist import build_authoring_guidance
 from sccg_common import ROOT, TEMPLATES, load_content_model, write_if_changed
 
 
@@ -18,9 +19,17 @@ PROFILE_BEGIN = "<!-- BEGIN GENERATED: review-profiles -->"
 PROFILE_END = "<!-- END GENERATED: review-profiles -->"
 PRECHECK_BEGIN = "<!-- BEGIN GENERATED: prechecks -->"
 PRECHECK_END = "<!-- END GENERATED: prechecks -->"
+AUTHORING_BEGIN = "<!-- BEGIN GENERATED: authoring-guidance -->"
+AUTHORING_END = "<!-- END GENERATED: authoring-guidance -->"
 
 KIND_BY_PACKAGE = {
-    "SEL": "core",
+    "SELECTED_CLAIM": "core",
+    "SELECTED_STRATEGY": "core",
+    "SELECTED_EVIDENCE": "core",
+    "SELECTED_CONTEXT": "core",
+    "SELECTED_ASSUMPTION": "core",
+    "SELECTED_JUSTIFICATION": "core",
+    "SELECTED_CHALLENGE": "core",
     "PARENT": "structure",
     "CHILDREN": "structure",
     "STRATEGY": "structure",
@@ -81,8 +90,9 @@ def _tool_assets() -> list[dict[str, str]]:
         {"path": "dist/sccg.full.json", "description": "Complete normalized SCCG model, including guidelines, review profiles, data packages, and pre-checks."},
         {"path": "dist/review_profiles.json", "description": "Review profile registry for selecting review intent and expected tool context."},
         {"path": "dist/data_packages.json", "description": "Data package registry describing the context a tool may provide to a review workflow."},
-        {"path": "dist/data_package_diagram_layout.json", "description": "Fixed diagram layout for review-profile visualizations, with SEL centered and all other package types pinned to stable positions."},
+        {"path": "dist/data_package_diagram_layout.json", "description": "Fixed diagram layout for review-profile visualizations, with the selected-element package centered and all other package types pinned to stable positions."},
         {"path": "dist/prechecks.json", "description": "Deterministic candidate checks that a tool can run before human or AI judgment."},
+        {"path": "dist/authoring_guidance.json", "description": "Authoring-time delivery set: the condensed core rules, and the review profile each element role will be judged under."},
         {"path": "dist/sccg.rules.jsonl", "description": "One guideline per JSONL line for retrieval or rule loading."},
         {"path": "dist/ai_rule_export.jsonl", "description": "AI-oriented export with one SCCG guideline per line and tool-facing metadata."},
         {"path": "dist/vectorstore_manifest.json", "description": "Recommended ingestion files and metadata fields for retrieval systems."},
@@ -93,19 +103,40 @@ def _tool_assets() -> list[dict[str, str]]:
         {"path": "schemas/data_packages.schema.json", "description": "JSON Schema contract for data package metadata."},
         {"path": "schemas/data_package_diagram_layout.schema.json", "description": "JSON Schema contract for review-profile diagram layout metadata."},
         {"path": "schemas/prechecks.schema.json", "description": "JSON Schema contract for deterministic pre-check metadata."},
+        {"path": "schemas/authoring_guidance.schema.json", "description": "JSON Schema contract for the authoring-time guidance set."},
         {"path": "schemas/ai_rule_export.schema.json", "description": "JSON Schema contract for AI rule export rows."},
     ]
 
 
-def _render_tool_sections(model: dict) -> tuple[str, str, str]:
+def _profile_views(model: dict) -> list[dict]:
+    """Profiles with the fields the page renders but the registry derives.
+
+    `selected_package` is the package carrying the reviewed element, and
+    `when_absent` defaults to empty so the template can test it.
+    """
+    package_by_id = {package["id"]: package for package in model["data_packages"]}
+    views = []
+    for profile in model["review_profiles"]:
+        view = dict(profile)
+        view["selected_package"] = selected_package(profile, package_by_id)["id"]
+        view["when_absent"] = profile.get("when_absent", [])
+        views.append(view)
+    return views
+
+
+def _render_tool_sections(model: dict) -> tuple[str, str, str, str]:
     template = _environment().get_template("tool_integration.md.j2")
     rendered = template.render(
         assets=_tool_assets(),
-        profiles=model["review_profiles"],
+        profiles=_profile_views(model),
         prechecks=model["prechecks"],
+        selectable_elements=model["selectable_elements"],
+        availability_states=model["availability_states"],
+        authoring=build_authoring_guidance(model),
     )
     sections = {
         "overview": [],
+        "authoring": [],
         "profiles": [],
         "prechecks": [],
     }
@@ -113,6 +144,9 @@ def _render_tool_sections(model: dict) -> tuple[str, str, str]:
     for line in rendered.splitlines():
         if line == "## Tool-facing assets":
             current = "overview"
+        elif line == "## Authoring-time guidance":
+            current = "authoring"
+            continue
         elif line == "## Review profiles":
             current = "profiles"
             continue
@@ -123,6 +157,7 @@ def _render_tool_sections(model: dict) -> tuple[str, str, str]:
             sections[current].append(line)
     return (
         "\n".join(sections["overview"]).strip(),
+        "\n".join(sections["authoring"]).strip(),
         "\n".join(sections["profiles"]).strip(),
         "\n".join(sections["prechecks"]).strip(),
     )
@@ -131,8 +166,9 @@ def _render_tool_sections(model: dict) -> tuple[str, str, str]:
 def render_tool_integration_page(original: str, model: dict | None = None) -> str:
     if model is None:
         model = load_content_model()
-    overview, profiles, prechecks = _render_tool_sections(model)
+    overview, authoring, profiles, prechecks = _render_tool_sections(model)
     updated = _splice_between_markers(original, OVERVIEW_BEGIN, OVERVIEW_END, overview)
+    updated = _splice_between_markers(updated, AUTHORING_BEGIN, AUTHORING_END, authoring)
     updated = _splice_between_markers(updated, PROFILE_BEGIN, PROFILE_END, profiles)
     return _splice_between_markers(updated, PRECHECK_BEGIN, PRECHECK_END, prechecks)
 
@@ -173,13 +209,27 @@ def _node_block(package: dict, x: int, y: int, dashed: bool) -> str:
     )
 
 
-def _relationship_state(profile: dict) -> dict[str, str]:
+def selected_package(profile: dict, package_by_id: dict[str, dict]) -> dict:
+    """The package carrying the element under review for this profile.
+
+    Each profile requires exactly one package whose role is `selected_element`,
+    which validation enforces; the diagram's centre slot and the relationship
+    arrows are both drawn from it.
+    """
+    for package_id in profile.get("required_data", []):
+        package = package_by_id.get(package_id, {})
+        if package.get("role") == "selected_element":
+            return package
+    raise KeyError(f"review profile {profile['id']} requires no selected-element package")
+
+
+def _relationship_state(profile: dict, selected_id: str) -> dict[str, str]:
     state_by_package_id: dict[str, str] = {}
     for package_id in profile.get("required_data", []):
-        if package_id != "SEL":
+        if package_id != selected_id:
             state_by_package_id[package_id] = "required"
     for package_id in profile.get("optional_data", []):
-        if package_id != "SEL" and package_id not in state_by_package_id:
+        if package_id != selected_id and package_id not in state_by_package_id:
             state_by_package_id[package_id] = "optional"
     return state_by_package_id
 
@@ -226,7 +276,8 @@ def render_review_profile_svg(
     center_y = center_node["y"] + (center_node.get("height", 94) / 2)
     node_width = 166
     node_height = 84
-    relationship_state = _relationship_state(profile)
+    selected = selected_package(profile, package_by_id)
+    relationship_state = _relationship_state(profile, selected["id"])
     node_fragments = []
     line_fragments = []
     for position in diagram_layout.get("package_positions", []):
@@ -312,8 +363,8 @@ def render_review_profile_svg(
 {''.join(line_fragments)}
 <rect x="{center_node['x']}" y="{center_node['y']}" width="{center_node.get('width', 220)}" height="{center_node.get('height', 94)}" rx="18" fill="#eaf3fb" stroke="#1f4e79" stroke-width="2.5"/>
 <rect x="{center_node['x']}" y="{center_node['y']}" width="{center_node.get('width', 220)}" height="30" rx="18" fill="#1f4e79"/>
-<text x="{center_x}" y="{center_node['y'] + 21}" text-anchor="middle" font-size="15" font-weight="800" fill="white">SEL</text>
-<text x="{center_x}" y="{center_node['y'] + 56}" text-anchor="middle" font-size="18" font-weight="700" fill="#1c1c1c">Selected element</text>
+<text x="{center_x}" y="{center_node['y'] + 21}" text-anchor="middle" font-size="15" font-weight="800" fill="white">{html.escape(selected['id'])}</text>
+<text x="{center_x}" y="{center_node['y'] + 56}" text-anchor="middle" font-size="18" font-weight="700" fill="#1c1c1c">{html.escape(selected['display_name'])}</text>
 <text x="{center_x}" y="{center_node['y'] + 82}" text-anchor="middle" font-size="12" font-weight="700" fill="#1f4e79">core</text>
 {''.join(node_fragments)}
 <text x="1060" y="130" font-size="21" font-weight="800" fill="#111">Applicable elements</text>

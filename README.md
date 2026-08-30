@@ -23,9 +23,9 @@ The guideline source is split by responsibility:
 - [content/sccg.yaml](content/sccg.yaml) contains document metadata, source policy, method guidance, ID scheme, and required section names.
 - [content/references.yaml](content/references.yaml) contains the reference source registry.
 - [content/guidelines/](content/guidelines/) contains one file per guideline category.
-- [content/tool_support/](content/tool_support/) contains review profiles, data packages, review-profile diagram layout metadata, and deterministic pre-check metadata.
+- [content/tool_support/](content/tool_support/) contains review profiles, data packages, review-profile diagram layout metadata, deterministic pre-check metadata, and the authoring guidance set.
 
-Guideline entries use the current field names `statement`, `rationale`, `examples`, and `tool`. The older monolithic `data/guidelines.yaml` source has been removed; [content/](content/) is canonical.
+Guideline entries use the current field names `statement`, `short_rule`, `rationale`, `examples`, and `tool`. The older monolithic `data/guidelines.yaml` source has been removed; [content/](content/) is canonical.
 
 ## Generated outputs
 
@@ -35,6 +35,7 @@ Tool-facing files are generated into [dist/](dist/):
 - `sccg.compact.json` contains a smaller guideline-focused model.
 - `sccg.rules.jsonl` and `ai_rule_export.jsonl` provide one guideline per JSONL line.
 - `review_profiles.json`, `data_packages.json`, `data_package_diagram_layout.json`, and `prechecks.json` expose tool-support registries.
+- `authoring_guidance.json` exposes the authoring-time delivery set for AI, agent, and MCP integrations.
 - `vectorstore_manifest.json` describes recommended files and chunking guidance.
 - `research_metadata.json` records deterministic counts and export metadata.
 
@@ -95,6 +96,8 @@ GitHub Pages is deployed by a dedicated workflow that runs the same generation a
 ## Tooling consumers
 
 Tools should consume [dist/](dist/) rather than the authored YAML unless they specifically need source-level authoring data. See [tool-integration.md](tool-integration.md), [docs/tool-support.md](docs/tool-support.md), [docs/ai-integration.md](docs/ai-integration.md), [docs/review-profiles.md](docs/review-profiles.md), and [docs/prechecks.md](docs/prechecks.md).
+
+Two versions are published: `schema_version` is the tool-facing contract, and `sccg_version` is the guideline content. The current contract is `2.0.0`; what changed and what a consumer has to do about it is recorded in the versioning section of [tool-integration.md](tool-integration.md).
 
 Schema details are summarized in [docs/schema-reference.md](docs/schema-reference.md).
 

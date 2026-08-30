@@ -196,11 +196,11 @@
 
 ## Related guidelines by pre-check
 
-### Goal has children but no explicit strategy (`check-explicit-strategy`)
+### Claim has children but no explicit reasoning step (`check-explicit-strategy`)
 
 - AR.2
 
-### No evidence path (`check-evidence-trace`)
+### Claim has no evidence path (`check-evidence-trace`)
 
 - EV.1
 

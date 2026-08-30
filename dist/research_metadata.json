@@ -1,4 +1,5 @@
 {
+  "authoring_core_rule_count": 18,
   "category_count": 6,
   "category_ids": [
     "CL",
@@ -8,7 +9,18 @@
     "LF",
     "RD"
   ],
-  "data_package_count": 13,
+  "data_package_count": 19,
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
   "generated_exports": [
     "dist/sccg.full.json",
     "dist/sccg.full.yaml",
@@ -19,12 +31,14 @@
     "dist/data_packages.json",
     "dist/data_package_diagram_layout.json",
     "dist/prechecks.json",
+    "dist/authoring_guidance.json",
     "dist/vectorstore_manifest.json",
     "dist/research_metadata.json"
   ],
   "guideline_count": 48,
   "precheck_count": 5,
   "review_profile_count": 7,
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0"
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0",
+  "selectable_element_count": 16
 }

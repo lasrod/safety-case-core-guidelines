@@ -1,4 +1,15 @@
 {
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
   "review_profiles": [
     {
       "applies_to": [
@@ -30,7 +41,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CLAIM",
             "rationale": "The selected claim is the subject of the whole review. Its wording drives CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.2, RD.4, and LF.6, and its scope drives every structural, evidential, and sufficiency check applied to the claim."
           },
           {
@@ -107,7 +118,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "PARENT",
         "CHILDREN",
         "STRATEGY",
@@ -146,7 +157,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_STRATEGY",
             "rationale": "The selected strategy or reasoning element is the object of review. AR.1 and AR.2 require it to make the inference rule explicit, and LF.1 requires checking that it adds independent support rather than restating the parent."
           },
           {
@@ -181,7 +192,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_STRATEGY",
         "PARENT",
         "CHILDREN",
         "DIRECT_CONTEXT"
@@ -217,7 +228,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_EVIDENCE",
             "rationale": "The selected solution or evidence reference is the element under review. It identifies which artifact is cited and what role it plays, which is the basis for AR.1, EV.1, and RD.1."
           },
           {
@@ -264,10 +275,26 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM",
         "EVIDENCE_BASIS",
         "PARENT"
+      ],
+      "when_absent": [
+        {
+          "id": "EVIDENCE_BASIS",
+          "statement": "Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.",
+          "unassessable_guideline_ids": [
+            "EV.5",
+            "EV.6",
+            "SU.3",
+            "SU.6",
+            "SU.7",
+            "SU.8",
+            "LF.5",
+            "LF.7"
+          ]
+        }
       ]
     },
     {
@@ -292,7 +319,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_ASSUMPTION",
             "rationale": "The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role."
           },
           {
@@ -325,7 +352,7 @@
         "PROJECT_GLOSSARY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_ASSUMPTION",
         "DIRECT_CONTEXT",
         "INHERITED_CONTEXT"
       ]
@@ -362,7 +389,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_JUSTIFICATION",
             "rationale": "The selected justification or warrant is the object of review. AR.8, AR.9, EV.5, SU.3, SU.5, LF.3, LF.4, RD.1, and RD.5 all require inspecting what the rationale actually says and whether it names the responsible actor."
           },
           {
@@ -395,7 +422,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_JUSTIFICATION",
         "PARENT"
       ]
     },
@@ -421,7 +448,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CONTEXT",
             "rationale": "The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions."
           },
           {
@@ -449,7 +476,7 @@
         "STANDARD_LINKS"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CONTEXT",
         "PARENT"
       ]
     },
@@ -475,7 +502,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CHALLENGE",
             "rationale": "The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition."
           },
           {
@@ -496,92 +523,108 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CHALLENGE",
         "PARENT"
       ]
     }
   ],
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0",
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0",
   "selectable_elements": [
     {
       "basis": "GSN Community Standard v3 core element (Goal).",
       "element": "GSN Goal",
+      "element_role": "claim",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Strategy).",
       "element": "GSN Strategy",
+      "element_role": "strategy",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Solution).",
       "element": "GSN Solution",
+      "element_role": "evidence",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Context).",
       "element": "GSN Context",
+      "element_role": "context",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Assumption).",
       "element": "GSN Assumption",
+      "element_role": "assumption",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Justification).",
       "element": "GSN Justification",
+      "element_role": "justification",
       "notation": "GSN"
     },
     {
       "basis": "Dialectic extension used for explicit challenges; referenced by SU.11.",
       "element": "GSN Counter Claim",
+      "element_role": "challenge",
       "notation": "GSN"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Claim).",
       "element": "CAE Claim",
+      "element_role": "claim",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Argument / reasoning).",
       "element": "CAE Argument",
+      "element_role": "strategy",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Evidence).",
       "element": "CAE Evidence",
+      "element_role": "evidence",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence contextual element (Context).",
       "element": "CAE Context",
+      "element_role": "context",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence contextual element (Assumption).",
       "element": "CAE Assumption",
+      "element_role": "assumption",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block for the reasoning warrant / rationale; the CAE analogue of a GSN Justification.",
       "element": "CAE Warrant",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block that backs a warrant with additional rationale.",
       "element": "CAE Side-warrant",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block that supports a warrant with a subsidiary claim.",
       "element": "CAE Side-claim",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.",
       "element": "CAE Defeater",
+      "element_role": "challenge",
       "notation": "CAE"
     }
   ]

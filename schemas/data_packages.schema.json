@@ -3,20 +3,46 @@
   "title": "SCCG data package registry",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "data_packages"],
+  "required": ["schema_version", "availability_states", "data_packages"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
+    "availability_states": {
+      "description": "The states a tool may report for a data package it was asked to supply. A review told nothing about a package cannot tell an absent package from an unimplemented one.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "display_name", "meaning"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "display_name": { "type": "string", "minLength": 1 },
+          "meaning": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "data_packages": {
       "type": "array",
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "display_name", "description", "required_fields", "optional_fields"],
+        "required": ["id", "role", "display_name", "description", "required_fields", "optional_fields"],
         "properties": {
           "id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
+          "role": {
+            "description": "selected_element marks the package carrying the element under review; every review profile requires exactly one of them.",
+            "type": "string",
+            "enum": ["selected_element", "supporting"]
+          },
+          "element_role": {
+            "description": "Required on a selected_element package, and forbidden elsewhere. Ties the package to the notation-neutral element role in the review profile registry.",
+            "type": "string",
+            "enum": ["claim", "strategy", "evidence", "context", "assumption", "justification", "challenge"]
+          },
           "display_name": { "type": "string", "minLength": 1 },
           "description": { "type": "string", "minLength": 1 },
           "required_fields": {
+            "description": "Fields a supplied package must carry. A list-valued field may be empty; absence of the field is not the same as an empty list.",
             "type": "array",
             "items": { "type": "string", "minLength": 1 }
           },

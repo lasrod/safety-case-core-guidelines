@@ -7,12 +7,28 @@ from typing import Any
 from sccg_common import DIST, json_text, jsonl_text, load_content_model, public_model, write_if_changed, yaml_text
 
 
+def _document_block(model: dict[str, Any]) -> dict[str, Any]:
+    """Document identity carried by every tool-facing file.
+
+    A tool that loads only the registries it needs should still be able to say
+    which document, version, and licence it is quoting.
+    """
+    return {
+        "title": model["document"]["title"],
+        "purpose": model["document"]["purpose"],
+        "license": model["document"].get("license"),
+        "sccg_version": model["sccg_version"],
+        "schema_version": model["schema_version"],
+    }
+
+
 def _compact_guideline(guideline: dict[str, Any]) -> dict[str, Any]:
     return {
         "id": guideline["id"],
         "category": guideline["category"],
         "title": guideline["title"],
         "statement": guideline["statement"],
+        "short_rule": guideline["short_rule"],
         "rationale": guideline["rationale"],
         "review_prompts": guideline["review_prompts"],
         "reference_source_ids": [ref["source_id"] for ref in guideline.get("references", [])],
@@ -49,6 +65,7 @@ def _rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any
         "category": guideline["category"],
         "title": guideline["title"],
         "statement": guideline["statement"],
+        "short_rule": guideline["short_rule"],
         "rationale": guideline["rationale"],
         "review_prompts": guideline["review_prompts"],
         "examples": guideline["examples"],
@@ -60,7 +77,7 @@ def _rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any
 
 def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any]:
     return {
-        "schema_version": "1.0.0",
+        "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
         "id": guideline["id"],
         "category": guideline["category"],
@@ -68,6 +85,7 @@ def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, 
         "category_id": guideline["category"],
         "title": guideline["title"],
         "statement": guideline["statement"],
+        "short_rule": guideline["short_rule"],
         "rationale": guideline["rationale"],
         "review_prompts": guideline["review_prompts"],
         "examples": guideline["examples"],
@@ -77,6 +95,56 @@ def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, 
     }
 
 
+def build_authoring_guidance(model: dict[str, Any]) -> dict[str, Any]:
+    """Authoring-time delivery set, resolved so a tool needs no second lookup.
+
+    `core_rules` carries the condensation itself; `element_rules` says which
+    profile's guidelines an element written now will be reviewed against, so a
+    tool's writing guidance and its review criteria cannot drift apart.
+    """
+    guideline_by_id = {guideline["id"]: guideline for guideline in model["guidelines"]}
+    guidance = model["authoring_guidance"]
+    core_rules = [
+        {
+            "id": entry["id"],
+            "category": guideline_by_id[entry["id"]]["category"],
+            "short_rule": guideline_by_id[entry["id"]]["short_rule"],
+            "statement": guideline_by_id[entry["id"]]["statement"],
+            "reason": entry["reason"],
+        }
+        for entry in guidance["core_rules"]
+    ]
+    role_elements: dict[str, list[str]] = {}
+    for element in model["selectable_elements"]:
+        role_elements.setdefault(element["element_role"], []).append(element["element"])
+    element_rules = [
+        {
+            "element_role": role,
+            "elements": role_elements.get(role, []),
+            "review_profile_id": profile["id"],
+            "guideline_ids": profile["guideline_ids"],
+        }
+        for profile in model["review_profiles"]
+        for role in [_profile_element_role(model, profile)]
+    ]
+    return {
+        "schema_version": model["schema_version"],
+        "sccg_version": model["sccg_version"],
+        "document": _document_block(model),
+        "description": guidance["description"],
+        "usage": guidance["usage"],
+        "core_rules": core_rules,
+        "element_rules": element_rules,
+    }
+
+
+def _profile_element_role(model: dict[str, Any], profile: dict[str, Any]) -> str:
+    role_by_element = {
+        element["element"]: element["element_role"] for element in model["selectable_elements"]
+    }
+    return role_by_element[profile["applies_to"][0]]
+
+
 def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     if model is None:
         model = load_content_model()
@@ -84,10 +152,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     compact = {
         "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
-        "document": {
-            "title": model["document"]["title"],
-            "license": model["document"].get("license"),
-        },
+        "document": _document_block(model),
         "categories": model["categories"],
         "guidelines": [_compact_guideline(guideline) for guideline in model["guidelines"]],
     }
@@ -103,12 +168,14 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
         "dist/data_packages.json",
         "dist/data_package_diagram_layout.json",
         "dist/prechecks.json",
+        "dist/authoring_guidance.json",
         "dist/vectorstore_manifest.json",
         "dist/research_metadata.json",
     ]
     vectorstore_manifest = {
-        "schema_version": "1.0.0",
+        "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
+        "document": _document_block(model),
         "recommended_files": [
             {
                 "path": "dist/sccg.rules.jsonl",
@@ -132,6 +199,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             "id",
             "category",
             "title",
+            "short_rule",
             "reference_source_ids",
             "review_profile_ids",
             "data_package_ids",
@@ -141,11 +209,14 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     research_metadata = {
         "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
+        "document": _document_block(model),
         "guideline_count": len(model["guidelines"]),
         "category_count": len(model["categories"]),
         "review_profile_count": len(model["review_profiles"]),
         "data_package_count": len(model["data_packages"]),
         "precheck_count": len(model["prechecks"]),
+        "authoring_core_rule_count": len(model["authoring_guidance"]["core_rules"]),
+        "selectable_element_count": len(model["selectable_elements"]),
         "category_ids": [category["id"] for category in model["categories"]],
         "generated_exports": generated_exports,
     }
@@ -159,6 +230,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "document": _document_block(model),
                 "selectable_elements": model["selectable_elements"],
                 "review_profiles": model["review_profiles"],
             }
@@ -167,6 +239,8 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "document": _document_block(model),
+                "availability_states": model["availability_states"],
                 "data_packages": model["data_packages"],
             }
         ),
@@ -174,13 +248,16 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "document": _document_block(model),
                 "review_profile_diagram_layout": model["review_profile_diagram_layout"],
             }
         ),
+        DIST / "authoring_guidance.json": json_text(build_authoring_guidance(model)),
         DIST / "prechecks.json": json_text(
             {
                 "schema_version": model["schema_version"],
                 "sccg_version": model["sccg_version"],
+                "document": _document_block(model),
                 "prechecks": model["prechecks"],
             }
         ),

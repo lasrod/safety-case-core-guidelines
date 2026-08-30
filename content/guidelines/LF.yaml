@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 category:
   id: LF
   title: LF. Logical fallacy rules
@@ -9,6 +9,7 @@ guidelines:
   category: LF
   title: Avoid circular reasoning
   statement: Do not support a claim by restating it, renaming it, or assuming it in the support.
+  short_rule: Support a claim with independent grounds, never by restating or renaming it.
   rationale: Circular support creates the appearance of argument without adding any new support.
   review_prompts:
   - Would the support still work if the parent claim were not assumed true?
@@ -28,15 +29,23 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Strategy
+    - CAE Claim
+    - CAE Argument
     detection_hints:
     - Look for support that restates or renames the parent claim.
     suggested_checks:
     - id: check-circular-support
       description: Check whether support adds independent reasoning or merely restates the claim.
+    repair:
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: Replace the restatement with support that does not assume the claim.
 - id: LF.2
   category: LF
   title: Avoid irrelevant premises
   statement: Do not use evidence or supporting statements that may be true but do not support the immediate claim being made.
+  short_rule: Attach evidence to the exact claim it supports, not to a neighbouring one.
   rationale: A common defect is to attach true or relevant material to the wrong claim, so the branch appears supported even though the actual inference is missing.
   review_prompts:
   - Does this evidence support this exact claim?
@@ -66,15 +75,23 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Goal
+    - CAE Evidence
+    - CAE Claim
     detection_hints:
     - Look for evidence whose actual scope supports a different claim than the one it is attached to.
     suggested_checks:
     - id: check-evidence-relevance
       description: Check whether each evidence item supports the immediate claim it is attached to.
+    repair:
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: Add the intermediate claim that the cited evidence actually supports.
 - id: LF.3
   category: LF
   title: Avoid arguing from ignorance
   statement: Do not treat lack of discovered evidence against a claim as positive evidence for the claim.
+  short_rule: 'Do not argue from absence: nothing found is not evidence that nothing exists.'
   rationale: Not finding a problem is not the same as showing that the problem does not exist. Claims about completeness or absence need support from the search basis, scope, and adequacy of the methods used.
   review_prompts:
   - Is not found being treated as does not exist?
@@ -105,15 +122,37 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Justification
+    - CAE Claim
+    - CAE Warrant
     detection_hints:
     - Look for completeness or absence claims justified only by absence-of-finding.
+    markers:
+    - kind: absence_phrase
+      effect: candidate
+      terms:
+      - no evidence of
+      - no failures observed
+      - no issues found
+      - none were found
+      - no further
+      - not found
+      - no known
+      - no reported
     suggested_checks:
     - id: check-completeness-vs-absence
-      description: Check whether absence-based claims are reframed as bounded completeness claims with adequate search coverage.
+      description: Check whether absence-based claims are reframed as bounded completeness claims with adequate search coverage. Candidate when an absence phrase carries the support for a completeness claim.
+    repair:
+    - action: reword_element
+      statement: Restate the claim as a bounded completeness claim about the search that was performed.
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Cite the search basis, methods, and coverage as evidence.
 - id: LF.4
   category: LF
   title: Avoid unjustified comparison or unjustified distinction
   statement: Do not claim that one case is equivalent to, safer than, better than, or different from another unless the basis of comparison or distinction is explicit and relevant to the claim being made.
+  short_rule: State the basis of any comparison or distinction, and show the cases are matched.
   rationale: Comparison-based arguments can look persuasive while hiding differences in scope, operating conditions, metrics, evidence quality, or confidence. Distinctions can also be misused to dismiss relevant comparators without showing why the difference matters.
   review_prompts:
   - What exactly is being compared or distinguished?
@@ -145,15 +184,39 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - GSN Justification
+    - CAE Claim
+    - CAE Warrant
     detection_hints:
     - Look for safer-than or different-from claims without an explicit basis of comparison.
+    markers:
+    - kind: comparison_marker
+      effect: candidate
+      terms:
+      - safer than
+      - better than
+      - equivalent to
+      - comparable to
+      - superior to
+      - at least as safe as
+      - unlike
+      - different from
     suggested_checks:
     - id: check-comparison-basis
-      description: Check whether comparisons or distinctions are matched in scope, conditions, metrics, and confidence.
+      description: Check whether comparisons or distinctions are matched in scope, conditions, metrics, and confidence. Candidate when a comparison marker appears and no basis of comparison is stated in context or justification.
+    repair:
+    - action: add_element
+      element_role: context
+      attach_to: selected
+      statement: State the basis of comparison as context on the claim.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Argue why the compared cases are matched in scope, metric, and confidence.
 - id: LF.5
   category: LF
   title: Avoid sample-size and representativeness fallacies
   statement: Do not generalize too far from too little data, or from data that does not match the operating context being claimed.
+  short_rule: Keep the claim no broader than the sample size and representativeness support.
   rationale: A small or skewed data set can support only a correspondingly narrow claim.
   review_prompts:
   - Is the sample size adequate for the confidence implied?
@@ -185,15 +248,25 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Goal
+    - CAE Evidence
+    - CAE Claim
     detection_hints:
     - Look for broad claims supported by narrow or small data sets.
     suggested_checks:
     - id: check-sample-coverage
       description: Check whether sample size and representativeness match the breadth of the claim.
+    repair:
+    - action: reword_element
+      statement: Narrow the claim to the conditions the sample actually covers.
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Or extend the evidence set to cover the breadth the claim states.
 - id: LF.6
   category: LF
   title: Avoid pseudo-precision
   statement: Do not present numerical precision beyond what the evidence, model, assumptions, or method can justify.
+  short_rule: State numbers only to the precision the model, data, and assumptions justify.
   rationale: A highly precise number can give a false impression of certainty. When uncertainty, confidence, model limits, or input assumptions are weak, the stated precision should reflect that.
   review_prompts:
   - Does the number imply a level of certainty the method cannot support?
@@ -220,15 +293,37 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - CAE Claim
     detection_hints:
     - Look for many-significant-digit numerical claims without uncertainty or confidence statement.
+    markers:
+    - kind: uncertainty_marker
+      effect: suppress
+      terms:
+      - approximately
+      - on the order of
+      - estimated
+      - uncertainty
+      - confidence
+      - bound
+      - range
+      - interval
+    thresholds:
+    - id: significant_digits
+      value: 3
+      unit: digits
+      note: A risk or performance figure stated to more significant digits than this, with no stated uncertainty, is a candidate signal.
     suggested_checks:
     - id: check-stated-precision
-      description: Check whether numerical precision is consistent with model and data uncertainty.
+      description: Check whether numerical precision is consistent with model and data uncertainty. Candidate when a figure carries more significant digits than the published threshold and no uncertainty marker accompanies it.
+    repair:
+    - action: reword_element
+      statement: State the figure to the precision the method supports, with its uncertainty or confidence bound.
 - id: LF.7
   category: LF
   title: Avoid omission of key evidence and ignoring counter-evidence
   statement: Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
+  short_rule: Include the evidence a critical reviewer expects, and answer known contrary evidence.
   rationale: A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
   review_prompts:
   - What evidence would a critical reviewer reasonably expect to see for this claim?
@@ -262,8 +357,17 @@ guidelines:
     applicable_elements:
     - GSN Solution
     - GSN Goal
+    - CAE Evidence
+    - CAE Claim
     detection_hints:
     - Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence.
     suggested_checks:
     - id: check-counter-evidence-treatment
       description: Check whether known limiting or contrary evidence is addressed or scoped out.
+    repair:
+    - action: add_element
+      element_role: evidence
+      attach_to: children
+      statement: Add the evidence a critical reviewer would expect, including contrary evidence.
+    - action: reword_element
+      statement: Or narrow the claim so that the omitted conditions are outside its scope.

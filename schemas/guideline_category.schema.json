@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "category", "guidelines"],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "category": {
       "type": "object",
       "additionalProperties": false,
@@ -58,6 +58,43 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         },
+        "markers": {
+          "description": "Lexical signals published so that a tool does not have to invent its own word list. A marker hit is a candidate signal, never a finding on its own. Terms are English, lower case, and matched case-insensitively on word or phrase boundaries.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "effect", "terms"],
+            "properties": {
+              "kind": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "effect": {
+                "description": "candidate: presence is a candidate signal. suppress: presence cancels a candidate signal for the same guideline. expected: absence is the candidate signal.",
+                "type": "string",
+                "enum": ["candidate", "suppress", "expected"]
+              },
+              "terms": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        },
+        "thresholds": {
+          "description": "Numeric parameters a deterministic check needs, published so that the threshold is SCCG's rather than each tool's. Values are starting points a tool may calibrate, and results stay candidate signals.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "value", "unit", "note"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+              "value": { "type": "number" },
+              "unit": { "type": "string", "minLength": 1 },
+              "note": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
         "suggested_checks": {
           "type": "array",
           "items": {
@@ -67,6 +104,31 @@
             "properties": {
               "id": { "type": "string", "minLength": 1 },
               "description": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "repair": {
+          "description": "The repair SCCG prescribes when the guideline is not met, in a form a tool can offer. It states the shape of the repair, not an operation to apply without review.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["action", "statement"],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": ["add_element", "split_element", "reword_element", "move_text", "define_term", "mark_undeveloped"]
+              },
+              "element_role": {
+                "description": "The element to add, or the destination of moved text, using the notation-neutral element roles published with the selectable elements.",
+                "type": "string",
+                "enum": ["claim", "strategy", "evidence", "context", "assumption", "justification", "challenge"]
+              },
+              "attach_to": {
+                "type": "string",
+                "enum": ["selected", "parent", "children", "between_selected_and_children"]
+              },
+              "statement": { "type": "string", "minLength": 1 }
             }
           }
         }
@@ -80,6 +142,7 @@
         "category",
         "title",
         "statement",
+        "short_rule",
         "rationale",
         "review_prompts",
         "examples",
@@ -90,6 +153,12 @@
         "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
         "title": { "type": "string", "minLength": 1 },
         "statement": { "type": "string", "minLength": 1 },
+        "short_rule": {
+          "description": "The guideline in one imperative line, for delivery while an author or an agent is writing. Tools quote it rather than paraphrasing it.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
         "rationale": { "type": "string", "minLength": 1 },
         "review_prompts": {
           "type": "array",

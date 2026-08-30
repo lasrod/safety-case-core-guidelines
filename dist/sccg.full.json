@@ -1,4 +1,104 @@
 {
+  "authoring_guidance": {
+    "core_rules": [
+      {
+        "id": "CL.1",
+        "reason": "A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim."
+      },
+      {
+        "id": "CL.2",
+        "reason": "Bundled properties are the characteristic output of a single-sentence instruction such as \"argue that X is safe and secure\"."
+      },
+      {
+        "id": "CL.3",
+        "reason": "Authors and language models both tend to write the whole branch into one claim rather than using the structure."
+      },
+      {
+        "id": "CL.5",
+        "reason": "Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording."
+      },
+      {
+        "id": "CL.6",
+        "reason": "Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached."
+      },
+      {
+        "id": "AR.1",
+        "reason": "Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it."
+      },
+      {
+        "id": "AR.2",
+        "reason": "Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument."
+      },
+      {
+        "id": "AR.3",
+        "reason": "Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim."
+      },
+      {
+        "id": "EV.1",
+        "reason": "A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review."
+      },
+      {
+        "id": "EV.3",
+        "reason": "Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows."
+      },
+      {
+        "id": "EV.4",
+        "reason": "Citation precision is cheap while the author still knows which section they meant."
+      },
+      {
+        "id": "EV.8",
+        "reason": "A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time."
+      },
+      {
+        "id": "SU.2",
+        "reason": "Assumptions are easiest to state while the author still knows what they were assuming."
+      },
+      {
+        "id": "SU.9",
+        "reason": "An unstated dependency is invisible to review by definition, so it has to be caught where it is introduced."
+      },
+      {
+        "id": "LF.1",
+        "reason": "Support that restates its parent is a common filler pattern when an author or a model has no real support to offer."
+      },
+      {
+        "id": "LF.3",
+        "reason": "Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand."
+      },
+      {
+        "id": "RD.1",
+        "reason": "Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards."
+      },
+      {
+        "id": "RD.4",
+        "reason": "Promotional wording is introduced at writing time and always weakens rather than strengthens the argument."
+      }
+    ],
+    "description": "The SCCG subset a tool should deliver while an author or an AI agent is writing, rather than when a review is run. Every guideline still applies; this set names the rules that are most often broken at the moment of writing and short enough to carry in a system prompt, an editor hint, or an agent's session instructions.",
+    "usage": "Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard."
+  },
+  "availability_states": [
+    {
+      "display_name": "Available",
+      "id": "available",
+      "meaning": "The package is supplied and carries the data the profile expects."
+    },
+    {
+      "display_name": "Not implemented",
+      "id": "not_implemented",
+      "meaning": "The tool has no source for this package at all."
+    },
+    {
+      "display_name": "Empty",
+      "id": "empty",
+      "meaning": "The tool has a source for this package and this case has nothing in it."
+    },
+    {
+      "display_name": "Withheld",
+      "id": "withheld",
+      "meaning": "The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision."
+    }
+  ],
   "categories": [
     {
       "description": null,
@@ -39,11 +139,11 @@
   ],
   "data_packages": [
     {
-      "description": "The selected assurance-case element being reviewed.",
-      "display_name": "Selected element",
-      "id": "SEL",
+      "description": "The claim under review, as the selected element of a claim review.",
+      "display_name": "Selected claim",
+      "element_role": "claim",
+      "id": "SELECTED_CLAIM",
       "optional_fields": [
-        "role",
         "status",
         "undeveloped",
         "tags",
@@ -53,69 +153,182 @@
         "element_id",
         "element_type",
         "text"
-      ]
+      ],
+      "role": "selected_element"
     },
     {
-      "description": "The immediate parent claim, goal, strategy, or reasoning element.",
+      "description": "The strategy or reasoning element under review, as the selected element of a strategy review.",
+      "display_name": "Selected strategy",
+      "element_role": "strategy",
+      "id": "SELECTED_STRATEGY",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The evidence element under review, as the selected element of an evidence review. Its control attributes are carried by EVIDENCE_ITEM.",
+      "display_name": "Selected evidence element",
+      "element_role": "evidence",
+      "id": "SELECTED_EVIDENCE",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The context element under review, as the selected element of a context review.",
+      "display_name": "Selected context element",
+      "element_role": "context",
+      "id": "SELECTED_CONTEXT",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The assumption under review, as the selected element of an assumption review.",
+      "display_name": "Selected assumption",
+      "element_role": "assumption",
+      "id": "SELECTED_ASSUMPTION",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The justification, warrant, or rationale element under review, as the selected element of a justification review.",
+      "display_name": "Selected justification",
+      "element_role": "justification",
+      "id": "SELECTED_JUSTIFICATION",
+      "optional_fields": [
+        "status",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The counter claim, defeater, or other explicit challenge element under review, as the selected element of a challenge review.",
+      "display_name": "Selected challenge",
+      "element_role": "challenge",
+      "id": "SELECTED_CHALLENGE",
+      "optional_fields": [
+        "status",
+        "undeveloped",
+        "tags",
+        "notes"
+      ],
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "selected_element"
+    },
+    {
+      "description": "The immediate parent claim, goal, strategy, or reasoning element of the selected element.",
       "display_name": "Parent element",
       "id": "PARENT",
       "optional_fields": [
-        "parent_id",
-        "parent_type",
-        "parent_text",
         "relationship_type"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
-      "description": "Immediate supporting claims, strategies, solutions, or evidence links.",
+      "description": "Immediate supporting claims, strategies, solutions, or evidence links below the selected element.",
       "display_name": "Child elements",
       "id": "CHILDREN",
       "optional_fields": [
-        "child_elements",
         "relationship_types"
       ],
-      "required_fields": []
+      "required_fields": [
+        "child_elements"
+      ],
+      "role": "supporting"
     },
     {
       "description": "Context, assumptions, and justifications directly attached to the selected element.",
       "display_name": "Direct context",
       "id": "DIRECT_CONTEXT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "context_elements",
         "assumptions",
         "justifications"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Context and assumptions inherited from ancestor elements.",
       "display_name": "Inherited context",
       "id": "INHERITED_CONTEXT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "ancestor_context",
         "ancestor_assumptions"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
-      "description": "The strategy or reasoning element connecting a parent claim to supporting claims.",
-      "display_name": "Strategy",
+      "description": "The strategy or reasoning element connecting a parent claim to supporting claims. Distinct from SELECTED_STRATEGY, which is the strategy being reviewed.",
+      "display_name": "Connecting strategy",
       "id": "STRATEGY",
       "optional_fields": [
-        "strategy_id",
-        "strategy_text",
         "strategy_context"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
-      "description": "Metadata for a selected evidence artifact or evidence reference.",
+      "description": "Control metadata for a cited evidence artifact or evidence reference.",
       "display_name": "Evidence item",
       "id": "EVIDENCE_ITEM",
       "optional_fields": [
-        "evidence_id",
-        "evidence_text",
         "artifact_type",
         "owner",
         "version",
@@ -124,20 +337,26 @@
         "location",
         "cited_section"
       ],
-      "required_fields": []
+      "required_fields": [
+        "element_id",
+        "element_type",
+        "text"
+      ],
+      "role": "supporting"
     },
     {
       "description": "Path from a selected claim to descendant evidence.",
       "display_name": "Evidence path",
       "id": "EVIDENCE_PATH",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "path_elements",
         "evidence_items"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
-      "description": "Information used to judge whether evidence is sufficient for the claim.",
+      "description": "Information used to judge whether evidence is sufficient for the claim, rather than merely relevant to it.",
       "display_name": "Evidence basis",
       "id": "EVIDENCE_BASIS",
       "optional_fields": [
@@ -148,25 +367,28 @@
         "configuration",
         "limitations"
       ],
-      "required_fields": []
+      "required_fields": [],
+      "role": "supporting"
     },
     {
       "description": "Relevant project terms and definitions.",
       "display_name": "Project glossary",
       "id": "PROJECT_GLOSSARY",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "terms"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Linked external standard requirements or guidance references.",
       "display_name": "Standard links",
       "id": "STANDARD_LINKS",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "linked_requirements"
       ],
-      "required_fields": []
+      "role": "supporting"
     },
     {
       "description": "Relevant review comments, prior findings, proposal history, and baseline or version state.",
@@ -178,16 +400,18 @@
         "proposal_history",
         "baseline"
       ],
-      "required_fields": []
+      "required_fields": [],
+      "role": "supporting"
     },
     {
-      "description": "Optional user-provided review concern or focus.",
+      "description": "A review concern or focus supplied by the user requesting the review.",
       "display_name": "User review intent",
       "id": "USER_REVIEW_INTENT",
-      "optional_fields": [
+      "optional_fields": [],
+      "required_fields": [
         "review_intent"
       ],
-      "required_fields": []
+      "role": "supporting"
     }
   ],
   "document": {
@@ -239,21 +463,39 @@
         "Is this a proposition, or only a topic label?",
         "Is the claim understandable without extra interpretation?"
       ],
+      "short_rule": "State each claim as a short proposition a reviewer could judge true or false.",
       "statement": "State each claim as a sentence that can in principle be shown true or false.",
       "title": "Write each claim as a falsifiable proposition",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim",
-          "SACM Claim"
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for goal text that is a noun phrase or topic label rather than a proposition.",
           "Look for goals lacking a verb expressing a property or a measurable condition."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "requirement_phrasing",
+            "terms": [
+              "shall",
+              "must",
+              "is required to",
+              "needs to"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Restate the claim as a proposition with a subject and an asserted property that could be shown false."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the claim text is a complete proposition that can be true or false.",
+            "description": "Check whether the claim text is a complete proposition that can be true or false. Candidate when the claim has no predicate asserting a property, or states a requirement in place of a proposition.",
             "id": "check-claim-is-proposition"
           }
         ]
@@ -296,21 +538,55 @@
         "Would different evidence sets be needed for different parts of the claim?",
         "Could one part of the statement be acceptable while another could fail?"
       ],
+      "short_rule": "Put one claim in one goal; separate properties that need different evidence.",
       "statement": "Do not bundle multiple distinct properties, conclusions, or obligations into one goal.",
       "title": "Put one main claim in one goal",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim",
-          "SACM Claim"
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for conjunctions linking distinct properties (safe and secure, complete and correct).",
           "Look for goals where different properties would be supported by different evidence sets."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "property_term",
+            "terms": [
+              "safe",
+              "secure",
+              "reliable",
+              "available",
+              "correct",
+              "complete",
+              "robust",
+              "maintainable",
+              "compliant"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "conjunction",
+            "terms": [
+              "and",
+              "as well as",
+              "together with",
+              "along with",
+              "in addition to"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "split_element",
+            "statement": "Split the bundled claim into one claim per property, each with its own support."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the claim asserts a single property or bundles several distinct properties.",
+            "description": "Check whether the claim asserts a single property or bundles several distinct properties. Candidate when two or more distinct property terms are joined by a conjunction within one claim; one property term alone is not a signal.",
             "id": "check-single-property"
           }
         ]
@@ -346,27 +622,69 @@
         "Are included topics listed in the claim instead of being expressed as sub-claims?",
         "Would the argument become clearer if the parent claim were shortened and the included topics moved into strategy and child claims?"
       ],
+      "short_rule": "Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.",
       "statement": "Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims.",
       "title": "Avoid the essay-in-the-box",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim",
-          "SACM Claim"
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for claims that contain long comma-separated lists of topics.",
           "Look for claim text that mixes scope, reasoning, caveats, and decomposition.",
           "Look for phrases such as including, covering, considering, or with respect to introducing multiple subtopics."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "enumeration_marker",
+            "terms": [
+              "including",
+              "covering",
+              "considering",
+              "with respect to",
+              "such as",
+              "as well as",
+              "together with"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move scope and operating conditions out of the claim into context."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "between_selected_and_children",
+            "element_role": "strategy",
+            "statement": "State the decomposition as a reasoning step instead of listing topics in the claim."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Make each listed topic a sub-claim below the claim."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the claim contains argument structure or scope that should be represented through context, strategy, assumptions, or sub-claims.",
+            "description": "Check whether the claim contains argument structure or scope that should be represented through context, strategy, assumptions, or sub-claims. Candidate when the claim exceeds the published word-count threshold, or an enumeration marker introduces a list of topics.",
             "id": "check-claim-length-and-role-mixing"
           },
           {
             "description": "Check whether the claim lists child topics instead of making the decomposition visible in the argument structure.",
             "id": "check-decomposition-hidden-in-claim"
+          }
+        ],
+        "thresholds": [
+          {
+            "id": "claim_word_count",
+            "note": "Claim text longer than this is a candidate for moving scope, reasoning, or listed topics out of the claim.",
+            "unit": "words",
+            "value": 40
           }
         ]
       }
@@ -406,21 +724,62 @@
         "Is the object of the claim clear?",
         "Is the property being claimed clear?"
       ],
+      "short_rule": "Word each claim so that two competent reviewers would read it the same way.",
       "statement": "Write claims so that their meaning is clear enough that competent reviewers are likely to understand them in the same way.",
       "title": "Avoid ambiguity and overloaded wording",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim",
-          "SACM Claim"
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for ambiguous subjects or properties (e.g. development is safe).",
           "Look for claim text whose object or measured property is unclear."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "ambiguous_qualifier",
+            "terms": [
+              "appropriate",
+              "adequate",
+              "suitable",
+              "proper",
+              "satisfactory",
+              "reasonable",
+              "as applicable",
+              "as necessary",
+              "where relevant",
+              "if needed"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "hedging_adverb",
+            "terms": [
+              "acceptably",
+              "largely",
+              "generally",
+              "broadly",
+              "essentially",
+              "substantially",
+              "effectively"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Reword the claim so that its subject and asserted property have one reading."
+          },
+          {
+            "action": "define_term",
+            "statement": "Define the ambiguous term once, and let the claim use the definition."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether competent reviewers would interpret the claim consistently.",
+            "description": "Check whether competent reviewers would interpret the claim consistently. A marker hit is a prompt to examine the claim's subject and asserted property, not a finding on its own.",
             "id": "check-claim-ambiguity"
           }
         ]
@@ -462,6 +821,7 @@
         "Is the scope of all, every, or never explicitly defined?",
         "Would the claim remain reviewable if read on its own?"
       ],
+      "short_rule": "Bound every evaluative or universal qualifier in the claim, its context, or a defined term.",
       "statement": "Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.",
       "title": "Bound vague and universal qualifiers",
       "tool": {
@@ -473,9 +833,65 @@
           "Look for unbounded evaluative terms: safe, robust, effective, timely, normal.",
           "Look for universal qualifiers without scope: all, every, never, always."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "unbounded_evaluative_term",
+            "terms": [
+              "safe",
+              "robust",
+              "effective",
+              "timely",
+              "normal",
+              "nominal",
+              "adequate",
+              "acceptable",
+              "sufficient",
+              "reliable",
+              "appropriate"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "universal_qualifier",
+            "terms": [
+              "all",
+              "every",
+              "always",
+              "never",
+              "none",
+              "any"
+            ]
+          },
+          {
+            "effect": "suppress",
+            "kind": "bounding_marker",
+            "terms": [
+              "defined",
+              "specified",
+              "documented",
+              "threshold",
+              "acceptance criterion",
+              "criterion",
+              "as defined in",
+              "within the"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "define_term",
+            "statement": "Define the qualifier once as a project term carrying its bound."
+          },
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "State the bound as context on the claim."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether evaluative or universal qualifiers in the claim are bounded by context or measurable criteria.",
+            "description": "Check whether evaluative or universal qualifiers in the claim are bounded by context or measurable criteria. Candidate when an unbounded evaluative term or universal qualifier appears and no bounding marker is present in the claim, its context, or a term it uses.",
             "id": "check-bounded-qualifiers"
           }
         ]
@@ -520,6 +936,7 @@
         "Would different teams or documents support different parts?",
         "Should the branch be decomposed before evidence is attached?"
       ],
+      "short_rule": "Do not chain identification, implementation, and validation in one claim; decompose them.",
       "statement": "Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit",
       "title": "Do not mix different logical steps in one claim",
       "tool": {
@@ -530,9 +947,32 @@
         "detection_hints": [
           "Look for claims that chain identification + implementation + validation in one sentence."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "lifecycle_step_verb",
+            "terms": [
+              "identified",
+              "specified",
+              "implemented",
+              "mitigated",
+              "verified",
+              "validated",
+              "assessed",
+              "monitored",
+              "reviewed"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "split_element",
+            "statement": "Separate the chained steps into sub-claims carrying one logical step each."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the claim mixes identification, adequacy, implementation, validation, and sufficiency steps.",
+            "description": "Check whether the claim mixes identification, adequacy, implementation, validation, and sufficiency steps. Candidate when two or more lifecycle step verbs appear within one claim.",
             "id": "check-claim-step-mixing"
           }
         ]
@@ -582,6 +1022,7 @@
         "Is an evidence reference being used as if it were a claim?",
         "Is a justification being used as if it were support?"
       ],
+      "short_rule": "Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.",
       "statement": "Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support.",
       "title": "Let structure carry the argument",
       "tool": {
@@ -604,9 +1045,28 @@
           "Look for solutions phrased as claims rather than evidence references.",
           "Look for assumptions or justifications buried in claim or strategy text."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "reasoning_verb",
+            "terms": [
+              "we argue that",
+              "by decomposing",
+              "argument over",
+              "this is shown by",
+              "it follows that"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "statement": "Move each part of the text into the element whose role it plays."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether each element is used for its intended GSN role.",
+            "description": "Check whether each element is used for its intended role in the notation. Candidate when reasoning wording appears in a claim, when a claim's wording appears in an evidence element, or when rationale or scope is stated inside another element's text.",
             "id": "check-element-role-misuse"
           }
         ]
@@ -656,6 +1116,7 @@
         "Would another reviewer derive the same child-claim set?",
         "Does the strategy explain why these children support this parent?"
       ],
+      "short_rule": "State the decomposition or inference rule explicitly instead of leaving it to be inferred.",
       "statement": "State how the parent claim is being decomposed or argued; do not make the reviewer infer the decomposition rule from wording alone.",
       "title": "State the inference step explicitly",
       "tool": {
@@ -667,6 +1128,14 @@
         "detection_hints": [
           "Look for branches with sub-claims but no strategy element explaining the decomposition rule.",
           "Look for parent claims whose decomposition rule is implicit in the wording."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "between_selected_and_children",
+            "element_role": "strategy",
+            "statement": "Insert an explicit reasoning step stating how the children support the claim."
+          }
         ],
         "suggested_checks": [
           {
@@ -718,6 +1187,7 @@
         "Would the argument be clearer if scope, definitions, or dependencies were represented separately?",
         "If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?"
       ],
+      "short_rule": "Make scope, definitions, operating conditions, and dependencies explicit rather than implied.",
       "statement": "Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.",
       "title": "Use context and assumptions deliberately",
       "tool": {
@@ -726,14 +1196,51 @@
           "GSN Context",
           "GSN Assumption",
           "CAE Claim",
-          "CAE Context"
+          "CAE Context",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for claim text containing scope phrases (in ODD X, during mode Y) or dependency phrases (with valid Z)."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "scope_phrase_marker",
+            "terms": [
+              "during",
+              "within",
+              "under",
+              "in the",
+              "for the defined"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "dependency_phrase_marker",
+            "terms": [
+              "with valid",
+              "assuming",
+              "provided that",
+              "given",
+              "subject to"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move scope, definitions, and operating conditions into context."
+          },
+          {
+            "action": "move_text",
+            "element_role": "assumption",
+            "statement": "State each condition the argument depends on as an assumption."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether scope and dependencies in claim text should be moved to context or assumption elements.",
+            "description": "Check whether scope and dependencies in claim text should be moved to context or assumption elements. Candidate when a scope phrase or dependency phrase marker appears inside claim text.",
             "id": "check-context-assumption-placement"
           }
         ]
@@ -768,15 +1275,23 @@
         "Is a leaf claim too vague to assess against evidence?",
         "Could the claim stay short because linked criteria already make it objective?"
       ],
+      "short_rule": "Keep upper-level claims short and stable; make evidence-facing claims precise enough to assess.",
       "statement": "Keep upper-level claims short and stable; make evidence-facing claims precise enough to assess.",
       "title": "Match claim precision to the level of the argument",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for top-level claims overloaded with measurement detail.",
           "Look for leaf claims too vague to compare with evidence."
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Shorten an overloaded upper-level claim, or make a leaf claim precise enough to assess against its evidence."
+          }
         ],
         "suggested_checks": [
           {
@@ -815,14 +1330,30 @@
         "Has scope narrowed without being stated?",
         "Is inherited context still valid at this level?"
       ],
+      "short_rule": "Keep the object, scope, and terminology of a claim unchanged as the argument decomposes.",
       "statement": "Do not silently redefine the object, scope, or meaning of key terms as the argument decomposes.",
       "title": "Keep scope and terminology consistent across decomposition",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for parent/child pairs where a key noun's scope changes silently."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "context",
+            "statement": "State the full scope the decomposition is meant to cover as context on the parent."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Add the sub-claims needed to cover the parent's stated scope."
+          }
         ],
         "suggested_checks": [
           {
@@ -874,15 +1405,26 @@
         "Is any necessary scope or operating condition explicit?",
         "Would two independent reviewers understand the claim in the same way?"
       ],
+      "short_rule": "Give each claim the context a reviewer needs to interpret its subject, scope, and key terms.",
       "statement": "Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.",
       "title": "Provide the context needed to interpret the claim",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Context"
+          "GSN Context",
+          "CAE Claim",
+          "CAE Context"
         ],
         "detection_hints": [
           "Look for claims using domain terms that are not defined in any linked context."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "context",
+            "statement": "Add the context that defines the claim's subject, scope, and key terms."
+          }
         ],
         "suggested_checks": [
           {
@@ -937,6 +1479,7 @@
         "Could the core claim remain stable if a configuration, interface condition, or dependency changed?",
         "Are dependencies explicit and traceable rather than hidden inside readable but overloaded claim text?"
       ],
+      "short_rule": "Move qualifiers and dependency clauses out of claim text into context or assumptions.",
       "statement": "Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.",
       "title": "Make claim qualifiers explicit and maintainable",
       "tool": {
@@ -944,14 +1487,43 @@
           "GSN Goal",
           "GSN Context",
           "GSN Assumption",
-          "CAE Claim"
+          "CAE Claim",
+          "CAE Context",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for connectives in claim text such as with, given, assuming, provided that, when."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "qualifier_connective",
+            "terms": [
+              "with",
+              "given",
+              "assuming",
+              "provided that",
+              "subject to",
+              "conditional on",
+              "when"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move qualifiers that define scope into context."
+          },
+          {
+            "action": "move_text",
+            "element_role": "assumption",
+            "statement": "Move dependency clauses into an assumption."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether qualifying clauses in claim text should move to context or assumption elements.",
+            "description": "Check whether qualifying clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.",
             "id": "check-claim-text-purity"
           }
         ]
@@ -998,6 +1570,7 @@
         "Is the rationale explaining a local choice, or trying to carry evidential weight?",
         "If the rationale were removed, would the real support for the claim still remain?"
       ],
+      "short_rule": "Use rationale to explain a choice, never as the support that makes a claim true.",
       "statement": "Use rationale, warrant, or justification text to explain why a wording, boundary, decomposition, or inference choice is acceptable; do not use it as the proof that a claim is true.",
       "title": "Do not use rationale as hidden support",
       "tool": {
@@ -1009,6 +1582,20 @@
         ],
         "detection_hints": [
           "Look for justifications that cite test results or evidence rather than rationale."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Cite the artifact as evidence instead of asserting it in the rationale."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Add the sub-claims that connect that evidence to the claim."
+          }
         ],
         "suggested_checks": [
           {
@@ -1058,6 +1645,7 @@
         "Is it local, or is it trying to justify the whole branch?",
         "Could the same text be pasted onto many different elements without change?"
       ],
+      "short_rule": "Keep each rationale local to the exact element or inference step it explains.",
       "statement": "Any rationale, warrant, or justification shall address the exact claim, argument, or inference step to which it is attached and shall not explain a different issue elsewhere in the branch.",
       "title": "Match each rationale to the element or inference it explains",
       "tool": {
@@ -1069,6 +1657,17 @@
         ],
         "detection_hints": [
           "Look for justifications that could be moved to other elements without losing meaning."
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Rewrite the rationale so that it explains this exact element or inference step."
+          },
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move scope information out of the rationale into context."
+          }
         ],
         "suggested_checks": [
           {
@@ -1113,17 +1712,31 @@
         "Is it clear which evidence path ultimately supports this claim?",
         "Would two reviewers follow the same trace to the same evidence?"
       ],
+      "short_rule": "Give every claim a path to evidence, or mark it undeveloped deliberately.",
       "statement": "Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments.",
       "title": "Make the evidence-support path explicit for every claim",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "GSN Solution",
-          "CAE Evidence"
+          "CAE Evidence",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for claims with no traceable path to evidence.",
           "Look for solutions linked to claims without intermediate sub-claims when needed."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Attach the evidence element that supports the claim."
+          },
+          {
+            "action": "mark_undeveloped",
+            "statement": "If no evidence is intended yet, mark the claim undeveloped deliberately rather than leaving the gap silent."
+          }
         ],
         "suggested_checks": [
           {
@@ -1167,6 +1780,7 @@
         "Is there a defined basis for reviewing, validating, or accepting this evidence type?",
         "Could an independent reviewer examine the artifact consistently without relying on undocumented local knowledge?"
       ],
+      "short_rule": "Cite only artifacts whose evidence type is defined and whose criteria for that type are met.",
       "statement": "Do not use evidence unless its artifact type is defined for safety case use and the artifact meets the criteria required for that type, so that it can be reviewed and assessed consistently.",
       "title": "Use evidence types that can be independently reviewed",
       "tool": {
@@ -1177,9 +1791,30 @@
         "detection_hints": [
           "Look for evidence references to ad-hoc or working artifacts (working file, draft notes)."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "ad_hoc_artifact_marker",
+            "terms": [
+              "working file",
+              "draft notes",
+              "scratch",
+              "personal notes",
+              "notebook",
+              "work in progress",
+              "temporary"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Cite an artifact whose evidence type is defined for this use, or state the criteria that make this artifact acceptable for that type."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the evidence type is defined and the artifact meets the type's criteria.",
+            "description": "Check whether the evidence type is defined and the artifact meets the type's criteria. Candidate when an ad-hoc artifact marker names the cited artifact.",
             "id": "check-evidence-type-defined"
           }
         ]
@@ -1214,18 +1849,51 @@
         "Is the evidential link too large for the cited artifact?",
         "Would the claim remain meaningful if the artifact name changed?"
       ],
+      "short_rule": "Claim the fact the evidence establishes, not the document that holds it.",
       "statement": "Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion.",
       "title": "Claim the fact supported by the evidence, not the document",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for claim text that names a report, document, or analysis as the subject."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "evidential_verb",
+            "terms": [
+              "proves",
+              "demonstrates that the system",
+              "shows that the system",
+              "confirms safety"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "artifact_noun_subject",
+            "terms": [
+              "report",
+              "analysis",
+              "document",
+              "record",
+              "memo",
+              "study",
+              "assessment"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Restate the claim as the fact the cited artifact establishes."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the claim subject is a property rather than a document.",
+            "description": "Check whether the claim subject is a property rather than a document. Candidate when an artifact noun is the subject of the claim, or an evidential verb makes an artifact the thing that proves the conclusion.",
             "id": "check-claim-subject-not-document"
           }
         ]
@@ -1266,6 +1934,7 @@
         "Is the cited location precise enough?",
         "Is the reference proportionate to the actual support being used?"
       ],
+      "short_rule": "Cite the exact section, table, figure, or test identifier, not a whole report.",
       "statement": "Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical.",
       "title": "Cite precise evidence locations; avoid annex dumping",
       "tool": {
@@ -1276,9 +1945,35 @@
         "detection_hints": [
           "Look for evidence references that name an entire report without section/table/figure."
         ],
+        "markers": [
+          {
+            "effect": "expected",
+            "kind": "citation_precision_marker",
+            "terms": [
+              "section",
+              "clause",
+              "table",
+              "figure",
+              "annex",
+              "appendix",
+              "page",
+              "chapter",
+              "dataset",
+              "test id",
+              "scenario",
+              "item"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Add the section, table, figure, dataset, or test identifier that carries the support."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether evidence references are specific enough to be quickly verified.",
+            "description": "Check whether evidence references are specific enough to be quickly verified. Candidate when an evidence reference names an artifact and carries no citation precision marker.",
             "id": "check-evidence-citation-precision"
           }
         ]
@@ -1318,19 +2013,47 @@
         "Are known limitations or uncovered conditions explicit?",
         "Is the branch showing only that the evidence is relevant, or also that it is enough?"
       ],
+      "short_rule": "State what makes the cited evidence sufficient for this claim, not only relevant to it.",
       "statement": "When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.",
       "title": "Make the basis for evidence sufficiency explicit",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Evidence",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for evidence cited without scope, threshold, or coverage justification."
         ],
+        "markers": [
+          {
+            "effect": "expected",
+            "kind": "sufficiency_basis_marker",
+            "terms": [
+              "coverage",
+              "threshold",
+              "acceptance criterion",
+              "scenario",
+              "configuration",
+              "limitation",
+              "exclusion",
+              "sample",
+              "scope"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "State the coverage, thresholds, configuration, and limitations that make the evidence sufficient."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the basis for evidence sufficiency is explicit.",
+            "description": "Check whether the basis for evidence sufficiency is explicit. Candidate when evidence is cited and no sufficiency basis marker appears in the branch.",
             "id": "check-evidence-sufficiency-basis"
           }
         ]
@@ -1368,6 +2091,7 @@
         "Does the documentation explain only support, or also limitations and possible refutation?",
         "Has confirmation bias been considered?"
       ],
+      "short_rule": "Document why the cited evidence bears on this claim, including what it does not cover.",
       "statement": "Ensure the inferential link between claim and evidence is explicitly documented and reviewable. The documentation shall explain how the cited evidence supports the claim, and where relevant how it reveals limitations or possible refutation.",
       "title": "Explain how the evidence supports or refutes the claim",
       "tool": {
@@ -1377,6 +2101,14 @@
         ],
         "detection_hints": [
           "Look for evidence linked to claims without an accompanying inferential explanation."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Document why this evidence bears on this claim and what it does not cover."
+          }
         ],
         "suggested_checks": [
           {
@@ -1426,6 +2158,7 @@
         "If it is a live document, is there an explicit mechanism that re-assesses affected claims when the document changes?",
         "Is its status clear, for example draft, in review, approved, or released?"
       ],
+      "short_rule": "Keep evidence controlled: owner, version, date, status, and a stable retrieval location.",
       "statement": "Evidence cited in the safety case should be under configuration or document control, with clear ownership, version or revision, date, status, and a stable retrieval location. Do not rely on mutable live documents as evidence unless the cited version is fixed or the change process explicitly triggers re-assessment of the affected claim.",
       "title": "Keep evidence controlled: owner, version, date, status, repository",
       "tool": {
@@ -1436,9 +2169,46 @@
         "detection_hints": [
           "Look for evidence references with no version, date, owner, or controlled location."
         ],
+        "markers": [
+          {
+            "effect": "expected",
+            "kind": "control_attribute_marker",
+            "terms": [
+              "owner",
+              "rev",
+              "revision",
+              "version",
+              "issue",
+              "approved",
+              "released",
+              "status",
+              "dated",
+              "repository"
+            ]
+          },
+          {
+            "effect": "candidate",
+            "kind": "uncontrolled_source_marker",
+            "terms": [
+              "wiki",
+              "confluence",
+              "sharepoint",
+              "google doc",
+              "shared drive",
+              "team page",
+              "draft"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Add owner, version or revision, date, status, and a controlled retrieval location to the reference."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether each evidence reference includes owner, version, date, status, and stable location (directly or via linked control mechanism).",
+            "description": "Check whether each evidence reference includes owner, version, date, status, and stable location (directly or via linked control mechanism). Candidate when none of the control attribute markers is present; the result names which are missing.",
             "id": "check-evidence-control-attributes"
           }
         ]
@@ -1483,6 +2253,7 @@
         "Can a future reviewer retrieve the exact same content that was reviewed?",
         "If the source is live, is there an explicit process that triggers re-assessment of affected claims when it changes?"
       ],
+      "short_rule": "Cite a fixed, versioned, or archived state, never live mutable content.",
       "statement": "Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content.",
       "title": "Cite fixed evidence, not live mutable content",
       "tool": {
@@ -1493,9 +2264,50 @@
         "detection_hints": [
           "Look for citations to wikis, live shared docs, or other mutable URLs without a fixed version or snapshot."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "mutable_source_marker",
+            "terms": [
+              "wiki",
+              "confluence",
+              "sharepoint",
+              "google doc",
+              "live",
+              "latest",
+              "current",
+              "main branch",
+              "trunk",
+              "page"
+            ]
+          },
+          {
+            "effect": "suppress",
+            "kind": "fixing_marker",
+            "terms": [
+              "rev",
+              "revision",
+              "version",
+              "snapshot",
+              "captured",
+              "archived",
+              "baseline",
+              "tag",
+              "commit",
+              "approved",
+              "dated"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Cite a fixed revision, version, or archived snapshot rather than live content."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether the cited content state is fixed, versioned, or archived.",
+            "description": "Check whether the cited content state is fixed, versioned, or archived. Candidate when a mutable source marker is present and no fixing marker accompanies it.",
             "id": "check-evidence-state-fixed"
           }
         ]
@@ -1535,15 +2347,32 @@
         "Would the claim still be supportable if the original engineer were unavailable?",
         "Should this material be moved to a specification, design description, interface definition, hazard analysis, or other work product and then cited as evidence?"
       ],
+      "short_rule": "Argue from cited documentation, not from undocumented engineering knowledge.",
       "statement": "Do not support claims by relying on undocumented engineering knowledge, design understanding, or verbal explanation. Claims about system behavior, design, interfaces, mitigations, or operating limits should be grounded in controlled documentation or other identified evidence.",
       "title": "Do not argue directly from undocumented system knowledge",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Strategy"
+          "GSN Strategy",
+          "CAE Claim",
+          "CAE Argument"
         ],
         "detection_hints": [
           "Look for free-text design explanations in the safety case without linked specification or evidence."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Cite the design basis as evidence rather than describing system behaviour in the argument."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "context",
+            "statement": "Identify the specification or interface definition as context."
+          }
         ],
         "suggested_checks": [
           {
@@ -1590,16 +2419,28 @@
         "Is the challenge really against the claim, the reasoning, the evidence, an assumption, or the stated scope?",
         "Are important doubts visible in the argument, or left unstated?"
       ],
+      "short_rule": "Make plausible challenges to the claim, reasoning, or evidence visible, and address them.",
       "statement": "Where a reviewer could reasonably question whether a claim, reasoning step, evidence item, assumption, or stated scope is valid, complete, applicable, or sufficiently reliable, make that challenge explicit and address it where needed.",
       "title": "Identify and address plausible challenges to claims, reasoning, and evidence",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "GSN Strategy",
-          "GSN Solution"
+          "GSN Solution",
+          "CAE Claim",
+          "CAE Argument",
+          "CAE Evidence"
         ],
         "detection_hints": [
           "Look for branches presenting only supporting material with no challenges or responses."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "challenge",
+            "statement": "Raise the plausible challenge as an explicit challenge element and resolve it."
+          }
         ],
         "suggested_checks": [
           {
@@ -1640,14 +2481,30 @@
         "Why is this assumption reasonable, and how would we know if it became false?",
         "Is this really an assumption, or should it instead be represented as context, a claim, or evidence?"
       ],
+      "short_rule": "State assumptions explicitly, justify why each is reasonable, and monitor them where needed.",
       "statement": "Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.",
       "title": "Make assumptions explicit and justify why they are reasonable",
       "tool": {
         "applicable_elements": [
-          "GSN Assumption"
+          "GSN Assumption",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for branches whose validity depends on a condition that is not stated as an assumption or context."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "assumption",
+            "statement": "State the hidden condition explicitly as an assumption."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Justify why the assumption is reasonable and how it is monitored."
+          }
         ],
         "suggested_checks": [
           {
@@ -1686,19 +2543,46 @@
         "Is the context of applicability clear and argued?",
         "If the opinion remains weakly supported, is lifecycle monitoring in place where needed?"
       ],
+      "short_rule": "Do not rest a claim on expert judgment alone; state its basis and corroborate it.",
       "statement": "Do not rely on expert judgment alone unless its basis, limits, and corroborating support are stated, or the residual uncertainty is monitored over the lifecycle where appropriate.",
       "title": "Do not rely on uncorroborated expert judgment alone",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Evidence",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for evidence consisting only of expert statements without supporting analysis or data."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "uncorroborated_judgment_marker",
+            "terms": [
+              "expert judgment",
+              "expert judgement",
+              "expert opinion",
+              "engineering judgment",
+              "engineering judgement",
+              "in the opinion of",
+              "is considered acceptable",
+              "board statement"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Add the analysis or data that corroborates the judgment."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether expert judgment is corroborated by data, analysis, or lifecycle monitoring.",
+            "description": "Check whether expert judgment is corroborated by data, analysis, or lifecycle monitoring. Candidate when an uncorroborated judgment marker carries the support with no analysis or data cited alongside it.",
             "id": "check-expert-judgment-corroboration"
           }
         ]
@@ -1735,15 +2619,30 @@
         "Is lifecycle monitoring defined for that uncertainty?",
         "Are reassessment triggers identified?"
       ],
+      "short_rule": "Where design-time support is partial, say so and define monitoring and re-assessment triggers.",
       "statement": "When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.",
       "title": "Monitor claims that cannot be fully supported at design time",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Assumption"
+          "GSN Assumption",
+          "CAE Claim",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for claims with partial design-time support and no defined lifecycle monitoring."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "assumption",
+            "statement": "State the unconfirmed condition as an assumption with a re-assessment trigger."
+          },
+          {
+            "action": "reword_element",
+            "statement": "Narrow the claim to what design-time evidence actually supports."
+          }
         ],
         "suggested_checks": [
           {
@@ -1777,19 +2676,53 @@
         "Have differences in purpose, environment, interfaces, or assumptions been identified?",
         "Have the limitations of the original assessment been stated?"
       ],
+      "short_rule": "Show that reused safety credit came from a sufficiently comparable context.",
       "statement": "Do not rely on safety credit from proven-in-use technology, legacy technology, COTS, prior assessments, standard conformance, or prior practice unless you show that the original context is sufficiently comparable to the current one.",
       "title": "Do not reuse safety credit from another context without showing it still applies",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Claim",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for proven-in-use or legacy claims with no comparability argument."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "reuse_marker",
+            "terms": [
+              "proven in use",
+              "proven-in-use",
+              "legacy",
+              "cots",
+              "off the shelf",
+              "off-the-shelf",
+              "previously certified",
+              "prior assessment",
+              "previously assessed"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Argue comparability of the original and current context as sub-claims."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "State the basis on which the reused credit is held to apply."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether reused safety credit is supported by an explicit comparability argument.",
+            "description": "Check whether reused safety credit is supported by an explicit comparability argument. Candidate when a reuse marker appears and no comparability argument accompanies it.",
             "id": "check-context-comparability"
           }
         ]
@@ -1825,19 +2758,46 @@
         "Is the argument considering the combined signal from multiple incidents or anomalies?",
         "Is adverse operational evidence explicitly recorded, evaluated, and addressed?"
       ],
+      "short_rule": "Do not dismiss field anomalies because they caused no injury or could not be reproduced.",
       "statement": "When a claim relies on operational experience, field monitoring, incident history, or proven-in-use style reasoning, do not dismiss incidents, near misses, anomalies, or failure reports merely because they have not recurred, cannot yet be reproduced, or did not lead to harm.",
       "title": "Do not dismiss operational feedback because it is non-reproducible or non-injury",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Solution"
+          "GSN Solution",
+          "CAE Claim",
+          "CAE Evidence"
         ],
         "detection_hints": [
           "Look for arguments that use operational data and discount non-injury or non-reproducible incidents."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "dismissal_marker",
+            "terms": [
+              "could not be reproduced",
+              "cannot be reproduced",
+              "not reproducible",
+              "no injury",
+              "non-injury",
+              "not safety-relevant",
+              "one-off",
+              "isolated incident"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Record and evaluate the adverse operational feedback rather than dismissing it."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether adverse operational feedback is recorded, grouped, and evaluated rather than silently dismissed.",
+            "description": "Check whether adverse operational feedback is recorded, grouped, and evaluated rather than silently dismissed. Candidate when a dismissal marker appears in a branch that relies on operational experience.",
             "id": "check-operational-feedback-treatment"
           }
         ]
@@ -1873,15 +2833,32 @@
         "Has simulation validity for this claim not been shown?",
         "Are corroborating evidence, scenario limits, or model limitations missing?"
       ],
+      "short_rule": "Do not infer low risk from uneventful operation or unvalidated simulation alone.",
       "statement": "Do not infer low risk for a known hazard solely from uneventful operational history or from simulation whose credibility for the claim has not been demonstrated.",
       "title": "Do not argue low risk from operational experience or unvalidated simulation alone",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Evidence",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for low-risk claims supported only by simulation or only by uneventful operational time."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Add corroborating evidence of a different type."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Argue why the simulation or operational basis is valid for this claim."
+          }
         ],
         "suggested_checks": [
           {
@@ -1924,15 +2901,26 @@
         "Are autonomy-specific failure modes and edge cases explicitly considered?",
         "Is there evidence that the test basis covers autonomy-specific failures, not only human-driving situations?"
       ],
+      "short_rule": "Do not assume human-derived data or human-designed tests cover autonomy-specific failures.",
       "statement": "Do not assume that human-operated data sets or human-designed test plans are sufficient to cover autonomy-specific failures or edge cases.",
       "title": "Do not assume human data or human-designed tests cover autonomy-specific failures",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Solution"
+          "GSN Solution",
+          "CAE Claim",
+          "CAE Evidence"
         ],
         "detection_hints": [
           "Look for claims about autonomy coverage backed only by human-driven datasets or human-designed scenarios."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Add evidence covering autonomy-specific failure modes and edge cases."
+          }
         ],
         "suggested_checks": [
           {
@@ -1974,16 +2962,34 @@
         "Is the hidden dependency local to the claim, or to the reasoning step?",
         "Should this dependency be represented as an assumption, as context, or as a claim that must be proved?"
       ],
+      "short_rule": "State a dependency where it constrains the argument, as an assumption, context, or claim.",
       "statement": "When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.",
       "title": "Document unstated assumptions at the point of use",
       "tool": {
         "applicable_elements": [
           "GSN Assumption",
           "GSN Context",
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Assumption",
+          "CAE Context",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for claims whose validity depends on conditions not stated as assumption, context, or subclaim."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "assumption",
+            "statement": "State the unstated dependency as an assumption at the point where it constrains the argument."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "If the dependency must be shown rather than assumed, add it as a sub-claim."
+          }
         ],
         "suggested_checks": [
           {
@@ -2026,18 +3032,45 @@
         "Does the assumption hide several different dependencies that should be separated?",
         "Would the branch become clearer if the assumption were narrowed or split?"
       ],
+      "short_rule": "Keep each assumption narrow, specific, and monitorable, and split ones that bundle dependencies.",
       "statement": "Do not use assumptions that are broader than the claim scope or so vague that they cannot be checked, challenged, or monitored.",
       "title": "Keep assumptions bounded, specific, and monitorable",
       "tool": {
         "applicable_elements": [
-          "GSN Assumption"
+          "GSN Assumption",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for assumptions that are vague, universal, or unmonitorable."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "unbounded_assumption_marker",
+            "terms": [
+              "behaves correctly",
+              "works as intended",
+              "functions properly",
+              "is correct",
+              "is reliable",
+              "as expected",
+              "operates normally"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "split_element",
+            "statement": "Split an assumption that bundles several dependencies into one assumption each."
+          },
+          {
+            "action": "reword_element",
+            "statement": "Narrow the assumption to something that can be checked, challenged, or monitored."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether each assumption is narrow, specific, and monitorable where needed.",
+            "description": "Check whether each assumption is narrow, specific, and monitorable where needed. Candidate when an unbounded assumption marker appears with no stated scope, threshold, or monitoring.",
             "id": "check-assumption-bounded"
           }
         ]
@@ -2082,6 +3115,7 @@
         "If sustained, has the original branch been updated appropriately?",
         "If unresolved, is the open issue visible and traceable?"
       ],
+      "short_rule": "Raise a plausible reviewer challenge as an explicit element and resolve it visibly.",
       "statement": "When review raises a plausible What if X? challenge, make that challenge explicit and resolve it visibly in the safety case. Depending on the method, this may be represented as a GSN Counter Claim, a CAE defeater, or another explicit challenge element. The resolution may reject the challenge, narrow or revise the original claim, add supporting evidence, introduce assumptions and monitoring, or leave a visible open issue if the matter is not yet resolved.",
       "title": "Make plausible reviewer challenges explicit and resolve them",
       "tool": {
@@ -2093,6 +3127,18 @@
         ],
         "detection_hints": [
           "Look for plausible reviewer challenges that have not been promoted into the safety case."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "challenge",
+            "statement": "Raise the reviewer challenge as a counter claim or defeater in the argument."
+          },
+          {
+            "action": "reword_element",
+            "statement": "If the challenge is sustained, narrow the claim to what still holds."
+          }
         ],
         "suggested_checks": [
           {
@@ -2128,15 +3174,26 @@
         "Would the support still work if the parent claim were not assumed true?",
         "Is the same conclusion being repeated with different words?"
       ],
+      "short_rule": "Support a claim with independent grounds, never by restating or renaming it.",
       "statement": "Do not support a claim by restating it, renaming it, or assuming it in the support.",
       "title": "Avoid circular reasoning",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Strategy"
+          "GSN Strategy",
+          "CAE Claim",
+          "CAE Argument"
         ],
         "detection_hints": [
           "Look for support that restates or renames the parent claim."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Replace the restatement with support that does not assume the claim."
+          }
         ],
         "suggested_checks": [
           {
@@ -2173,15 +3230,26 @@
         "Is the evidence only relevant to a different or neighboring claim?",
         "Is the missing support actually a different intermediate claim that has not been stated?"
       ],
+      "short_rule": "Attach evidence to the exact claim it supports, not to a neighbouring one.",
       "statement": "Do not use evidence or supporting statements that may be true but do not support the immediate claim being made.",
       "title": "Avoid irrelevant premises",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Evidence",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for evidence whose actual scope supports a different claim than the one it is attached to."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "Add the intermediate claim that the cited evidence actually supports."
+          }
         ],
         "suggested_checks": [
           {
@@ -2218,19 +3286,50 @@
         "Is the claim really about completeness of the search, rather than absolute absence?",
         "Was the search for contrary evidence demonstrably adequate for the stated scope?"
       ],
+      "short_rule": "Do not argue from absence: nothing found is not evidence that nothing exists.",
       "statement": "Do not treat lack of discovered evidence against a claim as positive evidence for the claim.",
       "title": "Avoid arguing from ignorance",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Claim",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for completeness or absence claims justified only by absence-of-finding."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "absence_phrase",
+            "terms": [
+              "no evidence of",
+              "no failures observed",
+              "no issues found",
+              "none were found",
+              "no further",
+              "not found",
+              "no known",
+              "no reported"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Restate the claim as a bounded completeness claim about the search that was performed."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Cite the search basis, methods, and coverage as evidence."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether absence-based claims are reframed as bounded completeness claims with adequate search coverage.",
+            "description": "Check whether absence-based claims are reframed as bounded completeness claims with adequate search coverage. Candidate when an absence phrase carries the support for a completeness claim.",
             "id": "check-completeness-vs-absence"
           }
         ]
@@ -2264,19 +3363,52 @@
         "Are the compared cases matched in scope, operating conditions, metrics, and confidence level?",
         "If a difference is claimed, is it shown why that difference matters to the argument?"
       ],
+      "short_rule": "State the basis of any comparison or distinction, and show the cases are matched.",
       "statement": "Do not claim that one case is equivalent to, safer than, better than, or different from another unless the basis of comparison or distinction is explicit and relevant to the claim being made.",
       "title": "Avoid unjustified comparison or unjustified distinction",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Claim",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for safer-than or different-from claims without an explicit basis of comparison."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "comparison_marker",
+            "terms": [
+              "safer than",
+              "better than",
+              "equivalent to",
+              "comparable to",
+              "superior to",
+              "at least as safe as",
+              "unlike",
+              "different from"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "context",
+            "statement": "State the basis of comparison as context on the claim."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Argue why the compared cases are matched in scope, metric, and confidence."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether comparisons or distinctions are matched in scope, conditions, metrics, and confidence.",
+            "description": "Check whether comparisons or distinctions are matched in scope, conditions, metrics, and confidence. Candidate when a comparison marker appears and no basis of comparison is stated in context or justification.",
             "id": "check-comparison-basis"
           }
         ]
@@ -2301,15 +3433,30 @@
         "Does the data distribution match the ODD and edge cases?",
         "Is the claim broader than the sample supports?"
       ],
+      "short_rule": "Keep the claim no broader than the sample size and representativeness support.",
       "statement": "Do not generalize too far from too little data, or from data that does not match the operating context being claimed.",
       "title": "Avoid sample-size and representativeness fallacies",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Evidence",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for broad claims supported by narrow or small data sets."
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Narrow the claim to the conditions the sample actually covers."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Or extend the evidence set to cover the breadth the claim states."
+          }
         ],
         "suggested_checks": [
           {
@@ -2339,19 +3486,51 @@
         "Is the stated precision greater than the quality of the underlying evidence or model?",
         "Would a rounded value or bounded statement better reflect the real knowledge state?"
       ],
+      "short_rule": "State numbers only to the precision the model, data, and assumptions justify.",
       "statement": "Do not present numerical precision beyond what the evidence, model, assumptions, or method can justify.",
       "title": "Avoid pseudo-precision",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for many-significant-digit numerical claims without uncertainty or confidence statement."
         ],
+        "markers": [
+          {
+            "effect": "suppress",
+            "kind": "uncertainty_marker",
+            "terms": [
+              "approximately",
+              "on the order of",
+              "estimated",
+              "uncertainty",
+              "confidence",
+              "bound",
+              "range",
+              "interval"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "State the figure to the precision the method supports, with its uncertainty or confidence bound."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether numerical precision is consistent with model and data uncertainty.",
+            "description": "Check whether numerical precision is consistent with model and data uncertainty. Candidate when a figure carries more significant digits than the published threshold and no uncertainty marker accompanies it.",
             "id": "check-stated-precision"
+          }
+        ],
+        "thresholds": [
+          {
+            "id": "significant_digits",
+            "note": "A risk or performance figure stated to more significant digits than this, with no stated uncertainty, is a candidate signal.",
+            "unit": "digits",
+            "value": 3
           }
         ]
       }
@@ -2376,15 +3555,30 @@
         "Does the omitted material affect the meaning, scope, or credibility of the claim?",
         "Is contrary evidence explicitly addressed rather than silently ignored?"
       ],
+      "short_rule": "Include the evidence a critical reviewer expects, and answer known contrary evidence.",
       "statement": "Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.",
       "title": "Avoid omission of key evidence and ignoring counter-evidence",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Evidence",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "evidence",
+            "statement": "Add the evidence a critical reviewer would expect, including contrary evidence."
+          },
+          {
+            "action": "reword_element",
+            "statement": "Or narrow the claim so that the omitted conditions are outside its scope."
+          }
         ],
         "suggested_checks": [
           {
@@ -2424,6 +3618,7 @@
         "Are claims, context, assumptions, and justifications mixed together?",
         "Is evidence clearly identifiable as evidence rather than explanation or claim text?"
       ],
+      "short_rule": "Signpost each element's role in its wording so no reader has to guess what it does.",
       "statement": "Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification.",
       "title": "Use explicit signposting of argument element roles",
       "tool": {
@@ -2432,14 +3627,40 @@
           "GSN Context",
           "GSN Assumption",
           "GSN Solution",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Claim",
+          "CAE Context",
+          "CAE Assumption",
+          "CAE Evidence",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for prose statements that mix claim, context, assumption, and evidence in one sentence."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "inference_connective",
+            "terms": [
+              "because",
+              "therefore",
+              "hence",
+              "thus",
+              "so that",
+              "since",
+              "as a result"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "statement": "Split the statement so that each part sits in the element whose role it plays."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether each statement is clearly signposted with its argument element role.",
+            "description": "Check whether each statement is clearly signposted with its argument element role. Candidate when an inference connective appears inside claim text, which signals reasoning that the structure should carry.",
             "id": "check-element-signposting"
           }
         ]
@@ -2470,14 +3691,39 @@
         "Does the wording overstate closure?",
         "Does the confidence language match the actual support?"
       ],
+      "short_rule": "State the operating scope, and match confidence language to the actual support.",
       "statement": "State the operating scope and use confidence language that reflects the actual support and any open issues.",
       "title": "Use scoped claims and qualified confidence language",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for unscoped claims using absolute confidence language (is safe, is correct)."
+        ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "absolute_confidence_marker",
+            "terms": [
+              "is safe",
+              "is correct",
+              "is complete",
+              "fully",
+              "entirely",
+              "guarantees",
+              "ensures",
+              "proves",
+              "no risk"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "State the operating scope and match the confidence wording to the actual support."
+          }
         ],
         "suggested_checks": [
           {
@@ -2518,16 +3764,34 @@
         "Are plausible objections or challenges addressed explicitly?",
         "Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?"
       ],
+      "short_rule": "Make limitations, objections, and their responses visible where the claim is read.",
       "statement": "Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.",
       "title": "Make limitations, objections, and responses explicit",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "GSN Context",
-          "GSN Open Issue"
+          "GSN Counter Claim",
+          "CAE Claim",
+          "CAE Context",
+          "CAE Defeater"
         ],
         "detection_hints": [
           "Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage."
+        ],
+        "repair": [
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "context",
+            "statement": "State the limitation as context where the claim is read."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "selected",
+            "element_role": "challenge",
+            "statement": "Record the objection as an explicit challenge element."
+          }
         ],
         "suggested_checks": [
           {
@@ -2565,18 +3829,44 @@
         "Would the sentence lose nothing important if the praise-like wording were removed?",
         "Is the wording trying to create confidence through tone rather than support?"
       ],
+      "short_rule": "Use no promotional language; persuade through structure and evidence.",
       "statement": "Do not use promotional, boastful, or image-enhancing language in the safety case.",
       "title": "Avoid promotional and inflated language",
       "tool": {
         "applicable_elements": [
-          "GSN Goal"
+          "GSN Goal",
+          "CAE Claim"
         ],
         "detection_hints": [
           "Look for promotional adjectives such as world-class, cutting-edge, outstanding, best-in-class."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "promotional_term",
+            "terms": [
+              "world-class",
+              "cutting-edge",
+              "state-of-the-art",
+              "best-in-class",
+              "outstanding",
+              "excellent",
+              "unparalleled",
+              "industry-leading",
+              "market-leading",
+              "superior"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Remove the promotional wording and state what is achieved, for what, under which conditions."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether claims use promotional or image-enhancing language.",
+            "description": "Check whether claims use promotional or image-enhancing language. Candidate when a promotional term appears in any element text.",
             "id": "check-promotional-language"
           }
         ]
@@ -2604,19 +3894,44 @@
         "Does the wording hide who is responsible?",
         "Would naming the actor improve traceability or auditability?"
       ],
+      "short_rule": "Name the actor who performed a review, judgment, or approval.",
       "statement": "Do not use passive wording when the identity of the actor matters to understanding, reviewing, or challenging the argument.",
       "title": "Avoid passive voice when it hides agency",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "GSN Justification"
+          "GSN Justification",
+          "CAE Claim",
+          "CAE Warrant"
         ],
         "detection_hints": [
           "Look for it was determined / has been reviewed / is considered without a named actor."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "agentless_passive_marker",
+            "terms": [
+              "it was determined",
+              "it was decided",
+              "has been reviewed",
+              "is considered",
+              "was assessed",
+              "it is assumed",
+              "has been approved",
+              "it was concluded"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "reword_element",
+            "statement": "Name the actor who performed the review, judgment, or approval."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether reviews, judgments, and approvals name the responsible actor.",
+            "description": "Check whether reviews, judgments, and approvals name the responsible actor. Candidate when an agentless passive marker appears and no actor is named in the same element.",
             "id": "check-active-voice-with-actor"
           }
         ]
@@ -2648,20 +3963,50 @@
         "Would a reviewer be misled by reading only the main branch?",
         "Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?"
       ],
+      "short_rule": "Keep important limitations and assumptions attached to the claim they qualify.",
       "statement": "Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.",
       "title": "Do not bury important limitations or hidden assumptions",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "GSN Context",
-          "GSN Assumption"
+          "GSN Assumption",
+          "CAE Claim",
+          "CAE Context",
+          "CAE Assumption"
         ],
         "detection_hints": [
           "Look for important limiting conditions stated only in appendices or distant free text."
         ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "distant_location_marker",
+            "terms": [
+              "appendix",
+              "annex",
+              "footnote",
+              "attachment",
+              "elsewhere in the document",
+              "see also"
+            ]
+          }
+        ],
+        "repair": [
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move the buried limitation into context attached to the claim it qualifies."
+          },
+          {
+            "action": "move_text",
+            "element_role": "assumption",
+            "statement": "Move a buried dependency into an assumption attached to the claim."
+          }
+        ],
         "suggested_checks": [
           {
-            "description": "Check whether important limitations and assumptions are visible where the claim is read.",
+            "description": "Check whether important limitations and assumptions are visible where the claim is read. Candidate when a limitation is stated only in a distant location marker rather than attached to the claim it qualifies.",
             "id": "check-limitations-collocated"
           }
         ]
@@ -2706,7 +4051,7 @@
       },
       {
         "method": "SACM or tool-neutral interchange",
-        "recommendation": "Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model."
+        "recommendation": "Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model. Map the tool's own element types onto the notation-neutral element_role values published with the selectable elements, and present SCCG element names in the notation the user sees."
       }
     ],
     "summary": "SCCG guidelines should be interpreted as notation-neutral quality expectations where possible. When a development process uses a specific assurance-case notation or method, apply the guideline through the corresponding notation elements and make any method-specific interpretation explicit in the guideline text, example, or tool guidance."
@@ -2714,12 +4059,13 @@
   "prechecks": [
     {
       "description": "Detects candidate cases where a claim is decomposed without an explicit reasoning step.",
-      "display_name": "Goal has children but no explicit strategy",
+      "display_name": "Claim has children but no explicit reasoning step",
       "expected_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "CHILDREN",
         "STRATEGY"
       ],
+      "fires_when": "The selected claim has at least one supporting child element and no strategy or reasoning element between the claim and those children. It does not fire on a strategy that has no children; that is a different defect and is not this pre-check.",
       "id": "check-explicit-strategy",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -2729,11 +4075,12 @@
     },
     {
       "description": "Detects candidate cases where a claim has no path to evidence and is not intentionally undeveloped.",
-      "display_name": "No evidence path",
+      "display_name": "Claim has no evidence path",
       "expected_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "EVIDENCE_PATH"
       ],
+      "fires_when": "No descendant of the selected claim is an evidence element, and the claim is not marked undeveloped.",
       "id": "check-evidence-trace",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -2742,11 +4089,13 @@
       "result_type": "boolean_candidate"
     },
     {
-      "description": "Detects candidate cases where a solution cites a broad artifact without precise location.",
+      "description": "Detects candidate cases where an evidence element cites a broad artifact without a precise location.",
       "display_name": "Evidence reference too broad",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The selected evidence element names an artifact but neither its text nor the evidence item's cited_section identifies a section, clause, table, figure, dataset, or test identifier within it.",
       "id": "check-evidence-citation-precision",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -2758,8 +4107,10 @@
       "description": "Detects evidence references without useful control attributes such as owner, version, status, date, or location.",
       "display_name": "Evidence missing control attributes",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The evidence item carries none of owner, version, status, date, or location, and no such attribute is stated in the selected evidence element's text. The result names which of those fields are missing.",
       "id": "check-evidence-control-attributes",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -2771,8 +4122,10 @@
       "description": "Detects evidence references that appear to point to mutable live documents without a fixed version.",
       "display_name": "Live mutable evidence reference",
       "expected_data": [
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM"
       ],
+      "fires_when": "The evidence reference carries a mutable-source marker (see the EV.8 markers) and carries no fixing marker such as a revision, version, snapshot, or capture date.",
       "id": "check-evidence-state-fixed",
       "interpretation": "Candidate finding only; reviewer or AI judgment is still required.",
       "related_guideline_ids": [
@@ -2897,7 +4250,7 @@
     },
     "center": {
       "height": 94,
-      "id": "SEL",
+      "role": "selected_element",
       "width": 220,
       "x": 410,
       "y": 507
@@ -2996,7 +4349,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CLAIM",
             "rationale": "The selected claim is the subject of the whole review. Its wording drives CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.2, RD.4, and LF.6, and its scope drives every structural, evidential, and sufficiency check applied to the claim."
           },
           {
@@ -3073,7 +4426,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CLAIM",
         "PARENT",
         "CHILDREN",
         "STRATEGY",
@@ -3112,7 +4465,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_STRATEGY",
             "rationale": "The selected strategy or reasoning element is the object of review. AR.1 and AR.2 require it to make the inference rule explicit, and LF.1 requires checking that it adds independent support rather than restating the parent."
           },
           {
@@ -3147,7 +4500,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_STRATEGY",
         "PARENT",
         "CHILDREN",
         "DIRECT_CONTEXT"
@@ -3183,7 +4536,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_EVIDENCE",
             "rationale": "The selected solution or evidence reference is the element under review. It identifies which artifact is cited and what role it plays, which is the basis for AR.1, EV.1, and RD.1."
           },
           {
@@ -3230,10 +4583,26 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM",
         "EVIDENCE_BASIS",
         "PARENT"
+      ],
+      "when_absent": [
+        {
+          "id": "EVIDENCE_BASIS",
+          "statement": "Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.",
+          "unassessable_guideline_ids": [
+            "EV.5",
+            "EV.6",
+            "SU.3",
+            "SU.6",
+            "SU.7",
+            "SU.8",
+            "LF.5",
+            "LF.7"
+          ]
+        }
       ]
     },
     {
@@ -3258,7 +4627,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_ASSUMPTION",
             "rationale": "The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role."
           },
           {
@@ -3291,7 +4660,7 @@
         "PROJECT_GLOSSARY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_ASSUMPTION",
         "DIRECT_CONTEXT",
         "INHERITED_CONTEXT"
       ]
@@ -3328,7 +4697,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_JUSTIFICATION",
             "rationale": "The selected justification or warrant is the object of review. AR.8, AR.9, EV.5, SU.3, SU.5, LF.3, LF.4, RD.1, and RD.5 all require inspecting what the rationale actually says and whether it names the responsible actor."
           },
           {
@@ -3361,7 +4730,7 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_JUSTIFICATION",
         "PARENT"
       ]
     },
@@ -3387,7 +4756,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CONTEXT",
             "rationale": "The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions."
           },
           {
@@ -3415,7 +4784,7 @@
         "STANDARD_LINKS"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CONTEXT",
         "PARENT"
       ]
     },
@@ -3441,7 +4810,7 @@
         ],
         "required": [
           {
-            "id": "SEL",
+            "id": "SELECTED_CHALLENGE",
             "rationale": "The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition."
           },
           {
@@ -3462,92 +4831,108 @@
         "CHANGE_HISTORY"
       ],
       "required_data": [
-        "SEL",
+        "SELECTED_CHALLENGE",
         "PARENT"
       ]
     }
   ],
-  "sccg_version": "0.6.0",
-  "schema_version": "1.0.0",
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0",
   "selectable_elements": [
     {
       "basis": "GSN Community Standard v3 core element (Goal).",
       "element": "GSN Goal",
+      "element_role": "claim",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Strategy).",
       "element": "GSN Strategy",
+      "element_role": "strategy",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Solution).",
       "element": "GSN Solution",
+      "element_role": "evidence",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Context).",
       "element": "GSN Context",
+      "element_role": "context",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Assumption).",
       "element": "GSN Assumption",
+      "element_role": "assumption",
       "notation": "GSN"
     },
     {
       "basis": "GSN Community Standard v3 core element (Justification).",
       "element": "GSN Justification",
+      "element_role": "justification",
       "notation": "GSN"
     },
     {
       "basis": "Dialectic extension used for explicit challenges; referenced by SU.11.",
       "element": "GSN Counter Claim",
+      "element_role": "challenge",
       "notation": "GSN"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Claim).",
       "element": "CAE Claim",
+      "element_role": "claim",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Argument / reasoning).",
       "element": "CAE Argument",
+      "element_role": "strategy",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence core element (Evidence).",
       "element": "CAE Evidence",
+      "element_role": "evidence",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence contextual element (Context).",
       "element": "CAE Context",
+      "element_role": "context",
       "notation": "CAE"
     },
     {
       "basis": "Claims-Arguments-Evidence contextual element (Assumption).",
       "element": "CAE Assumption",
+      "element_role": "assumption",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block for the reasoning warrant / rationale; the CAE analogue of a GSN Justification.",
       "element": "CAE Warrant",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block that backs a warrant with additional rationale.",
       "element": "CAE Side-warrant",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE building block that supports a warrant with a subsidiary claim.",
       "element": "CAE Side-claim",
+      "element_role": "justification",
       "notation": "CAE"
     },
     {
       "basis": "CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.",
       "element": "CAE Defeater",
+      "element_role": "challenge",
       "notation": "CAE"
     }
   ],

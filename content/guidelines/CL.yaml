@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 category:
   id: CL
   title: CL. Claim rules
@@ -9,6 +9,7 @@ guidelines:
   category: CL
   title: Write each claim as a falsifiable proposition
   statement: State each claim as a sentence that can in principle be shown true or false.
+  short_rule: State each claim as a short proposition a reviewer could judge true or false.
   rationale: A safety case is built from claims that can be challenged, supported, or refuted. Statements that are merely labels, headings, slogans, or references are poor safety claims.
   review_prompts:
   - Could a reviewer tell what would make this claim false?
@@ -33,17 +34,28 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - CAE Claim
-    - SACM Claim
     detection_hints:
     - Look for goal text that is a noun phrase or topic label rather than a proposition.
     - Look for goals lacking a verb expressing a property or a measurable condition.
+    markers:
+    - kind: requirement_phrasing
+      effect: candidate
+      terms:
+      - shall
+      - must
+      - is required to
+      - needs to
     suggested_checks:
     - id: check-claim-is-proposition
-      description: Check whether the claim text is a complete proposition that can be true or false.
+      description: Check whether the claim text is a complete proposition that can be true or false. Candidate when the claim has no predicate asserting a property, or states a requirement in place of a proposition.
+    repair:
+    - action: reword_element
+      statement: Restate the claim as a proposition with a subject and an asserted property that could be shown false.
 - id: CL.2
   category: CL
   title: Put one main claim in one goal
   statement: Do not bundle multiple distinct properties, conclusions, or obligations into one goal.
+  short_rule: Put one claim in one goal; separate properties that need different evidence.
   rationale: Bundled claims hide missing decomposition, make evidence assignment unclear, and produce review findings that are hard to localize.
   review_prompts:
   - Does the statement contain more than one property?
@@ -72,17 +84,41 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - CAE Claim
-    - SACM Claim
     detection_hints:
     - Look for conjunctions linking distinct properties (safe and secure, complete and correct).
     - Look for goals where different properties would be supported by different evidence sets.
+    markers:
+    - kind: property_term
+      effect: candidate
+      terms:
+      - safe
+      - secure
+      - reliable
+      - available
+      - correct
+      - complete
+      - robust
+      - maintainable
+      - compliant
+    - kind: conjunction
+      effect: candidate
+      terms:
+      - and
+      - as well as
+      - together with
+      - along with
+      - in addition to
     suggested_checks:
     - id: check-single-property
-      description: Check whether the claim asserts a single property or bundles several distinct properties.
+      description: Check whether the claim asserts a single property or bundles several distinct properties. Candidate when two or more distinct property terms are joined by a conjunction within one claim; one property term alone is not a signal.
+    repair:
+    - action: split_element
+      statement: Split the bundled claim into one claim per property, each with its own support.
 - id: CL.3
   category: CL
   title: Avoid the essay-in-the-box
   statement: Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims.
+  short_rule: 'Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.'
   rationale: When a claim contains the whole story, reviewers cannot clearly see what is being claimed, what constrains the claim, and how the argument is intended to proceed. In GSN, that information should be visible in the structure, not hidden inside one sentence.
   review_prompts:
   - Is the goal text trying to describe both the claim and its decomposition?
@@ -115,20 +151,48 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - CAE Claim
-    - SACM Claim
     detection_hints:
     - Look for claims that contain long comma-separated lists of topics.
     - Look for claim text that mixes scope, reasoning, caveats, and decomposition.
     - Look for phrases such as including, covering, considering, or with respect to introducing multiple subtopics.
+    markers:
+    - kind: enumeration_marker
+      effect: candidate
+      terms:
+      - including
+      - covering
+      - considering
+      - with respect to
+      - such as
+      - as well as
+      - together with
+    thresholds:
+    - id: claim_word_count
+      value: 40
+      unit: words
+      note: Claim text longer than this is a candidate for moving scope, reasoning, or listed topics out of the claim.
     suggested_checks:
     - id: check-claim-length-and-role-mixing
-      description: Check whether the claim contains argument structure or scope that should be represented through context, strategy, assumptions, or sub-claims.
+      description: Check whether the claim contains argument structure or scope that should be represented through context, strategy, assumptions, or sub-claims. Candidate when the claim exceeds the published word-count threshold, or an enumeration marker introduces a list of topics.
     - id: check-decomposition-hidden-in-claim
       description: Check whether the claim lists child topics instead of making the decomposition visible in the argument structure.
+    repair:
+    - action: move_text
+      element_role: context
+      statement: Move scope and operating conditions out of the claim into context.
+    - action: add_element
+      element_role: strategy
+      attach_to: between_selected_and_children
+      statement: State the decomposition as a reasoning step instead of listing topics in the claim.
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: Make each listed topic a sub-claim below the claim.
 - id: CL.4
   category: CL
   title: Avoid ambiguity and overloaded wording
   statement: Write claims so that their meaning is clear enough that competent reviewers are likely to understand them in the same way.
+  short_rule: Word each claim so that two competent reviewers would read it the same way.
   rationale: Ambiguous claims undermine review, traceability, and evidence relevance. This guideline directly supports UL 4600’s requirement to avoid substantive ambiguity in claims and arguments.
   review_prompts:
   - Could two competent reviewers understand the claim differently?
@@ -152,17 +216,46 @@ guidelines:
     applicable_elements:
     - GSN Goal
     - CAE Claim
-    - SACM Claim
     detection_hints:
     - Look for ambiguous subjects or properties (e.g. development is safe).
     - Look for claim text whose object or measured property is unclear.
+    markers:
+    - kind: ambiguous_qualifier
+      effect: candidate
+      terms:
+      - appropriate
+      - adequate
+      - suitable
+      - proper
+      - satisfactory
+      - reasonable
+      - as applicable
+      - as necessary
+      - where relevant
+      - if needed
+    - kind: hedging_adverb
+      effect: candidate
+      terms:
+      - acceptably
+      - largely
+      - generally
+      - broadly
+      - essentially
+      - substantially
+      - effectively
     suggested_checks:
     - id: check-claim-ambiguity
-      description: Check whether competent reviewers would interpret the claim consistently.
+      description: Check whether competent reviewers would interpret the claim consistently. A marker hit is a prompt to examine the claim's subject and asserted property, not a finding on its own.
+    repair:
+    - action: reword_element
+      statement: Reword the claim so that its subject and asserted property have one reading.
+    - action: define_term
+      statement: Define the ambiguous term once, and let the claim use the definition.
 - id: CL.5
   category: CL
   title: Bound vague and universal qualifiers
   statement: Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.
+  short_rule: Bound every evaluative or universal qualifier in the claim, its context, or a defined term.
   rationale: Terms such as safe, timely, effective, normal, robust, all, every, and never can sound stronger or broader than the argument actually shows unless they are properly bounded.
   review_prompts:
   - Is the term bounded by context, lower-level argument, or linked criteria?
@@ -190,13 +283,55 @@ guidelines:
     detection_hints:
     - 'Look for unbounded evaluative terms: safe, robust, effective, timely, normal.'
     - 'Look for universal qualifiers without scope: all, every, never, always.'
+    markers:
+    - kind: unbounded_evaluative_term
+      effect: candidate
+      terms:
+      - safe
+      - robust
+      - effective
+      - timely
+      - normal
+      - nominal
+      - adequate
+      - acceptable
+      - sufficient
+      - reliable
+      - appropriate
+    - kind: universal_qualifier
+      effect: candidate
+      terms:
+      - all
+      - every
+      - always
+      - never
+      - none
+      - any
+    - kind: bounding_marker
+      effect: suppress
+      terms:
+      - defined
+      - specified
+      - documented
+      - threshold
+      - acceptance criterion
+      - criterion
+      - as defined in
+      - within the
     suggested_checks:
     - id: check-bounded-qualifiers
-      description: Check whether evaluative or universal qualifiers in the claim are bounded by context or measurable criteria.
+      description: Check whether evaluative or universal qualifiers in the claim are bounded by context or measurable criteria. Candidate when an unbounded evaluative term or universal qualifier appears and no bounding marker is present in the claim, its context, or a term it uses.
+    repair:
+    - action: define_term
+      statement: Define the qualifier once as a project term carrying its bound.
+    - action: move_text
+      element_role: context
+      statement: State the bound as context on the claim.
 - id: CL.6
   category: CL
   title: Do not mix different logical steps in one claim
   statement: Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit
+  short_rule: Do not chain identification, implementation, and validation in one claim; decompose them.
   rationale: These are different claim types with different evidence and different review questions.
   review_prompts:
   - Is this claim actually several claims chained together?
@@ -229,6 +364,22 @@ guidelines:
     - CAE Claim
     detection_hints:
     - Look for claims that chain identification + implementation + validation in one sentence.
+    markers:
+    - kind: lifecycle_step_verb
+      effect: candidate
+      terms:
+      - identified
+      - specified
+      - implemented
+      - mitigated
+      - verified
+      - validated
+      - assessed
+      - monitored
+      - reviewed
     suggested_checks:
     - id: check-claim-step-mixing
-      description: Check whether the claim mixes identification, adequacy, implementation, validation, and sufficiency steps.
+      description: Check whether the claim mixes identification, adequacy, implementation, validation, and sufficiency steps. Candidate when two or more lifecycle step verbs appear within one claim.
+    repair:
+    - action: split_element
+      statement: Separate the chained steps into sub-claims carrying one logical step each.

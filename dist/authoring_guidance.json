@@ -1,0 +1,305 @@
+{
+  "core_rules": [
+    {
+      "category": "CL",
+      "id": "CL.1",
+      "reason": "A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim.",
+      "short_rule": "State each claim as a short proposition a reviewer could judge true or false.",
+      "statement": "State each claim as a sentence that can in principle be shown true or false."
+    },
+    {
+      "category": "CL",
+      "id": "CL.2",
+      "reason": "Bundled properties are the characteristic output of a single-sentence instruction such as \"argue that X is safe and secure\".",
+      "short_rule": "Put one claim in one goal; separate properties that need different evidence.",
+      "statement": "Do not bundle multiple distinct properties, conclusions, or obligations into one goal."
+    },
+    {
+      "category": "CL",
+      "id": "CL.3",
+      "reason": "Authors and language models both tend to write the whole branch into one claim rather than using the structure.",
+      "short_rule": "Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.",
+      "statement": "Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims."
+    },
+    {
+      "category": "CL",
+      "id": "CL.5",
+      "reason": "Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording.",
+      "short_rule": "Bound every evaluative or universal qualifier in the claim, its context, or a defined term.",
+      "statement": "Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never."
+    },
+    {
+      "category": "CL",
+      "id": "CL.6",
+      "reason": "Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached.",
+      "short_rule": "Do not chain identification, implementation, and validation in one claim; decompose them.",
+      "statement": "Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit"
+    },
+    {
+      "category": "AR",
+      "id": "AR.1",
+      "reason": "Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it.",
+      "short_rule": "Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.",
+      "statement": "Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support."
+    },
+    {
+      "category": "AR",
+      "id": "AR.2",
+      "reason": "Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument.",
+      "short_rule": "State the decomposition or inference rule explicitly instead of leaving it to be inferred.",
+      "statement": "State how the parent claim is being decomposed or argued; do not make the reviewer infer the decomposition rule from wording alone."
+    },
+    {
+      "category": "AR",
+      "id": "AR.3",
+      "reason": "Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.",
+      "short_rule": "Make scope, definitions, operating conditions, and dependencies explicit rather than implied.",
+      "statement": "Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers."
+    },
+    {
+      "category": "EV",
+      "id": "EV.1",
+      "reason": "A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review.",
+      "short_rule": "Give every claim a path to evidence, or mark it undeveloped deliberately.",
+      "statement": "Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments."
+    },
+    {
+      "category": "EV",
+      "id": "EV.3",
+      "reason": "Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows.",
+      "short_rule": "Claim the fact the evidence establishes, not the document that holds it.",
+      "statement": "Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion."
+    },
+    {
+      "category": "EV",
+      "id": "EV.4",
+      "reason": "Citation precision is cheap while the author still knows which section they meant.",
+      "short_rule": "Cite the exact section, table, figure, or test identifier, not a whole report.",
+      "statement": "Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical."
+    },
+    {
+      "category": "EV",
+      "id": "EV.8",
+      "reason": "A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time.",
+      "short_rule": "Cite a fixed, versioned, or archived state, never live mutable content.",
+      "statement": "Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content."
+    },
+    {
+      "category": "SU",
+      "id": "SU.2",
+      "reason": "Assumptions are easiest to state while the author still knows what they were assuming.",
+      "short_rule": "State assumptions explicitly, justify why each is reasonable, and monitor them where needed.",
+      "statement": "Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed."
+    },
+    {
+      "category": "SU",
+      "id": "SU.9",
+      "reason": "An unstated dependency is invisible to review by definition, so it has to be caught where it is introduced.",
+      "short_rule": "State a dependency where it constrains the argument, as an assumption, context, or claim.",
+      "statement": "When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate."
+    },
+    {
+      "category": "LF",
+      "id": "LF.1",
+      "reason": "Support that restates its parent is a common filler pattern when an author or a model has no real support to offer.",
+      "short_rule": "Support a claim with independent grounds, never by restating or renaming it.",
+      "statement": "Do not support a claim by restating it, renaming it, or assuming it in the support."
+    },
+    {
+      "category": "LF",
+      "id": "LF.3",
+      "reason": "Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand.",
+      "short_rule": "Do not argue from absence: nothing found is not evidence that nothing exists.",
+      "statement": "Do not treat lack of discovered evidence against a claim as positive evidence for the claim."
+    },
+    {
+      "category": "RD",
+      "id": "RD.1",
+      "reason": "Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards.",
+      "short_rule": "Signpost each element's role in its wording so no reader has to guess what it does.",
+      "statement": "Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification."
+    },
+    {
+      "category": "RD",
+      "id": "RD.4",
+      "reason": "Promotional wording is introduced at writing time and always weakens rather than strengthens the argument.",
+      "short_rule": "Use no promotional language; persuade through structure and evidence.",
+      "statement": "Do not use promotional, boastful, or image-enhancing language in the safety case."
+    }
+  ],
+  "description": "The SCCG subset a tool should deliver while an author or an AI agent is writing, rather than when a review is run. Every guideline still applies; this set names the rules that are most often broken at the moment of writing and short enough to carry in a system prompt, an editor hint, or an agent's session instructions.",
+  "document": {
+    "license": {
+      "id": "CC-BY-4.0",
+      "name": "Creative Commons Attribution 4.0 International License",
+      "url": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.7.0",
+    "schema_version": "2.0.0",
+    "title": "Safety Case Core Guidelines"
+  },
+  "element_rules": [
+    {
+      "element_role": "claim",
+      "elements": [
+        "GSN Goal",
+        "CAE Claim"
+      ],
+      "guideline_ids": [
+        "CL.1",
+        "CL.2",
+        "CL.3",
+        "CL.4",
+        "CL.5",
+        "CL.6",
+        "AR.1",
+        "AR.3",
+        "AR.4",
+        "AR.5",
+        "AR.6",
+        "AR.7",
+        "EV.1",
+        "EV.3",
+        "EV.9",
+        "SU.1",
+        "SU.4",
+        "SU.5",
+        "SU.6",
+        "SU.8",
+        "SU.9",
+        "SU.11",
+        "LF.1",
+        "LF.2",
+        "LF.3",
+        "LF.4",
+        "LF.5",
+        "LF.6",
+        "LF.7",
+        "RD.1",
+        "RD.2",
+        "RD.3",
+        "RD.4",
+        "RD.5",
+        "RD.6"
+      ],
+      "review_profile_id": "claim_review"
+    },
+    {
+      "element_role": "strategy",
+      "elements": [
+        "GSN Strategy",
+        "CAE Argument"
+      ],
+      "guideline_ids": [
+        "AR.1",
+        "AR.2",
+        "EV.9",
+        "SU.1",
+        "LF.1"
+      ],
+      "review_profile_id": "strategy_review"
+    },
+    {
+      "element_role": "evidence",
+      "elements": [
+        "GSN Solution",
+        "CAE Evidence"
+      ],
+      "guideline_ids": [
+        "AR.1",
+        "EV.1",
+        "EV.2",
+        "EV.4",
+        "EV.5",
+        "EV.6",
+        "EV.7",
+        "EV.8",
+        "SU.1",
+        "SU.3",
+        "SU.6",
+        "SU.7",
+        "SU.8",
+        "LF.2",
+        "LF.5",
+        "LF.7",
+        "RD.1"
+      ],
+      "review_profile_id": "evidence_review"
+    },
+    {
+      "element_role": "assumption",
+      "elements": [
+        "GSN Assumption",
+        "CAE Assumption"
+      ],
+      "guideline_ids": [
+        "AR.1",
+        "AR.3",
+        "AR.7",
+        "SU.2",
+        "SU.4",
+        "SU.9",
+        "SU.10",
+        "RD.1",
+        "RD.6"
+      ],
+      "review_profile_id": "assumption_review"
+    },
+    {
+      "element_role": "justification",
+      "elements": [
+        "GSN Justification",
+        "CAE Warrant",
+        "CAE Side-warrant",
+        "CAE Side-claim"
+      ],
+      "guideline_ids": [
+        "AR.1",
+        "AR.8",
+        "AR.9",
+        "EV.5",
+        "SU.3",
+        "SU.5",
+        "SU.7",
+        "LF.3",
+        "LF.4",
+        "RD.1",
+        "RD.5"
+      ],
+      "review_profile_id": "justification_review"
+    },
+    {
+      "element_role": "context",
+      "elements": [
+        "GSN Context",
+        "CAE Context"
+      ],
+      "guideline_ids": [
+        "AR.1",
+        "AR.3",
+        "AR.6",
+        "AR.7",
+        "SU.9",
+        "RD.1",
+        "RD.3",
+        "RD.6"
+      ],
+      "review_profile_id": "context_review"
+    },
+    {
+      "element_role": "challenge",
+      "elements": [
+        "GSN Counter Claim",
+        "CAE Defeater"
+      ],
+      "guideline_ids": [
+        "SU.11"
+      ],
+      "review_profile_id": "challenge_review"
+    }
+  ],
+  "sccg_version": "0.7.0",
+  "schema_version": "2.0.0",
+  "usage": "Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard."
+}

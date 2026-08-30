@@ -12,6 +12,7 @@
     "category_id",
     "title",
     "statement",
+    "short_rule",
     "rationale",
     "review_prompts",
     "examples",
@@ -22,7 +23,7 @@
     "data_package_ids"
   ],
   "properties": {
-    "schema_version": { "const": "1.0.0" },
+    "schema_version": { "const": "2.0.0" },
     "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
     "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
@@ -30,6 +31,7 @@
     "category_id": { "type": "string", "pattern": "^[A-Z]{2}$" },
     "title": { "type": "string", "minLength": 1 },
     "statement": { "type": "string", "minLength": 1 },
+    "short_rule": { "type": "string", "minLength": 1, "maxLength": 140 },
     "rationale": { "type": "string", "minLength": 1 },
     "review_prompts": {
       "type": "array",

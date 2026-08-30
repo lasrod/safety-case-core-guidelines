@@ -1,5 +1,5 @@
-schema_version: 1.0.0
-sccg_version: 0.6.0
+schema_version: 2.0.0
+sccg_version: 0.7.0
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -23,7 +23,7 @@ method_application_guidance:
   - method: CAE-based development
     recommendation: Apply the full SCCG set, but interpret GSN-oriented terms through CAE concepts. Interpret claims as CAE claims, inference or decomposition steps as CAE arguments or warrants, and evidence as CAE evidence or supporting information.
   - method: SACM or tool-neutral interchange
-    recommendation: Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model.
+    recommendation: Apply the notation-neutral guideline text first. Use tool guidance only as mapping guidance into the tool's specific element model. Map the tool's own element types onto the notation-neutral element_role values published with the selectable elements, and present SCCG element names in the notation the user sees.
 id_scheme:
 - prefix: CL
   meaning: Claim guidance

@@ -1,4 +1,4 @@
-schema_version: 1.0.0
+schema_version: 2.0.0
 reference_sources:
 - id: UL4600
   display_name: UL 4600

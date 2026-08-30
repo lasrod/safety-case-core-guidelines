@@ -1,0 +1,41 @@
+schema_version: 2.0.0
+authoring_guidance:
+  description: The SCCG subset a tool should deliver while an author or an AI agent is writing, rather than when a review is run. Every guideline still applies; this set names the rules that are most often broken at the moment of writing and short enough to carry in a system prompt, an editor hint, or an agent's session instructions.
+  usage: Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard.
+  core_rules:
+  - id: CL.1
+    reason: A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim.
+  - id: CL.2
+    reason: Bundled properties are the characteristic output of a single-sentence instruction such as "argue that X is safe and secure".
+  - id: CL.3
+    reason: Authors and language models both tend to write the whole branch into one claim rather than using the structure.
+  - id: CL.5
+    reason: Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording.
+  - id: CL.6
+    reason: Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached.
+  - id: AR.1
+    reason: Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it.
+  - id: AR.2
+    reason: Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument.
+  - id: AR.3
+    reason: Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.
+  - id: EV.1
+    reason: A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review.
+  - id: EV.3
+    reason: Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows.
+  - id: EV.4
+    reason: Citation precision is cheap while the author still knows which section they meant.
+  - id: EV.8
+    reason: A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time.
+  - id: SU.2
+    reason: Assumptions are easiest to state while the author still knows what they were assuming.
+  - id: SU.9
+    reason: An unstated dependency is invisible to review by definition, so it has to be caught where it is introduced.
+  - id: LF.1
+    reason: Support that restates its parent is a common filler pattern when an author or a model has no real support to offer.
+  - id: LF.3
+    reason: Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand.
+  - id: RD.1
+    reason: Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards.
+  - id: RD.4
+    reason: Promotional wording is introduced at writing time and always weakens rather than strengthens the argument.
