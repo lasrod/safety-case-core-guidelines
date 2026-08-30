@@ -1,0 +1,238 @@
+sections:
+- title: Purpose
+  anchor: purpose
+- title: Source policy
+  anchor: source-policy
+- title: License
+  anchor: license
+- title: Guideline ID scheme
+  anchor: guideline-id-scheme
+- title: Recommended template
+  anchor: recommended-template
+- title: How to use the guidelines in reviews
+  anchor: how-to-use-the-guidelines-in-reviews
+- title: Quick index
+  anchor: quick-index
+categories:
+- id: CL
+  title: CL. Claim rules
+  anchor: cl-claim-rules
+  count: 6
+  guidelines:
+  - id: CL.1
+    title: Write each claim as a falsifiable proposition
+    anchor: cl1
+    short_rule: State each claim as a short proposition a reviewer could judge true or false.
+  - id: CL.2
+    title: Put one main claim in one goal
+    anchor: cl2
+    short_rule: Put one claim in one goal; separate properties that need different evidence.
+  - id: CL.3
+    title: Avoid the essay-in-the-box
+    anchor: cl3
+    short_rule: 'Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.'
+  - id: CL.4
+    title: Avoid ambiguity and overloaded wording
+    anchor: cl4
+    short_rule: Word each claim so that two competent reviewers would read it the same way.
+  - id: CL.5
+    title: Bound vague and universal qualifiers
+    anchor: cl5
+    short_rule: Bound every evaluative or universal qualifier in the claim, its context, or a defined term.
+  - id: CL.6
+    title: Do not mix different logical steps in one claim
+    anchor: cl6
+    short_rule: Do not chain identification, implementation, and validation in one claim; decompose them.
+- id: AR
+  title: AR. Argument structure and decomposition rules
+  anchor: ar-argument-structure-and-decomposition-rules
+  count: 9
+  guidelines:
+  - id: AR.1
+    title: Let structure carry the argument
+    anchor: ar1
+    short_rule: 'Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.'
+  - id: AR.2
+    title: State the inference step explicitly
+    anchor: ar2
+    short_rule: State the decomposition or inference rule explicitly instead of leaving it to be inferred.
+  - id: AR.3
+    title: Use context and assumptions deliberately
+    anchor: ar3
+    short_rule: Make scope, definitions, operating conditions, and dependencies explicit rather than implied.
+  - id: AR.4
+    title: Match claim precision to the level of the argument
+    anchor: ar4
+    short_rule: Keep upper-level claims short and stable; make evidence-facing claims precise enough to assess.
+  - id: AR.5
+    title: Keep scope and terminology consistent across decomposition
+    anchor: ar5
+    short_rule: Keep the object, scope, and terminology of a claim unchanged as the argument decomposes.
+  - id: AR.6
+    title: Provide the context needed to interpret the claim
+    anchor: ar6
+    short_rule: Give each claim the context a reviewer needs to interpret its subject, scope, and key terms.
+  - id: AR.7
+    title: Make claim qualifiers explicit and maintainable
+    anchor: ar7
+    short_rule: Move qualifiers and dependency clauses out of claim text into context or assumptions.
+  - id: AR.8
+    title: Do not use rationale as hidden support
+    anchor: ar8
+    short_rule: Use rationale to explain a choice, never as the support that makes a claim true.
+  - id: AR.9
+    title: Match each rationale to the element or inference it explains
+    anchor: ar9
+    short_rule: Keep each rationale local to the exact element or inference step it explains.
+- id: EV
+  title: EV. Evidence rules
+  anchor: ev-evidence-rules
+  count: 9
+  guidelines:
+  - id: EV.1
+    title: Make the evidence-support path explicit for every claim
+    anchor: ev1
+    short_rule: Give every claim a path to evidence, or mark it undeveloped deliberately.
+  - id: EV.2
+    title: Use evidence types that can be independently reviewed
+    anchor: ev2
+    short_rule: Cite only artifacts whose evidence type is defined and whose criteria for that type are met.
+  - id: EV.3
+    title: Claim the fact supported by the evidence, not the document
+    anchor: ev3
+    short_rule: Claim the fact the evidence establishes, not the document that holds it.
+  - id: EV.4
+    title: Cite precise evidence locations; avoid annex dumping
+    anchor: ev4
+    short_rule: Cite the exact section, table, figure, or test identifier, not a whole report.
+  - id: EV.5
+    title: Make the basis for evidence sufficiency explicit
+    anchor: ev5
+    short_rule: State what makes the cited evidence sufficient for this claim, not only relevant to it.
+  - id: EV.6
+    title: Explain how the evidence supports or refutes the claim
+    anchor: ev6
+    short_rule: Document why the cited evidence bears on this claim, including what it does not cover.
+  - id: EV.7
+    title: 'Keep evidence controlled: owner, version, date, status, repository'
+    anchor: ev7
+    short_rule: 'Keep evidence controlled: owner, version, date, status, and a stable retrieval location.'
+  - id: EV.8
+    title: Cite fixed evidence, not live mutable content
+    anchor: ev8
+    short_rule: Cite a fixed, versioned, or archived state, never live mutable content.
+  - id: EV.9
+    title: Do not argue directly from undocumented system knowledge
+    anchor: ev9
+    short_rule: Argue from cited documentation, not from undocumented engineering knowledge.
+- id: SU
+  title: SU. Sufficiency, uncertainty, and pitfall rules
+  anchor: su-sufficiency-uncertainty-and-pitfall-rules
+  count: 11
+  guidelines:
+  - id: SU.1
+    title: Identify and address plausible challenges to claims, reasoning, and evidence
+    anchor: su1
+    short_rule: Make plausible challenges to the claim, reasoning, or evidence visible, and address them.
+  - id: SU.2
+    title: Make assumptions explicit and justify why they are reasonable
+    anchor: su2
+    short_rule: State assumptions explicitly, justify why each is reasonable, and monitor them where needed.
+  - id: SU.3
+    title: Do not rely on uncorroborated expert judgment alone
+    anchor: su3
+    short_rule: Do not rest a claim on expert judgment alone; state its basis and corroborate it.
+  - id: SU.4
+    title: Monitor claims that cannot be fully supported at design time
+    anchor: su4
+    short_rule: Where design-time support is partial, say so and define monitoring and re-assessment triggers.
+  - id: SU.5
+    title: Do not reuse safety credit from another context without showing it still applies
+    anchor: su5
+    short_rule: Show that reused safety credit came from a sufficiently comparable context.
+  - id: SU.6
+    title: Do not dismiss operational feedback because it is non-reproducible or non-injury
+    anchor: su6
+    short_rule: Do not dismiss field anomalies because they caused no injury or could not be reproduced.
+  - id: SU.7
+    title: Do not argue low risk from operational experience or unvalidated simulation alone
+    anchor: su7
+    short_rule: Do not infer low risk from uneventful operation or unvalidated simulation alone.
+  - id: SU.8
+    title: Do not assume human data or human-designed tests cover autonomy-specific failures
+    anchor: su8
+    short_rule: Do not assume human-derived data or human-designed tests cover autonomy-specific failures.
+  - id: SU.9
+    title: Document unstated assumptions at the point of use
+    anchor: su9
+    short_rule: State a dependency where it constrains the argument, as an assumption, context, or claim.
+  - id: SU.10
+    title: Keep assumptions bounded, specific, and monitorable
+    anchor: su10
+    short_rule: Keep each assumption narrow, specific, and monitorable, and split ones that bundle dependencies.
+  - id: SU.11
+    title: Make plausible reviewer challenges explicit and resolve them
+    anchor: su11
+    short_rule: Raise a plausible reviewer challenge as an explicit element and resolve it visibly.
+- id: LF
+  title: LF. Logical fallacy rules
+  anchor: lf-logical-fallacy-rules
+  count: 7
+  guidelines:
+  - id: LF.1
+    title: Avoid circular reasoning
+    anchor: lf1
+    short_rule: Support a claim with independent grounds, never by restating or renaming it.
+  - id: LF.2
+    title: Avoid irrelevant premises
+    anchor: lf2
+    short_rule: Attach evidence to the exact claim it supports, not to a neighbouring one.
+  - id: LF.3
+    title: Avoid arguing from ignorance
+    anchor: lf3
+    short_rule: 'Do not argue from absence: nothing found is not evidence that nothing exists.'
+  - id: LF.4
+    title: Avoid unjustified comparison or unjustified distinction
+    anchor: lf4
+    short_rule: State the basis of any comparison or distinction, and show the cases are matched.
+  - id: LF.5
+    title: Avoid sample-size and representativeness fallacies
+    anchor: lf5
+    short_rule: Keep the claim no broader than the sample size and representativeness support.
+  - id: LF.6
+    title: Avoid pseudo-precision
+    anchor: lf6
+    short_rule: State numbers only to the precision the model, data, and assumptions justify.
+  - id: LF.7
+    title: Avoid omission of key evidence and ignoring counter-evidence
+    anchor: lf7
+    short_rule: Include the evidence a critical reviewer expects, and answer known contrary evidence.
+- id: RD
+  title: RD. Rhetorical device rules
+  anchor: rd-rhetorical-device-rules
+  count: 6
+  guidelines:
+  - id: RD.1
+    title: Use explicit signposting of argument element roles
+    anchor: rd1
+    short_rule: Signpost each element's role in its wording so no reader has to guess what it does.
+  - id: RD.2
+    title: Use scoped claims and qualified confidence language
+    anchor: rd2
+    short_rule: State the operating scope, and match confidence language to the actual support.
+  - id: RD.3
+    title: Make limitations, objections, and responses explicit
+    anchor: rd3
+    short_rule: Make limitations, objections, and their responses visible where the claim is read.
+  - id: RD.4
+    title: Avoid promotional and inflated language
+    anchor: rd4
+    short_rule: Use no promotional language; persuade through structure and evidence.
+  - id: RD.5
+    title: Avoid passive voice when it hides agency
+    anchor: rd5
+    short_rule: Name the actor who performed a review, judgment, or approval.
+  - id: RD.6
+    title: Do not bury important limitations or hidden assumptions
+    anchor: rd6
+    short_rule: Keep important limitations and assumptions attached to the claim they qualify.

@@ -1,0 +1,60 @@
+{%- comment -%}
+Sidebar navigation. The guideline tree is generated into _data/toc.yml by
+scripts/build_site.py; do not hand-edit that file.
+{%- endcomment -%}
+{%- assign home_url = '/' | relative_url -%}
+{%- assign is_home = false -%}
+{%- if page.url == '/' or page.url == '/index.html' -%}
+  {%- assign is_home = true -%}
+{%- endif -%}
+{%- if is_home -%}
+  {%- assign anchor_base = '' -%}
+{%- else -%}
+  {%- assign anchor_base = home_url -%}
+{%- endif -%}
+<nav id="sccg-nav" class="sccg-nav" aria-label="Guideline navigation">
+  <div class="sccg-nav-inner">
+    <div class="sccg-nav-search">
+      <label class="sccg-sr-only" for="sccg-nav-filter">Filter guidelines</label>
+      <input type="search" id="sccg-nav-filter" placeholder="Find a rule, e.g. CL.4" autocomplete="off" spellcheck="false">
+      <p class="sccg-nav-no-match" id="sccg-nav-no-match" role="status" hidden>No match.</p>
+    </div>
+
+    <p class="sccg-nav-heading">Pages</p>
+    <ul class="sccg-nav-list sccg-nav-pages">
+      <li><a href="{{ home_url }}"{% if is_home %} aria-current="page"{% endif %}>Guidelines</a></li>
+      <li><a href="{{ '/tool-integration.html' | relative_url }}"{% if page.url == '/tool-integration.html' %} aria-current="page"{% endif %}>Tool integration</a></li>
+    </ul>
+
+    {%- if is_home %}
+    <p class="sccg-nav-heading">Sections</p>
+    <ul class="sccg-nav-list sccg-nav-sections">
+      {%- for section in site.data.toc.sections %}
+      <li><a href="{{ anchor_base }}#{{ section.anchor }}">{{ section.title }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <div id="sccg-page-sections" class="sccg-page-sections"></div>
+    {%- endif %}
+
+    <p class="sccg-nav-heading">Guidelines</p>
+    {%- for cat in site.data.toc.categories %}
+    <details class="sccg-nav-category" data-category="{{ cat.id }}" open>
+      <summary>
+        <span class="sccg-cat-title">{{ cat.title }}</span>
+        <span class="sccg-cat-count">{{ cat.count }}</span>
+      </summary>
+      <ul class="sccg-nav-list sccg-nav-rules">
+        {%- for g in cat.guidelines %}
+        <li>
+          <a href="{{ anchor_base }}#{{ g.anchor }}" data-rule-id="{{ g.id }}" title="{{ g.short_rule | escape }}">
+            <span class="sccg-rule-id">{{ g.id }}</span>
+            <span class="sccg-rule-title">{{ g.title }}</span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ul>
+    </details>
+    {%- endfor %}
+  </div>
+</nav>

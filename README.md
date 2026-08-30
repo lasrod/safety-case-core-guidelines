@@ -11,6 +11,7 @@ This repository contains the authored source, generated website page, and tool-f
 - [generated/](generated/) contains generated coverage reports.
 - [index.md](index.md) is the generated human-readable website page.
 - [tool-integration.md](tool-integration.md) is the secondary GitHub Pages page for tool-facing integration guidance.
+- [_data/toc.yml](_data/toc.yml) is the generated sidebar navigation tree used by the website layout.
 - [schemas/](schemas/) contains JSON Schema contracts for authored content and exports.
 - [scripts/](scripts/) contains validation and build tooling.
 
