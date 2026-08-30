@@ -8,13 +8,26 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from build_tool_docs import MarkerError as ToolDocMarkerError, build_outputs as build_tool_doc_outputs
-from sccg_common import DIST, INDEX, TEMPLATES, guidelines_by_category, load_content_model, load_json, write_if_changed
+from sccg_common import (
+    DIST,
+    INDEX,
+    TEMPLATES,
+    TOC,
+    guidelines_by_category,
+    load_content_model,
+    load_json,
+    slugify_anchor,
+    write_if_changed,
+    yaml_text,
+)
 
 
 BEGIN_MARK = "<!-- BEGIN GENERATED: guidelines -->"
 END_MARK = "<!-- END GENERATED: guidelines -->"
 Q_BEGIN_MARK = "<!-- BEGIN GENERATED: quick-index -->"
 Q_END_MARK = "<!-- END GENERATED: quick-index -->"
+HEADING_RE = re.compile(r"^## +(?P<title>\S.*?)\s*$")
+FENCE_RE = re.compile(r"^\s*(?:```|~~~)")
 
 
 class MarkerError(ValueError):
@@ -68,6 +81,64 @@ def render_index(original: str, model: dict | None = None) -> str:
     return _splice_between_markers(updated, BEGIN_MARK, END_MARK, guidelines)
 
 
+def _heading_anchor(title: str) -> str:
+    """Anchor kramdown gives a heading: the slug with leading non-letters dropped."""
+    anchor = re.sub(r"^[^a-z]+", "", slugify_anchor(title))
+    return anchor or "section"
+
+
+def _page_sections(index_text: str, category_titles: set[str]) -> list[dict]:
+    """Collect the hand-written level-2 sections of index.md, in document order."""
+    sections: list[dict] = []
+    in_fence = False
+    for line in index_text.splitlines():
+        if FENCE_RE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        match = HEADING_RE.match(line)
+        if not match:
+            continue
+        title = match.group("title")
+        if title in category_titles:
+            continue
+        sections.append({"title": title, "anchor": _heading_anchor(title)})
+    return sections
+
+
+def render_toc(index_text: str, model: dict) -> str:
+    """Build the sidebar navigation data consumed by _layouts/default.html."""
+    by_cat = guidelines_by_category(model)
+    categories = []
+    for cat in model["categories"]:
+        guidelines = [
+            {
+                "id": g["id"],
+                "title": g["title"],
+                "anchor": g["anchor"],
+                "short_rule": g["short_rule"],
+            }
+            for g in by_cat[cat["id"]]
+        ]
+        categories.append(
+            {
+                "id": cat["id"],
+                "title": cat["title"],
+                "anchor": _heading_anchor(cat["title"]),
+                "count": len(guidelines),
+                "guidelines": guidelines,
+            }
+        )
+    category_titles = {cat["title"] for cat in model["categories"]}
+    return yaml_text(
+        {
+            "sections": _page_sections(index_text, category_titles),
+            "categories": categories,
+        }
+    )
+
+
 def main() -> int:
     model = _load_model()
     original = INDEX.read_text(encoding="utf-8")
@@ -76,10 +147,13 @@ def main() -> int:
     except MarkerError as error:
         sys.stderr.write(f"ERROR: {error}\n")
         return 2
+    root = Path(__file__).resolve().parents[1]
     if write_if_changed(INDEX, updated):
-        print(f"Updated {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
+        print(f"Updated {INDEX.relative_to(root)}")
     else:
-        print(f"No change to {INDEX.relative_to(Path(__file__).resolve().parents[1])}")
+        print(f"No change to {INDEX.relative_to(root)}")
+    if write_if_changed(TOC, render_toc(updated, model)):
+        print(f"Updated {TOC.relative_to(root)}")
     try:
         tool_outputs = build_tool_doc_outputs(model)
     except ToolDocMarkerError as error:

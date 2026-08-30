@@ -12,7 +12,7 @@ import yaml
 from jsonschema import Draft7Validator
 
 from build_dist import build_outputs as build_dist_outputs
-from build_site import MarkerError, render_index
+from build_site import MarkerError, render_index, render_toc
 from build_tool_docs import MarkerError as ToolDocMarkerError, build_outputs as build_tool_doc_outputs
 from check_coverage import build_outputs as build_coverage_outputs
 from sccg_common import (
@@ -22,6 +22,7 @@ from sccg_common import (
     INDEX,
     LEGACY_GUIDELINE_KEYS,
     SCHEMAS,
+    TOC,
     TOOL_SUPPORT_DIR,
     ID_RE,
     load_content_model,
@@ -85,6 +86,29 @@ def _check_file_current(path: Path, expected: str, label: str) -> list[str]:
     if actual != expected:
         return [f"[generated] {label}: {path} is out of date"]
     return []
+
+
+ANCHOR_RE = re.compile(r"^[a-z][a-z0-9-]*$")
+
+
+def _check_nav_anchors(index_text: str, model: dict[str, Any]) -> list[str]:
+    """Every sidebar link must resolve to an anchor that exists on the page."""
+    errors: list[str] = []
+    toc = yaml.safe_load(render_toc(index_text, model))
+    for section in toc["sections"]:
+        if not ANCHOR_RE.match(section["anchor"]):
+            errors.append(
+                f"[generated] _data/toc.yml: section '{section['title']}' produces anchor "
+                f"#{section['anchor']}, which may not match the heading id kramdown generates"
+            )
+    for category in toc["categories"]:
+        for guideline in category["guidelines"]:
+            if f'<a id="{guideline["anchor"]}"></a>' not in index_text:
+                errors.append(
+                    f"[generated] _data/toc.yml: {guideline['id']} anchor "
+                    f"#{guideline['anchor']} is missing from index.md"
+                )
+    return errors
 
 
 def _validate_schemas() -> list[str]:
@@ -485,6 +509,8 @@ def _validate_generated(model: dict[str, Any]) -> list[str]:
         errors.append(f"[generated] index.md: {error}")
     else:
         errors.extend(_check_file_current(INDEX, expected_index, "index.md"))
+        errors.extend(_check_file_current(TOC, render_toc(expected_index, model), "_data/toc.yml"))
+        errors.extend(_check_nav_anchors(expected_index, model))
     try:
         tool_doc_outputs = build_tool_doc_outputs(model)
     except ToolDocMarkerError as error:

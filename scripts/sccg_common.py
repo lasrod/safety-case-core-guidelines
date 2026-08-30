@@ -17,7 +17,9 @@ SCHEMAS = ROOT / "schemas"
 DIST = ROOT / "dist"
 GENERATED = ROOT / "generated"
 TEMPLATES = ROOT / "templates"
+DATA = ROOT / "_data"
 INDEX = ROOT / "index.md"
+TOC = DATA / "toc.yml"
 
 LEGACY_GUIDELINE_KEYS = {"guideline", "why", "example", "tool_guidance"}
 ID_RE = re.compile(r"^([A-Z]{2})\.(\d+)$")
