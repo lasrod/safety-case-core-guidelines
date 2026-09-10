@@ -267,8 +267,26 @@ $sccg-border: #e7ebef;
   flex: 1 1 auto;
 }
 
-.sccg-nav-toggle {
+.sccg-nav-toggle,
+.sccg-nav-close {
   display: none;
+}
+
+.sccg-nav-close {
+  margin: 0 0 0.45rem auto;
+  padding: 0.3rem 0.65rem;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #14532d;
+  background: #eef4f1;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+html.sccg-nav-locked {
+  overflow: hidden;
 }
 
 /* Sidebar layout on wide screens. */
@@ -303,10 +321,18 @@ $sccg-border: #e7ebef;
   .sccg-layout .main-content h3 {
     scroll-margin-top: 1.5rem;
   }
+
+  .sccg-nav-backdrop {
+    display: none;
+  }
 }
 
-/* Collapsed sidebar with a toggle on narrow screens (JS adds the button). */
-@media (max-width: 61.99em) {
+/* Narrow screens: the sidebar becomes a drawer behind a toggle. This query is
+   the exact complement of the wide one, which assets/js/toc.js tests, so no
+   width falls between them. The toggle, backdrop, close button, and the
+   is-enhanced class all come from JS; without it the nav stays a link list
+   at the top of the page. */
+@media not all and (min-width: 62em) {
   .sccg-nav-toggle {
     display: block;
     position: sticky;
@@ -334,6 +360,37 @@ $sccg-border: #e7ebef;
     overflow-y: auto;
   }
 
+  /* Pinned to the viewport, so it opens where the reader is rather than at
+     the top of the layout. */
+  .sccg-layout.is-enhanced > .sccg-nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    width: 20rem;
+    max-width: 88vw;
+    max-height: none;
+    overscroll-behavior: contain;
+    border-bottom: 0;
+    border-right: 1px solid $sccg-border;
+    box-shadow: 0 0 1.5rem rgba(26, 32, 44, 0.2);
+  }
+
+  .sccg-nav-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 29;
+    background: rgba(26, 32, 44, 0.35);
+  }
+
+  .sccg-nav-close {
+    display: block;
+  }
+
   .main-content h2,
   .main-content h3 {
     scroll-margin-top: 3.25rem;
@@ -342,7 +399,8 @@ $sccg-border: #e7ebef;
 
 @media print {
   .sccg-nav,
-  .sccg-nav-toggle {
+  .sccg-nav-toggle,
+  .sccg-nav-backdrop {
     display: none;
   }
 }
