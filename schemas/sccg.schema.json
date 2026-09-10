@@ -10,10 +10,11 @@
     "source_policy",
     "method_application_guidance",
     "id_scheme",
-    "required_guideline_sections"
+    "required_guideline_sections",
+    "retired_guidelines"
   ],
   "properties": {
-    "schema_version": { "const": "2.0.0" },
+    "schema_version": { "const": "3.0.0" },
     "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "document": {
       "type": "object",
@@ -80,6 +81,26 @@
       "type": "array",
       "minItems": 1,
       "items": { "type": "string", "minLength": 1 }
+    },
+    "retired_guidelines": {
+      "description": "Guideline ids no longer in use. A retired id is never reused, and names the guidelines that now carry its content, so that a finding or a link citing it can be redirected.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "retired_in", "replaced_by", "note"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+          "title": { "type": "string", "minLength": 1 },
+          "retired_in": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "replaced_by": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" }
+          },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
     }
   }
 }

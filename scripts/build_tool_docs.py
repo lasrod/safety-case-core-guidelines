@@ -120,6 +120,7 @@ def _profile_views(model: dict) -> list[dict]:
         view = dict(profile)
         view["selected_package"] = selected_package(profile, package_by_id)["id"]
         view["when_absent"] = profile.get("when_absent", [])
+        view["review_passes"] = profile.get("review_passes", [])
         views.append(view)
     return views
 
@@ -132,6 +133,7 @@ def _render_tool_sections(model: dict) -> tuple[str, str, str, str]:
         prechecks=model["prechecks"],
         selectable_elements=model["selectable_elements"],
         availability_states=model["availability_states"],
+        when_unavailable=model["when_unavailable"],
         authoring=build_authoring_guidance(model),
     )
     sections = {

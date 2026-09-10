@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: RD
   title: RD. Rhetorical device rules
@@ -112,60 +112,70 @@ guidelines:
       statement: State the operating scope and match the confidence wording to the actual support.
 - id: RD.3
   category: RD
-  title: Make limitations, objections, and responses explicit
-  statement: Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
-  short_rule: Make limitations, objections, and their responses visible where the claim is read.
-  rationale: A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
+  title: Keep known limitations visible where the claim is read
+  statement: Make known limitations of a claim's support, such as excluded conditions, partial coverage, and open issues, visible at the claim they qualify, through its wording, its context, or an explicit open issue. Do not leave them only in appendices, footnotes, or text that is not connected to the claim.
+  short_rule: Show known limitations where the claim is read, not only in appendices or distant text.
+  rationale: A claim can appear stronger or broader than the argument supports when its known limits are easy to miss. A safety case is easier to review and trust when it shows not only supporting material but the limits that affect confidence in the claim, at the point where the claim is read. This guideline is about limitations the argument already knows; a doubt the argument has not considered is SU.1, and a condition the claim depends on is an assumption under SU.2.
   review_prompts:
-  - Are important limitations visible at the point where they affect the claim?
-  - Are plausible objections or challenges addressed explicitly?
-  - Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?
+  - Are known limitations, exclusions, or open issues visible at the claim they qualify?
+  - Is a limitation stated only in an appendix, a footnote, or text that is not attached to the claim?
+  - Would a reviewer reading only the main branch be misled about the claim's scope?
+  - Is unresolved doubt made visible through a narrower claim, context, monitoring, or an open issue?
   examples:
     bad: |-
       Claim: Perception robustness is acceptable.
-      Evidence:
-      - Simulation report SIM-04.
-      - Road test report RTR-07.
-    problem: The branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
+      Evidence: Perception validation report PVR-08.
+      A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
+    problem: The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
     good: |-
-      Claim: Perception robustness is acceptable for the defined visible-object conditions.
-      Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
-      Evidence:
-      - Simulation report SIM-04.
-      - Road test report RTR-07.
-      Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
-
-      Or, if the objection is addressed rather than excluded:
-      Evidence: Occlusion test report OTR-03.
-      Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
+      Claim: Perception robustness is acceptable for the validated visibility conditions.
+      Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
+      Evidence: Perception validation report PVR-08.
+      Open issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
   references:
   - source_id: CAE-Review
   - source_id: CAE-Defeaters
   - source_id: RA1205
   - source_id: ONR
   - source_id: EASA
+  - source_id: UNECE-ADS
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when what is missing is the subject, meaning, or scope of the claim itself. Cite RD.3 when it is a known limit of the support or its coverage.
+  - id: SU.1
+    note: Cite SU.1 when a reviewer can see a doubt the argument has not considered. Cite RD.3 when the argument knows a limitation and does not show it where the claim is read.
   tool:
     applicable_elements:
     - GSN Goal
     - GSN Context
-    - GSN Counter Claim
     - CAE Claim
     - CAE Context
-    - CAE Defeater
     detection_hints:
-    - Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage.
+    - Look for limiting conditions stated only in appendices, footnotes, or distant free text.
+    - Look for claims with no visible limitation, exclusion, or open issue although the branch shows only partial coverage.
+    markers:
+    - kind: distant_location_marker
+      effect: candidate
+      terms:
+      - appendix
+      - annex
+      - footnote
+      - attachment
+      - elsewhere in the document
+      - see also
     suggested_checks:
     - id: check-limitations-visible
-      description: Check whether known limitations and objections are visible at the point of the affected claim.
+      description: Check whether known limitations are visible at the claim they qualify. Candidate when a limitation is stated only where a distant location marker points, rather than attached to the claim it qualifies.
     repair:
+    - action: move_text
+      element_role: context
+      statement: Move the buried limitation into context attached to the claim it qualifies.
     - action: add_element
       element_role: context
       attach_to: selected
       statement: State the limitation as context where the claim is read.
-    - action: add_element
-      element_role: challenge
-      attach_to: selected
-      statement: Record the objection as an explicit challenge element.
+    - action: reword_element
+      statement: Or narrow the claim so that the limitation is outside its scope.
 - id: RD.4
   category: RD
   title: Avoid promotional and inflated language
@@ -254,63 +264,3 @@ guidelines:
     repair:
     - action: reword_element
       statement: Name the actor who performed the review, judgment, or approval.
-- id: RD.6
-  category: RD
-  title: Do not bury important limitations or hidden assumptions
-  statement: Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
-  short_rule: Keep important limitations and assumptions attached to the claim they qualify.
-  rationale: A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
-  review_prompts:
-  - Is an important limitation easy to miss?
-  - Is an important assumption stated explicitly as an assumption, or only implied elsewhere?
-  - Would a reviewer be misled by reading only the main branch?
-  - Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?
-  examples:
-    bad: |-
-      Claim: Perception robustness is acceptable.
-      Evidence: Perception validation report PVR-08.
-      A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
-    problem: The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
-    good: |-
-      Claim: Perception robustness is acceptable for the validated visibility conditions.
-      Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
-      Evidence: Perception validation report PVR-08.
-
-      Or, where the dependency is really an assumption:
-      Claim: Perception robustness is acceptable.
-      Assumption: Visibility conditions remain within the validated range defined in PVR-08.
-      Evidence: Perception validation report PVR-08.
-  references:
-  - source_id: CAE-Defeaters
-  - source_id: RA1205
-  - source_id: UNECE-ADS
-  tool:
-    applicable_elements:
-    - GSN Goal
-    - GSN Context
-    - GSN Assumption
-    - CAE Claim
-    - CAE Context
-    - CAE Assumption
-    detection_hints:
-    - Look for important limiting conditions stated only in appendices or distant free text.
-    markers:
-    - kind: distant_location_marker
-      effect: candidate
-      terms:
-      - appendix
-      - annex
-      - footnote
-      - attachment
-      - elsewhere in the document
-      - see also
-    suggested_checks:
-    - id: check-limitations-collocated
-      description: Check whether important limitations and assumptions are visible where the claim is read. Candidate when a limitation is stated only in a distant location marker rather than attached to the claim it qualifies.
-    repair:
-    - action: move_text
-      element_role: context
-      statement: Move the buried limitation into context attached to the claim it qualifies.
-    - action: move_text
-      element_role: assumption
-      statement: Move a buried dependency into an assumption attached to the claim.

@@ -118,8 +118,6 @@ Engineers integrating SCCG into tools should use the generated [tool integration
 
 - `AR.2` [State the inference step explicitly](#ar2)
 
-- `AR.3` [Use context and assumptions deliberately](#ar3)
-
 - `AR.4` [Match claim precision to the level of the argument](#ar4)
 
 - `AR.5` [Keep scope and terminology consistent across decomposition](#ar5)
@@ -178,8 +176,6 @@ Engineers integrating SCCG into tools should use the generated [tool integration
 
 - `SU.8` [Do not assume human data or human-designed tests cover autonomy-specific failures](#su8)
 
-- `SU.9` [Document unstated assumptions at the point of use](#su9)
-
 - `SU.10` [Keep assumptions bounded, specific, and monitorable](#su10)
 
 - `SU.11` [Make plausible reviewer challenges explicit and resolve them](#su11)
@@ -205,7 +201,7 @@ These guideline entries identify reasoning errors that weaken safety arguments. 
 
 - `LF.6` [Avoid pseudo-precision](#lf6)
 
-- `LF.7` [Avoid omission of key evidence and ignoring counter-evidence](#lf7)
+- `LF.7` [Avoid cherry-picking and ignoring counter-evidence](#lf7)
 
 
 
@@ -220,13 +216,11 @@ These guideline entries identify presentation choices that affect how safety arg
 
 - `RD.2` [Use scoped claims and qualified confidence language](#rd2)
 
-- `RD.3` [Make limitations, objections, and responses explicit](#rd3)
+- `RD.3` [Keep known limitations visible where the claim is read](#rd3)
 
 - `RD.4` [Avoid promotional and inflated language](#rd4)
 
 - `RD.5` [Avoid passive voice when it hides agency](#rd5)
-
-- `RD.6` [Do not bury important limitations or hidden assumptions](#rd6)
 <!-- END GENERATED: quick-index -->
 
 <!-- BEGIN GENERATED: guidelines -->
@@ -248,6 +242,7 @@ A safety case is built from claims that can be challenged, supported, or refuted
 - Could a reviewer tell what would make this claim false?
 - Is this a proposition, or only a topic label?
 - Is the claim understandable without extra interpretation?
+- For a challenge element, does it state a specific way the target could fail, one that could be shown to hold or not?
 
 **Example**
 
@@ -368,6 +363,10 @@ Ambiguous claims undermine review, traceability, and evidence relevance. This gu
 - Is the object of the claim clear?
 - Is the property being claimed clear?
 
+**Not to be confused with**
+- [CL.5](#cl5): Cite CL.5 when the problem is one evaluative or universal word left unbounded, such as safe, timely, or all. Cite CL.4 when the subject or the property of the claim could be read as different things altogether.
+- [AR.4](#ar4): Cite AR.4 when the meaning is clear but the detail is wrong for the claim's level in the argument. Cite CL.4 when competent readers could take the claim to mean different things.
+
 **Example**
 
 *Bad*
@@ -403,6 +402,10 @@ Terms such as safe, timely, effective, normal, robust, all, every, and never can
 - If safe is used, is it clear what safety judgment is being claimed at this level?
 - Is the scope of all, every, or never explicitly defined?
 - Would the claim remain reviewable if read on its own?
+- In a context element, are terms such as normal, nominal, or typical conditions bounded by a definition?
+
+**Not to be confused with**
+- [CL.4](#cl4): Cite CL.4 when the subject or the property of the claim could be read as different things altogether. Cite CL.5 when one evaluative or universal word is left unbounded.
 
 **Example**
 
@@ -481,6 +484,7 @@ When one assurance case element is used to do another element's job, the argumen
 - Is a dependency or rationale hidden in claim or argument text?
 - Is an evidence reference being used as if it were a claim?
 - Is a justification being used as if it were support?
+- Is a challenge element stating a challenge, rather than a note, a claim, or its own resolution?
 
 **Example**
 
@@ -554,48 +558,6 @@ Sub-claims:
 
 OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.3.2.1(a); 5.3.2.1(a)(1), GSN v3 1:2.3.3, CAE guidance
 
-<a id="ar3"></a>
-
-### AR.3: Use context and assumptions deliberately
-
-**Guideline**
-
-Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.
-
-**Why**
-
-This keeps the claim interpretable and makes clear which information defines the claim's scope and meaning, and which conditions the argument depends on being true.
-
-**Review prompts**
-- Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
-- Is any condition required for the claim to hold hidden in wording rather than made explicit?
-- Would the argument be clearer if scope, definitions, or dependencies were represented separately?
-- If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?
-
-**Example**
-
-*Bad*
-
-The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
-
-*Problem*
-
-Scope (ODD, mode) and dependencies (localization, interface timing) are hidden inside the claim text instead of being represented as separate context and assumption elements.
-
-*Good*
-
-Claim: Braking controller safety is acceptable.
-Scope:
-- Applies in Highway ODD.
-- Applies in automated mode.
-Dependencies:
-- Valid localization available.
-- Nominal interface timing conditions apply.
-
-**References**
-
-OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18
-
 <a id="ar4"></a>
 
 ### AR.4: Match claim precision to the level of the argument
@@ -612,6 +574,9 @@ Top-level claims need readability and stability. Lower-level claims need assessa
 - Is a high-level claim overloaded with low-level detail?
 - Is a leaf claim too vague to assess against evidence?
 - Could the claim stay short because linked criteria already make it objective?
+
+**Not to be confused with**
+- [CL.4](#cl4): Cite CL.4 when competent readers could take the claim to mean different things, at any level. Cite AR.4 when the meaning is clear but the detail is wrong for where the claim sits, overloaded near the top or too vague to assess at a leaf.
 
 **Example**
 
@@ -649,6 +614,7 @@ Silent redefinition can leave higher-level claims only partially supported while
 - Does a key term mean the same thing at parent and sub-claim levels?
 - Has scope narrowed without being stated?
 - Is inherited context still valid at this level?
+- Does a context element restate, redefine, or contradict context already given higher in the same branch?
 
 **Example**
 
@@ -685,17 +651,22 @@ UL 4600 5.2.3, GSN v3 1:2.2.11; 2:5.5.3
 
 **Guideline**
 
-Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.
+Provide the context a reviewer needs to interpret the claim, that is, what its subject is, what it means, what scope it covers, and how its key terms are defined.
 
 **Why**
 
-This guideline is about whether the branch contains enough context at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries.
+This guideline is about whether the information needed to read the claim is present in the branch at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries. It is not about conditions the claim depends on being true, which are assumptions (SU.2), about limits of the support (RD.3), or about context that is present but written into the claim text (AR.7).
 
 **Review prompts**
-- What must the reviewer know for this claim to be true or false?
+- What must the reviewer know to understand what this claim says?
 - Are key terms defined where needed?
-- Is any necessary scope or operating condition explicit?
+- Is the scope the claim covers explicit?
 - Would two independent reviewers understand the claim in the same way?
+
+**Not to be confused with**
+- [AR.7](#ar7): Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether.
+- [SU.2](#su2): Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
+- [RD.3](#rd3): Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
 
 **Example**
 
@@ -722,17 +693,21 @@ OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3, GSN v3 1:2.2
 
 **Guideline**
 
-Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
+Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
 
 **Why**
 
-This guideline is about placement, clarity, and maintainability. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
+This guideline is about placement, clarity, and maintainability. A claim such as "X is acceptable in ODD-A during automated mode with valid localization" carries its scope and its dependencies in one sentence; the scope belongs in context and the dependencies in assumptions. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
 
 **Review prompts**
+- Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
 - Which words in this claim are qualifiers rather than the core assertion?
 - Are the qualifiers clear enough for review, or would they be better represented as context or assumptions?
 - Could the core claim remain stable if a configuration, interface condition, or dependency changed?
 - Are dependencies explicit and traceable rather than hidden inside readable but overloaded claim text?
+
+**Not to be confused with**
+- [AR.6](#ar6): Cite AR.6 when the context is missing from the branch altogether. Cite AR.7 when it is present but written into the claim text.
 
 **Example**
 
@@ -754,7 +729,7 @@ Dependencies:
 
 **References**
 
-OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a), GSN v3 1:2.2.10-1:2.2.13, CAE guidance
+OMG SACM 2.3, ONR, EASA guidance, NPSA CAE Concepts, UL 4600 5.2.3; 5.3.2.1(a); 5.4.1.3(a)(11), GSN v3 1:2.2.10-1:2.2.18, CAE guidance
 
 <a id="ar8"></a>
 
@@ -996,7 +971,7 @@ When a claim is supported by evidence, make clear what makes that evidence suffi
 
 **Why**
 
-A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
+A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations. Whether a basis is stated can be seen in the argument itself, so this guideline can be assessed without any evidence basis data; whether a stated basis is actually adequate is judged under LF.5, SU.7, and SU.8.
 
 **Review prompts**
 - What makes this evidence enough for this claim?
@@ -1004,6 +979,9 @@ A reviewer should not have to guess why a cited test, analysis, dataset, or revi
 - Is any threshold, pass criterion, or completeness expectation stated?
 - Are known limitations or uncovered conditions explicit?
 - Is the branch showing only that the evidence is relevant, or also that it is enough?
+
+**Not to be confused with**
+- [LF.5](#lf5): Cite LF.5 when the argument states what makes its evidence sufficient, or the evidence shows it, and the sample is too small or unrepresentative for the claim. Cite EV.5 when the argument does not state a sufficiency basis at all.
 
 **Example**
 
@@ -1202,6 +1180,10 @@ A credible safety case should not only present supporting material. It should al
 - Is the challenge really against the claim, the reasoning, the evidence, an assumption, or the stated scope?
 - Are important doubts visible in the argument, or left unstated?
 
+**Not to be confused with**
+- [SU.11](#su11): Cite SU.11 when a challenge has already been raised, in review or as a challenge element, and is not carried to a visible resolution. Cite SU.1 when a plausible doubt about the claim, reasoning, or evidence has not been raised in the argument at all.
+- [RD.3](#rd3): Cite RD.3 when the argument knows a limitation of its support and does not show it where the claim is read. Cite SU.1 when a reviewer can see a doubt the argument has not considered.
+
 **Example**
 
 *Bad*
@@ -1232,16 +1214,20 @@ CAE Review and Challenge, CAE Defeaters, RA 1205, UL 4600 5.3.2.2(a); 5.4.2.2(b)
 
 **Guideline**
 
-Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.
+Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead.
 
 **Why**
 
-Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
+Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. Stating an assumption where it constrains the argument, not only where it was first discovered, lets a reviewer see what each branch depends on. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
 
 **Review prompts**
 - What must be true for this branch to hold?
+- Is each dependency stated at the claim or reasoning step it constrains, rather than only elsewhere in the case?
 - Why is this assumption reasonable, and how would we know if it became false?
 - Is this really an assumption, or should it instead be represented as context, a claim, or evidence?
+
+**Not to be confused with**
+- [AR.6](#ar6): Cite AR.6 when what is missing is information needed to understand what the claim means. Cite SU.2 when it is a condition that must hold for the claim to be true.
 
 **Example**
 
@@ -1263,7 +1249,7 @@ Re-assessment trigger: Sustained KPI breach or change to the map update process.
 
 **References**
 
-UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.17
+UL 4600 5.4.1.3(a)(11); 5.4.2.2(a)(3); 5.4.1.6.2, GSN v3 0:4.6; 1:2.2.12; 1:2.2.17
 
 <a id="su3"></a>
 
@@ -1312,17 +1298,21 @@ UL 4600 5.4.2.2(a)(1); 5.4.2.6.3, AVSC CSE 6.1-6.3
 
 **Guideline**
 
-When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.
+When a claim asserts something only operation can confirm, such as a rate, a rarity, or behaviour over the service life, and its support is design-time evidence, state the uncertainty that remains and define lifecycle monitoring and re-assessment triggers that can confirm or challenge the claim during operation.
 
 **Why**
 
-Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
+Some claims depend partly on assumptions, limited evidence, or expected field behavior. The recognisable shape is a claim about operational frequency, exposure, or service life whose evidence is analysis, test, or simulation done before operation. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
 
 **Review prompts**
+- Does the claim state a rate, a rarity, or behaviour over a service life that only operation can confirm?
 - What part of this claim is not fully supported at design time?
 - Can that remaining uncertainty only be reduced through operational or field data?
 - Is lifecycle monitoring defined for that uncertainty?
 - Are reassessment triggers identified?
+
+**Not to be confused with**
+- [LF.5](#lf5): Cite LF.5 when more or better design-time evidence could close the gap between the claim and its data. Cite SU.4 when only operational experience can close it, so the claim needs monitoring and re-assessment triggers.
 
 **Example**
 
@@ -1520,48 +1510,6 @@ Justification: Coverage is based not only on human-driven scenarios, but also on
 
 ISO 21448:2022 7.1-7.4; 9.1-9.3; 10-11, UL 4600 5.3.3.2(e); 5.3.3.2(g); 5.4.2.2(b)
 
-<a id="su9"></a>
-
-### SU.9: Document unstated assumptions at the point of use
-
-**Guideline**
-
-When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.
-
-**Why**
-
-Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.
-
-**Review prompts**
-- What must be true for this claim or strategy to hold, but is not currently stated?
-- Is the hidden dependency local to the claim, or to the reasoning step?
-- Should this dependency be represented as an assumption, as context, or as a claim that must be proved?
-
-**Example**
-
-*Bad*
-
-Claim: Localization integrity is sufficient for safe fallback.
-
-*Problem*
-
-The branch depends on an unstated condition about localization performance during fallback (that integrity remains within bound L1), but that dependency is only implicit and a reviewer cannot see what must hold for the claim to be valid.
-
-*Good*
-
-Claim: Localization integrity is sufficient for safe fallback.
-Assumption: Localization integrity remains within bound L1 during fallback maneuver.
-
-Or, if that dependency should be argued rather than assumed:
-
-Claim: Localization integrity is sufficient for safe fallback.
-Sub-claim: Localization integrity remains within bound L1 during fallback maneuver.
-Evidence: Fallback localization analysis report FLA-03.
-
-**References**
-
-UL 4600 5.4.1.3(a)(11); 5.4.1.6.2; 5.4.2.2(a)(3), GSN v3 0:4.6; 1:2.2.12; 1:2.2.17
-
 <a id="su10"></a>
 
 ### SU.10: Keep assumptions bounded, specific, and monitorable
@@ -1623,6 +1571,9 @@ A credible safety case should not leave plausible challenges only in review comm
 - Has the challenge been rejected, sustained, or left unresolved?
 - If sustained, has the original branch been updated appropriately?
 - If unresolved, is the open issue visible and traceable?
+
+**Not to be confused with**
+- [SU.1](#su1): Cite SU.1 when a plausible doubt has not been raised in the argument at all. Cite SU.11 when a challenge has been raised, in review or as a challenge element, and is not carried to a visible resolution.
 
 **Example**
 
@@ -1837,6 +1788,12 @@ A small or skewed data set can support only a correspondingly narrow claim.
 - Is the sample size adequate for the confidence implied?
 - Does the data distribution match the ODD and edge cases?
 - Is the claim broader than the sample supports?
+- Does the evidence cover the conditions the claim names, or is a kind of evidence a critical reviewer would expect for those conditions absent?
+
+**Not to be confused with**
+- [SU.4](#su4): Cite SU.4 when only operational experience can close the gap, so the claim needs monitoring and re-assessment triggers. Cite LF.5 when more or better design-time evidence could close it.
+- [LF.7](#lf7): Cite LF.7 when the case contains unfavourable results or anomalies that the argument leaves unanswered. Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim.
+- [EV.5](#ev5): Cite EV.5 when the argument does not state what makes its evidence sufficient. Cite LF.5 when it does, or the evidence shows it, and the sample is too small or unrepresentative for the claim.
 
 **Example**
 
@@ -1917,50 +1874,48 @@ Greenwell et al. 2006
 
 <a id="lf7"></a>
 
-### LF.7: Avoid omission of key evidence and ignoring counter-evidence
+### LF.7: Avoid cherry-picking and ignoring counter-evidence
 
 **Guideline**
 
-Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
+Do not present only the favourable part of the evidence. Where the cited evidence, its stated limitations, or other material in the case contains unfavourable results, failures, or anomalies relevant to the claim, answer them in the argument, by explaining why they do not undermine the claim, narrowing the claim, or adding support.
 
 **Why**
 
-A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
+A safety case becomes misleading when it presents only the supporting part of its evidence and leaves unanswered the results that could weaken, limit, or challenge the claim. The recognisable shape is a result or statement in the case that runs against the claim, with nothing in the argument responding to it, or evidence cited as a selected subset of a larger result set. Evidence that is favourable but too narrow for the claim is LF.5.
 
 **Review prompts**
-- What evidence would a critical reviewer reasonably expect to see for this claim?
-- Is any known anomaly, failure, exclusion, or limitation being left unaddressed?
-- Does the omitted material affect the meaning, scope, or credibility of the claim?
-- Is contrary evidence explicitly addressed rather than silently ignored?
+- Does the case contain results, failures, exclusions, or anomalies that run against this claim?
+- Is the evidence cited selectively, for example only the passing runs or a chosen subset?
+- Is each unfavourable result answered, by explanation, a narrower claim, or added support?
+- Would the claim still read the same way if the unfavourable results were placed next to it?
+
+**Not to be confused with**
+- [LF.5](#lf5): Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim. Cite LF.7 when the case contains unfavourable results that the argument leaves unanswered.
+- [SU.6](#su6): Cite SU.6 when the unanswered material is operational feedback dismissed because it caused no harm or could not be reproduced. Cite LF.7 for other unfavourable results.
+- [SU.11](#su11): Cite SU.11 when the unanswered material is a raised challenge, such as a counter claim or defeater. Cite LF.7 when it is an unfavourable result in the evidence.
 
 **Example**
 
 *Bad*
 
-Claim: Sensor robustness is acceptable.
-Evidence: Sensor performance test report SPR-08.
-Justification: The reported test results show robust detection performance.
+Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04.
+Evidence: Braking test report BTR-06, section 4, passing runs.
+The same report, section 5, records three low-friction runs in which stopping distance exceeded AC-BRK-04.
 
 *Problem*
 
-The branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
+The argument cites the favourable runs and leaves unanswered the failing runs recorded in the same report; a reviewer is left to discover that the evidence partly contradicts the claim.
 
 *Good*
 
-Claim: Sensor robustness is acceptable for the defined conditions.
-Evidence:
-- Sensor performance test report SPR-08.
-- Obscuration test report OTR-03.
-- Environmental degradation test report EDR-05.
-Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
+Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04 on dry and wet surfaces.
+Evidence: Braking test report BTR-06, sections 4 and 5, all runs.
+Context: Claim excludes low-friction surfaces, where three runs in BTR-06 section 5 exceeded AC-BRK-04.
+Open issue: Low-friction braking is argued in the separate branch for friction-limited operation.
 
-Or, if contrary evidence exists, scope it:
-Claim: Sensor robustness is acceptable for the defined conditions.
-Evidence:
-- Sensor performance test report SPR-08.
-- Environmental degradation anomaly review EAR-02.
-Context: Claim excludes heavy mud obscuration beyond the tested condition range.
-Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
+Or, if the failing runs are explained rather than excluded:
+Justification: The three low-friction runs in BTR-06 section 5 used a tyre set outside the vehicle specification; repeat runs with specified tyres, BTR-07 section 2, meet AC-BRK-04.
 
 **References**
 
@@ -2047,50 +2002,48 @@ UL 4600 5.3.3.1(b); 5.3.3.2(b); 5.2.3.3(d)
 
 <a id="rd3"></a>
 
-### RD.3: Make limitations, objections, and responses explicit
+### RD.3: Keep known limitations visible where the claim is read
 
 **Guideline**
 
-Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
+Make known limitations of a claim's support, such as excluded conditions, partial coverage, and open issues, visible at the claim they qualify, through its wording, its context, or an explicit open issue. Do not leave them only in appendices, footnotes, or text that is not connected to the claim.
 
 **Why**
 
-A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
+A claim can appear stronger or broader than the argument supports when its known limits are easy to miss. A safety case is easier to review and trust when it shows not only supporting material but the limits that affect confidence in the claim, at the point where the claim is read. This guideline is about limitations the argument already knows; a doubt the argument has not considered is SU.1, and a condition the claim depends on is an assumption under SU.2.
 
 **Review prompts**
-- Are important limitations visible at the point where they affect the claim?
-- Are plausible objections or challenges addressed explicitly?
-- Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?
+- Are known limitations, exclusions, or open issues visible at the claim they qualify?
+- Is a limitation stated only in an appendix, a footnote, or text that is not attached to the claim?
+- Would a reviewer reading only the main branch be misled about the claim's scope?
+- Is unresolved doubt made visible through a narrower claim, context, monitoring, or an open issue?
+
+**Not to be confused with**
+- [AR.6](#ar6): Cite AR.6 when what is missing is the subject, meaning, or scope of the claim itself. Cite RD.3 when it is a known limit of the support or its coverage.
+- [SU.1](#su1): Cite SU.1 when a reviewer can see a doubt the argument has not considered. Cite RD.3 when the argument knows a limitation and does not show it where the claim is read.
 
 **Example**
 
 *Bad*
 
 Claim: Perception robustness is acceptable.
-Evidence:
-- Simulation report SIM-04.
-- Road test report RTR-07.
+Evidence: Perception validation report PVR-08.
+A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
 
 *Problem*
 
-The branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
+The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
 
 *Good*
 
-Claim: Perception robustness is acceptable for the defined visible-object conditions.
-Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
-Evidence:
-- Simulation report SIM-04.
-- Road test report RTR-07.
-Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
-
-Or, if the objection is addressed rather than excluded:
-Evidence: Occlusion test report OTR-03.
-Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.
+Claim: Perception robustness is acceptable for the validated visibility conditions.
+Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
+Evidence: Perception validation report PVR-08.
+Open issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
 
 **References**
 
-CAE Review and Challenge, CAE Defeaters, RA 1205, ONR, EASA guidance
+CAE Review and Challenge, CAE Defeaters, RA 1205, ONR, EASA guidance, UNECE ADS safety case clauses
 
 <a id="rd4"></a>
 
@@ -2162,48 +2115,25 @@ Safety review board SRB-02 reviewed evidence E12-E19 and concluded that the clai
 
 RA 1205, HSE review guidance
 
+## Retired guidelines
+
+These ids are no longer in use and will not be reused. Each entry names the guidelines that now carry its content, so a finding or a link that cites a retired id can still be followed.
+
+<a id="ar3"></a>
+
+### AR.3: Use context and assumptions deliberately
+
+Retired in 0.8.0. It asked for the same thing as AR.7, moving scope and dependency clauses out of claim text, and its remaining half, whether the context a claim needs is present at all, is AR.6. Cite AR.7 for placement and AR.6 for missing context. Now covered by [AR.7](#ar7), [AR.6](#ar6).
+
+<a id="su9"></a>
+
+### SU.9: Document unstated assumptions at the point of use
+
+Retired in 0.8.0. Merged into SU.2, which now also requires an assumption to be stated where it constrains the argument and applies to claims and context as well as assumption elements. Now covered by [SU.2](#su2).
+
 <a id="rd6"></a>
 
 ### RD.6: Do not bury important limitations or hidden assumptions
 
-**Guideline**
-
-Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
-
-**Why**
-
-A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
-
-**Review prompts**
-- Is an important limitation easy to miss?
-- Is an important assumption stated explicitly as an assumption, or only implied elsewhere?
-- Would a reviewer be misled by reading only the main branch?
-- Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?
-
-**Example**
-
-*Bad*
-
-Claim: Perception robustness is acceptable.
-Evidence: Perception validation report PVR-08.
-A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.
-
-*Problem*
-
-The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
-
-*Good*
-
-Claim: Perception robustness is acceptable for the validated visibility conditions.
-Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
-Evidence: Perception validation report PVR-08.
-
-Or, where the dependency is really an assumption:
-Claim: Perception robustness is acceptable.
-Assumption: Visibility conditions remain within the validated range defined in PVR-08.
-Evidence: Perception validation report PVR-08.
-
-**References**
-
-CAE Defeaters, RA 1205, UNECE ADS safety case clauses
+Retired in 0.8.0. It was the negative form of RD.3. Buried limitations are now RD.3, which keeps known limitations visible where the claim is read; hidden assumptions are SU.2. Now covered by [RD.3](#rd3), [SU.2](#su2).
 <!-- END GENERATED: guidelines -->

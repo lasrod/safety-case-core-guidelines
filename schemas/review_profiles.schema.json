@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "selectable_elements", "review_profiles"],
   "properties": {
-    "schema_version": { "const": "2.0.0" },
+    "schema_version": { "const": "3.0.0" },
     "selectable_elements": {
       "type": "array",
       "minItems": 1,
@@ -77,8 +77,28 @@
               }
             }
           },
+          "review_passes": {
+            "description": "Optional partition of the profile's guidelines by review question. A reviewer can work through the passes as a checklist, and a tool can send one request per pass and merge the findings under this one profile; profile selection is unchanged. The passes together list every guideline of the profile exactly once.",
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["id", "display_name", "question", "guideline_ids"],
+              "properties": {
+                "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+                "display_name": { "type": "string", "minLength": 1 },
+                "question": { "type": "string", "minLength": 1 },
+                "guideline_ids": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" }
+                }
+              }
+            }
+          },
           "when_absent": {
-            "description": "What a review may still conclude when a required data package cannot be supplied. Present for required packages a tool may legitimately be unable to build.",
+            "description": "An exception to the data package registry's when_unavailable rule, for a required package whose absence leaves some of this profile's guidelines with nothing to judge. A profile with no entry for a package follows the general rule.",
             "type": "array",
             "items": {
               "type": "object",

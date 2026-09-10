@@ -53,7 +53,11 @@ def _environment(trim_blocks: bool, lstrip_blocks: bool) -> Environment:
 
 def _render_guidelines(model: dict) -> str:
     template = _environment(trim_blocks=True, lstrip_blocks=True).get_template("guidelines_section.md.j2")
-    return template.render(categories=model["categories"], by_cat=guidelines_by_category(model))
+    return template.render(
+        categories=model["categories"],
+        by_cat=guidelines_by_category(model),
+        retired=model.get("retired_guidelines", []),
+    )
 
 
 def _render_quick_index(model: dict) -> str:

@@ -51,6 +51,24 @@ Optional tool metadata belongs in `tool`. Do not reintroduce the legacy field na
 
 `short_rule` is the guideline in one imperative line, for tools that deliver SCCG while an author or an AI agent is writing. Keep it under 140 characters, keep it faithful to `statement`, and write it as an instruction rather than a description; tools quote it verbatim instead of paraphrasing the guideline.
 
+`distinguish_from` is optional; see [Neighbouring guidelines](#neighbouring-guidelines).
+
+## Writing a guideline
+
+State a guideline as a pattern a reviewer can find in the argument, not as a quality a reviewer must judge. "Use no promotional language" can be applied by a reviewer on their first day; "use context deliberately" cannot be applied by anyone without further instruction. The same property decides whether a review tool cites a guideline reliably: in measured AI reviews, guidelines that name a pattern were cited on their own defect and nowhere else, while guidelines that name a quality were cited in a neighbour's place.
+
+- Name what a reviewer can point at: a word, a missing element, an element doing another's job, a limitation placed away from its claim, a result left unanswered. Say it in `statement`, and describe the recognisable shape in `rationale` where it helps.
+- Keep to one review question. A positive and a negative form of the same instruction are one guideline, not two.
+- Where a guideline is irreducibly a judgement, say what the reviewer judges and from what, rather than naming a quality.
+- Make the bad example checkable from the example alone. A defect that can only be seen with knowledge the example does not contain cannot be found by a reader or a tool.
+- Before adding a guideline, check its neighbours. If a reviewer could reasonably cite an existing guideline for the same defect, sharpen or extend that one instead, or add `distinguish_from` notes to both.
+
+## Neighbouring guidelines
+
+`distinguish_from` lists guidelines that a reviewer is likely to cite in this one's place, each with a `note` saying which to cite when. Write the note as a pair of conditions, one for each guideline, in terms of what the reviewer can see: "Cite CL.5 when one evaluative word is left unbounded. Cite CL.4 when the subject or property could be read as different things."
+
+Add notes for pairs that have been observed to be confused, in review practice or in tool evaluation, rather than for every related guideline. Normally add the note on both sides. Validation requires each entry to name another active guideline.
+
 ## Examples are a published test corpus
 
 `examples.bad` and `examples.good` are consumed by tools, not only read by people. A tool implementing a mechanical check for a guideline is expected to hold the check against them: fire on the bad example, stay silent on the good one.
@@ -83,7 +101,9 @@ Guideline IDs are stable identifiers. Do not renumber existing guidelines. When 
 - Set `category` to the two-letter prefix.
 - Add it to the matching category file in [content/guidelines/](content/guidelines/).
 
-If a guideline is retired, leave its ID reserved rather than reusing it. Generated anchors are ID-based, so external links and tools should target IDs such as `#cl1`.
+To retire a guideline, remove it from its category file and add it to `retired_guidelines` in [content/sccg.yaml](content/sccg.yaml) with its title, the `sccg_version` it was retired in, the active guidelines that now carry its content (`replaced_by`), and a note saying which to cite for what. Retired IDs are never reused, which validation enforces, and the site keeps an anchor for each one so that old links and old findings still land somewhere. Retiring an ID is a contract change, because tools may rely on guideline IDs being stable within a `schema_version` major.
+
+Generated anchors are ID-based, so external links and tools should target IDs such as `#cl1`.
 
 ## Tool support metadata
 
@@ -96,7 +116,9 @@ Rules that validation enforces, because tools rely on them:
 - Every selectable element maps to exactly one review profile, and a profile's `applies_to` elements all share one `element_role`.
 - Every profile requires exactly one data package whose `role` is `selected_element`, and that package's `element_role` matches the profile's elements.
 - Every pre-check names exactly one selected-element package in `expected_data`, so the element the check runs on is unambiguous. A pre-check's `fires_when` sentence is its definition: a check answering a different question must not carry that id.
-- A `when_absent` entry may only name a required package of that profile, and may only list guidelines that profile applies.
+- A `when_absent` entry may only name a required package of that profile, and may only list guidelines that profile applies. Publish one only where a package's absence leaves guidelines with nothing to judge; otherwise the registry's `when_unavailable` rule already says what a review does.
+- A profile's `review_passes`, where present, list every guideline of the profile exactly once and nothing else, so a tool fanning out over them applies exactly the profile.
+- `distinguish_from`, profiles, pre-checks, and the authoring guidance set may only name active guidelines, never retired ones.
 - Every guideline category is represented in the authoring guidance set, so a tool carrying only that set never hides a whole family.
 
 ## Versioning
@@ -141,7 +163,7 @@ Before opening a pull request, confirm:
 - [ ] `python scripts/check_coverage.py` was run.
 - [ ] `python scripts/validate.py` passes.
 - [ ] `git diff --exit-code` passes after generated files are committed.
-- [ ] No guideline ID was renumbered or reused.
+- [ ] No guideline ID was renumbered or reused, and any retired ID is recorded in `retired_guidelines`.
 - [ ] Any new references, review profile links, data package links, or pre-check links validate.
 
 ## License

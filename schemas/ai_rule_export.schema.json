@@ -17,13 +17,14 @@
     "review_prompts",
     "examples",
     "references",
+    "distinguish_from",
     "tool",
     "reference_source_ids",
     "review_profile_ids",
     "data_package_ids"
   ],
   "properties": {
-    "schema_version": { "const": "2.0.0" },
+    "schema_version": { "const": "3.0.0" },
     "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
     "category": { "type": "string", "pattern": "^[A-Z]{2}$" },
@@ -40,6 +41,19 @@
     },
     "examples": { "type": "object" },
     "references": { "type": "array" },
+    "distinguish_from": {
+      "description": "Neighbouring guidelines and when to cite them instead. Empty when none is published.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "note"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+          "note": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "tool": { "type": "object" },
     "reference_source_ids": {
       "type": "array",

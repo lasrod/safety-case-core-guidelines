@@ -42,13 +42,19 @@ Each package has a `role`:
 
 A tool that cannot supply a package should report which state applies rather than omitting it silently: `available`, `not_implemented` (no source for it at all), `empty` (a source exists and this case has nothing in it), or `withheld` (the data exists and was deliberately not shared). A review told nothing assumes the data does not exist, and may report a sufficiency finding that is an artifact of what it was not shown.
 
-Where a required package can legitimately be unavailable, the profile carries a `when_absent` entry naming which of its guidelines then cannot be assessed, and what the review should say instead. `evidence_review` carries one for `EVIDENCE_BASIS`: without it, a review can judge citation, control, and element role, but not sufficiency, and it must say so rather than reporting a degraded review as a complete one.
+A package with no required fields, such as `EVIDENCE_BASIS` or `CHANGE_HISTORY`, counts as `available` only when at least one of its fields is populated. Supplied with nothing in it, it is `empty`.
+
+What the review then does is one rule for every profile, published as `when_unavailable` in [dist/data_packages.json](../dist/data_packages.json): assess every guideline against what was supplied, never report a missing package as a finding, never skip a guideline because a package is missing, and say which packages were unavailable. A profile's `when_absent` entry is the only exception, and no profile currently carries one.
 
 ## Review profiles
 
 A review profile groups guidelines for a common review intent. Profiles identify applicable notation elements, guideline IDs, required data packages, and optional data packages.
 
-Each selectable element maps to exactly one profile, and each profile's elements all share one element role, so a tool can resolve the profile from the selected element without asking the user.
+Each selectable element maps to exactly one profile, and each profile's elements all share one element role, so a tool can resolve the profile from the selected element without asking the user. A large profile may also publish `review_passes`, a split of its guidelines by review question that a tool can fan out over without changing which profile applies.
+
+## Neighbouring guidelines
+
+Where two guidelines have been observed to be cited in each other's place, each carries `distinguish_from`: the neighbour's id and a note saying which to cite when. A tool should deliver the notes with the guidelines, so that two reviews citing the same defect cite the same id.
 
 ## Pre-checks
 

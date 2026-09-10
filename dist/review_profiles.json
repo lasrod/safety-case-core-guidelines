@@ -6,8 +6,8 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.7.0",
-    "schema_version": "2.0.0",
+    "sccg_version": "0.8.0",
+    "schema_version": "3.0.0",
     "title": "Safety Case Core Guidelines"
   },
   "review_profiles": [
@@ -24,7 +24,7 @@
           },
           {
             "id": "EVIDENCE_BASIS",
-            "rationale": "Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, LF.7, SU.6, SU.8)."
+            "rationale": "Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, SU.8), and expose unfavourable results the argument must answer (LF.7)."
           },
           {
             "id": "PROJECT_GLOSSARY",
@@ -58,19 +58,19 @@
           },
           {
             "id": "DIRECT_CONTEXT",
-            "rationale": "Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.3, AR.6, AR.7, RD.1, RD.6) and whether limitations are visible where the claim is read (RD.3, SU.9)."
+            "rationale": "Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.6, AR.7, RD.1), whether the conditions the claim depends on are stated where they constrain it (SU.2), and whether known limitations are visible where the claim is read (RD.3)."
           },
           {
             "id": "INHERITED_CONTEXT",
-            "rationale": "Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.6) and reveal hidden or contradicted limitations under SU.9."
+            "rationale": "Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.3) and show whether a dependency is stated where it constrains this claim or only higher up (SU.2)."
           },
           {
             "id": "EVIDENCE_PATH",
-            "rationale": "The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness (LF.5), and omission of expected or contrary evidence (LF.7, SU.6, SU.8)."
+            "rationale": "The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness and coverage of the claimed conditions (LF.5), unanswered unfavourable results (LF.7), and dismissed or human-derived support (SU.6, SU.8)."
           }
         ]
       },
-      "description": "Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency.",
+      "description": "Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency, in four passes.",
       "display_name": "Claim review",
       "guideline_ids": [
         "CL.1",
@@ -80,7 +80,6 @@
         "CL.5",
         "CL.6",
         "AR.1",
-        "AR.3",
         "AR.4",
         "AR.5",
         "AR.6",
@@ -89,11 +88,11 @@
         "EV.3",
         "EV.9",
         "SU.1",
+        "SU.2",
         "SU.4",
         "SU.5",
         "SU.6",
         "SU.8",
-        "SU.9",
         "SU.11",
         "LF.1",
         "LF.2",
@@ -106,8 +105,7 @@
         "RD.2",
         "RD.3",
         "RD.4",
-        "RD.5",
-        "RD.6"
+        "RD.5"
       ],
       "id": "claim_review",
       "optional_data": [
@@ -125,6 +123,69 @@
         "DIRECT_CONTEXT",
         "INHERITED_CONTEXT",
         "EVIDENCE_PATH"
+      ],
+      "review_passes": [
+        {
+          "display_name": "Wording",
+          "guideline_ids": [
+            "CL.1",
+            "CL.2",
+            "CL.3",
+            "CL.4",
+            "CL.5",
+            "CL.6",
+            "RD.2",
+            "RD.4",
+            "RD.5"
+          ],
+          "id": "wording",
+          "question": "Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded?"
+        },
+        {
+          "display_name": "Structure",
+          "guideline_ids": [
+            "AR.1",
+            "AR.4",
+            "AR.5",
+            "AR.6",
+            "AR.7",
+            "EV.1",
+            "EV.3",
+            "EV.9"
+          ],
+          "id": "structure",
+          "question": "Does the claim sit correctly in the argument, in its role, its context, its level of detail, its scope across decomposition, and its path to evidence?"
+        },
+        {
+          "display_name": "Sufficiency",
+          "guideline_ids": [
+            "SU.1",
+            "SU.2",
+            "SU.4",
+            "SU.5",
+            "SU.6",
+            "SU.8",
+            "SU.11",
+            "RD.3"
+          ],
+          "id": "sufficiency",
+          "question": "Is the claim's support good enough, and are its assumptions, limitations, and challenges visible?"
+        },
+        {
+          "display_name": "Reasoning",
+          "guideline_ids": [
+            "LF.1",
+            "LF.2",
+            "LF.3",
+            "LF.4",
+            "LF.5",
+            "LF.6",
+            "LF.7",
+            "RD.1"
+          ],
+          "id": "reasoning",
+          "question": "Is the reasoning from support to claim sound, free of fallacies, and signposted?"
+        }
       ]
     },
     {
@@ -206,6 +267,10 @@
       "data_rationale": {
         "optional": [
           {
+            "id": "EVIDENCE_BASIS",
+            "rationale": "Scope, coverage, thresholds, scenarios, configurations, and limitations let the review judge whether the evidence is actually adequate for the claim, not only whether the argument states a basis (LF.5, SU.7, SU.8), and expose unfavourable results the argument must answer (LF.7). Many tools cannot build it, because the data lives in test reports and evidence registers rather than in the argument. Without it every guideline is still assessed from the argument: a missing sufficiency basis is reported under EV.5, and coverage or representativeness is judged only as far as the argument itself states it."
+          },
+          {
             "id": "DIRECT_CONTEXT",
             "rationale": "The claim's local scope and assumptions define what the evidence must cover and help detect evidence that is relevant to a neighboring or broader claim but not sufficient here (LF.2, EV.5)."
           },
@@ -236,10 +301,6 @@
             "rationale": "Artifact metadata such as type, owner, version, date, status, location, and cited section is required to judge whether the evidence type is reviewable and the citation precise, controlled, and stable (EV.2, EV.4, EV.7, EV.8)."
           },
           {
-            "id": "EVIDENCE_BASIS",
-            "rationale": "Scope, coverage, thresholds, scenarios, configurations, and limitations are required to judge sufficiency and inferential fit rather than citation hygiene alone (EV.5, EV.6, LF.5, LF.7, SU.3, SU.6, SU.7, SU.8)."
-          },
-          {
             "id": "PARENT",
             "rationale": "The claim the evidence supports is required to judge relevance to the immediate claim (LF.2), a correct and traceable evidence path (EV.1), and whether the inferential link is explained (EV.6)."
           }
@@ -268,6 +329,7 @@
       ],
       "id": "evidence_review",
       "optional_data": [
+        "EVIDENCE_BASIS",
         "DIRECT_CONTEXT",
         "EVIDENCE_PATH",
         "PROJECT_GLOSSARY",
@@ -277,24 +339,7 @@
       "required_data": [
         "SELECTED_EVIDENCE",
         "EVIDENCE_ITEM",
-        "EVIDENCE_BASIS",
         "PARENT"
-      ],
-      "when_absent": [
-        {
-          "id": "EVIDENCE_BASIS",
-          "statement": "Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.",
-          "unassessable_guideline_ids": [
-            "EV.5",
-            "EV.6",
-            "SU.3",
-            "SU.6",
-            "SU.7",
-            "SU.8",
-            "LF.5",
-            "LF.7"
-          ]
-        }
       ]
     },
     {
@@ -306,7 +351,7 @@
         "optional": [
           {
             "id": "PARENT",
-            "rationale": "The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.9)."
+            "rationale": "The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.2)."
           },
           {
             "id": "CHANGE_HISTORY",
@@ -320,15 +365,15 @@
         "required": [
           {
             "id": "SELECTED_ASSUMPTION",
-            "rationale": "The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role."
+            "rationale": "The selected assumption is the dependency under review. SU.2, SU.10, and AR.7 require checking whether it is explicit, justified, bounded, monitorable, and correctly placed, and SU.4 whether it carries a re-assessment trigger where only operation can confirm it, while AR.1 and RD.1 check that it is used and signposted for its role."
           },
           {
             "id": "DIRECT_CONTEXT",
-            "rationale": "Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2, SU.9)."
+            "rationale": "Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2)."
           },
           {
             "id": "INHERITED_CONTEXT",
-            "rationale": "Assumptions often propagate from ancestors, so inherited context is required to detect conflicts, over-broad inherited dependencies, or limitations otherwise hidden from the branch (RD.6, SU.10)."
+            "rationale": "Assumptions often propagate from ancestors, so inherited context is required to detect conflicting or over-broad inherited dependencies, and assumptions stated higher up that belong at this point (SU.2, SU.10)."
           }
         ]
       },
@@ -336,14 +381,11 @@
       "display_name": "Assumption review",
       "guideline_ids": [
         "AR.1",
-        "AR.3",
         "AR.7",
         "SU.2",
         "SU.4",
-        "SU.9",
         "SU.10",
-        "RD.1",
-        "RD.6"
+        "RD.1"
       ],
       "id": "assumption_review",
       "optional_data": [
@@ -434,50 +476,49 @@
       "data_rationale": {
         "optional": [
           {
-            "id": "INHERITED_CONTEXT",
-            "rationale": "Ancestor scope and assumptions show whether this context is consistent with, or silently narrows or contradicts, inherited limits (RD.6, SU.9)."
-          },
-          {
             "id": "PROJECT_GLOSSARY",
-            "rationale": "Controlled definitions confirm that terms introduced or relied on by the context are used consistently across the branch (AR.6)."
+            "rationale": "Controlled definitions confirm that terms introduced or relied on by the context are bounded and used consistently across the branch (CL.5, AR.5, AR.6)."
           },
           {
             "id": "STANDARD_LINKS",
-            "rationale": "When the context cites external standards or operating constraints, standard links help verify the reference is relevant and not used as vague or hidden context (AR.3)."
+            "rationale": "When the context cites external standards or operating constraints, standard links help verify that the reference is relevant and defines what the context says it does (AR.6)."
           }
         ],
         "required": [
           {
             "id": "SELECTED_CONTEXT",
-            "rationale": "The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions."
+            "rationale": "The selected context element is the object of review. AR.1 and RD.1 check that it is used and signposted as context, CL.5 that its evaluative terms are bounded, AR.6 that it supplies the scope and definitions the claim needs, and RD.3 that it carries the claim's known limitations."
           },
           {
             "id": "PARENT",
-            "rationale": "The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and dependencies are correctly externalized to it (AR.3, AR.7), and whether limitations are visible where the claim is read (RD.3, RD.6)."
+            "rationale": "The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and qualifiers have been moved out of the claim text into it (AR.7), and whether the claim's known limitations are visible where it is read (RD.3)."
+          },
+          {
+            "id": "INHERITED_CONTEXT",
+            "rationale": "Ancestor context is required to check whether this context restates, silently narrows, redefines, or contradicts what the branch already inherits (AR.5)."
           }
         ]
       },
-      "description": "Complete review of a selected context element, covering whether it provides sufficient, relevant, and consistent scope and definitions for the claim it qualifies.",
+      "description": "Complete review of a selected context element, covering whether it gives the claim it qualifies bounded, consistent scope and definitions, and whether it carries the claim's known limitations.",
       "display_name": "Context review",
       "guideline_ids": [
+        "CL.5",
         "AR.1",
-        "AR.3",
+        "AR.5",
         "AR.6",
         "AR.7",
-        "SU.9",
         "RD.1",
-        "RD.3",
-        "RD.6"
+        "RD.3"
       ],
       "id": "context_review",
       "optional_data": [
-        "INHERITED_CONTEXT",
         "PROJECT_GLOSSARY",
         "STANDARD_LINKS"
       ],
       "required_data": [
         "SELECTED_CONTEXT",
-        "PARENT"
+        "PARENT",
+        "INHERITED_CONTEXT"
       ]
     },
     {
@@ -503,7 +544,7 @@
         "required": [
           {
             "id": "SELECTED_CHALLENGE",
-            "rationale": "The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition."
+            "rationale": "The selected counter claim or defeater is the challenge under review. CL.1 and CL.4 require it to be a specific proposition that competent readers would take the same way, AR.1 that it states a challenge rather than a note, a claim, or its own resolution, and SU.11 that it is an explicit element rather than something left in review comments or reviewer intuition."
           },
           {
             "id": "PARENT",
@@ -511,9 +552,12 @@
           }
         ]
       },
-      "description": "Complete review of a selected counter claim or defeater, covering whether the challenge is stated explicitly and carried to a visible resolution.",
+      "description": "Complete review of a selected counter claim or defeater, covering whether the challenge is a clear, specific proposition used as a challenge, and whether it is carried to a visible resolution.",
       "display_name": "Challenge review",
       "guideline_ids": [
+        "CL.1",
+        "CL.4",
+        "AR.1",
         "SU.11"
       ],
       "id": "challenge_review",
@@ -528,8 +572,8 @@
       ]
     }
   ],
-  "sccg_version": "0.7.0",
-  "schema_version": "2.0.0",
+  "sccg_version": "0.8.0",
+  "schema_version": "3.0.0",
   "selectable_elements": [
     {
       "basis": "GSN Community Standard v3 core element (Goal).",

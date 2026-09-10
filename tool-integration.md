@@ -105,10 +105,13 @@ A review profile applies to notation elements. `element_role` is the notation-ne
 
 A tool that cannot supply a package should say which of these applies, rather than omitting the package silently. A review told nothing cannot tell absent data from an unimplemented source, and may report a sufficiency finding that is an artifact of what it was not shown.
 
-- `available`: The package is supplied and carries the data the profile expects.
+- `available`: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
 - `not_implemented`: The tool has no source for this package at all.
 - `empty`: The tool has a source for this package and this case has nothing in it.
 - `withheld`: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
+
+
+When a package is not available: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception.
 <!-- END GENERATED: tool-overview -->
 
 ## Integrating with AI assistants, agents, and MCP servers
@@ -136,9 +139,12 @@ Nothing in this section is a separate standard. It is guidance on which publishe
 4. **Treat pre-checks and markers as candidate signals.** Carry each pre-check's `interpretation` text through to whoever reads the result. A marker hit is a prompt to look, not a finding.
 5. **Never present mechanical results as SCCG conformance.** Most of SCCG can only be judged by a reader. A green result from the decidable subset says nothing about the rest.
 6. **Offer the repair; do not apply it silently.** `tool.repair` states the shape of the repair SCCG prescribes, in the notation-neutral element roles. Which repair is right, and whether it is right at all, is the author's decision.
-7. **Report data availability honestly.** When a data package cannot be supplied, say which availability state applies. A review told nothing will assume the data does not exist and may report a finding that is an artifact of what it was not shown.
+7. **Report data availability honestly.** When a data package cannot be supplied, say which availability state applies, and carry the registry's `when_unavailable` rule into the review: every guideline is still assessed against what was supplied, and a missing package is never a finding. A review told nothing will assume the data does not exist and may report a finding that is an artifact of what it was not shown.
 8. **Do not invent word lists or thresholds.** Where a guideline publishes `markers` or `thresholds`, use them; where it does not, the guideline is judgment-level for now. Propose an addition here rather than inventing a private list, so that two tools do not enforce two different rules under the same guideline id.
 9. **Record who performed a review.** An agent that reviews argument it wrote itself has not produced an independent review, and a clean result from such a review should be marked as such wherever a person decides on it.
+10. **Deliver the neighbour notes with the guidelines.** Where a guideline carries `distinguish_from`, send the notes with it. They say which of two confusable guidelines to cite for a defect, so that two tools, or two runs of one tool, cite the same id for the same finding.
+11. **Consider fanning out over review passes.** Where a profile publishes `review_passes`, a tool can send one request per pass and merge the findings under the one profile. Guidelines that answer the same kind of question are cited in each other's place more often when many arrive in one request; the passes keep such guidelines together and separate the rest.
+12. **Rank findings yourself, and say how.** SCCG publishes no severity, priority, or weight for its guidelines, and does not intend to: how much a finding matters depends on where it sits in the argument and what the claim carries, not on which guideline it cites. A tool that ranks findings should state its own basis, and must not present that ranking as SCCG's.
 
 ### Mapping SCCG element names onto a tool's own model
 
@@ -166,13 +172,12 @@ Render each rule from the guideline's short_rule field and cite its id. Do not p
 | [CL.6](index.md#cl6) | Do not chain identification, implementation, and validation in one claim; decompose them. |
 | [AR.1](index.md#ar1) | Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite. |
 | [AR.2](index.md#ar2) | State the decomposition or inference rule explicitly instead of leaving it to be inferred. |
-| [AR.3](index.md#ar3) | Make scope, definitions, operating conditions, and dependencies explicit rather than implied. |
+| [AR.7](index.md#ar7) | Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions. |
 | [EV.1](index.md#ev1) | Give every claim a path to evidence, or mark it undeveloped deliberately. |
 | [EV.3](index.md#ev3) | Claim the fact the evidence establishes, not the document that holds it. |
 | [EV.4](index.md#ev4) | Cite the exact section, table, figure, or test identifier, not a whole report. |
 | [EV.8](index.md#ev8) | Cite a fixed, versioned, or archived state, never live mutable content. |
-| [SU.2](index.md#su2) | State assumptions explicitly, justify why each is reasonable, and monitor them where needed. |
-| [SU.9](index.md#su9) | State a dependency where it constrains the argument, as an assumption, context, or claim. |
+| [SU.2](index.md#su2) | State each assumption where it constrains the argument, justify it, and monitor it where needed. |
 | [LF.1](index.md#lf1) | Support a claim with independent grounds, never by restating or renaming it. |
 | [LF.3](index.md#lf3) | Do not argue from absence: nothing found is not evidence that nothing exists. |
 | [RD.1](index.md#rd1) | Signpost each element's role in its wording so no reader has to guess what it does. |
@@ -185,13 +190,13 @@ An element written now is reviewed later under one profile. A tool delivering au
 
 | Element role | Elements | Review profile | Guidelines |
 | --- | --- | --- | --- |
-| `claim` | GSN Goal, CAE Claim | `claim_review` | CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, AR.1, AR.3, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9, SU.1, SU.4, SU.5, SU.6, SU.8, SU.9, SU.11, LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1, RD.2, RD.3, RD.4, RD.5, RD.6 |
+| `claim` | GSN Goal, CAE Claim | `claim_review` | CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, AR.1, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9, SU.1, SU.2, SU.4, SU.5, SU.6, SU.8, SU.11, LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1, RD.2, RD.3, RD.4, RD.5 |
 | `strategy` | GSN Strategy, CAE Argument | `strategy_review` | AR.1, AR.2, EV.9, SU.1, LF.1 |
 | `evidence` | GSN Solution, CAE Evidence | `evidence_review` | AR.1, EV.1, EV.2, EV.4, EV.5, EV.6, EV.7, EV.8, SU.1, SU.3, SU.6, SU.7, SU.8, LF.2, LF.5, LF.7, RD.1 |
-| `assumption` | GSN Assumption, CAE Assumption | `assumption_review` | AR.1, AR.3, AR.7, SU.2, SU.4, SU.9, SU.10, RD.1, RD.6 |
+| `assumption` | GSN Assumption, CAE Assumption | `assumption_review` | AR.1, AR.7, SU.2, SU.4, SU.10, RD.1 |
 | `justification` | GSN Justification, CAE Warrant, CAE Side-warrant, CAE Side-claim | `justification_review` | AR.1, AR.8, AR.9, EV.5, SU.3, SU.5, SU.7, LF.3, LF.4, RD.1, RD.5 |
-| `context` | GSN Context, CAE Context | `context_review` | AR.1, AR.3, AR.6, AR.7, SU.9, RD.1, RD.3, RD.6 |
-| `challenge` | GSN Counter Claim, CAE Defeater | `challenge_review` | SU.11 |
+| `context` | GSN Context, CAE Context | `context_review` | CL.5, AR.1, AR.5, AR.6, AR.7, RD.1, RD.3 |
+| `challenge` | GSN Counter Claim, CAE Defeater | `challenge_review` | CL.1, CL.4, AR.1, SU.11 |
 <!-- END GENERATED: authoring-guidance -->
 
 ## Versioning and compatibility
@@ -208,20 +213,40 @@ What a tool may rely on being stable within a `schema_version` major:
 - The meaning of a published pre-check, as stated by its `fires_when` sentence. A tool that answers a different question must not report that pre-check's id.
 - The `examples.bad` and `examples.good` of each guideline, as described above.
 
+Changes in `3.0.0` (content `0.8.0`), from `2.0.0`:
+
+- **Retired guideline ids.** AR.3 is now covered by AR.7 and AR.6, SU.9 by SU.2, and RD.6 by RD.3 and SU.2. Their check ids `check-context-assumption-placement`, `check-unstated-dependencies`, and `check-limitations-collocated` are retired with them. A consumer that stores findings by guideline id should map old ids through `retired_guidelines`, published in `dist/sccg.full.json` and `dist/sccg.compact.json`. The site keeps an anchor for each retired id.
+- **Re-scoped guidelines.** RD.3 now covers known limitations kept visible where the claim is read; objections belong to SU.1. LF.7 now covers cherry-picking, meaning unfavourable results in the case left unanswered; evidence missing for the conditions a claim names is LF.5. SU.4 is stated as a recognisable pattern and gained markers. AR.6 is limited to what a reader needs to interpret the claim. SU.2 and AR.7 absorb SU.9 and AR.3. The examples of RD.3 and LF.7 changed with their meaning, so a check calibrated against them should be re-run.
+- **New fields.** Guidelines may carry `distinguish_from`, and every rule row in `dist/sccg.rules.jsonl` and `dist/ai_rule_export.jsonl` carries it, empty when none is published. Review profiles may carry `review_passes`. The data package registry gained a required `when_unavailable` rule, and the document gained a required `retired_guidelines` list.
+- **Profiles.** `claim_review` applies 33 guidelines in four review passes. `evidence_review` takes `EVIDENCE_BASIS` as optional data and no longer carries `when_absent`; a consumer that suppressed guidelines when the package was missing should drop that and follow `when_unavailable`. `context_review` gained CL.5 and AR.5 and requires `INHERITED_CONTEXT`. `challenge_review` gained CL.1, CL.4, and AR.1. The authoring core rules name AR.7 in place of AR.3, and no longer list SU.9.
+- **Availability.** A package with no required fields counts as `available` only when at least one of its fields is populated.
+
 Changes in `2.0.0`, from `1.0.0`: the generic `SEL` data package was replaced by one selected-element package per element role (`SELECTED_CLAIM`, `SELECTED_STRATEGY`, `SELECTED_EVIDENCE`, `SELECTED_CONTEXT`, `SELECTED_ASSUMPTION`, `SELECTED_JUSTIFICATION`, `SELECTED_CHALLENGE`). A consumer that built a package literally named `SEL` should instead build the one package in the profile's `required_data` whose `role` is `selected_element`, which is also how the diagram layout now names its centre slot. Data packages gained `role`, selectable elements gained `element_role`, guidelines gained `short_rule` and optional `markers`, `thresholds`, and `repair`, pre-checks gained `fires_when`, and profiles may carry `when_absent`. Everything else is additive.
 
 <!-- BEGIN GENERATED: review-profiles -->
 ### Claim review
 
-Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency.
+Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency, in four passes.
 
 - Profile ID: `claim_review`
 - Applies to: GSN Goal, CAE Claim
 - Selected element package: `SELECTED_CLAIM`
 - Required data: SELECTED_CLAIM, PARENT, CHILDREN, STRATEGY, DIRECT_CONTEXT, INHERITED_CONTEXT, EVIDENCE_PATH
 - Optional data: EVIDENCE_ITEM, EVIDENCE_BASIS, PROJECT_GLOSSARY, STANDARD_LINKS, CHANGE_HISTORY
-- Guidelines: CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, AR.1, AR.3, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9, SU.1, SU.4, SU.5, SU.6, SU.8, SU.9, SU.11, LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1, RD.2, RD.3, RD.4, RD.5, RD.6
+- Guidelines: CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, AR.1, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9, SU.1, SU.2, SU.4, SU.5, SU.6, SU.8, SU.11, LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1, RD.2, RD.3, RD.4, RD.5
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/claim_review.svg)
+
+#### Review passes
+
+The guidelines of this profile, split by review question. Each guideline is in exactly one pass. A reviewer can work through the passes in turn; a tool can send one request per pass and merge the findings, still under this one profile.
+
+| Pass | Question | Guidelines |
+| --- | --- | --- |
+| Wording (`wording`) | Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded? | CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, RD.2, RD.4, RD.5 |
+| Structure (`structure`) | Does the claim sit correctly in the argument, in its role, its context, its level of detail, its scope across decomposition, and its path to evidence? | AR.1, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9 |
+| Sufficiency (`sufficiency`) | Is the claim's support good enough, and are its assumptions, limitations, and challenges visible? | SU.1, SU.2, SU.4, SU.5, SU.6, SU.8, SU.11, RD.3 |
+| Reasoning (`reasoning`) | Is the reasoning from support to claim sound, free of fallacies, and signposted? | LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1 |
+
 
 #### Data package rationale
 
@@ -234,17 +259,17 @@ Required data:
 
 - `STRATEGY`: The connecting strategy or reasoning element shows whether the inference is made explicit rather than inferred from wording (AR.1) and whether support adds independent reasoning rather than restating the claim (LF.1); its absence is itself a finding.
 
-- `DIRECT_CONTEXT`: Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.3, AR.6, AR.7, RD.1, RD.6) and whether limitations are visible where the claim is read (RD.3, SU.9).
+- `DIRECT_CONTEXT`: Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.6, AR.7, RD.1), whether the conditions the claim depends on are stated where they constrain it (SU.2), and whether known limitations are visible where the claim is read (RD.3).
 
-- `INHERITED_CONTEXT`: Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.6) and reveal hidden or contradicted limitations under SU.9.
+- `INHERITED_CONTEXT`: Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.3) and show whether a dependency is stated where it constrains this claim or only higher up (SU.2).
 
-- `EVIDENCE_PATH`: The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness (LF.5), and omission of expected or contrary evidence (LF.7, SU.6, SU.8).
+- `EVIDENCE_PATH`: The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness and coverage of the claimed conditions (LF.5), unanswered unfavourable results (LF.7), and dismissed or human-derived support (SU.6, SU.8).
 
 
 Optional data:
 - `EVIDENCE_ITEM`: Metadata for terminal evidence helps confirm that the traced support is precise and controlled where the claim's credibility depends on the cited artifact (EV.1, EV.3).
 
-- `EVIDENCE_BASIS`: Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, LF.7, SU.6, SU.8).
+- `EVIDENCE_BASIS`: Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, SU.8), and expose unfavourable results the argument must answer (LF.7).
 
 - `PROJECT_GLOSSARY`: Controlled definitions of terms such as safe, acceptable, nominal, or ODD resolve apparent ambiguity or overloaded wording (CL.4, AR.6).
 
@@ -298,8 +323,8 @@ Complete review of a selected evidence item (solution), covering reviewability, 
 - Profile ID: `evidence_review`
 - Applies to: GSN Solution, CAE Evidence
 - Selected element package: `SELECTED_EVIDENCE`
-- Required data: SELECTED_EVIDENCE, EVIDENCE_ITEM, EVIDENCE_BASIS, PARENT
-- Optional data: DIRECT_CONTEXT, EVIDENCE_PATH, PROJECT_GLOSSARY, STANDARD_LINKS, CHANGE_HISTORY
+- Required data: SELECTED_EVIDENCE, EVIDENCE_ITEM, PARENT
+- Optional data: EVIDENCE_BASIS, DIRECT_CONTEXT, EVIDENCE_PATH, PROJECT_GLOSSARY, STANDARD_LINKS, CHANGE_HISTORY
 - Guidelines: AR.1, EV.1, EV.2, EV.4, EV.5, EV.6, EV.7, EV.8, SU.1, SU.3, SU.6, SU.7, SU.8, LF.2, LF.5, LF.7, RD.1
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/evidence_review.svg)
 
@@ -310,12 +335,12 @@ Required data:
 
 - `EVIDENCE_ITEM`: Artifact metadata such as type, owner, version, date, status, location, and cited section is required to judge whether the evidence type is reviewable and the citation precise, controlled, and stable (EV.2, EV.4, EV.7, EV.8).
 
-- `EVIDENCE_BASIS`: Scope, coverage, thresholds, scenarios, configurations, and limitations are required to judge sufficiency and inferential fit rather than citation hygiene alone (EV.5, EV.6, LF.5, LF.7, SU.3, SU.6, SU.7, SU.8).
-
 - `PARENT`: The claim the evidence supports is required to judge relevance to the immediate claim (LF.2), a correct and traceable evidence path (EV.1), and whether the inferential link is explained (EV.6).
 
 
 Optional data:
+- `EVIDENCE_BASIS`: Scope, coverage, thresholds, scenarios, configurations, and limitations let the review judge whether the evidence is actually adequate for the claim, not only whether the argument states a basis (LF.5, SU.7, SU.8), and expose unfavourable results the argument must answer (LF.7). Many tools cannot build it, because the data lives in test reports and evidence registers rather than in the argument. Without it every guideline is still assessed from the argument: a missing sufficiency basis is reported under EV.5, and coverage or representativeness is judged only as far as the argument itself states it.
+
 - `DIRECT_CONTEXT`: The claim's local scope and assumptions define what the evidence must cover and help detect evidence that is relevant to a neighboring or broader claim but not sufficient here (LF.2, EV.5).
 
 - `EVIDENCE_PATH`: The path from claim to this evidence helps confirm traceable support and correct attachment level, especially where intermediate claims are skipped (EV.1, LF.2).
@@ -325,10 +350,6 @@ Optional data:
 - `STANDARD_LINKS`: Standard links confirm that an evidence type or acceptance criterion that appeals to a standard is grounded rather than assumed (EV.2, EV.5).
 
 - `CHANGE_HISTORY`: Prior findings, review comments, and baseline state identify unstable, challenged, stale, or dismissed evidence (EV.7, EV.8, SU.1, SU.6).
-
-
-#### When required data cannot be supplied
-- `EVIDENCE_BASIS` absent: Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument. Not assessable without it: EV.5, EV.6, SU.3, SU.6, SU.7, SU.8, LF.5, LF.7.
 
 
 
@@ -341,21 +362,21 @@ Complete review of a selected assumption, covering whether it is explicit, bound
 - Selected element package: `SELECTED_ASSUMPTION`
 - Required data: SELECTED_ASSUMPTION, DIRECT_CONTEXT, INHERITED_CONTEXT
 - Optional data: PARENT, CHANGE_HISTORY, PROJECT_GLOSSARY
-- Guidelines: AR.1, AR.3, AR.7, SU.2, SU.4, SU.9, SU.10, RD.1, RD.6
+- Guidelines: AR.1, AR.7, SU.2, SU.4, SU.10, RD.1
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/assumption_review.svg)
 
 #### Data package rationale
 
 Required data:
-- `SELECTED_ASSUMPTION`: The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role.
+- `SELECTED_ASSUMPTION`: The selected assumption is the dependency under review. SU.2, SU.10, and AR.7 require checking whether it is explicit, justified, bounded, monitorable, and correctly placed, and SU.4 whether it carries a re-assessment trigger where only operation can confirm it, while AR.1 and RD.1 check that it is used and signposted for its role.
 
-- `DIRECT_CONTEXT`: Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2, SU.9).
+- `DIRECT_CONTEXT`: Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2).
 
-- `INHERITED_CONTEXT`: Assumptions often propagate from ancestors, so inherited context is required to detect conflicts, over-broad inherited dependencies, or limitations otherwise hidden from the branch (RD.6, SU.10).
+- `INHERITED_CONTEXT`: Assumptions often propagate from ancestors, so inherited context is required to detect conflicting or over-broad inherited dependencies, and assumptions stated higher up that belong at this point (SU.2, SU.10).
 
 
 Optional data:
-- `PARENT`: The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.9).
+- `PARENT`: The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.2).
 
 - `CHANGE_HISTORY`: Prior findings and baseline state show whether the assumption is monitored, has been challenged, or needs a defined re-assessment trigger (SU.2, SU.4).
 
@@ -398,49 +419,49 @@ Optional data:
 
 ### Context review
 
-Complete review of a selected context element, covering whether it provides sufficient, relevant, and consistent scope and definitions for the claim it qualifies.
+Complete review of a selected context element, covering whether it gives the claim it qualifies bounded, consistent scope and definitions, and whether it carries the claim's known limitations.
 
 - Profile ID: `context_review`
 - Applies to: GSN Context, CAE Context
 - Selected element package: `SELECTED_CONTEXT`
-- Required data: SELECTED_CONTEXT, PARENT
-- Optional data: INHERITED_CONTEXT, PROJECT_GLOSSARY, STANDARD_LINKS
-- Guidelines: AR.1, AR.3, AR.6, AR.7, SU.9, RD.1, RD.3, RD.6
+- Required data: SELECTED_CONTEXT, PARENT, INHERITED_CONTEXT
+- Optional data: PROJECT_GLOSSARY, STANDARD_LINKS
+- Guidelines: CL.5, AR.1, AR.5, AR.6, AR.7, RD.1, RD.3
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/context_review.svg)
 
 #### Data package rationale
 
 Required data:
-- `SELECTED_CONTEXT`: The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions.
+- `SELECTED_CONTEXT`: The selected context element is the object of review. AR.1 and RD.1 check that it is used and signposted as context, CL.5 that its evaluative terms are bounded, AR.6 that it supplies the scope and definitions the claim needs, and RD.3 that it carries the claim's known limitations.
 
-- `PARENT`: The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and dependencies are correctly externalized to it (AR.3, AR.7), and whether limitations are visible where the claim is read (RD.3, RD.6).
+- `PARENT`: The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and qualifiers have been moved out of the claim text into it (AR.7), and whether the claim's known limitations are visible where it is read (RD.3).
+
+- `INHERITED_CONTEXT`: Ancestor context is required to check whether this context restates, silently narrows, redefines, or contradicts what the branch already inherits (AR.5).
 
 
 Optional data:
-- `INHERITED_CONTEXT`: Ancestor scope and assumptions show whether this context is consistent with, or silently narrows or contradicts, inherited limits (RD.6, SU.9).
+- `PROJECT_GLOSSARY`: Controlled definitions confirm that terms introduced or relied on by the context are bounded and used consistently across the branch (CL.5, AR.5, AR.6).
 
-- `PROJECT_GLOSSARY`: Controlled definitions confirm that terms introduced or relied on by the context are used consistently across the branch (AR.6).
-
-- `STANDARD_LINKS`: When the context cites external standards or operating constraints, standard links help verify the reference is relevant and not used as vague or hidden context (AR.3).
+- `STANDARD_LINKS`: When the context cites external standards or operating constraints, standard links help verify that the reference is relevant and defines what the context says it does (AR.6).
 
 
 
 ### Challenge review
 
-Complete review of a selected counter claim or defeater, covering whether the challenge is stated explicitly and carried to a visible resolution.
+Complete review of a selected counter claim or defeater, covering whether the challenge is a clear, specific proposition used as a challenge, and whether it is carried to a visible resolution.
 
 - Profile ID: `challenge_review`
 - Applies to: GSN Counter Claim, CAE Defeater
 - Selected element package: `SELECTED_CHALLENGE`
 - Required data: SELECTED_CHALLENGE, PARENT
 - Optional data: CHILDREN, DIRECT_CONTEXT, CHANGE_HISTORY
-- Guidelines: SU.11
+- Guidelines: CL.1, CL.4, AR.1, SU.11
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/challenge_review.svg)
 
 #### Data package rationale
 
 Required data:
-- `SELECTED_CHALLENGE`: The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition.
+- `SELECTED_CHALLENGE`: The selected counter claim or defeater is the challenge under review. CL.1 and CL.4 require it to be a specific proposition that competent readers would take the same way, AR.1 that it states a challenge rather than a note, a claim, or its own resolution, and SU.11 that it is an explicit element rather than something left in review comments or reviewer intuition.
 
 - `PARENT`: The claim, reasoning step, or evidence being challenged is required to judge whether the challenge is relevant to its target and whether the branch has been updated to resolve it (SU.11).
 

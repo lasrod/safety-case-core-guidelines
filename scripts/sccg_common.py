@@ -131,10 +131,12 @@ def load_content_model() -> dict[str, Any]:
         "reference_sources": references["reference_sources"],
         "categories": categories,
         "guidelines": guidelines,
+        "retired_guidelines": sccg["retired_guidelines"],
         "review_profiles": review_profiles["review_profiles"],
         "selectable_elements": review_profiles["selectable_elements"],
         "data_packages": data_packages["data_packages"],
         "availability_states": data_packages["availability_states"],
+        "when_unavailable": data_packages["when_unavailable"],
         "review_profile_diagram_layout": data_package_diagram_layout["review_profile_diagram_layout"],
         "prechecks": prechecks["prechecks"],
         "authoring_guidance": authoring_guidance["authoring_guidance"],
@@ -154,6 +156,7 @@ def guidelines_by_category(model: dict[str, Any]) -> dict[str, list[dict[str, An
     for guideline in model["guidelines"]:
         item = dict(guideline)
         item["anchor"] = slugify_anchor(guideline["id"])
+        item.setdefault("distinguish_from", [])
         item["references_display"] = format_references(guideline.get("references", []), source_names)
         by_category.setdefault(guideline["category"], []).append(item)
     return by_category

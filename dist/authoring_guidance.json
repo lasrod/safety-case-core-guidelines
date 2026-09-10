@@ -51,10 +51,10 @@
     },
     {
       "category": "AR",
-      "id": "AR.3",
+      "id": "AR.7",
       "reason": "Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.",
-      "short_rule": "Make scope, definitions, operating conditions, and dependencies explicit rather than implied.",
-      "statement": "Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers."
+      "short_rule": "Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.",
+      "statement": "Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased."
     },
     {
       "category": "EV",
@@ -87,16 +87,9 @@
     {
       "category": "SU",
       "id": "SU.2",
-      "reason": "Assumptions are easiest to state while the author still knows what they were assuming.",
-      "short_rule": "State assumptions explicitly, justify why each is reasonable, and monitor them where needed.",
-      "statement": "Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed."
-    },
-    {
-      "category": "SU",
-      "id": "SU.9",
-      "reason": "An unstated dependency is invisible to review by definition, so it has to be caught where it is introduced.",
-      "short_rule": "State a dependency where it constrains the argument, as an assumption, context, or claim.",
-      "statement": "When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate."
+      "reason": "An unstated dependency is invisible to review by definition, so it has to be stated where it is introduced, while the author still knows what they were assuming.",
+      "short_rule": "State each assumption where it constrains the argument, justify it, and monitor it where needed.",
+      "statement": "Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead."
     },
     {
       "category": "LF",
@@ -135,8 +128,8 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.7.0",
-    "schema_version": "2.0.0",
+    "sccg_version": "0.8.0",
+    "schema_version": "3.0.0",
     "title": "Safety Case Core Guidelines"
   },
   "element_rules": [
@@ -154,7 +147,6 @@
         "CL.5",
         "CL.6",
         "AR.1",
-        "AR.3",
         "AR.4",
         "AR.5",
         "AR.6",
@@ -163,11 +155,11 @@
         "EV.3",
         "EV.9",
         "SU.1",
+        "SU.2",
         "SU.4",
         "SU.5",
         "SU.6",
         "SU.8",
-        "SU.9",
         "SU.11",
         "LF.1",
         "LF.2",
@@ -180,8 +172,7 @@
         "RD.2",
         "RD.3",
         "RD.4",
-        "RD.5",
-        "RD.6"
+        "RD.5"
       ],
       "review_profile_id": "claim_review"
     },
@@ -235,14 +226,11 @@
       ],
       "guideline_ids": [
         "AR.1",
-        "AR.3",
         "AR.7",
         "SU.2",
         "SU.4",
-        "SU.9",
         "SU.10",
-        "RD.1",
-        "RD.6"
+        "RD.1"
       ],
       "review_profile_id": "assumption_review"
     },
@@ -276,14 +264,13 @@
         "CAE Context"
       ],
       "guideline_ids": [
+        "CL.5",
         "AR.1",
-        "AR.3",
+        "AR.5",
         "AR.6",
         "AR.7",
-        "SU.9",
         "RD.1",
-        "RD.3",
-        "RD.6"
+        "RD.3"
       ],
       "review_profile_id": "context_review"
     },
@@ -294,12 +281,15 @@
         "CAE Defeater"
       ],
       "guideline_ids": [
+        "CL.1",
+        "CL.4",
+        "AR.1",
         "SU.11"
       ],
       "review_profile_id": "challenge_review"
     }
   ],
-  "sccg_version": "0.7.0",
-  "schema_version": "2.0.0",
+  "sccg_version": "0.8.0",
+  "schema_version": "3.0.0",
   "usage": "Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard."
 }

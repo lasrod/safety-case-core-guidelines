@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: CL
   title: CL. Claim rules
@@ -15,6 +15,7 @@ guidelines:
   - Could a reviewer tell what would make this claim false?
   - Is this a proposition, or only a topic label?
   - Is the claim understandable without extra interpretation?
+  - For a challenge element, does it state a specific way the target could fail, one that could be shown to hold or not?
   examples:
     bad: Brake monitor safety
     problem: This is a topic label, not a falsifiable proposition. A reviewer cannot tell what would have to be true or false to accept or reject it.
@@ -33,7 +34,9 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Counter Claim
     - CAE Claim
+    - CAE Defeater
     detection_hints:
     - Look for goal text that is a noun phrase or topic label rather than a proposition.
     - Look for goals lacking a verb expressing a property or a measurable condition.
@@ -212,10 +215,17 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - 2:5.4.1-2:5.4.3
+  distinguish_from:
+  - id: CL.5
+    note: Cite CL.5 when the problem is one evaluative or universal word left unbounded, such as safe, timely, or all. Cite CL.4 when the subject or the property of the claim could be read as different things altogether.
+  - id: AR.4
+    note: Cite AR.4 when the meaning is clear but the detail is wrong for the claim's level in the argument. Cite CL.4 when competent readers could take the claim to mean different things.
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Counter Claim
     - CAE Claim
+    - CAE Defeater
     detection_hints:
     - Look for ambiguous subjects or properties (e.g. development is safe).
     - Look for claim text whose object or measured property is unclear.
@@ -262,6 +272,7 @@ guidelines:
   - If safe is used, is it clear what safety judgment is being claimed at this level?
   - Is the scope of all, every, or never explicitly defined?
   - Would the claim remain reviewable if read on its own?
+  - In a context element, are terms such as normal, nominal, or typical conditions bounded by a definition?
   examples:
     bad: The monitor provides timely mitigation.
     problem: '"Timely" is an unbounded evaluative qualifier; without a defined threshold or condition it cannot be reviewed consistently.'
@@ -276,10 +287,15 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - 2:5.5.1-2:5.6.1
+  distinguish_from:
+  - id: CL.4
+    note: Cite CL.4 when the subject or the property of the claim could be read as different things altogether. Cite CL.5 when one evaluative or universal word is left unbounded.
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Context
     - CAE Claim
+    - CAE Context
     detection_hints:
     - 'Look for unbounded evaluative terms: safe, robust, effective, timely, normal.'
     - 'Look for universal qualifiers without scope: all, every, never, always.'

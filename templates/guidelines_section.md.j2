@@ -23,6 +23,13 @@
 - {{ p }}
 {% endfor %}
 
+{% if g.distinguish_from %}
+**Not to be confused with**
+{% for d in g.distinguish_from %}
+- [{{ d.id }}](#{{ d.id | lower | replace('.', '') }}): {{ d.note }}
+{% endfor %}
+
+{% endif %}
 **Example**
 
 *Bad*
@@ -42,4 +49,19 @@
 {{ g.references_display }}
 
 {% endfor %}
-{%- endfor -%}
+{%- endfor %}
+{% if retired %}
+## Retired guidelines
+
+These ids are no longer in use and will not be reused. Each entry names the guidelines that now carry its content, so a finding or a link that cites a retired id can still be followed.
+
+{% for r in retired %}
+<a id="{{ r.id | lower | replace('.', '') }}"></a>
+
+### {{ r.id }}: {{ r.title }}
+
+Retired in {{ r.retired_in }}. {{ r.note }} Now covered by {% for id in r.replaced_by %}[{{ id }}](#{{ id | lower | replace('.', '') }}){{ ", " if not loop.last else "." }}{% endfor %}
+
+
+{% endfor %}
+{% endif %}

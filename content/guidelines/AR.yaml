@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: AR
   title: AR. Argument structure and decomposition rules
@@ -17,6 +17,7 @@ guidelines:
   - Is a dependency or rationale hidden in claim or argument text?
   - Is an evidence reference being used as if it were a claim?
   - Is a justification being used as if it were support?
+  - Is a challenge element stating a challenge, rather than a note, a claim, or its own resolution?
   examples:
     bad: 'Claim: We argue that functional design safety is acceptable by decomposing into autonomy hazard topics, given that the ISO 26262 functional design scope applies and the project requires ISO 26262 compliance, supported by the functional safety requirements, safety mechanisms, and interfaces being defined.'
     problem: The single statement bundles claim, strategy, context, justification, and sub-claims; each element's role is hidden inside one sentence rather than carried by the structure.
@@ -50,12 +51,14 @@ guidelines:
     - GSN Assumption
     - GSN Justification
     - GSN Solution
+    - GSN Counter Claim
     - CAE Claim
     - CAE Argument
     - CAE Warrant
     - CAE Evidence
     - CAE Context
     - CAE Assumption
+    - CAE Defeater
     detection_hints:
     - Look for goals containing reasoning verbs (we argue that, by decomposing).
     - Look for solutions phrased as claims rather than evidence references.
@@ -131,77 +134,6 @@ guidelines:
       element_role: strategy
       attach_to: between_selected_and_children
       statement: Insert an explicit reasoning step stating how the children support the claim.
-- id: AR.3
-  category: AR
-  title: Use context and assumptions deliberately
-  statement: Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.
-  short_rule: Make scope, definitions, operating conditions, and dependencies explicit rather than implied.
-  rationale: This keeps the claim interpretable and makes clear which information defines the claim's scope and meaning, and which conditions the argument depends on being true.
-  review_prompts:
-  - Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
-  - Is any condition required for the claim to hold hidden in wording rather than made explicit?
-  - Would the argument be clearer if scope, definitions, or dependencies were represented separately?
-  - If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?
-  examples:
-    bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
-    problem: Scope (ODD, mode) and dependencies (localization, interface timing) are hidden inside the claim text instead of being represented as separate context and assumption elements.
-    good: |-
-      Claim: Braking controller safety is acceptable.
-      Scope:
-      - Applies in Highway ODD.
-      - Applies in automated mode.
-      Dependencies:
-      - Valid localization available.
-      - Nominal interface timing conditions apply.
-  references:
-  - source_id: OMG-SACM
-  - source_id: ONR
-  - source_id: EASA
-  - source_id: NPSA-CAE
-  - source_id: UL4600
-    clauses:
-    - 5.2.3
-    - 5.4.1.3(a)(11)
-  - source_id: GSN-v3
-    clauses:
-    - 1:2.2.10-1:2.2.18
-  tool:
-    applicable_elements:
-    - GSN Goal
-    - GSN Context
-    - GSN Assumption
-    - CAE Claim
-    - CAE Context
-    - CAE Assumption
-    detection_hints:
-    - Look for claim text containing scope phrases (in ODD X, during mode Y) or dependency phrases (with valid Z).
-    markers:
-    - kind: scope_phrase_marker
-      effect: candidate
-      terms:
-      - during
-      - within
-      - under
-      - in the
-      - for the defined
-    - kind: dependency_phrase_marker
-      effect: candidate
-      terms:
-      - with valid
-      - assuming
-      - provided that
-      - given
-      - subject to
-    suggested_checks:
-    - id: check-context-assumption-placement
-      description: Check whether scope and dependencies in claim text should be moved to context or assumption elements. Candidate when a scope phrase or dependency phrase marker appears inside claim text.
-    repair:
-    - action: move_text
-      element_role: context
-      statement: Move scope, definitions, and operating conditions into context.
-    - action: move_text
-      element_role: assumption
-      statement: State each condition the argument depends on as an assumption.
 - id: AR.4
   category: AR
   title: Match claim precision to the level of the argument
@@ -227,6 +159,9 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - Part 2 §2:2
+  distinguish_from:
+  - id: CL.4
+    note: Cite CL.4 when competent readers could take the claim to mean different things, at any level. Cite AR.4 when the meaning is clear but the detail is wrong for where the claim sits, overloaded near the top or too vague to assess at a leaf.
   tool:
     applicable_elements:
     - GSN Goal
@@ -250,6 +185,7 @@ guidelines:
   - Does a key term mean the same thing at parent and sub-claim levels?
   - Has scope narrowed without being stated?
   - Is inherited context still valid at this level?
+  - Does a context element restate, redefine, or contradict context already given higher in the same branch?
   examples:
     bad: |-
       Parent claim: Software safety is acceptable.
@@ -278,9 +214,12 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Context
     - CAE Claim
+    - CAE Context
     detection_hints:
     - Look for parent/child pairs where a key noun's scope changes silently.
+    - Look for two context elements in one branch that define the same term, scope, or ODD differently.
     suggested_checks:
     - id: check-scope-consistency
       description: Check whether key terms preserve scope across decomposition.
@@ -296,13 +235,13 @@ guidelines:
 - id: AR.6
   category: AR
   title: Provide the context needed to interpret the claim
-  statement: Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.
+  statement: Provide the context a reviewer needs to interpret the claim, that is, what its subject is, what it means, what scope it covers, and how its key terms are defined.
   short_rule: Give each claim the context a reviewer needs to interpret its subject, scope, and key terms.
-  rationale: This guideline is about whether the branch contains enough context at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries.
+  rationale: This guideline is about whether the information needed to read the claim is present in the branch at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries. It is not about conditions the claim depends on being true, which are assumptions (SU.2), about limits of the support (RD.3), or about context that is present but written into the claim text (AR.7).
   review_prompts:
-  - What must the reviewer know for this claim to be true or false?
+  - What must the reviewer know to understand what this claim says?
   - Are key terms defined where needed?
-  - Is any necessary scope or operating condition explicit?
+  - Is the scope the claim covers explicit?
   - Would two independent reviewers understand the claim in the same way?
   examples:
     bad: Perception performance is acceptable.
@@ -322,6 +261,13 @@ guidelines:
     clauses:
     - 1:2.2.10-1:2.2.11
     - 1:2.3.5
+  distinguish_from:
+  - id: AR.7
+    note: Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether.
+  - id: SU.2
+    note: Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
+  - id: RD.3
+    note: Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
   tool:
     applicable_elements:
     - GSN Goal
@@ -341,10 +287,11 @@ guidelines:
 - id: AR.7
   category: AR
   title: Make claim qualifiers explicit and maintainable
-  statement: Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
-  short_rule: Move qualifiers and dependency clauses out of claim text into context or assumptions.
-  rationale: This guideline is about placement, clarity, and maintainability. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
+  statement: Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
+  short_rule: Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.
+  rationale: This guideline is about placement, clarity, and maintainability. A claim such as "X is acceptable in ODD-A during automated mode with valid localization" carries its scope and its dependencies in one sentence; the scope belongs in context and the dependencies in assumptions. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
   review_prompts:
+  - Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
   - Which words in this claim are qualifiers rather than the core assertion?
   - Are the qualifiers clear enough for review, or would they be better represented as context or assumptions?
   - Could the core claim remain stable if a configuration, interface condition, or dependency changed?
@@ -367,10 +314,14 @@ guidelines:
     clauses:
     - 5.2.3
     - 5.3.2.1(a)
+    - 5.4.1.3(a)(11)
   - source_id: GSN-v3
     clauses:
-    - 1:2.2.10-1:2.2.13
+    - 1:2.2.10-1:2.2.18
   - source_id: CAE
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when the context is missing from the branch altogether. Cite AR.7 when it is present but written into the claim text.
   tool:
     applicable_elements:
     - GSN Goal
@@ -381,6 +332,7 @@ guidelines:
     - CAE Assumption
     detection_hints:
     - Look for connectives in claim text such as with, given, assuming, provided that, when.
+    - Look for scope phrases in claim text such as in ODD X or during mode Y.
     markers:
     - kind: qualifier_connective
       effect: candidate
@@ -392,9 +344,10 @@ guidelines:
       - subject to
       - conditional on
       - when
+      - during
     suggested_checks:
     - id: check-claim-text-purity
-      description: Check whether qualifying clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.
+      description: Check whether scope phrases and qualifying or dependency clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.
     repair:
     - action: move_text
       element_role: context

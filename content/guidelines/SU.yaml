@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: SU
   title: SU. Sufficiency, uncertainty, and pitfall rules
@@ -38,6 +38,11 @@ guidelines:
     - 5.3.2.2(a)
     - 5.4.2.2(b)
   - source_id: GSN-v3
+  distinguish_from:
+  - id: SU.11
+    note: Cite SU.11 when a challenge has already been raised, in review or as a challenge element, and is not carried to a visible resolution. Cite SU.1 when a plausible doubt about the claim, reasoning, or evidence has not been raised in the argument at all.
+  - id: RD.3
+    note: Cite RD.3 when the argument knows a limitation of its support and does not show it where the claim is read. Cite SU.1 when a reviewer can see a doubt the argument has not considered.
   tool:
     applicable_elements:
     - GSN Goal
@@ -59,11 +64,12 @@ guidelines:
 - id: SU.2
   category: SU
   title: Make assumptions explicit and justify why they are reasonable
-  statement: Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.
-  short_rule: State assumptions explicitly, justify why each is reasonable, and monitor them where needed.
-  rationale: Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
+  statement: Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead.
+  short_rule: State each assumption where it constrains the argument, justify it, and monitor it where needed.
+  rationale: Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. Stating an assumption where it constrains the argument, not only where it was first discovered, lets a reviewer see what each branch depends on. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
   review_prompts:
   - What must be true for this branch to hold?
+  - Is each dependency stated at the claim or reasoning step it constrains, rather than only elsewhere in the case?
   - Why is this assumption reasonable, and how would we know if it became false?
   - Is this really an assumption, or should it instead be represented as context, a claim, or evidence?
   examples:
@@ -85,25 +91,38 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - '0:4.6'
+    - 1:2.2.12
     - 1:2.2.17
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when what is missing is information needed to understand what the claim means. Cite SU.2 when it is a condition that must hold for the claim to be true.
   tool:
     applicable_elements:
+    - GSN Goal
+    - GSN Context
     - GSN Assumption
+    - CAE Claim
+    - CAE Context
     - CAE Assumption
     detection_hints:
     - Look for branches whose validity depends on a condition that is not stated as an assumption or context.
+    - Look for a dependency stated elsewhere in the case but not attached to the claim or reasoning step it constrains.
     suggested_checks:
     - id: check-explicit-assumptions
-      description: Check whether implicit assumptions are made explicit, justified, and monitorable.
+      description: Check whether implicit assumptions are made explicit at the point where they constrain the argument, justified, and monitorable.
     repair:
     - action: add_element
       element_role: assumption
       attach_to: selected
-      statement: State the hidden condition explicitly as an assumption.
+      statement: State the hidden condition explicitly as an assumption where it constrains the argument.
     - action: add_element
       element_role: justification
       attach_to: selected
       statement: Justify why the assumption is reasonable and how it is monitored.
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: If the condition must be shown rather than assumed, add it as a sub-claim.
 - id: SU.3
   category: SU
   title: Do not rely on uncorroborated expert judgment alone
@@ -165,10 +184,11 @@ guidelines:
 - id: SU.4
   category: SU
   title: Monitor claims that cannot be fully supported at design time
-  statement: When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.
+  statement: When a claim asserts something only operation can confirm, such as a rate, a rarity, or behaviour over the service life, and its support is design-time evidence, state the uncertainty that remains and define lifecycle monitoring and re-assessment triggers that can confirm or challenge the claim during operation.
   short_rule: Where design-time support is partial, say so and define monitoring and re-assessment triggers.
-  rationale: Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
+  rationale: Some claims depend partly on assumptions, limited evidence, or expected field behavior. The recognisable shape is a claim about operational frequency, exposure, or service life whose evidence is analysis, test, or simulation done before operation. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
   review_prompts:
+  - Does the claim state a rate, a rarity, or behaviour over a service life that only operation can confirm?
   - What part of this claim is not fully supported at design time?
   - Can that remaining uncertainty only be reduced through operational or field data?
   - Is lifecycle monitoring defined for that uncertainty?
@@ -193,6 +213,9 @@ guidelines:
     clauses:
     - 5.4.2.2(a)
     - 5.4.2.3(c)
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when more or better design-time evidence could close the gap between the claim and its data. Cite SU.4 when only operational experience can close it, so the claim needs monitoring and re-assessment triggers.
   tool:
     applicable_elements:
     - GSN Goal
@@ -200,10 +223,33 @@ guidelines:
     - CAE Claim
     - CAE Assumption
     detection_hints:
+    - Look for claims about rarity, occurrence rate, or service-life behaviour supported only by design-time analysis, test, or simulation.
     - Look for claims with partial design-time support and no defined lifecycle monitoring.
+    markers:
+    - kind: operational_claim_marker
+      effect: candidate
+      terms:
+      - rare
+      - rarely
+      - frequency
+      - occurrence rate
+      - service life
+      - lifetime
+      - in service
+      - in the field
+    - kind: monitoring_marker
+      effect: suppress
+      terms:
+      - monitored
+      - monitoring
+      - field data
+      - reassessment
+      - re-assessment
+      - reassessment trigger
+      - re-assessment trigger
     suggested_checks:
     - id: check-lifecycle-monitoring
-      description: Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers.
+      description: Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers. Candidate when an operational claim marker appears in the claim and no monitoring marker appears in the claim, its assumptions, or its context.
     repair:
     - action: add_element
       element_role: assumption
@@ -433,61 +479,6 @@ guidelines:
       element_role: evidence
       attach_to: children
       statement: Add evidence covering autonomy-specific failure modes and edge cases.
-- id: SU.9
-  category: SU
-  title: Document unstated assumptions at the point of use
-  statement: When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.
-  short_rule: State a dependency where it constrains the argument, as an assumption, context, or claim.
-  rationale: Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.
-  review_prompts:
-  - What must be true for this claim or strategy to hold, but is not currently stated?
-  - Is the hidden dependency local to the claim, or to the reasoning step?
-  - Should this dependency be represented as an assumption, as context, or as a claim that must be proved?
-  examples:
-    bad: 'Claim: Localization integrity is sufficient for safe fallback.'
-    problem: The branch depends on an unstated condition about localization performance during fallback (that integrity remains within bound L1), but that dependency is only implicit and a reviewer cannot see what must hold for the claim to be valid.
-    good: |-
-      Claim: Localization integrity is sufficient for safe fallback.
-      Assumption: Localization integrity remains within bound L1 during fallback maneuver.
-
-      Or, if that dependency should be argued rather than assumed:
-
-      Claim: Localization integrity is sufficient for safe fallback.
-      Sub-claim: Localization integrity remains within bound L1 during fallback maneuver.
-      Evidence: Fallback localization analysis report FLA-03.
-  references:
-  - source_id: UL4600
-    clauses:
-    - 5.4.1.3(a)(11)
-    - 5.4.1.6.2
-    - 5.4.2.2(a)(3)
-  - source_id: GSN-v3
-    clauses:
-    - '0:4.6'
-    - 1:2.2.12
-    - 1:2.2.17
-  tool:
-    applicable_elements:
-    - GSN Assumption
-    - GSN Context
-    - GSN Goal
-    - CAE Assumption
-    - CAE Context
-    - CAE Claim
-    detection_hints:
-    - Look for claims whose validity depends on conditions not stated as assumption, context, or subclaim.
-    suggested_checks:
-    - id: check-unstated-dependencies
-      description: Check whether unstated dependencies are made visible at the point of use.
-    repair:
-    - action: add_element
-      element_role: assumption
-      attach_to: selected
-      statement: State the unstated dependency as an assumption at the point where it constrains the argument.
-    - action: add_element
-      element_role: claim
-      attach_to: children
-      statement: If the dependency must be shown rather than assumed, add it as a sub-claim.
 - id: SU.10
   category: SU
   title: Keep assumptions bounded, specific, and monitorable
@@ -589,6 +580,9 @@ guidelines:
     - 5.4.2.2(b)
     - 5.4.2.3(a)
   - source_id: GSN-v3
+  distinguish_from:
+  - id: SU.1
+    note: Cite SU.1 when a plausible doubt has not been raised in the argument at all. Cite SU.11 when a challenge has been raised, in review or as a challenge element, and is not carried to a visible resolution.
   tool:
     applicable_elements:
     - GSN Goal

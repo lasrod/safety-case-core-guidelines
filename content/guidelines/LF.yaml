@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: LF
   title: LF. Logical fallacy rules
@@ -222,6 +222,7 @@ guidelines:
   - Is the sample size adequate for the confidence implied?
   - Does the data distribution match the ODD and edge cases?
   - Is the claim broader than the sample supports?
+  - Does the evidence cover the conditions the claim names, or is a kind of evidence a critical reviewer would expect for those conditions absent?
   examples:
     bad: |-
       Claim: The item is acceptably safe across the defined ODD.
@@ -244,6 +245,13 @@ guidelines:
       Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.
   references:
   - source_id: Greenwell-2006
+  distinguish_from:
+  - id: SU.4
+    note: Cite SU.4 when only operational experience can close the gap, so the claim needs monitoring and re-assessment triggers. Cite LF.5 when more or better design-time evidence could close it.
+  - id: LF.7
+    note: Cite LF.7 when the case contains unfavourable results or anomalies that the argument leaves unanswered. Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim.
+  - id: EV.5
+    note: Cite EV.5 when the argument does not state what makes its evidence sufficient. Cite LF.5 when it does, or the evidence shows it, and the sample is too small or unrepresentative for the claim.
   tool:
     applicable_elements:
     - GSN Solution
@@ -321,38 +329,38 @@ guidelines:
       statement: State the figure to the precision the method supports, with its uncertainty or confidence bound.
 - id: LF.7
   category: LF
-  title: Avoid omission of key evidence and ignoring counter-evidence
-  statement: Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
-  short_rule: Include the evidence a critical reviewer expects, and answer known contrary evidence.
-  rationale: A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
+  title: Avoid cherry-picking and ignoring counter-evidence
+  statement: Do not present only the favourable part of the evidence. Where the cited evidence, its stated limitations, or other material in the case contains unfavourable results, failures, or anomalies relevant to the claim, answer them in the argument, by explaining why they do not undermine the claim, narrowing the claim, or adding support.
+  short_rule: Do not cite only favourable results; answer the unfavourable results the case contains.
+  rationale: A safety case becomes misleading when it presents only the supporting part of its evidence and leaves unanswered the results that could weaken, limit, or challenge the claim. The recognisable shape is a result or statement in the case that runs against the claim, with nothing in the argument responding to it, or evidence cited as a selected subset of a larger result set. Evidence that is favourable but too narrow for the claim is LF.5.
   review_prompts:
-  - What evidence would a critical reviewer reasonably expect to see for this claim?
-  - Is any known anomaly, failure, exclusion, or limitation being left unaddressed?
-  - Does the omitted material affect the meaning, scope, or credibility of the claim?
-  - Is contrary evidence explicitly addressed rather than silently ignored?
+  - Does the case contain results, failures, exclusions, or anomalies that run against this claim?
+  - Is the evidence cited selectively, for example only the passing runs or a chosen subset?
+  - Is each unfavourable result answered, by explanation, a narrower claim, or added support?
+  - Would the claim still read the same way if the unfavourable results were placed next to it?
   examples:
     bad: |-
-      Claim: Sensor robustness is acceptable.
-      Evidence: Sensor performance test report SPR-08.
-      Justification: The reported test results show robust detection performance.
-    problem: The branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
+      Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04.
+      Evidence: Braking test report BTR-06, section 4, passing runs.
+      The same report, section 5, records three low-friction runs in which stopping distance exceeded AC-BRK-04.
+    problem: The argument cites the favourable runs and leaves unanswered the failing runs recorded in the same report; a reviewer is left to discover that the evidence partly contradicts the claim.
     good: |-
-      Claim: Sensor robustness is acceptable for the defined conditions.
-      Evidence:
-      - Sensor performance test report SPR-08.
-      - Obscuration test report OTR-03.
-      - Environmental degradation test report EDR-05.
-      Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
+      Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04 on dry and wet surfaces.
+      Evidence: Braking test report BTR-06, sections 4 and 5, all runs.
+      Context: Claim excludes low-friction surfaces, where three runs in BTR-06 section 5 exceeded AC-BRK-04.
+      Open issue: Low-friction braking is argued in the separate branch for friction-limited operation.
 
-      Or, if contrary evidence exists, scope it:
-      Claim: Sensor robustness is acceptable for the defined conditions.
-      Evidence:
-      - Sensor performance test report SPR-08.
-      - Environmental degradation anomaly review EAR-02.
-      Context: Claim excludes heavy mud obscuration beyond the tested condition range.
-      Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.
+      Or, if the failing runs are explained rather than excluded:
+      Justification: The three low-friction runs in BTR-06 section 5 used a tyre set outside the vehicle specification; repeat runs with specified tyres, BTR-07 section 2, meet AC-BRK-04.
   references:
   - source_id: Greenwell-2006
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim. Cite LF.7 when the case contains unfavourable results that the argument leaves unanswered.
+  - id: SU.6
+    note: Cite SU.6 when the unanswered material is operational feedback dismissed because it caused no harm or could not be reproduced. Cite LF.7 for other unfavourable results.
+  - id: SU.11
+    note: Cite SU.11 when the unanswered material is a raised challenge, such as a counter claim or defeater. Cite LF.7 when it is an unfavourable result in the evidence.
   tool:
     applicable_elements:
     - GSN Solution
@@ -360,14 +368,32 @@ guidelines:
     - CAE Evidence
     - CAE Claim
     detection_hints:
-    - Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence.
+    - Look for evidence cited as a selected or passing subset of a larger result set.
+    - Look for unfavourable results, failures, or anomalies stated in the case with no response in the argument.
+    markers:
+    - kind: selective_citation_marker
+      effect: candidate
+      terms:
+      - passing runs
+      - successful runs
+      - selected runs
+      - selected results
+      - representative runs
+      - representative results
+      - typical results
+      - best-case
+      - best case
+      - excluding outliers
+      - outliers removed
     suggested_checks:
     - id: check-counter-evidence-treatment
-      description: Check whether known limiting or contrary evidence is addressed or scoped out.
+      description: Check whether unfavourable results in the case are answered and whether evidence is cited selectively. Candidate when a selective citation marker appears in an evidence reference.
     repair:
-    - action: add_element
-      element_role: evidence
-      attach_to: children
-      statement: Add the evidence a critical reviewer would expect, including contrary evidence.
     - action: reword_element
-      statement: Or narrow the claim so that the omitted conditions are outside its scope.
+      statement: Cite the full result set, not only its favourable part.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Answer each unfavourable result, explaining why it does not undermine the claim or what does address it.
+    - action: reword_element
+      statement: Or narrow the claim so that the unfavourable conditions are outside its scope.
