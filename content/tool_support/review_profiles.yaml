@@ -219,6 +219,7 @@ review_profiles:
   - AR.2
   - EV.9
   - SU.1
+  - SU.2
   - LF.1
   required_data:
   - SELECTED_STRATEGY
@@ -244,7 +245,7 @@ review_profiles:
         The supporting elements are needed to judge whether the reasoning rule actually produces this child set and whether the decomposition is complete, relevant, and non-circular (AR.2, LF.1).
     - id: DIRECT_CONTEXT
       rationale: >-
-        Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2).
+        Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2), and whether the conditions the reasoning step depends on are stated where it uses them (SU.2).
     optional:
     - id: INHERITED_CONTEXT
       rationale: >-

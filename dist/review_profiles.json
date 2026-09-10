@@ -231,7 +231,7 @@
           },
           {
             "id": "DIRECT_CONTEXT",
-            "rationale": "Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2)."
+            "rationale": "Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2), and whether the conditions the reasoning step depends on are stated where it uses them (SU.2)."
           }
         ]
       },
@@ -242,6 +242,7 @@
         "AR.2",
         "EV.9",
         "SU.1",
+        "SU.2",
         "LF.1"
       ],
       "id": "strategy_review",

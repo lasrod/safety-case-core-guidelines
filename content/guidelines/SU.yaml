@@ -99,9 +99,11 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Strategy
     - GSN Context
     - GSN Assumption
     - CAE Claim
+    - CAE Argument
     - CAE Context
     - CAE Assumption
     detection_hints:

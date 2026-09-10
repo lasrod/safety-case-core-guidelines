@@ -44,6 +44,7 @@
 - AR.2
 - EV.9
 - SU.1
+- SU.2
 - LF.1
 
 ### Evidence review (`evidence_review`)
@@ -225,6 +226,7 @@
 ### SU.2
 
 - claim_review
+- strategy_review
 - assumption_review
 
 ### SU.3

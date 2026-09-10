@@ -111,7 +111,7 @@ A tool that cannot supply a package should say which of these applies, rather th
 - `withheld`: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
 
 
-When a package is not available: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception.
+When a package is not available: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 <!-- END GENERATED: tool-overview -->
 
 ## Integrating with AI assistants, agents, and MCP servers
@@ -191,7 +191,7 @@ An element written now is reviewed later under one profile. A tool delivering au
 | Element role | Elements | Review profile | Guidelines |
 | --- | --- | --- | --- |
 | `claim` | GSN Goal, CAE Claim | `claim_review` | CL.1, CL.2, CL.3, CL.4, CL.5, CL.6, AR.1, AR.4, AR.5, AR.6, AR.7, EV.1, EV.3, EV.9, SU.1, SU.2, SU.4, SU.5, SU.6, SU.8, SU.11, LF.1, LF.2, LF.3, LF.4, LF.5, LF.6, LF.7, RD.1, RD.2, RD.3, RD.4, RD.5 |
-| `strategy` | GSN Strategy, CAE Argument | `strategy_review` | AR.1, AR.2, EV.9, SU.1, LF.1 |
+| `strategy` | GSN Strategy, CAE Argument | `strategy_review` | AR.1, AR.2, EV.9, SU.1, SU.2, LF.1 |
 | `evidence` | GSN Solution, CAE Evidence | `evidence_review` | AR.1, EV.1, EV.2, EV.4, EV.5, EV.6, EV.7, EV.8, SU.1, SU.3, SU.6, SU.7, SU.8, LF.2, LF.5, LF.7, RD.1 |
 | `assumption` | GSN Assumption, CAE Assumption | `assumption_review` | AR.1, AR.7, SU.2, SU.4, SU.10, RD.1 |
 | `justification` | GSN Justification, CAE Warrant, CAE Side-warrant, CAE Side-claim | `justification_review` | AR.1, AR.8, AR.9, EV.5, SU.3, SU.5, SU.7, LF.3, LF.4, RD.1, RD.5 |
@@ -218,7 +218,7 @@ Changes in `3.0.0` (content `0.8.0`), from `2.0.0`:
 - **Retired guideline ids.** AR.3 is now covered by AR.7 and AR.6, SU.9 by SU.2, and RD.6 by RD.3 and SU.2. Their check ids `check-context-assumption-placement`, `check-unstated-dependencies`, and `check-limitations-collocated` are retired with them. A consumer that stores findings by guideline id should map old ids through `retired_guidelines`, published in `dist/sccg.full.json` and `dist/sccg.compact.json`. The site keeps an anchor for each retired id.
 - **Re-scoped guidelines.** RD.3 now covers known limitations kept visible where the claim is read; objections belong to SU.1. LF.7 now covers cherry-picking, meaning unfavourable results in the case left unanswered; evidence missing for the conditions a claim names is LF.5. SU.4 is stated as a recognisable pattern and gained markers. AR.6 is limited to what a reader needs to interpret the claim. SU.2 and AR.7 absorb SU.9 and AR.3. The examples of RD.3 and LF.7 changed with their meaning, so a check calibrated against them should be re-run.
 - **New fields.** Guidelines may carry `distinguish_from`, and every rule row in `dist/sccg.rules.jsonl` and `dist/ai_rule_export.jsonl` carries it, empty when none is published. Review profiles may carry `review_passes`. The data package registry gained a required `when_unavailable` rule, and the document gained a required `retired_guidelines` list.
-- **Profiles.** `claim_review` applies 33 guidelines in four review passes. `evidence_review` takes `EVIDENCE_BASIS` as optional data and no longer carries `when_absent`; a consumer that suppressed guidelines when the package was missing should drop that and follow `when_unavailable`. `context_review` gained CL.5 and AR.5 and requires `INHERITED_CONTEXT`. `challenge_review` gained CL.1, CL.4, and AR.1. The authoring core rules name AR.7 in place of AR.3, and no longer list SU.9.
+- **Profiles.** `claim_review` applies 33 guidelines in four review passes. `evidence_review` takes `EVIDENCE_BASIS` as optional data and no longer carries `when_absent`; a consumer that suppressed guidelines when the package was missing should drop that and follow `when_unavailable`. `context_review` gained CL.5 and AR.5 and requires `INHERITED_CONTEXT`. `challenge_review` gained CL.1, CL.4, and AR.1. `strategy_review` gained SU.2, whose statement now covers conditions a reasoning step depends on. The authoring core rules name AR.7 in place of AR.3, and no longer list SU.9.
 - **Availability.** A package with no required fields counts as `available` only when at least one of its fields is populated.
 
 Changes in `2.0.0`, from `1.0.0`: the generic `SEL` data package was replaced by one selected-element package per element role (`SELECTED_CLAIM`, `SELECTED_STRATEGY`, `SELECTED_EVIDENCE`, `SELECTED_CONTEXT`, `SELECTED_ASSUMPTION`, `SELECTED_JUSTIFICATION`, `SELECTED_CHALLENGE`). A consumer that built a package literally named `SEL` should instead build the one package in the profile's `required_data` whose `role` is `selected_element`, which is also how the diagram layout now names its centre slot. Data packages gained `role`, selectable elements gained `element_role`, guidelines gained `short_rule` and optional `markers`, `thresholds`, and `repair`, pre-checks gained `fires_when`, and profiles may carry `when_absent`. Everything else is additive.
@@ -288,7 +288,7 @@ Complete review of a selected strategy or reasoning step, covering whether the i
 - Selected element package: `SELECTED_STRATEGY`
 - Required data: SELECTED_STRATEGY, PARENT, CHILDREN, DIRECT_CONTEXT
 - Optional data: INHERITED_CONTEXT, EVIDENCE_PATH, PROJECT_GLOSSARY, STANDARD_LINKS, CHANGE_HISTORY
-- Guidelines: AR.1, AR.2, EV.9, SU.1, LF.1
+- Guidelines: AR.1, AR.2, EV.9, SU.1, SU.2, LF.1
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/strategy_review.svg)
 
 #### Data package rationale
@@ -300,7 +300,7 @@ Required data:
 
 - `CHILDREN`: The supporting elements are needed to judge whether the reasoning rule actually produces this child set and whether the decomposition is complete, relevant, and non-circular (AR.2, LF.1).
 
-- `DIRECT_CONTEXT`: Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2).
+- `DIRECT_CONTEXT`: Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2), and whether the conditions the reasoning step depends on are stated where it uses them (SU.2).
 
 
 Optional data:

@@ -189,12 +189,33 @@
   /* Without this class the stylesheet leaves the nav as a plain link list. */
   layout.classList.add("is-enhanced");
 
+  /* Everything outside the drawer's own branch of the page: the siblings of
+   * the nav and of each of its ancestors, up to the body. */
+  function backgroundElements() {
+    var elements = [];
+    var node = nav;
+    while (node && node !== document.body && node.parentNode) {
+      Array.prototype.forEach.call(node.parentNode.children, function (sibling) {
+        if (sibling !== node && sibling !== backdrop && sibling.tagName !== "SCRIPT") {
+          elements.push(sibling);
+        }
+      });
+      node = node.parentNode;
+    }
+    return elements;
+  }
+
   function setNavVisible(visible) {
     var drawerOpen = visible && isNarrow();
     nav.hidden = !visible;
     toggle.setAttribute("aria-expanded", visible ? "true" : "false");
     backdrop.hidden = !drawerOpen;
     document.documentElement.classList.toggle("sccg-nav-locked", drawerOpen);
+    /* While the drawer is open the page behind it is inert, so keyboard and
+     * assistive-technology users stay inside the drawer. */
+    backgroundElements().forEach(function (element) {
+      element.toggleAttribute("inert", drawerOpen);
+    });
   }
 
   function openDrawer() {
@@ -245,8 +266,16 @@
   nav.addEventListener("click", function (event) {
     var link = event.target.closest ? event.target.closest("a") : null;
     if (link && isNarrow()) {
-      /* Focus follows the link to its anchor, so it is not sent back. */
       closeDrawer(false);
+      /* The link is now hidden, so focus cannot stay on it. Move focus to
+       * the destination; the link's default action then scrolls there. */
+      var target = targetFor(link);
+      if (target) {
+        if (!target.hasAttribute("tabindex")) {
+          target.setAttribute("tabindex", "-1");
+        }
+        target.focus({ preventScroll: true });
+      }
     }
   });
 

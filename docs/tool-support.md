@@ -44,7 +44,7 @@ A tool that cannot supply a package should report which state applies rather tha
 
 A package with no required fields, such as `EVIDENCE_BASIS` or `CHANGE_HISTORY`, counts as `available` only when at least one of its fields is populated. Supplied with nothing in it, it is `empty`.
 
-What the review then does is one rule for every profile, published as `when_unavailable` in [dist/data_packages.json](../dist/data_packages.json): assess every guideline against what was supplied, never report a missing package as a finding, never skip a guideline because a package is missing, and say which packages were unavailable. A profile's `when_absent` entry is the only exception, and no profile currently carries one.
+What the review then does is one rule for every profile, published as `when_unavailable` in [dist/data_packages.json](../dist/data_packages.json): assess every guideline against what was supplied, never report a missing package as a finding, never skip a guideline because a package is missing, and say which packages were unavailable. A profile's `when_absent` entry is the only exception, and no profile currently carries one. The rule covers the packages around the reviewed element: if the selected-element package itself is unavailable there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 
 ## Review profiles
 

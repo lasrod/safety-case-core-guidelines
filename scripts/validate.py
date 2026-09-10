@@ -233,6 +233,8 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
                 errors.append(f"[guidelines] {guideline_id}: reference source_id {source_id!r} is not defined")
 
     for profile in model["review_profiles"]:
+        for duplicate_id in _duplicates(profile.get("guideline_ids", [])):
+            errors.append(f"[review_profiles] {profile['id']}: guideline_id {duplicate_id!r} is listed twice")
         for guideline_id in profile.get("guideline_ids", []):
             if guideline_id not in valid_guideline_ids:
                 errors.append(f"[review_profiles] {profile['id']}: guideline_id {_unknown_guideline(guideline_id)}")
