@@ -13,6 +13,8 @@ sections:
   anchor: how-to-use-the-guidelines-in-reviews
 - title: Quick index
   anchor: quick-index
+- title: Retired guidelines
+  anchor: retired-guidelines
 categories:
 - id: CL
   title: CL. Claim rules
@@ -46,7 +48,7 @@ categories:
 - id: AR
   title: AR. Argument structure and decomposition rules
   anchor: ar-argument-structure-and-decomposition-rules
-  count: 9
+  count: 8
   guidelines:
   - id: AR.1
     title: Let structure carry the argument
@@ -56,10 +58,6 @@ categories:
     title: State the inference step explicitly
     anchor: ar2
     short_rule: State the decomposition or inference rule explicitly instead of leaving it to be inferred.
-  - id: AR.3
-    title: Use context and assumptions deliberately
-    anchor: ar3
-    short_rule: Make scope, definitions, operating conditions, and dependencies explicit rather than implied.
   - id: AR.4
     title: Match claim precision to the level of the argument
     anchor: ar4
@@ -75,7 +73,7 @@ categories:
   - id: AR.7
     title: Make claim qualifiers explicit and maintainable
     anchor: ar7
-    short_rule: Move qualifiers and dependency clauses out of claim text into context or assumptions.
+    short_rule: Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.
   - id: AR.8
     title: Do not use rationale as hidden support
     anchor: ar8
@@ -128,7 +126,7 @@ categories:
 - id: SU
   title: SU. Sufficiency, uncertainty, and pitfall rules
   anchor: su-sufficiency-uncertainty-and-pitfall-rules
-  count: 11
+  count: 10
   guidelines:
   - id: SU.1
     title: Identify and address plausible challenges to claims, reasoning, and evidence
@@ -137,7 +135,7 @@ categories:
   - id: SU.2
     title: Make assumptions explicit and justify why they are reasonable
     anchor: su2
-    short_rule: State assumptions explicitly, justify why each is reasonable, and monitor them where needed.
+    short_rule: State each assumption where it constrains the argument, justify it, and monitor it where needed.
   - id: SU.3
     title: Do not rely on uncorroborated expert judgment alone
     anchor: su3
@@ -162,10 +160,6 @@ categories:
     title: Do not assume human data or human-designed tests cover autonomy-specific failures
     anchor: su8
     short_rule: Do not assume human-derived data or human-designed tests cover autonomy-specific failures.
-  - id: SU.9
-    title: Document unstated assumptions at the point of use
-    anchor: su9
-    short_rule: State a dependency where it constrains the argument, as an assumption, context, or claim.
   - id: SU.10
     title: Keep assumptions bounded, specific, and monitorable
     anchor: su10
@@ -204,13 +198,13 @@ categories:
     anchor: lf6
     short_rule: State numbers only to the precision the model, data, and assumptions justify.
   - id: LF.7
-    title: Avoid omission of key evidence and ignoring counter-evidence
+    title: Avoid cherry-picking and ignoring counter-evidence
     anchor: lf7
-    short_rule: Include the evidence a critical reviewer expects, and answer known contrary evidence.
+    short_rule: Do not cite only favourable results; answer the unfavourable results the case contains.
 - id: RD
   title: RD. Rhetorical device rules
   anchor: rd-rhetorical-device-rules
-  count: 6
+  count: 5
   guidelines:
   - id: RD.1
     title: Use explicit signposting of argument element roles
@@ -221,9 +215,9 @@ categories:
     anchor: rd2
     short_rule: State the operating scope, and match confidence language to the actual support.
   - id: RD.3
-    title: Make limitations, objections, and responses explicit
+    title: Keep known limitations visible where the claim is read
     anchor: rd3
-    short_rule: Make limitations, objections, and their responses visible where the claim is read.
+    short_rule: Show known limitations where the claim is read, not only in appendices or distant text.
   - id: RD.4
     title: Avoid promotional and inflated language
     anchor: rd4
@@ -232,7 +226,3 @@ categories:
     title: Avoid passive voice when it hides agency
     anchor: rd5
     short_rule: Name the actor who performed a review, judgment, or approval.
-  - id: RD.6
-    title: Do not bury important limitations or hidden assumptions
-    anchor: rd6
-    short_rule: Keep important limitations and assumptions attached to the claim they qualify.

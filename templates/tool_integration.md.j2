@@ -42,6 +42,8 @@ A tool that cannot supply a package should say which of these applies, rather th
 - `{{ state.id }}`: {{ state.meaning }}
 {% endfor %}
 
+When a package is not available: {{ when_unavailable }}
+
 ## Authoring-time guidance
 
 {{ authoring.description }}
@@ -80,6 +82,18 @@ An element written now is reviewed later under one profile. A tool delivering au
 - Optional data: {{ profile.optional_data | join(', ') if profile.optional_data else 'None' }}
 - Guidelines: {{ profile.guideline_ids | join(', ') }}
 - Diagram: [SVG diagram](assets/generated/review_profile_diagrams/{{ profile.id }}.svg)
+{%- if profile.review_passes %}
+
+#### Review passes
+
+The guidelines of this profile, split by review question. Each guideline is in exactly one pass. A reviewer can work through the passes in turn; a tool can send one request per pass and merge the findings, still under this one profile.
+
+| Pass | Question | Guidelines |
+| --- | --- | --- |
+{% for item in profile.review_passes -%}
+| {{ item.display_name }} (`{{ item.id }}`) | {{ item.question }} | {{ item.guideline_ids | join(', ') }} |
+{% endfor %}
+{%- endif %}
 
 #### Data package rationale
 

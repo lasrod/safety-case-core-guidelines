@@ -3,9 +3,14 @@
   "title": "SCCG data package registry",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "availability_states", "data_packages"],
+  "required": ["schema_version", "availability_states", "when_unavailable", "data_packages"],
   "properties": {
-    "schema_version": { "const": "2.0.0" },
+    "schema_version": { "const": "3.0.0" },
+    "when_unavailable": {
+      "description": "What a review does when a package it would use is not available, for every profile and package. A profile's when_absent entry is the only exception.",
+      "type": "string",
+      "minLength": 1
+    },
     "availability_states": {
       "description": "The states a tool may report for a data package it was asked to supply. A review told nothing about a package cannot tell an absent package from an unimplemented one.",
       "type": "array",

@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "category", "guidelines"],
   "properties": {
-    "schema_version": { "const": "2.0.0" },
+    "schema_version": { "const": "3.0.0" },
     "category": {
       "type": "object",
       "additionalProperties": false,
@@ -170,6 +170,20 @@
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/definitions/reference" }
+        },
+        "distinguish_from": {
+          "description": "Neighbouring guidelines that a reviewer is likely to cite in this one's place, or this one in theirs, each with a note saying which to cite when. Published for pairs observed to be confused, so that two reviews citing the same defect cite the same id.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "note"],
+            "properties": {
+              "id": { "type": "string", "pattern": "^[A-Z]{2}\\.\\d+$" },
+              "note": { "type": "string", "minLength": 1 }
+            }
+          }
         },
         "tool": { "$ref": "#/definitions/tool" }
       },

@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 category:
   id: EV
   title: EV. Evidence rules
@@ -215,7 +215,7 @@ guidelines:
   title: Make the basis for evidence sufficiency explicit
   statement: When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
   short_rule: State what makes the cited evidence sufficient for this claim, not only relevant to it.
-  rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
+  rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations. Whether a basis is stated can be seen in the argument itself, so this guideline can be assessed without any evidence basis data; whether a stated basis is actually adequate is judged under LF.5, SU.7, and SU.8.
   review_prompts:
   - What makes this evidence enough for this claim?
   - Is the required scope, configuration, scenario set, or operating condition clear?
@@ -240,6 +240,9 @@ guidelines:
     clauses:
     - 5.4.2.1(b)-(c)
     - 5.3.2.1(a)(1)
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when the argument states what makes its evidence sufficient, or the evidence shows it, and the sample is too small or unrepresentative for the claim. Cite EV.5 when the argument does not state a sufficiency basis at all.
   tool:
     applicable_elements:
     - GSN Solution

@@ -32,6 +32,7 @@ def _compact_guideline(guideline: dict[str, Any]) -> dict[str, Any]:
         "rationale": guideline["rationale"],
         "review_prompts": guideline["review_prompts"],
         "reference_source_ids": [ref["source_id"] for ref in guideline.get("references", [])],
+        "distinguish_from": guideline.get("distinguish_from", []),
         "tool": guideline.get("tool", {}),
     }
 
@@ -70,6 +71,7 @@ def _rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, Any
         "review_prompts": guideline["review_prompts"],
         "examples": guideline["examples"],
         "references": guideline["references"],
+        "distinguish_from": guideline.get("distinguish_from", []),
         "tool": guideline.get("tool", {}),
         **_guideline_metadata(model, guideline),
     }
@@ -90,6 +92,7 @@ def _ai_rule_row(model: dict[str, Any], guideline: dict[str, Any]) -> dict[str, 
         "review_prompts": guideline["review_prompts"],
         "examples": guideline["examples"],
         "references": guideline["references"],
+        "distinguish_from": guideline.get("distinguish_from", []),
         "tool": guideline.get("tool", {}),
         **_guideline_metadata(model, guideline),
     }
@@ -155,6 +158,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
         "document": _document_block(model),
         "categories": model["categories"],
         "guidelines": [_compact_guideline(guideline) for guideline in model["guidelines"]],
+        "retired_guidelines": model["retired_guidelines"],
     }
     rule_rows = [_rule_row(model, guideline) for guideline in model["guidelines"]]
     ai_rule_rows = [_ai_rule_row(model, guideline) for guideline in model["guidelines"]]
@@ -211,6 +215,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
         "sccg_version": model["sccg_version"],
         "document": _document_block(model),
         "guideline_count": len(model["guidelines"]),
+        "retired_guideline_count": len(model["retired_guidelines"]),
         "category_count": len(model["categories"]),
         "review_profile_count": len(model["review_profiles"]),
         "data_package_count": len(model["data_packages"]),
@@ -241,6 +246,7 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
                 "sccg_version": model["sccg_version"],
                 "document": _document_block(model),
                 "availability_states": model["availability_states"],
+                "when_unavailable": model["when_unavailable"],
                 "data_packages": model["data_packages"],
             }
         ),

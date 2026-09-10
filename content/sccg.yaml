@@ -1,5 +1,5 @@
-schema_version: 2.0.0
-sccg_version: 0.7.0
+schema_version: 3.0.0
+sccg_version: 0.8.0
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -43,3 +43,24 @@ required_guideline_sections:
 - Review prompts
 - Example
 - References
+retired_guidelines:
+- id: AR.3
+  title: Use context and assumptions deliberately
+  retired_in: 0.8.0
+  replaced_by:
+  - AR.7
+  - AR.6
+  note: It asked for the same thing as AR.7, moving scope and dependency clauses out of claim text, and its remaining half, whether the context a claim needs is present at all, is AR.6. Cite AR.7 for placement and AR.6 for missing context.
+- id: SU.9
+  title: Document unstated assumptions at the point of use
+  retired_in: 0.8.0
+  replaced_by:
+  - SU.2
+  note: Merged into SU.2, which now also requires an assumption to be stated where it constrains the argument and applies to claims and context as well as assumption elements.
+- id: RD.6
+  title: Do not bury important limitations or hidden assumptions
+  retired_in: 0.8.0
+  replaced_by:
+  - RD.3
+  - SU.2
+  note: It was the negative form of RD.3. Buried limitations are now RD.3, which keeps known limitations visible where the claim is read; hidden assumptions are SU.2.

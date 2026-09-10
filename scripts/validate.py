@@ -28,6 +28,7 @@ from sccg_common import (
     load_content_model,
     load_json,
     load_yaml,
+    slugify_anchor,
 )
 
 
@@ -108,6 +109,11 @@ def _check_nav_anchors(index_text: str, model: dict[str, Any]) -> list[str]:
                     f"[generated] _data/toc.yml: {guideline['id']} anchor "
                     f"#{guideline['anchor']} is missing from index.md"
                 )
+    # Links and tool output citing a retired id must still land somewhere.
+    for entry in model.get("retired_guidelines", []):
+        anchor = slugify_anchor(entry["id"])
+        if f'<a id="{anchor}"></a>' not in index_text:
+            errors.append(f"[generated] index.md: retired {entry['id']} has no #{anchor} anchor")
     return errors
 
 
@@ -177,12 +183,42 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
                 )
 
     valid_guideline_ids = set(guideline_ids)
+    retired_ids = {entry["id"] for entry in model["retired_guidelines"]}
+    for duplicate_id in _duplicates([entry["id"] for entry in model["retired_guidelines"]]):
+        errors.append(f"[retired_guidelines] duplicate retired id {duplicate_id!r}")
+    for entry in model["retired_guidelines"]:
+        retired_id = entry["id"]
+        if retired_id in valid_guideline_ids:
+            errors.append(f"[retired_guidelines] {retired_id}: a retired id may not be reused by an active guideline")
+        if retired_id.split(".", 1)[0] not in category_ids:
+            errors.append(f"[retired_guidelines] {retired_id}: category prefix is not defined")
+        for replacement in entry["replaced_by"]:
+            if replacement not in valid_guideline_ids:
+                errors.append(
+                    f"[retired_guidelines] {retired_id}: replaced_by {replacement!r} is not an active guideline"
+                )
+
+    def _unknown_guideline(guideline_id: str) -> str:
+        if guideline_id in retired_ids:
+            return f"{guideline_id!r} is retired"
+        return f"{guideline_id!r} is not defined"
+
     for guideline in model["guidelines"]:
         guideline_id = guideline.get("id", "<missing>")
         match = ID_RE.match(guideline_id or "")
         if not match:
             errors.append(f"[guidelines] {guideline_id}: must match ^[A-Z]{{2}}\\.\\d+$")
             continue
+        neighbour_ids = [entry["id"] for entry in guideline.get("distinguish_from", [])]
+        for duplicate_id in _duplicates(neighbour_ids):
+            errors.append(f"[guidelines] {guideline_id}: distinguish_from names {duplicate_id!r} twice")
+        for neighbour_id in neighbour_ids:
+            if neighbour_id == guideline_id:
+                errors.append(f"[guidelines] {guideline_id}: distinguish_from names the guideline itself")
+            elif neighbour_id not in valid_guideline_ids:
+                errors.append(
+                    f"[guidelines] {guideline_id}: distinguish_from {_unknown_guideline(neighbour_id)}"
+                )
         prefix = match.group(1)
         if guideline.get("category") != prefix:
             errors.append(f"[guidelines] {guideline_id}: category {guideline.get('category')!r} != id prefix {prefix!r}")
@@ -197,9 +233,11 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
                 errors.append(f"[guidelines] {guideline_id}: reference source_id {source_id!r} is not defined")
 
     for profile in model["review_profiles"]:
+        for duplicate_id in _duplicates(profile.get("guideline_ids", [])):
+            errors.append(f"[review_profiles] {profile['id']}: guideline_id {duplicate_id!r} is listed twice")
         for guideline_id in profile.get("guideline_ids", []):
             if guideline_id not in valid_guideline_ids:
-                errors.append(f"[review_profiles] {profile['id']}: guideline_id {guideline_id!r} is not defined")
+                errors.append(f"[review_profiles] {profile['id']}: guideline_id {_unknown_guideline(guideline_id)}")
         for package_id in profile.get("required_data", []) + profile.get("optional_data", []):
             if package_id not in data_package_ids:
                 errors.append(f"[review_profiles] {profile['id']}: data package {package_id!r} is not defined")
@@ -260,7 +298,7 @@ def _validate_cross_references(model: dict[str, Any]) -> list[str]:
             errors.append(f"[prechecks] {precheck['id']}: id is not referenced by any guideline tool.suggested_checks")
         for guideline_id in precheck.get("related_guideline_ids", []):
             if guideline_id not in valid_guideline_ids:
-                errors.append(f"[prechecks] {precheck['id']}: guideline_id {guideline_id!r} is not defined")
+                errors.append(f"[prechecks] {precheck['id']}: guideline_id {_unknown_guideline(guideline_id)}")
         for package_id in precheck.get("expected_data", []):
             if package_id not in data_package_ids:
                 errors.append(f"[prechecks] {precheck['id']}: data package {package_id!r} is not defined")
@@ -363,6 +401,29 @@ def _validate_tool_contract(model: dict[str, Any]) -> list[str]:
                     )
         for duplicate_id in _duplicates([entry["id"] for entry in profile.get("when_absent", [])]):
             errors.append(f"[review_profiles] {profile['id']}: duplicate when_absent entry {duplicate_id!r}")
+
+        # Passes are a partition: a tool that fans out over them and merges the
+        # findings must apply exactly the profile, no more and no less.
+        passes = profile.get("review_passes", [])
+        if passes:
+            for duplicate_id in _duplicates([entry["id"] for entry in passes]):
+                errors.append(f"[review_profiles] {profile['id']}: duplicate review pass {duplicate_id!r}")
+            listed = [guideline_id for entry in passes for guideline_id in entry["guideline_ids"]]
+            for duplicate_id in _duplicates(listed):
+                errors.append(
+                    f"[review_profiles] {profile['id']}: guideline {duplicate_id!r} is in more than one review pass"
+                )
+            profile_ids = profile.get("guideline_ids", [])
+            for guideline_id in profile_ids:
+                if guideline_id not in listed:
+                    errors.append(
+                        f"[review_profiles] {profile['id']}: guideline {guideline_id!r} is in no review pass"
+                    )
+            for guideline_id in sorted(set(listed) - set(profile_ids)):
+                errors.append(
+                    f"[review_profiles] {profile['id']}: review passes name {guideline_id!r}, which this "
+                    "profile does not apply"
+                )
 
     for precheck in model["prechecks"]:
         selected_ids = [

@@ -7,8 +7,8 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.7.0",
-    "schema_version": "2.0.0",
+    "sccg_version": "0.8.0",
+    "schema_version": "3.0.0",
     "title": "Safety Case Core Guidelines"
   },
   "metadata_fields": [
@@ -39,6 +39,6 @@
       "purpose": "Complete normalized SCCG model."
     }
   ],
-  "sccg_version": "0.7.0",
-  "schema_version": "2.0.0"
+  "sccg_version": "0.8.0",
+  "schema_version": "3.0.0"
 }

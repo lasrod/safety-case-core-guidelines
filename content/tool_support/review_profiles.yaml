@@ -1,4 +1,4 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 selectable_elements:
 - element: GSN Goal
   notation: GSN
@@ -67,7 +67,7 @@ selectable_elements:
 review_profiles:
 - id: claim_review
   display_name: Claim review
-  description: Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency.
+  description: Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency, in four passes.
   applies_to:
   - GSN Goal
   - CAE Claim
@@ -79,7 +79,6 @@ review_profiles:
   - CL.5
   - CL.6
   - AR.1
-  - AR.3
   - AR.4
   - AR.5
   - AR.6
@@ -88,11 +87,11 @@ review_profiles:
   - EV.3
   - EV.9
   - SU.1
+  - SU.2
   - SU.4
   - SU.5
   - SU.6
   - SU.8
-  - SU.9
   - SU.11
   - LF.1
   - LF.2
@@ -106,7 +105,56 @@ review_profiles:
   - RD.3
   - RD.4
   - RD.5
-  - RD.6
+  review_passes:
+  - id: wording
+    display_name: Wording
+    question: Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded?
+    guideline_ids:
+    - CL.1
+    - CL.2
+    - CL.3
+    - CL.4
+    - CL.5
+    - CL.6
+    - RD.2
+    - RD.4
+    - RD.5
+  - id: structure
+    display_name: Structure
+    question: Does the claim sit correctly in the argument, in its role, its context, its level of detail, its scope across decomposition, and its path to evidence?
+    guideline_ids:
+    - AR.1
+    - AR.4
+    - AR.5
+    - AR.6
+    - AR.7
+    - EV.1
+    - EV.3
+    - EV.9
+  - id: sufficiency
+    display_name: Sufficiency
+    question: Is the claim's support good enough, and are its assumptions, limitations, and challenges visible?
+    guideline_ids:
+    - SU.1
+    - SU.2
+    - SU.4
+    - SU.5
+    - SU.6
+    - SU.8
+    - SU.11
+    - RD.3
+  - id: reasoning
+    display_name: Reasoning
+    question: Is the reasoning from support to claim sound, free of fallacies, and signposted?
+    guideline_ids:
+    - LF.1
+    - LF.2
+    - LF.3
+    - LF.4
+    - LF.5
+    - LF.6
+    - LF.7
+    - RD.1
   required_data:
   - SELECTED_CLAIM
   - PARENT
@@ -137,20 +185,20 @@ review_profiles:
         The connecting strategy or reasoning element shows whether the inference is made explicit rather than inferred from wording (AR.1) and whether support adds independent reasoning rather than restating the claim (LF.1); its absence is itself a finding.
     - id: DIRECT_CONTEXT
       rationale: >-
-        Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.3, AR.6, AR.7, RD.1, RD.6) and whether limitations are visible where the claim is read (RD.3, SU.9).
+        Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.6, AR.7, RD.1), whether the conditions the claim depends on are stated where they constrain it (SU.2), and whether known limitations are visible where the claim is read (RD.3).
     - id: INHERITED_CONTEXT
       rationale: >-
-        Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.6) and reveal hidden or contradicted limitations under SU.9.
+        Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.3) and show whether a dependency is stated where it constrains this claim or only higher up (SU.2).
     - id: EVIDENCE_PATH
       rationale: >-
-        The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness (LF.5), and omission of expected or contrary evidence (LF.7, SU.6, SU.8).
+        The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness and coverage of the claimed conditions (LF.5), unanswered unfavourable results (LF.7), and dismissed or human-derived support (SU.6, SU.8).
     optional:
     - id: EVIDENCE_ITEM
       rationale: >-
         Metadata for terminal evidence helps confirm that the traced support is precise and controlled where the claim's credibility depends on the cited artifact (EV.1, EV.3).
     - id: EVIDENCE_BASIS
       rationale: >-
-        Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, LF.7, SU.6, SU.8).
+        Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, SU.8), and expose unfavourable results the argument must answer (LF.7).
     - id: PROJECT_GLOSSARY
       rationale: >-
         Controlled definitions of terms such as safe, acceptable, nominal, or ODD resolve apparent ambiguity or overloaded wording (CL.4, AR.6).
@@ -171,6 +219,7 @@ review_profiles:
   - AR.2
   - EV.9
   - SU.1
+  - SU.2
   - LF.1
   required_data:
   - SELECTED_STRATEGY
@@ -196,7 +245,7 @@ review_profiles:
         The supporting elements are needed to judge whether the reasoning rule actually produces this child set and whether the decomposition is complete, relevant, and non-circular (AR.2, LF.1).
     - id: DIRECT_CONTEXT
       rationale: >-
-        Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2).
+        Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2), and whether the conditions the reasoning step depends on are stated where it uses them (SU.2).
     optional:
     - id: INHERITED_CONTEXT
       rationale: >-
@@ -240,9 +289,9 @@ review_profiles:
   required_data:
   - SELECTED_EVIDENCE
   - EVIDENCE_ITEM
-  - EVIDENCE_BASIS
   - PARENT
   optional_data:
+  - EVIDENCE_BASIS
   - DIRECT_CONTEXT
   - EVIDENCE_PATH
   - PROJECT_GLOSSARY
@@ -256,13 +305,13 @@ review_profiles:
     - id: EVIDENCE_ITEM
       rationale: >-
         Artifact metadata such as type, owner, version, date, status, location, and cited section is required to judge whether the evidence type is reviewable and the citation precise, controlled, and stable (EV.2, EV.4, EV.7, EV.8).
-    - id: EVIDENCE_BASIS
-      rationale: >-
-        Scope, coverage, thresholds, scenarios, configurations, and limitations are required to judge sufficiency and inferential fit rather than citation hygiene alone (EV.5, EV.6, LF.5, LF.7, SU.3, SU.6, SU.7, SU.8).
     - id: PARENT
       rationale: >-
         The claim the evidence supports is required to judge relevance to the immediate claim (LF.2), a correct and traceable evidence path (EV.1), and whether the inferential link is explained (EV.6).
     optional:
+    - id: EVIDENCE_BASIS
+      rationale: >-
+        Scope, coverage, thresholds, scenarios, configurations, and limitations let the review judge whether the evidence is actually adequate for the claim, not only whether the argument states a basis (LF.5, SU.7, SU.8), and expose unfavourable results the argument must answer (LF.7). Many tools cannot build it, because the data lives in test reports and evidence registers rather than in the argument. Without it every guideline is still assessed from the argument: a missing sufficiency basis is reported under EV.5, and coverage or representativeness is judged only as far as the argument itself states it.
     - id: DIRECT_CONTEXT
       rationale: >-
         The claim's local scope and assumptions define what the evidence must cover and help detect evidence that is relevant to a neighboring or broader claim but not sufficient here (LF.2, EV.5).
@@ -278,18 +327,6 @@ review_profiles:
     - id: CHANGE_HISTORY
       rationale: >-
         Prior findings, review comments, and baseline state identify unstable, challenged, stale, or dismissed evidence (EV.7, EV.8, SU.1, SU.6).
-  when_absent:
-  - id: EVIDENCE_BASIS
-    unassessable_guideline_ids:
-    - EV.5
-    - EV.6
-    - SU.3
-    - SU.6
-    - SU.7
-    - SU.8
-    - LF.5
-    - LF.7
-    statement: Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.
 - id: assumption_review
   display_name: Assumption review
   description: Complete review of a selected assumption, covering whether it is explicit, bounded, correctly placed, monitorable, and not hiding an unsupported claim.
@@ -298,14 +335,11 @@ review_profiles:
   - CAE Assumption
   guideline_ids:
   - AR.1
-  - AR.3
   - AR.7
   - SU.2
   - SU.4
-  - SU.9
   - SU.10
   - RD.1
-  - RD.6
   required_data:
   - SELECTED_ASSUMPTION
   - DIRECT_CONTEXT
@@ -318,17 +352,17 @@ review_profiles:
     required:
     - id: SELECTED_ASSUMPTION
       rationale: >-
-        The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role.
+        The selected assumption is the dependency under review. SU.2, SU.10, and AR.7 require checking whether it is explicit, justified, bounded, monitorable, and correctly placed, and SU.4 whether it carries a re-assessment trigger where only operation can confirm it, while AR.1 and RD.1 check that it is used and signposted for its role.
     - id: DIRECT_CONTEXT
       rationale: >-
-        Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2, SU.9).
+        Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2).
     - id: INHERITED_CONTEXT
       rationale: >-
-        Assumptions often propagate from ancestors, so inherited context is required to detect conflicts, over-broad inherited dependencies, or limitations otherwise hidden from the branch (RD.6, SU.10).
+        Assumptions often propagate from ancestors, so inherited context is required to detect conflicting or over-broad inherited dependencies, and assumptions stated higher up that belong at this point (SU.2, SU.10).
     optional:
     - id: PARENT
       rationale: >-
-        The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.9).
+        The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.2).
     - id: CHANGE_HISTORY
       rationale: >-
         Prior findings and baseline state show whether the assumption is monitored, has been challenged, or needs a defined re-assessment trigger (SU.2, SU.4).
@@ -390,51 +424,53 @@ review_profiles:
         Prior review comments, unresolved findings, and baseline shifts show whether the justification has been challenged, whether agency is clear (RD.5), and whether reused safety credit still applies (SU.5).
 - id: context_review
   display_name: Context review
-  description: Complete review of a selected context element, covering whether it provides sufficient, relevant, and consistent scope and definitions for the claim it qualifies.
+  description: Complete review of a selected context element, covering whether it gives the claim it qualifies bounded, consistent scope and definitions, and whether it carries the claim's known limitations.
   applies_to:
   - GSN Context
   - CAE Context
   guideline_ids:
+  - CL.5
   - AR.1
-  - AR.3
+  - AR.5
   - AR.6
   - AR.7
-  - SU.9
   - RD.1
   - RD.3
-  - RD.6
   required_data:
   - SELECTED_CONTEXT
   - PARENT
-  optional_data:
   - INHERITED_CONTEXT
+  optional_data:
   - PROJECT_GLOSSARY
   - STANDARD_LINKS
   data_rationale:
     required:
     - id: SELECTED_CONTEXT
       rationale: >-
-        The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions.
+        The selected context element is the object of review. AR.1 and RD.1 check that it is used and signposted as context, CL.5 that its evaluative terms are bounded, AR.6 that it supplies the scope and definitions the claim needs, and RD.3 that it carries the claim's known limitations.
     - id: PARENT
       rationale: >-
-        The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and dependencies are correctly externalized to it (AR.3, AR.7), and whether limitations are visible where the claim is read (RD.3, RD.6).
-    optional:
+        The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and qualifiers have been moved out of the claim text into it (AR.7), and whether the claim's known limitations are visible where it is read (RD.3).
     - id: INHERITED_CONTEXT
       rationale: >-
-        Ancestor scope and assumptions show whether this context is consistent with, or silently narrows or contradicts, inherited limits (RD.6, SU.9).
+        Ancestor context is required to check whether this context restates, silently narrows, redefines, or contradicts what the branch already inherits (AR.5).
+    optional:
     - id: PROJECT_GLOSSARY
       rationale: >-
-        Controlled definitions confirm that terms introduced or relied on by the context are used consistently across the branch (AR.6).
+        Controlled definitions confirm that terms introduced or relied on by the context are bounded and used consistently across the branch (CL.5, AR.5, AR.6).
     - id: STANDARD_LINKS
       rationale: >-
-        When the context cites external standards or operating constraints, standard links help verify the reference is relevant and not used as vague or hidden context (AR.3).
+        When the context cites external standards or operating constraints, standard links help verify that the reference is relevant and defines what the context says it does (AR.6).
 - id: challenge_review
   display_name: Challenge review
-  description: Complete review of a selected counter claim or defeater, covering whether the challenge is stated explicitly and carried to a visible resolution.
+  description: Complete review of a selected counter claim or defeater, covering whether the challenge is a clear, specific proposition used as a challenge, and whether it is carried to a visible resolution.
   applies_to:
   - GSN Counter Claim
   - CAE Defeater
   guideline_ids:
+  - CL.1
+  - CL.4
+  - AR.1
   - SU.11
   required_data:
   - SELECTED_CHALLENGE
@@ -447,7 +483,7 @@ review_profiles:
     required:
     - id: SELECTED_CHALLENGE
       rationale: >-
-        The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition.
+        The selected counter claim or defeater is the challenge under review. CL.1 and CL.4 require it to be a specific proposition that competent readers would take the same way, AR.1 that it states a challenge rather than a note, a claim, or its own resolution, and SU.11 that it is an explicit element rather than something left in review comments or reviewer intuition.
     - id: PARENT
       rationale: >-
         The claim, reasoning step, or evidence being challenged is required to judge whether the challenge is relevant to its target and whether the branch has been updated to resolve it (SU.11).

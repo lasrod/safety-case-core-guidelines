@@ -1,5 +1,5 @@
-schema_version: 2.0.0
-sccg_version: 0.7.0
+schema_version: 3.0.0
+sccg_version: 0.8.0
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -141,6 +141,7 @@ guidelines:
   - Could a reviewer tell what would make this claim false?
   - Is this a proposition, or only a topic label?
   - Is the claim understandable without extra interpretation?
+  - For a challenge element, does it state a specific way the target could fail, one that could be shown to hold or not?
   examples:
     bad: Brake monitor safety
     problem: This is a topic label, not a falsifiable proposition. A reviewer cannot tell what would have to be true or false to accept or reject it.
@@ -159,7 +160,9 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Counter Claim
     - CAE Claim
+    - CAE Defeater
     detection_hints:
     - Look for goal text that is a noun phrase or topic label rather than a proposition.
     - Look for goals lacking a verb expressing a property or a measurable condition.
@@ -347,10 +350,17 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - 2:5.4.1-2:5.4.3
+  distinguish_from:
+  - id: CL.5
+    note: Cite CL.5 when the problem is one evaluative or universal word left unbounded, such as safe, timely, or all. Cite CL.4 when the subject or the property of the claim could be read as different things altogether.
+  - id: AR.4
+    note: Cite AR.4 when the meaning is clear but the detail is wrong for the claim's level in the argument. Cite CL.4 when competent readers could take the claim to mean different things.
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Counter Claim
     - CAE Claim
+    - CAE Defeater
     detection_hints:
     - Look for ambiguous subjects or properties (e.g. development is safe).
     - Look for claim text whose object or measured property is unclear.
@@ -397,6 +407,7 @@ guidelines:
   - If safe is used, is it clear what safety judgment is being claimed at this level?
   - Is the scope of all, every, or never explicitly defined?
   - Would the claim remain reviewable if read on its own?
+  - In a context element, are terms such as normal, nominal, or typical conditions bounded by a definition?
   examples:
     bad: The monitor provides timely mitigation.
     problem: '"Timely" is an unbounded evaluative qualifier; without a defined threshold or condition it cannot be reviewed consistently.'
@@ -411,10 +422,15 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - 2:5.5.1-2:5.6.1
+  distinguish_from:
+  - id: CL.4
+    note: Cite CL.4 when the subject or the property of the claim could be read as different things altogether. Cite CL.5 when one evaluative or universal word is left unbounded.
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Context
     - CAE Claim
+    - CAE Context
     detection_hints:
     - 'Look for unbounded evaluative terms: safe, robust, effective, timely, normal.'
     - 'Look for universal qualifiers without scope: all, every, never, always.'
@@ -533,6 +549,7 @@ guidelines:
   - Is a dependency or rationale hidden in claim or argument text?
   - Is an evidence reference being used as if it were a claim?
   - Is a justification being used as if it were support?
+  - Is a challenge element stating a challenge, rather than a note, a claim, or its own resolution?
   examples:
     bad: 'Claim: We argue that functional design safety is acceptable by decomposing into autonomy hazard topics, given that the ISO 26262 functional design scope applies and the project requires ISO 26262 compliance, supported by the functional safety requirements, safety mechanisms, and interfaces being defined.'
     problem: The single statement bundles claim, strategy, context, justification, and sub-claims; each element's role is hidden inside one sentence rather than carried by the structure.
@@ -572,12 +589,14 @@ guidelines:
     - GSN Assumption
     - GSN Justification
     - GSN Solution
+    - GSN Counter Claim
     - CAE Claim
     - CAE Argument
     - CAE Warrant
     - CAE Evidence
     - CAE Context
     - CAE Assumption
+    - CAE Defeater
     detection_hints:
     - Look for goals containing reasoning verbs (we argue that, by decomposing).
     - Look for solutions phrased as claims rather than evidence references.
@@ -664,82 +683,6 @@ guidelines:
       element_role: strategy
       attach_to: between_selected_and_children
       statement: Insert an explicit reasoning step stating how the children support the claim.
-- id: AR.3
-  category: AR
-  title: Use context and assumptions deliberately
-  statement: Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.
-  short_rule: Make scope, definitions, operating conditions, and dependencies explicit rather than implied.
-  rationale: This keeps the claim interpretable and makes clear which information defines the claim's scope and meaning, and which conditions the argument depends on being true.
-  review_prompts:
-  - Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
-  - Is any condition required for the claim to hold hidden in wording rather than made explicit?
-  - Would the argument be clearer if scope, definitions, or dependencies were represented separately?
-  - If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?
-  examples:
-    bad: The braking controller is acceptably safe in Highway ODD during automated mode with valid localization and nominal interface timing.
-    problem: Scope (ODD, mode) and dependencies (localization, interface timing) are hidden inside the claim text instead of being represented as separate context and assumption elements.
-    good: 'Claim: Braking controller safety is acceptable.
-
-      Scope:
-
-      - Applies in Highway ODD.
-
-      - Applies in automated mode.
-
-      Dependencies:
-
-      - Valid localization available.
-
-      - Nominal interface timing conditions apply.'
-  references:
-  - source_id: OMG-SACM
-  - source_id: ONR
-  - source_id: EASA
-  - source_id: NPSA-CAE
-  - source_id: UL4600
-    clauses:
-    - 5.2.3
-    - 5.4.1.3(a)(11)
-  - source_id: GSN-v3
-    clauses:
-    - 1:2.2.10-1:2.2.18
-  tool:
-    applicable_elements:
-    - GSN Goal
-    - GSN Context
-    - GSN Assumption
-    - CAE Claim
-    - CAE Context
-    - CAE Assumption
-    detection_hints:
-    - Look for claim text containing scope phrases (in ODD X, during mode Y) or dependency phrases (with valid Z).
-    markers:
-    - kind: scope_phrase_marker
-      effect: candidate
-      terms:
-      - during
-      - within
-      - under
-      - in the
-      - for the defined
-    - kind: dependency_phrase_marker
-      effect: candidate
-      terms:
-      - with valid
-      - assuming
-      - provided that
-      - given
-      - subject to
-    suggested_checks:
-    - id: check-context-assumption-placement
-      description: Check whether scope and dependencies in claim text should be moved to context or assumption elements. Candidate when a scope phrase or dependency phrase marker appears inside claim text.
-    repair:
-    - action: move_text
-      element_role: context
-      statement: Move scope, definitions, and operating conditions into context.
-    - action: move_text
-      element_role: assumption
-      statement: State each condition the argument depends on as an assumption.
 - id: AR.4
   category: AR
   title: Match claim precision to the level of the argument
@@ -766,6 +709,9 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - Part 2 §2:2
+  distinguish_from:
+  - id: CL.4
+    note: Cite CL.4 when competent readers could take the claim to mean different things, at any level. Cite AR.4 when the meaning is clear but the detail is wrong for where the claim sits, overloaded near the top or too vague to assess at a leaf.
   tool:
     applicable_elements:
     - GSN Goal
@@ -789,6 +735,7 @@ guidelines:
   - Does a key term mean the same thing at parent and sub-claim levels?
   - Has scope narrowed without being stated?
   - Is inherited context still valid at this level?
+  - Does a context element restate, redefine, or contradict context already given higher in the same branch?
   examples:
     bad: 'Parent claim: Software safety is acceptable.
 
@@ -826,9 +773,12 @@ guidelines:
   tool:
     applicable_elements:
     - GSN Goal
+    - GSN Context
     - CAE Claim
+    - CAE Context
     detection_hints:
     - Look for parent/child pairs where a key noun's scope changes silently.
+    - Look for two context elements in one branch that define the same term, scope, or ODD differently.
     suggested_checks:
     - id: check-scope-consistency
       description: Check whether key terms preserve scope across decomposition.
@@ -844,13 +794,13 @@ guidelines:
 - id: AR.6
   category: AR
   title: Provide the context needed to interpret the claim
-  statement: Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.
+  statement: Provide the context a reviewer needs to interpret the claim, that is, what its subject is, what it means, what scope it covers, and how its key terms are defined.
   short_rule: Give each claim the context a reviewer needs to interpret its subject, scope, and key terms.
-  rationale: This guideline is about whether the branch contains enough context at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries.
+  rationale: This guideline is about whether the information needed to read the claim is present in the branch at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries. It is not about conditions the claim depends on being true, which are assumptions (SU.2), about limits of the support (RD.3), or about context that is present but written into the claim text (AR.7).
   review_prompts:
-  - What must the reviewer know for this claim to be true or false?
+  - What must the reviewer know to understand what this claim says?
   - Are key terms defined where needed?
-  - Is any necessary scope or operating condition explicit?
+  - Is the scope the claim covers explicit?
   - Would two independent reviewers understand the claim in the same way?
   examples:
     bad: Perception performance is acceptable.
@@ -870,6 +820,13 @@ guidelines:
     clauses:
     - 1:2.2.10-1:2.2.11
     - 1:2.3.5
+  distinguish_from:
+  - id: AR.7
+    note: Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether.
+  - id: SU.2
+    note: Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
+  - id: RD.3
+    note: Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
   tool:
     applicable_elements:
     - GSN Goal
@@ -889,10 +846,11 @@ guidelines:
 - id: AR.7
   category: AR
   title: Make claim qualifiers explicit and maintainable
-  statement: Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
-  short_rule: Move qualifiers and dependency clauses out of claim text into context or assumptions.
-  rationale: This guideline is about placement, clarity, and maintainability. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
+  statement: Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
+  short_rule: Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.
+  rationale: This guideline is about placement, clarity, and maintainability. A claim such as "X is acceptable in ODD-A during automated mode with valid localization" carries its scope and its dependencies in one sentence; the scope belongs in context and the dependencies in assumptions. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.
   review_prompts:
+  - Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?
   - Which words in this claim are qualifiers rather than the core assertion?
   - Are the qualifiers clear enough for review, or would they be better represented as context or assumptions?
   - Could the core claim remain stable if a configuration, interface condition, or dependency changed?
@@ -918,10 +876,14 @@ guidelines:
     clauses:
     - 5.2.3
     - 5.3.2.1(a)
+    - 5.4.1.3(a)(11)
   - source_id: GSN-v3
     clauses:
-    - 1:2.2.10-1:2.2.13
+    - 1:2.2.10-1:2.2.18
   - source_id: CAE
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when the context is missing from the branch altogether. Cite AR.7 when it is present but written into the claim text.
   tool:
     applicable_elements:
     - GSN Goal
@@ -932,6 +894,7 @@ guidelines:
     - CAE Assumption
     detection_hints:
     - Look for connectives in claim text such as with, given, assuming, provided that, when.
+    - Look for scope phrases in claim text such as in ODD X or during mode Y.
     markers:
     - kind: qualifier_connective
       effect: candidate
@@ -943,9 +906,10 @@ guidelines:
       - subject to
       - conditional on
       - when
+      - during
     suggested_checks:
     - id: check-claim-text-purity
-      description: Check whether qualifying clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.
+      description: Check whether scope phrases and qualifying or dependency clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.
     repair:
     - action: move_text
       element_role: context
@@ -1274,7 +1238,7 @@ guidelines:
   title: Make the basis for evidence sufficiency explicit
   statement: When a claim is supported by evidence, make clear what makes that evidence sufficient for that claim.
   short_rule: State what makes the cited evidence sufficient for this claim, not only relevant to it.
-  rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.
+  rationale: A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations. Whether a basis is stated can be seen in the argument itself, so this guideline can be assessed without any evidence basis data; whether a stated basis is actually adequate is judged under LF.5, SU.7, and SU.8.
   review_prompts:
   - What makes this evidence enough for this claim?
   - Is the required scope, configuration, scenario set, or operating condition clear?
@@ -1301,6 +1265,9 @@ guidelines:
     clauses:
     - 5.4.2.1(b)-(c)
     - 5.3.2.1(a)(1)
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when the argument states what makes its evidence sufficient, or the evidence shows it, and the sample is too small or unrepresentative for the claim. Cite EV.5 when the argument does not state a sufficiency basis at all.
   tool:
     applicable_elements:
     - GSN Solution
@@ -1596,6 +1563,11 @@ guidelines:
     - 5.3.2.2(a)
     - 5.4.2.2(b)
   - source_id: GSN-v3
+  distinguish_from:
+  - id: SU.11
+    note: Cite SU.11 when a challenge has already been raised, in review or as a challenge element, and is not carried to a visible resolution. Cite SU.1 when a plausible doubt about the claim, reasoning, or evidence has not been raised in the argument at all.
+  - id: RD.3
+    note: Cite RD.3 when the argument knows a limitation of its support and does not show it where the claim is read. Cite SU.1 when a reviewer can see a doubt the argument has not considered.
   tool:
     applicable_elements:
     - GSN Goal
@@ -1617,11 +1589,12 @@ guidelines:
 - id: SU.2
   category: SU
   title: Make assumptions explicit and justify why they are reasonable
-  statement: Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.
-  short_rule: State assumptions explicitly, justify why each is reasonable, and monitor them where needed.
-  rationale: Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
+  statement: Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead.
+  short_rule: State each assumption where it constrains the argument, justify it, and monitor it where needed.
+  rationale: Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. Stating an assumption where it constrains the argument, not only where it was first discovered, lets a reviewer see what each branch depends on. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.
   review_prompts:
   - What must be true for this branch to hold?
+  - Is each dependency stated at the claim or reasoning step it constrains, rather than only elsewhere in the case?
   - Why is this assumption reasonable, and how would we know if it became false?
   - Is this really an assumption, or should it instead be represented as context, a claim, or evidence?
   examples:
@@ -1645,25 +1618,40 @@ guidelines:
   - source_id: GSN-v3
     clauses:
     - '0:4.6'
+    - 1:2.2.12
     - 1:2.2.17
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when what is missing is information needed to understand what the claim means. Cite SU.2 when it is a condition that must hold for the claim to be true.
   tool:
     applicable_elements:
+    - GSN Goal
+    - GSN Strategy
+    - GSN Context
     - GSN Assumption
+    - CAE Claim
+    - CAE Argument
+    - CAE Context
     - CAE Assumption
     detection_hints:
     - Look for branches whose validity depends on a condition that is not stated as an assumption or context.
+    - Look for a dependency stated elsewhere in the case but not attached to the claim or reasoning step it constrains.
     suggested_checks:
     - id: check-explicit-assumptions
-      description: Check whether implicit assumptions are made explicit, justified, and monitorable.
+      description: Check whether implicit assumptions are made explicit at the point where they constrain the argument, justified, and monitorable.
     repair:
     - action: add_element
       element_role: assumption
       attach_to: selected
-      statement: State the hidden condition explicitly as an assumption.
+      statement: State the hidden condition explicitly as an assumption where it constrains the argument.
     - action: add_element
       element_role: justification
       attach_to: selected
       statement: Justify why the assumption is reasonable and how it is monitored.
+    - action: add_element
+      element_role: claim
+      attach_to: children
+      statement: If the condition must be shown rather than assumed, add it as a sub-claim.
 - id: SU.3
   category: SU
   title: Do not rely on uncorroborated expert judgment alone
@@ -1729,10 +1717,11 @@ guidelines:
 - id: SU.4
   category: SU
   title: Monitor claims that cannot be fully supported at design time
-  statement: When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.
+  statement: When a claim asserts something only operation can confirm, such as a rate, a rarity, or behaviour over the service life, and its support is design-time evidence, state the uncertainty that remains and define lifecycle monitoring and re-assessment triggers that can confirm or challenge the claim during operation.
   short_rule: Where design-time support is partial, say so and define monitoring and re-assessment triggers.
-  rationale: Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
+  rationale: Some claims depend partly on assumptions, limited evidence, or expected field behavior. The recognisable shape is a claim about operational frequency, exposure, or service life whose evidence is analysis, test, or simulation done before operation. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.
   review_prompts:
+  - Does the claim state a rate, a rarity, or behaviour over a service life that only operation can confirm?
   - What part of this claim is not fully supported at design time?
   - Can that remaining uncertainty only be reduced through operational or field data?
   - Is lifecycle monitoring defined for that uncertainty?
@@ -1760,6 +1749,9 @@ guidelines:
     clauses:
     - 5.4.2.2(a)
     - 5.4.2.3(c)
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when more or better design-time evidence could close the gap between the claim and its data. Cite SU.4 when only operational experience can close it, so the claim needs monitoring and re-assessment triggers.
   tool:
     applicable_elements:
     - GSN Goal
@@ -1767,10 +1759,33 @@ guidelines:
     - CAE Claim
     - CAE Assumption
     detection_hints:
+    - Look for claims about rarity, occurrence rate, or service-life behaviour supported only by design-time analysis, test, or simulation.
     - Look for claims with partial design-time support and no defined lifecycle monitoring.
+    markers:
+    - kind: operational_claim_marker
+      effect: candidate
+      terms:
+      - rare
+      - rarely
+      - frequency
+      - occurrence rate
+      - service life
+      - lifetime
+      - in service
+      - in the field
+    - kind: monitoring_marker
+      effect: suppress
+      terms:
+      - monitored
+      - monitoring
+      - field data
+      - reassessment
+      - re-assessment
+      - reassessment trigger
+      - re-assessment trigger
     suggested_checks:
     - id: check-lifecycle-monitoring
-      description: Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers.
+      description: Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers. Candidate when an operational claim marker appears in the claim and no monitoring marker appears in the claim, its assumptions, or its context.
     repair:
     - action: add_element
       element_role: assumption
@@ -2021,65 +2036,6 @@ guidelines:
       element_role: evidence
       attach_to: children
       statement: Add evidence covering autonomy-specific failure modes and edge cases.
-- id: SU.9
-  category: SU
-  title: Document unstated assumptions at the point of use
-  statement: When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.
-  short_rule: State a dependency where it constrains the argument, as an assumption, context, or claim.
-  rationale: Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.
-  review_prompts:
-  - What must be true for this claim or strategy to hold, but is not currently stated?
-  - Is the hidden dependency local to the claim, or to the reasoning step?
-  - Should this dependency be represented as an assumption, as context, or as a claim that must be proved?
-  examples:
-    bad: 'Claim: Localization integrity is sufficient for safe fallback.'
-    problem: The branch depends on an unstated condition about localization performance during fallback (that integrity remains within bound L1), but that dependency is only implicit and a reviewer cannot see what must hold for the claim to be valid.
-    good: 'Claim: Localization integrity is sufficient for safe fallback.
-
-      Assumption: Localization integrity remains within bound L1 during fallback maneuver.
-
-
-      Or, if that dependency should be argued rather than assumed:
-
-
-      Claim: Localization integrity is sufficient for safe fallback.
-
-      Sub-claim: Localization integrity remains within bound L1 during fallback maneuver.
-
-      Evidence: Fallback localization analysis report FLA-03.'
-  references:
-  - source_id: UL4600
-    clauses:
-    - 5.4.1.3(a)(11)
-    - 5.4.1.6.2
-    - 5.4.2.2(a)(3)
-  - source_id: GSN-v3
-    clauses:
-    - '0:4.6'
-    - 1:2.2.12
-    - 1:2.2.17
-  tool:
-    applicable_elements:
-    - GSN Assumption
-    - GSN Context
-    - GSN Goal
-    - CAE Assumption
-    - CAE Context
-    - CAE Claim
-    detection_hints:
-    - Look for claims whose validity depends on conditions not stated as assumption, context, or subclaim.
-    suggested_checks:
-    - id: check-unstated-dependencies
-      description: Check whether unstated dependencies are made visible at the point of use.
-    repair:
-    - action: add_element
-      element_role: assumption
-      attach_to: selected
-      statement: State the unstated dependency as an assumption at the point where it constrains the argument.
-    - action: add_element
-      element_role: claim
-      attach_to: children
-      statement: If the dependency must be shown rather than assumed, add it as a sub-claim.
 - id: SU.10
   category: SU
   title: Keep assumptions bounded, specific, and monitorable
@@ -2194,6 +2150,9 @@ guidelines:
     - 5.4.2.2(b)
     - 5.4.2.3(a)
   - source_id: GSN-v3
+  distinguish_from:
+  - id: SU.1
+    note: Cite SU.1 when a plausible doubt has not been raised in the argument at all. Cite SU.11 when a challenge has been raised, in review or as a challenge element, and is not carried to a visible resolution.
   tool:
     applicable_elements:
     - GSN Goal
@@ -2446,6 +2405,7 @@ guidelines:
   - Is the sample size adequate for the confidence implied?
   - Does the data distribution match the ODD and edge cases?
   - Is the claim broader than the sample supports?
+  - Does the evidence cover the conditions the claim names, or is a kind of evidence a critical reviewer would expect for those conditions absent?
   examples:
     bad: 'Claim: The item is acceptably safe across the defined ODD.
 
@@ -2479,6 +2439,13 @@ guidelines:
       Justification: The combined evidence set provides coverage across the claimed ODD, including relevant distributions and edge cases.'
   references:
   - source_id: Greenwell-2006
+  distinguish_from:
+  - id: SU.4
+    note: Cite SU.4 when only operational experience can close the gap, so the claim needs monitoring and re-assessment triggers. Cite LF.5 when more or better design-time evidence could close it.
+  - id: LF.7
+    note: Cite LF.7 when the case contains unfavourable results or anomalies that the argument leaves unanswered. Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim.
+  - id: EV.5
+    note: Cite EV.5 when the argument does not state what makes its evidence sufficient. Cite LF.5 when it does, or the evidence shows it, and the sample is too small or unrepresentative for the claim.
   tool:
     applicable_elements:
     - GSN Solution
@@ -2562,50 +2529,43 @@ guidelines:
       statement: State the figure to the precision the method supports, with its uncertainty or confidence bound.
 - id: LF.7
   category: LF
-  title: Avoid omission of key evidence and ignoring counter-evidence
-  statement: Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.
-  short_rule: Include the evidence a critical reviewer expects, and answer known contrary evidence.
-  rationale: A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.
+  title: Avoid cherry-picking and ignoring counter-evidence
+  statement: Do not present only the favourable part of the evidence. Where the cited evidence, its stated limitations, or other material in the case contains unfavourable results, failures, or anomalies relevant to the claim, answer them in the argument, by explaining why they do not undermine the claim, narrowing the claim, or adding support.
+  short_rule: Do not cite only favourable results; answer the unfavourable results the case contains.
+  rationale: A safety case becomes misleading when it presents only the supporting part of its evidence and leaves unanswered the results that could weaken, limit, or challenge the claim. The recognisable shape is a result or statement in the case that runs against the claim, with nothing in the argument responding to it, or evidence cited as a selected subset of a larger result set. Evidence that is favourable but too narrow for the claim is LF.5.
   review_prompts:
-  - What evidence would a critical reviewer reasonably expect to see for this claim?
-  - Is any known anomaly, failure, exclusion, or limitation being left unaddressed?
-  - Does the omitted material affect the meaning, scope, or credibility of the claim?
-  - Is contrary evidence explicitly addressed rather than silently ignored?
+  - Does the case contain results, failures, exclusions, or anomalies that run against this claim?
+  - Is the evidence cited selectively, for example only the passing runs or a chosen subset?
+  - Is each unfavourable result answered, by explanation, a narrower claim, or added support?
+  - Would the claim still read the same way if the unfavourable results were placed next to it?
   examples:
-    bad: 'Claim: Sensor robustness is acceptable.
+    bad: 'Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04.
 
-      Evidence: Sensor performance test report SPR-08.
+      Evidence: Braking test report BTR-06, section 4, passing runs.
 
-      Justification: The reported test results show robust detection performance.'
-    problem: The branch cites supportive performance results but omits known obscuration, contamination, or environmental degradation evidence that a reviewer would naturally expect for a robustness claim.
-    good: 'Claim: Sensor robustness is acceptable for the defined conditions.
+      The same report, section 5, records three low-friction runs in which stopping distance exceeded AC-BRK-04.'
+    problem: The argument cites the favourable runs and leaves unanswered the failing runs recorded in the same report; a reviewer is left to discover that the evidence partly contradicts the claim.
+    good: 'Claim: Emergency braking stopping distance meets acceptance criterion AC-BRK-04 on dry and wet surfaces.
 
-      Evidence:
+      Evidence: Braking test report BTR-06, sections 4 and 5, all runs.
 
-      - Sensor performance test report SPR-08.
+      Context: Claim excludes low-friction surfaces, where three runs in BTR-06 section 5 exceeded AC-BRK-04.
 
-      - Obscuration test report OTR-03.
-
-      - Environmental degradation test report EDR-05.
-
-      Justification: The argument addresses both supporting and limiting evidence for the claimed operating conditions.
+      Open issue: Low-friction braking is argued in the separate branch for friction-limited operation.
 
 
-      Or, if contrary evidence exists, scope it:
+      Or, if the failing runs are explained rather than excluded:
 
-      Claim: Sensor robustness is acceptable for the defined conditions.
-
-      Evidence:
-
-      - Sensor performance test report SPR-08.
-
-      - Environmental degradation anomaly review EAR-02.
-
-      Context: Claim excludes heavy mud obscuration beyond the tested condition range.
-
-      Justification: Known degradation limits are explicitly addressed and reflected in the claim scope.'
+      Justification: The three low-friction runs in BTR-06 section 5 used a tyre set outside the vehicle specification; repeat runs with specified tyres, BTR-07 section 2, meet AC-BRK-04.'
   references:
   - source_id: Greenwell-2006
+  distinguish_from:
+  - id: LF.5
+    note: Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim. Cite LF.7 when the case contains unfavourable results that the argument leaves unanswered.
+  - id: SU.6
+    note: Cite SU.6 when the unanswered material is operational feedback dismissed because it caused no harm or could not be reproduced. Cite LF.7 for other unfavourable results.
+  - id: SU.11
+    note: Cite SU.11 when the unanswered material is a raised challenge, such as a counter claim or defeater. Cite LF.7 when it is an unfavourable result in the evidence.
   tool:
     applicable_elements:
     - GSN Solution
@@ -2613,17 +2573,35 @@ guidelines:
     - CAE Evidence
     - CAE Claim
     detection_hints:
-    - Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence.
+    - Look for evidence cited as a selected or passing subset of a larger result set.
+    - Look for unfavourable results, failures, or anomalies stated in the case with no response in the argument.
+    markers:
+    - kind: selective_citation_marker
+      effect: candidate
+      terms:
+      - passing runs
+      - successful runs
+      - selected runs
+      - selected results
+      - representative runs
+      - representative results
+      - typical results
+      - best-case
+      - best case
+      - excluding outliers
+      - outliers removed
     suggested_checks:
     - id: check-counter-evidence-treatment
-      description: Check whether known limiting or contrary evidence is addressed or scoped out.
+      description: Check whether unfavourable results in the case are answered and whether evidence is cited selectively. Candidate when a selective citation marker appears in an evidence reference.
     repair:
-    - action: add_element
-      element_role: evidence
-      attach_to: children
-      statement: Add the evidence a critical reviewer would expect, including contrary evidence.
     - action: reword_element
-      statement: Or narrow the claim so that the omitted conditions are outside its scope.
+      statement: Cite the full result set, not only its favourable part.
+    - action: add_element
+      element_role: justification
+      attach_to: selected
+      statement: Answer each unfavourable result, explaining why it does not undermine the claim or what does address it.
+    - action: reword_element
+      statement: Or narrow the claim so that the unfavourable conditions are outside its scope.
 - id: RD.1
   category: RD
   title: Use explicit signposting of argument element roles
@@ -2734,69 +2712,73 @@ guidelines:
       statement: State the operating scope and match the confidence wording to the actual support.
 - id: RD.3
   category: RD
-  title: Make limitations, objections, and responses explicit
-  statement: Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.
-  short_rule: Make limitations, objections, and their responses visible where the claim is read.
-  rationale: A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.
+  title: Keep known limitations visible where the claim is read
+  statement: Make known limitations of a claim's support, such as excluded conditions, partial coverage, and open issues, visible at the claim they qualify, through its wording, its context, or an explicit open issue. Do not leave them only in appendices, footnotes, or text that is not connected to the claim.
+  short_rule: Show known limitations where the claim is read, not only in appendices or distant text.
+  rationale: A claim can appear stronger or broader than the argument supports when its known limits are easy to miss. A safety case is easier to review and trust when it shows not only supporting material but the limits that affect confidence in the claim, at the point where the claim is read. This guideline is about limitations the argument already knows; a doubt the argument has not considered is SU.1, and a condition the claim depends on is an assumption under SU.2.
   review_prompts:
-  - Are important limitations visible at the point where they affect the claim?
-  - Are plausible objections or challenges addressed explicitly?
-  - Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?
+  - Are known limitations, exclusions, or open issues visible at the claim they qualify?
+  - Is a limitation stated only in an appendix, a footnote, or text that is not attached to the claim?
+  - Would a reviewer reading only the main branch be misled about the claim's scope?
+  - Is unresolved doubt made visible through a narrower claim, context, monitoring, or an open issue?
   examples:
     bad: 'Claim: Perception robustness is acceptable.
 
-      Evidence:
+      Evidence: Perception validation report PVR-08.
 
-      - Simulation report SIM-04.
+      A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.'
+    problem: The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
+    good: 'Claim: Perception robustness is acceptable for the validated visibility conditions.
 
-      - Road test report RTR-07.'
-    problem: The branch presents supporting evidence, but does not make visible that occlusion behavior is only partly covered and remains a relevant challenge to the claim.
-    good: 'Claim: Perception robustness is acceptable for the defined visible-object conditions.
+      Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
 
-      Context: Claim excludes object occlusion cases beyond the tested coverage defined in OCS-02.
+      Evidence: Perception validation report PVR-08.
 
-      Evidence:
-
-      - Simulation report SIM-04.
-
-      - Road test report RTR-07.
-
-      Open Issue: Robustness under severe occlusion remains unresolved and requires additional evidence.
-
-
-      Or, if the objection is addressed rather than excluded:
-
-      Evidence: Occlusion test report OTR-03.
-
-      Justification: The relevant occlusion challenge is explicitly addressed by the added evidence.'
+      Open issue: Robustness under severe occlusion remains unresolved and requires additional evidence.'
   references:
   - source_id: CAE-Review
   - source_id: CAE-Defeaters
   - source_id: RA1205
   - source_id: ONR
   - source_id: EASA
+  - source_id: UNECE-ADS
+  distinguish_from:
+  - id: AR.6
+    note: Cite AR.6 when what is missing is the subject, meaning, or scope of the claim itself. Cite RD.3 when it is a known limit of the support or its coverage.
+  - id: SU.1
+    note: Cite SU.1 when a reviewer can see a doubt the argument has not considered. Cite RD.3 when the argument knows a limitation and does not show it where the claim is read.
   tool:
     applicable_elements:
     - GSN Goal
     - GSN Context
-    - GSN Counter Claim
     - CAE Claim
     - CAE Context
-    - CAE Defeater
     detection_hints:
-    - Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage.
+    - Look for limiting conditions stated only in appendices, footnotes, or distant free text.
+    - Look for claims with no visible limitation, exclusion, or open issue although the branch shows only partial coverage.
+    markers:
+    - kind: distant_location_marker
+      effect: candidate
+      terms:
+      - appendix
+      - annex
+      - footnote
+      - attachment
+      - elsewhere in the document
+      - see also
     suggested_checks:
     - id: check-limitations-visible
-      description: Check whether known limitations and objections are visible at the point of the affected claim.
+      description: Check whether known limitations are visible at the claim they qualify. Candidate when a limitation is stated only where a distant location marker points, rather than attached to the claim it qualifies.
     repair:
+    - action: move_text
+      element_role: context
+      statement: Move the buried limitation into context attached to the claim it qualifies.
     - action: add_element
       element_role: context
       attach_to: selected
       statement: State the limitation as context where the claim is read.
-    - action: add_element
-      element_role: challenge
-      attach_to: selected
-      statement: Record the objection as an explicit challenge element.
+    - action: reword_element
+      statement: Or narrow the claim so that the limitation is outside its scope.
 - id: RD.4
   category: RD
   title: Avoid promotional and inflated language
@@ -2885,76 +2867,31 @@ guidelines:
     repair:
     - action: reword_element
       statement: Name the actor who performed the review, judgment, or approval.
+retired_guidelines:
+- id: AR.3
+  title: Use context and assumptions deliberately
+  retired_in: 0.8.0
+  replaced_by:
+  - AR.7
+  - AR.6
+  note: It asked for the same thing as AR.7, moving scope and dependency clauses out of claim text, and its remaining half, whether the context a claim needs is present at all, is AR.6. Cite AR.7 for placement and AR.6 for missing context.
+- id: SU.9
+  title: Document unstated assumptions at the point of use
+  retired_in: 0.8.0
+  replaced_by:
+  - SU.2
+  note: Merged into SU.2, which now also requires an assumption to be stated where it constrains the argument and applies to claims and context as well as assumption elements.
 - id: RD.6
-  category: RD
   title: Do not bury important limitations or hidden assumptions
-  statement: Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.
-  short_rule: Keep important limitations and assumptions attached to the claim they qualify.
-  rationale: A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.
-  review_prompts:
-  - Is an important limitation easy to miss?
-  - Is an important assumption stated explicitly as an assumption, or only implied elsewhere?
-  - Would a reviewer be misled by reading only the main branch?
-  - Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?
-  examples:
-    bad: 'Claim: Perception robustness is acceptable.
-
-      Evidence: Perception validation report PVR-08.
-
-      A later appendix states that the reported results exclude heavy rain, dense fog, and severe occlusion.'
-    problem: The main claim appears broad, but important limiting conditions are only visible outside the main branch; a reviewer reading only the claim would be misled about its scope.
-    good: 'Claim: Perception robustness is acceptable for the validated visibility conditions.
-
-      Context: Claim excludes heavy rain, dense fog, and severe occlusion beyond the tested range defined in PVR-08.
-
-      Evidence: Perception validation report PVR-08.
-
-
-      Or, where the dependency is really an assumption:
-
-      Claim: Perception robustness is acceptable.
-
-      Assumption: Visibility conditions remain within the validated range defined in PVR-08.
-
-      Evidence: Perception validation report PVR-08.'
-  references:
-  - source_id: CAE-Defeaters
-  - source_id: RA1205
-  - source_id: UNECE-ADS
-  tool:
-    applicable_elements:
-    - GSN Goal
-    - GSN Context
-    - GSN Assumption
-    - CAE Claim
-    - CAE Context
-    - CAE Assumption
-    detection_hints:
-    - Look for important limiting conditions stated only in appendices or distant free text.
-    markers:
-    - kind: distant_location_marker
-      effect: candidate
-      terms:
-      - appendix
-      - annex
-      - footnote
-      - attachment
-      - elsewhere in the document
-      - see also
-    suggested_checks:
-    - id: check-limitations-collocated
-      description: Check whether important limitations and assumptions are visible where the claim is read. Candidate when a limitation is stated only in a distant location marker rather than attached to the claim it qualifies.
-    repair:
-    - action: move_text
-      element_role: context
-      statement: Move the buried limitation into context attached to the claim it qualifies.
-    - action: move_text
-      element_role: assumption
-      statement: Move a buried dependency into an assumption attached to the claim.
+  retired_in: 0.8.0
+  replaced_by:
+  - RD.3
+  - SU.2
+  note: It was the negative form of RD.3. Buried limitations are now RD.3, which keeps known limitations visible where the claim is read; hidden assumptions are SU.2.
 review_profiles:
 - id: claim_review
   display_name: Claim review
-  description: Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency.
+  description: Complete review of a selected claim (goal), covering wording, context, decomposition, evidence support, reasoning soundness, and sufficiency, in four passes.
   applies_to:
   - GSN Goal
   - CAE Claim
@@ -2966,7 +2903,6 @@ review_profiles:
   - CL.5
   - CL.6
   - AR.1
-  - AR.3
   - AR.4
   - AR.5
   - AR.6
@@ -2975,11 +2911,11 @@ review_profiles:
   - EV.3
   - EV.9
   - SU.1
+  - SU.2
   - SU.4
   - SU.5
   - SU.6
   - SU.8
-  - SU.9
   - SU.11
   - LF.1
   - LF.2
@@ -2993,7 +2929,56 @@ review_profiles:
   - RD.3
   - RD.4
   - RD.5
-  - RD.6
+  review_passes:
+  - id: wording
+    display_name: Wording
+    question: Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded?
+    guideline_ids:
+    - CL.1
+    - CL.2
+    - CL.3
+    - CL.4
+    - CL.5
+    - CL.6
+    - RD.2
+    - RD.4
+    - RD.5
+  - id: structure
+    display_name: Structure
+    question: Does the claim sit correctly in the argument, in its role, its context, its level of detail, its scope across decomposition, and its path to evidence?
+    guideline_ids:
+    - AR.1
+    - AR.4
+    - AR.5
+    - AR.6
+    - AR.7
+    - EV.1
+    - EV.3
+    - EV.9
+  - id: sufficiency
+    display_name: Sufficiency
+    question: Is the claim's support good enough, and are its assumptions, limitations, and challenges visible?
+    guideline_ids:
+    - SU.1
+    - SU.2
+    - SU.4
+    - SU.5
+    - SU.6
+    - SU.8
+    - SU.11
+    - RD.3
+  - id: reasoning
+    display_name: Reasoning
+    question: Is the reasoning from support to claim sound, free of fallacies, and signposted?
+    guideline_ids:
+    - LF.1
+    - LF.2
+    - LF.3
+    - LF.4
+    - LF.5
+    - LF.6
+    - LF.7
+    - RD.1
   required_data:
   - SELECTED_CLAIM
   - PARENT
@@ -3019,16 +3004,16 @@ review_profiles:
     - id: STRATEGY
       rationale: The connecting strategy or reasoning element shows whether the inference is made explicit rather than inferred from wording (AR.1) and whether support adds independent reasoning rather than restating the claim (LF.1); its absence is itself a finding.
     - id: DIRECT_CONTEXT
-      rationale: Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.3, AR.6, AR.7, RD.1, RD.6) and whether limitations are visible where the claim is read (RD.3, SU.9).
+      rationale: Context, assumptions, and justifications attached to the claim determine whether scope, definitions, and dependencies are externalized rather than hidden in the claim text (CL.3, AR.6, AR.7, RD.1), whether the conditions the claim depends on are stated where they constrain it (SU.2), and whether known limitations are visible where the claim is read (RD.3).
     - id: INHERITED_CONTEXT
-      rationale: Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.6) and reveal hidden or contradicted limitations under SU.9.
+      rationale: Scope and assumptions carried down from ancestors bound how broad or absolute the claim may be (CL.5, AR.5, RD.3) and show whether a dependency is stated where it constrains this claim or only higher up (SU.2).
     - id: EVIDENCE_PATH
-      rationale: The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness (LF.5), and omission of expected or contrary evidence (LF.7, SU.6, SU.8).
+      rationale: The path from the claim to its evidence is required to judge traceable support (EV.1), correct claim subject (EV.3), premise relevance (LF.2), representativeness and coverage of the claimed conditions (LF.5), unanswered unfavourable results (LF.7), and dismissed or human-derived support (SU.6, SU.8).
     optional:
     - id: EVIDENCE_ITEM
       rationale: Metadata for terminal evidence helps confirm that the traced support is precise and controlled where the claim's credibility depends on the cited artifact (EV.1, EV.3).
     - id: EVIDENCE_BASIS
-      rationale: Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, LF.7, SU.6, SU.8).
+      rationale: Coverage, thresholds, scenarios, and limitations help judge whether the evidence is sufficient for the claim's scope, not merely relevant (LF.5, SU.8), and expose unfavourable results the argument must answer (LF.7).
     - id: PROJECT_GLOSSARY
       rationale: Controlled definitions of terms such as safe, acceptable, nominal, or ODD resolve apparent ambiguity or overloaded wording (CL.4, AR.6).
     - id: STANDARD_LINKS
@@ -3046,6 +3031,7 @@ review_profiles:
   - AR.2
   - EV.9
   - SU.1
+  - SU.2
   - LF.1
   required_data:
   - SELECTED_STRATEGY
@@ -3067,7 +3053,7 @@ review_profiles:
     - id: CHILDREN
       rationale: The supporting elements are needed to judge whether the reasoning rule actually produces this child set and whether the decomposition is complete, relevant, and non-circular (AR.2, LF.1).
     - id: DIRECT_CONTEXT
-      rationale: Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2).
+      rationale: Strategies rely on local scope, decomposition criteria, and dependencies that must be visible to decide whether the reasoning is valid for the branch (AR.1, AR.2), and whether the conditions the reasoning step depends on are stated where it uses them (SU.2).
     optional:
     - id: INHERITED_CONTEXT
       rationale: Inherited scope and assumptions help confirm that the strategy does not silently override ancestor terminology or boundaries (AR.2 consistency).
@@ -3106,9 +3092,9 @@ review_profiles:
   required_data:
   - SELECTED_EVIDENCE
   - EVIDENCE_ITEM
-  - EVIDENCE_BASIS
   - PARENT
   optional_data:
+  - EVIDENCE_BASIS
   - DIRECT_CONTEXT
   - EVIDENCE_PATH
   - PROJECT_GLOSSARY
@@ -3120,11 +3106,11 @@ review_profiles:
       rationale: The selected solution or evidence reference is the element under review. It identifies which artifact is cited and what role it plays, which is the basis for AR.1, EV.1, and RD.1.
     - id: EVIDENCE_ITEM
       rationale: Artifact metadata such as type, owner, version, date, status, location, and cited section is required to judge whether the evidence type is reviewable and the citation precise, controlled, and stable (EV.2, EV.4, EV.7, EV.8).
-    - id: EVIDENCE_BASIS
-      rationale: Scope, coverage, thresholds, scenarios, configurations, and limitations are required to judge sufficiency and inferential fit rather than citation hygiene alone (EV.5, EV.6, LF.5, LF.7, SU.3, SU.6, SU.7, SU.8).
     - id: PARENT
       rationale: The claim the evidence supports is required to judge relevance to the immediate claim (LF.2), a correct and traceable evidence path (EV.1), and whether the inferential link is explained (EV.6).
     optional:
+    - id: EVIDENCE_BASIS
+      rationale: 'Scope, coverage, thresholds, scenarios, configurations, and limitations let the review judge whether the evidence is actually adequate for the claim, not only whether the argument states a basis (LF.5, SU.7, SU.8), and expose unfavourable results the argument must answer (LF.7). Many tools cannot build it, because the data lives in test reports and evidence registers rather than in the argument. Without it every guideline is still assessed from the argument: a missing sufficiency basis is reported under EV.5, and coverage or representativeness is judged only as far as the argument itself states it.'
     - id: DIRECT_CONTEXT
       rationale: The claim's local scope and assumptions define what the evidence must cover and help detect evidence that is relevant to a neighboring or broader claim but not sufficient here (LF.2, EV.5).
     - id: EVIDENCE_PATH
@@ -3135,18 +3121,6 @@ review_profiles:
       rationale: Standard links confirm that an evidence type or acceptance criterion that appeals to a standard is grounded rather than assumed (EV.2, EV.5).
     - id: CHANGE_HISTORY
       rationale: Prior findings, review comments, and baseline state identify unstable, challenged, stale, or dismissed evidence (EV.7, EV.8, SU.1, SU.6).
-  when_absent:
-  - id: EVIDENCE_BASIS
-    unassessable_guideline_ids:
-    - EV.5
-    - EV.6
-    - SU.3
-    - SU.6
-    - SU.7
-    - SU.8
-    - LF.5
-    - LF.7
-    statement: Without an evidence basis the review can judge citation, control, and element role, but not whether the evidence is sufficient for the claim. Report the remaining findings, state that sufficiency was not assessed, and do not report an absent basis as a finding against the argument.
 - id: assumption_review
   display_name: Assumption review
   description: Complete review of a selected assumption, covering whether it is explicit, bounded, correctly placed, monitorable, and not hiding an unsupported claim.
@@ -3155,14 +3129,11 @@ review_profiles:
   - CAE Assumption
   guideline_ids:
   - AR.1
-  - AR.3
   - AR.7
   - SU.2
   - SU.4
-  - SU.9
   - SU.10
   - RD.1
-  - RD.6
   required_data:
   - SELECTED_ASSUMPTION
   - DIRECT_CONTEXT
@@ -3174,14 +3145,14 @@ review_profiles:
   data_rationale:
     required:
     - id: SELECTED_ASSUMPTION
-      rationale: The selected assumption is the dependency under review. SU.2, SU.9, SU.10, AR.3, AR.7, and RD.6 require checking whether it is explicit, bounded, monitorable, and correctly placed, while AR.1 and RD.1 check that it is used and signposted for its role.
+      rationale: The selected assumption is the dependency under review. SU.2, SU.10, and AR.7 require checking whether it is explicit, justified, bounded, monitorable, and correctly placed, and SU.4 whether it carries a re-assessment trigger where only operation can confirm it, while AR.1 and RD.1 check that it is used and signposted for its role.
     - id: DIRECT_CONTEXT
-      rationale: Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2, SU.9).
+      rationale: Assumptions and justifications attached at the selected point expose the reasonableness basis, the monitoring expectation, and whether the condition should instead be context or a claim (SU.2).
     - id: INHERITED_CONTEXT
-      rationale: Assumptions often propagate from ancestors, so inherited context is required to detect conflicts, over-broad inherited dependencies, or limitations otherwise hidden from the branch (RD.6, SU.10).
+      rationale: Assumptions often propagate from ancestors, so inherited context is required to detect conflicting or over-broad inherited dependencies, and assumptions stated higher up that belong at this point (SU.2, SU.10).
     optional:
     - id: PARENT
-      rationale: The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.9).
+      rationale: The scope and argument location the assumption qualifies help decide whether it is local, should be inherited more broadly, or should be converted into a claim that requires support (SU.2).
     - id: CHANGE_HISTORY
       rationale: Prior findings and baseline state show whether the assumption is monitored, has been challenged, or needs a defined re-assessment trigger (SU.2, SU.4).
     - id: PROJECT_GLOSSARY
@@ -3234,46 +3205,48 @@ review_profiles:
       rationale: Prior review comments, unresolved findings, and baseline shifts show whether the justification has been challenged, whether agency is clear (RD.5), and whether reused safety credit still applies (SU.5).
 - id: context_review
   display_name: Context review
-  description: Complete review of a selected context element, covering whether it provides sufficient, relevant, and consistent scope and definitions for the claim it qualifies.
+  description: Complete review of a selected context element, covering whether it gives the claim it qualifies bounded, consistent scope and definitions, and whether it carries the claim's known limitations.
   applies_to:
   - GSN Context
   - CAE Context
   guideline_ids:
+  - CL.5
   - AR.1
-  - AR.3
+  - AR.5
   - AR.6
   - AR.7
-  - SU.9
   - RD.1
   - RD.3
-  - RD.6
   required_data:
   - SELECTED_CONTEXT
   - PARENT
-  optional_data:
   - INHERITED_CONTEXT
+  optional_data:
   - PROJECT_GLOSSARY
   - STANDARD_LINKS
   data_rationale:
     required:
     - id: SELECTED_CONTEXT
-      rationale: The selected context element is the object of review. AR.1, AR.3, AR.6, AR.7, RD.1, and RD.3 require checking whether it is used for its role and whether it supplies clear scope, definitions, and operating conditions.
+      rationale: The selected context element is the object of review. AR.1 and RD.1 check that it is used and signposted as context, CL.5 that its evaluative terms are bounded, AR.6 that it supplies the scope and definitions the claim needs, and RD.3 that it carries the claim's known limitations.
     - id: PARENT
-      rationale: The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and dependencies are correctly externalized to it (AR.3, AR.7), and whether limitations are visible where the claim is read (RD.3, RD.6).
-    optional:
+      rationale: The claim or element the context qualifies is required to judge whether the context is sufficient and relevant for interpreting that claim (AR.6), whether scope and qualifiers have been moved out of the claim text into it (AR.7), and whether the claim's known limitations are visible where it is read (RD.3).
     - id: INHERITED_CONTEXT
-      rationale: Ancestor scope and assumptions show whether this context is consistent with, or silently narrows or contradicts, inherited limits (RD.6, SU.9).
+      rationale: Ancestor context is required to check whether this context restates, silently narrows, redefines, or contradicts what the branch already inherits (AR.5).
+    optional:
     - id: PROJECT_GLOSSARY
-      rationale: Controlled definitions confirm that terms introduced or relied on by the context are used consistently across the branch (AR.6).
+      rationale: Controlled definitions confirm that terms introduced or relied on by the context are bounded and used consistently across the branch (CL.5, AR.5, AR.6).
     - id: STANDARD_LINKS
-      rationale: When the context cites external standards or operating constraints, standard links help verify the reference is relevant and not used as vague or hidden context (AR.3).
+      rationale: When the context cites external standards or operating constraints, standard links help verify that the reference is relevant and defines what the context says it does (AR.6).
 - id: challenge_review
   display_name: Challenge review
-  description: Complete review of a selected counter claim or defeater, covering whether the challenge is stated explicitly and carried to a visible resolution.
+  description: Complete review of a selected counter claim or defeater, covering whether the challenge is a clear, specific proposition used as a challenge, and whether it is carried to a visible resolution.
   applies_to:
   - GSN Counter Claim
   - CAE Defeater
   guideline_ids:
+  - CL.1
+  - CL.4
+  - AR.1
   - SU.11
   required_data:
   - SELECTED_CHALLENGE
@@ -3285,7 +3258,7 @@ review_profiles:
   data_rationale:
     required:
     - id: SELECTED_CHALLENGE
-      rationale: The selected counter claim or defeater is the challenge under review. SU.11 requires checking whether the challenge is stated explicitly as a distinct element rather than left in review comments or reviewer intuition.
+      rationale: The selected counter claim or defeater is the challenge under review. CL.1 and CL.4 require it to be a specific proposition that competent readers would take the same way, AR.1 that it states a challenge rather than a note, a claim, or its own resolution, and SU.11 that it is an explicit element rather than something left in review comments or reviewer intuition.
     - id: PARENT
       rationale: The claim, reasoning step, or evidence being challenged is required to judge whether the challenge is relevant to its target and whether the branch has been updated to resolve it (SU.11).
     optional:
@@ -3571,7 +3544,7 @@ data_packages:
 availability_states:
 - id: available
   display_name: Available
-  meaning: The package is supplied and carries the data the profile expects.
+  meaning: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
 - id: not_implemented
   display_name: Not implemented
   meaning: The tool has no source for this package at all.
@@ -3581,6 +3554,7 @@ availability_states:
 - id: withheld
   display_name: Withheld
   meaning: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
+when_unavailable: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 review_profile_diagram_layout:
   canvas:
     width: 1600
@@ -3703,7 +3677,7 @@ authoring_guidance:
     reason: Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it.
   - id: AR.2
     reason: Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument.
-  - id: AR.3
+  - id: AR.7
     reason: Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.
   - id: EV.1
     reason: A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review.
@@ -3714,9 +3688,7 @@ authoring_guidance:
   - id: EV.8
     reason: A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time.
   - id: SU.2
-    reason: Assumptions are easiest to state while the author still knows what they were assuming.
-  - id: SU.9
-    reason: An unstated dependency is invisible to review by definition, so it has to be caught where it is introduced.
+    reason: An unstated dependency is invisible to review by definition, so it has to be stated where it is introduced, while the author still knows what they were assuming.
   - id: LF.1
     reason: Support that restates its parent is a common filler pattern when an author or a model has no real support to offer.
   - id: LF.3

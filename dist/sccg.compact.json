@@ -44,13 +44,14 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.7.0",
-    "schema_version": "2.0.0",
+    "sccg_version": "0.8.0",
+    "schema_version": "3.0.0",
     "title": "Safety Case Core Guidelines"
   },
   "guidelines": [
     {
       "category": "CL",
+      "distinguish_from": [],
       "id": "CL.1",
       "rationale": "A safety case is built from claims that can be challenged, supported, or refuted. Statements that are merely labels, headings, slogans, or references are poor safety claims.",
       "reference_source_ids": [
@@ -63,7 +64,8 @@
       "review_prompts": [
         "Could a reviewer tell what would make this claim false?",
         "Is this a proposition, or only a topic label?",
-        "Is the claim understandable without extra interpretation?"
+        "Is the claim understandable without extra interpretation?",
+        "For a challenge element, does it state a specific way the target could fail, one that could be shown to hold or not?"
       ],
       "short_rule": "State each claim as a short proposition a reviewer could judge true or false.",
       "statement": "State each claim as a sentence that can in principle be shown true or false.",
@@ -71,7 +73,9 @@
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim"
+          "GSN Counter Claim",
+          "CAE Claim",
+          "CAE Defeater"
         ],
         "detection_hints": [
           "Look for goal text that is a noun phrase or topic label rather than a proposition.",
@@ -105,6 +109,7 @@
     },
     {
       "category": "CL",
+      "distinguish_from": [],
       "id": "CL.2",
       "rationale": "Bundled claims hide missing decomposition, make evidence assignment unclear, and produce review findings that are hard to localize.",
       "reference_source_ids": [
@@ -175,6 +180,7 @@
     },
     {
       "category": "CL",
+      "distinguish_from": [],
       "id": "CL.3",
       "rationale": "When a claim contains the whole story, reviewers cannot clearly see what is being claimed, what constrains the claim, and how the argument is intended to proceed. In GSN, that information should be visible in the structure, not hidden inside one sentence.",
       "reference_source_ids": [
@@ -256,6 +262,16 @@
     },
     {
       "category": "CL",
+      "distinguish_from": [
+        {
+          "id": "CL.5",
+          "note": "Cite CL.5 when the problem is one evaluative or universal word left unbounded, such as safe, timely, or all. Cite CL.4 when the subject or the property of the claim could be read as different things altogether."
+        },
+        {
+          "id": "AR.4",
+          "note": "Cite AR.4 when the meaning is clear but the detail is wrong for the claim's level in the argument. Cite CL.4 when competent readers could take the claim to mean different things."
+        }
+      ],
       "id": "CL.4",
       "rationale": "Ambiguous claims undermine review, traceability, and evidence relevance. This guideline directly supports UL 4600’s requirement to avoid substantive ambiguity in claims and arguments.",
       "reference_source_ids": [
@@ -275,7 +291,9 @@
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim"
+          "GSN Counter Claim",
+          "CAE Claim",
+          "CAE Defeater"
         ],
         "detection_hints": [
           "Look for ambiguous subjects or properties (e.g. development is safe).",
@@ -332,6 +350,12 @@
     },
     {
       "category": "CL",
+      "distinguish_from": [
+        {
+          "id": "CL.4",
+          "note": "Cite CL.4 when the subject or the property of the claim could be read as different things altogether. Cite CL.5 when one evaluative or universal word is left unbounded."
+        }
+      ],
       "id": "CL.5",
       "rationale": "Terms such as safe, timely, effective, normal, robust, all, every, and never can sound stronger or broader than the argument actually shows unless they are properly bounded.",
       "reference_source_ids": [
@@ -344,7 +368,8 @@
         "Is the term bounded by context, lower-level argument, or linked criteria?",
         "If safe is used, is it clear what safety judgment is being claimed at this level?",
         "Is the scope of all, every, or never explicitly defined?",
-        "Would the claim remain reviewable if read on its own?"
+        "Would the claim remain reviewable if read on its own?",
+        "In a context element, are terms such as normal, nominal, or typical conditions bounded by a definition?"
       ],
       "short_rule": "Bound every evaluative or universal qualifier in the claim, its context, or a defined term.",
       "statement": "Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.",
@@ -352,7 +377,9 @@
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim"
+          "GSN Context",
+          "CAE Claim",
+          "CAE Context"
         ],
         "detection_hints": [
           "Look for unbounded evaluative terms: safe, robust, effective, timely, normal.",
@@ -424,6 +451,7 @@
     },
     {
       "category": "CL",
+      "distinguish_from": [],
       "id": "CL.6",
       "rationale": "These are different claim types with different evidence and different review questions.",
       "reference_source_ids": [
@@ -482,6 +510,7 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [],
       "id": "AR.1",
       "rationale": "When one assurance case element is used to do another element's job, the argument becomes harder to inspect, review, and challenge.",
       "reference_source_ids": [
@@ -497,7 +526,8 @@
         "Is local scope or meaning hidden inside the claim instead of being made explicit?",
         "Is a dependency or rationale hidden in claim or argument text?",
         "Is an evidence reference being used as if it were a claim?",
-        "Is a justification being used as if it were support?"
+        "Is a justification being used as if it were support?",
+        "Is a challenge element stating a challenge, rather than a note, a claim, or its own resolution?"
       ],
       "short_rule": "Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.",
       "statement": "Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support.",
@@ -510,12 +540,14 @@
           "GSN Assumption",
           "GSN Justification",
           "GSN Solution",
+          "GSN Counter Claim",
           "CAE Claim",
           "CAE Argument",
           "CAE Warrant",
           "CAE Evidence",
           "CAE Context",
-          "CAE Assumption"
+          "CAE Assumption",
+          "CAE Defeater"
         ],
         "detection_hints": [
           "Look for goals containing reasoning verbs (we argue that, by decomposing).",
@@ -551,6 +583,7 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [],
       "id": "AR.2",
       "rationale": "A hidden reasoning step is a common source of argument gaps.",
       "reference_source_ids": [
@@ -598,83 +631,12 @@
     },
     {
       "category": "AR",
-      "id": "AR.3",
-      "rationale": "This keeps the claim interpretable and makes clear which information defines the claim's scope and meaning, and which conditions the argument depends on being true.",
-      "reference_source_ids": [
-        "OMG-SACM",
-        "ONR",
-        "EASA",
-        "NPSA-CAE",
-        "UL4600",
-        "GSN-v3"
+      "distinguish_from": [
+        {
+          "id": "CL.4",
+          "note": "Cite CL.4 when competent readers could take the claim to mean different things, at any level. Cite AR.4 when the meaning is clear but the detail is wrong for where the claim sits, overloaded near the top or too vague to assess at a leaf."
+        }
       ],
-      "review_prompts": [
-        "Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?",
-        "Is any condition required for the claim to hold hidden in wording rather than made explicit?",
-        "Would the argument be clearer if scope, definitions, or dependencies were represented separately?",
-        "If context is included in claim text, is it deliberate, consistent, and necessary for the claim to be true or false?"
-      ],
-      "short_rule": "Make scope, definitions, operating conditions, and dependencies explicit rather than implied.",
-      "statement": "Make scope, definitions, operating conditions, and dependencies explicit. Use separate context and assumption structures when supported by the notation or tool; where they must appear in claim text, write them deliberately and consistently rather than hiding them in ambiguous qualifiers.",
-      "title": "Use context and assumptions deliberately",
-      "tool": {
-        "applicable_elements": [
-          "GSN Goal",
-          "GSN Context",
-          "GSN Assumption",
-          "CAE Claim",
-          "CAE Context",
-          "CAE Assumption"
-        ],
-        "detection_hints": [
-          "Look for claim text containing scope phrases (in ODD X, during mode Y) or dependency phrases (with valid Z)."
-        ],
-        "markers": [
-          {
-            "effect": "candidate",
-            "kind": "scope_phrase_marker",
-            "terms": [
-              "during",
-              "within",
-              "under",
-              "in the",
-              "for the defined"
-            ]
-          },
-          {
-            "effect": "candidate",
-            "kind": "dependency_phrase_marker",
-            "terms": [
-              "with valid",
-              "assuming",
-              "provided that",
-              "given",
-              "subject to"
-            ]
-          }
-        ],
-        "repair": [
-          {
-            "action": "move_text",
-            "element_role": "context",
-            "statement": "Move scope, definitions, and operating conditions into context."
-          },
-          {
-            "action": "move_text",
-            "element_role": "assumption",
-            "statement": "State each condition the argument depends on as an assumption."
-          }
-        ],
-        "suggested_checks": [
-          {
-            "description": "Check whether scope and dependencies in claim text should be moved to context or assumption elements. Candidate when a scope phrase or dependency phrase marker appears inside claim text.",
-            "id": "check-context-assumption-placement"
-          }
-        ]
-      }
-    },
-    {
-      "category": "AR",
       "id": "AR.4",
       "rationale": "Top-level claims need readability and stability. Lower-level claims need assessability.",
       "reference_source_ids": [
@@ -714,6 +676,7 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [],
       "id": "AR.5",
       "rationale": "Silent redefinition can leave higher-level claims only partially supported while appearing complete.",
       "reference_source_ids": [
@@ -723,7 +686,8 @@
       "review_prompts": [
         "Does a key term mean the same thing at parent and sub-claim levels?",
         "Has scope narrowed without being stated?",
-        "Is inherited context still valid at this level?"
+        "Is inherited context still valid at this level?",
+        "Does a context element restate, redefine, or contradict context already given higher in the same branch?"
       ],
       "short_rule": "Keep the object, scope, and terminology of a claim unchanged as the argument decomposes.",
       "statement": "Do not silently redefine the object, scope, or meaning of key terms as the argument decomposes.",
@@ -731,10 +695,13 @@
       "tool": {
         "applicable_elements": [
           "GSN Goal",
-          "CAE Claim"
+          "GSN Context",
+          "CAE Claim",
+          "CAE Context"
         ],
         "detection_hints": [
-          "Look for parent/child pairs where a key noun's scope changes silently."
+          "Look for parent/child pairs where a key noun's scope changes silently.",
+          "Look for two context elements in one branch that define the same term, scope, or ODD differently."
         ],
         "repair": [
           {
@@ -760,8 +727,22 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [
+        {
+          "id": "AR.7",
+          "note": "Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether."
+        },
+        {
+          "id": "SU.2",
+          "note": "Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means."
+        },
+        {
+          "id": "RD.3",
+          "note": "Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself."
+        }
+      ],
       "id": "AR.6",
-      "rationale": "This guideline is about whether the branch contains enough context at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries.",
+      "rationale": "This guideline is about whether the information needed to read the claim is present in the branch at all. In GSN, claims are asserted in a specified context. A claim that lacks essential context can look stronger than intended or become hard to review consistently because different readers may supply different meanings or boundaries. It is not about conditions the claim depends on being true, which are assumptions (SU.2), about limits of the support (RD.3), or about context that is present but written into the claim text (AR.7).",
       "reference_source_ids": [
         "OMG-SACM",
         "ONR",
@@ -771,13 +752,13 @@
         "GSN-v3"
       ],
       "review_prompts": [
-        "What must the reviewer know for this claim to be true or false?",
+        "What must the reviewer know to understand what this claim says?",
         "Are key terms defined where needed?",
-        "Is any necessary scope or operating condition explicit?",
+        "Is the scope the claim covers explicit?",
         "Would two independent reviewers understand the claim in the same way?"
       ],
       "short_rule": "Give each claim the context a reviewer needs to interpret its subject, scope, and key terms.",
-      "statement": "Provide the context needed for the reviewer to understand the claim’s subject, intended meaning, scope, operating conditions, and key definitions.",
+      "statement": "Provide the context a reviewer needs to interpret the claim, that is, what its subject is, what it means, what scope it covers, and how its key terms are defined.",
       "title": "Provide the context needed to interpret the claim",
       "tool": {
         "applicable_elements": [
@@ -807,8 +788,14 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [
+        {
+          "id": "AR.6",
+          "note": "Cite AR.6 when the context is missing from the branch altogether. Cite AR.7 when it is present but written into the claim text."
+        }
+      ],
       "id": "AR.7",
-      "rationale": "This guideline is about placement, clarity, and maintainability. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.",
+      "rationale": "This guideline is about placement, clarity, and maintainability. A claim such as \"X is acceptable in ODD-A during automated mode with valid localization\" carries its scope and its dependencies in one sentence; the scope belongs in context and the dependencies in assumptions. Hidden qualifiers blur element roles, make scope and dependency changes harder to see, and often create claims that are difficult to review and maintain.",
       "reference_source_ids": [
         "OMG-SACM",
         "ONR",
@@ -819,13 +806,14 @@
         "CAE"
       ],
       "review_prompts": [
+        "Is this text making the claim itself, defining the claim's scope, or stating a dependency that must hold?",
         "Which words in this claim are qualifiers rather than the core assertion?",
         "Are the qualifiers clear enough for review, or would they be better represented as context or assumptions?",
         "Could the core claim remain stable if a configuration, interface condition, or dependency changed?",
         "Are dependencies explicit and traceable rather than hidden inside readable but overloaded claim text?"
       ],
-      "short_rule": "Move qualifiers and dependency clauses out of claim text into context or assumptions.",
-      "statement": "Do not hide qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.",
+      "short_rule": "Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.",
+      "statement": "Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.",
       "title": "Make claim qualifiers explicit and maintainable",
       "tool": {
         "applicable_elements": [
@@ -837,7 +825,8 @@
           "CAE Assumption"
         ],
         "detection_hints": [
-          "Look for connectives in claim text such as with, given, assuming, provided that, when."
+          "Look for connectives in claim text such as with, given, assuming, provided that, when.",
+          "Look for scope phrases in claim text such as in ODD X or during mode Y."
         ],
         "markers": [
           {
@@ -850,7 +839,8 @@
               "provided that",
               "subject to",
               "conditional on",
-              "when"
+              "when",
+              "during"
             ]
           }
         ],
@@ -868,7 +858,7 @@
         ],
         "suggested_checks": [
           {
-            "description": "Check whether qualifying clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.",
+            "description": "Check whether scope phrases and qualifying or dependency clauses in claim text should move to context or assumption elements. Candidate when a qualifier connective introduces a clause that bounds the claim rather than asserting it.",
             "id": "check-claim-text-purity"
           }
         ]
@@ -876,6 +866,7 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [],
       "id": "AR.8",
       "rationale": "Rationale can explain local reasoning choices, but it cannot replace sub-claims, evidence, or a clear argument linking evidence to the claim. Treating rationale as support hides missing reasoning, missing evidence, or unsupported assumptions.",
       "reference_source_ids": [
@@ -927,6 +918,7 @@
     },
     {
       "category": "AR",
+      "distinguish_from": [],
       "id": "AR.9",
       "rationale": "Misaligned rationale creates false confidence and often reveals that the real concern is missing context, missing decomposition, missing evidence, or an unstated inference rule.",
       "reference_source_ids": [
@@ -976,6 +968,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.1",
       "rationale": "A safety case without traceability cannot be effectively reviewed or maintained.",
       "reference_source_ids": [
@@ -1025,6 +1018,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.2",
       "rationale": "A reviewer should be able to recognize what kind of evidence is being used, what makes it acceptable for this purpose, and how it should be interpreted. If an artifact is not an approved evidence type, or does not meet the criteria required for that type, it becomes difficult to review consistently and easy to misuse in a safety argument.",
       "reference_source_ids": [
@@ -1082,6 +1076,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.3",
       "rationale": "Evidence usually supports a specific fact or bounded property, not the whole safety conclusion by itself.",
       "reference_source_ids": [
@@ -1145,6 +1140,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.4",
       "rationale": "Broad references to whole reports create the illusion of support without making the evidential link easy to review.",
       "reference_source_ids": [
@@ -1205,8 +1201,14 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [
+        {
+          "id": "LF.5",
+          "note": "Cite LF.5 when the argument states what makes its evidence sufficient, or the evidence shows it, and the sample is too small or unrepresentative for the claim. Cite EV.5 when the argument does not state a sufficiency basis at all."
+        }
+      ],
       "id": "EV.5",
-      "rationale": "A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations.",
+      "rationale": "A reviewer should not have to guess why a cited test, analysis, dataset, or review record is enough. The argument should make the sufficiency basis visible, such as relevant scope, configuration, scenario coverage, thresholds, acceptance conditions, and known limitations. Whether a basis is stated can be seen in the argument itself, so this guideline can be assessed without any evidence basis data; whether a stated basis is actually adequate is judged under LF.5, SU.7, and SU.8.",
       "reference_source_ids": [
         "Weaver",
         "Hawkins",
@@ -1268,6 +1270,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.6",
       "rationale": "Evidence does not speak for itself. The safety case or linked assessment record must explain why the evidence bears on the claim.",
       "reference_source_ids": [
@@ -1311,6 +1314,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.7",
       "rationale": "Uncontrolled or mutable evidence is hard to verify, maintain, and re-assess. If a cited artifact can change after review, the argument may silently lose validity while still appearing supported.",
       "reference_source_ids": [
@@ -1385,6 +1389,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.8",
       "rationale": "This rule is the specific citation case of EV.7. If cited evidence can change after review, the safety case may appear supported while its actual evidential basis has changed or disappeared. This breaks reproducibility, reviewability, and configuration control.",
       "reference_source_ids": [
@@ -1461,6 +1466,7 @@
     },
     {
       "category": "EV",
+      "distinguish_from": [],
       "id": "EV.9",
       "rationale": "A safety case should argue from reviewable evidence, not from what engineers happen to know. When system knowledge is written directly into the safety case without a supporting source, the argument becomes hard to verify, hard to maintain, and difficult to assess for completeness. It also becomes unclear whether the claim is supported by an approved design basis or only by current team understanding.",
       "reference_source_ids": [
@@ -1511,6 +1517,16 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [
+        {
+          "id": "SU.11",
+          "note": "Cite SU.11 when a challenge has already been raised, in review or as a challenge element, and is not carried to a visible resolution. Cite SU.1 when a plausible doubt about the claim, reasoning, or evidence has not been raised in the argument at all."
+        },
+        {
+          "id": "RD.3",
+          "note": "Cite RD.3 when the argument knows a limitation of its support and does not show it where the claim is read. Cite SU.1 when a reviewer can see a doubt the argument has not considered."
+        }
+      ],
       "id": "SU.1",
       "rationale": "A credible safety case should not only present supporting material. It should also make important doubts visible and show how they are handled. This fits well with GSN-style review, where challenge is used to test whether a claim, inference, or supporting material still stands when subjected to scrutiny.",
       "reference_source_ids": [
@@ -1560,45 +1576,65 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [
+        {
+          "id": "AR.6",
+          "note": "Cite AR.6 when what is missing is information needed to understand what the claim means. Cite SU.2 when it is a condition that must hold for the claim to be true."
+        }
+      ],
       "id": "SU.2",
-      "rationale": "Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.",
+      "rationale": "Unstated or weakly founded assumptions are a common cause of later argument invalidation. That aligns well with UL 4600’s treatment of assumptions and lifecycle monitoring. Stating an assumption where it constrains the argument, not only where it was first discovered, lets a reviewer see what each branch depends on. GSN also treats assumptions as a distinct element type, so checking whether something is really an assumption is appropriate.",
       "reference_source_ids": [
         "UL4600",
         "GSN-v3"
       ],
       "review_prompts": [
         "What must be true for this branch to hold?",
+        "Is each dependency stated at the claim or reasoning step it constrains, rather than only elsewhere in the case?",
         "Why is this assumption reasonable, and how would we know if it became false?",
         "Is this really an assumption, or should it instead be represented as context, a claim, or evidence?"
       ],
-      "short_rule": "State assumptions explicitly, justify why each is reasonable, and monitor them where needed.",
-      "statement": "Do not rely on hidden assumptions. State assumptions explicitly, explain why they are reasonable, and ensure they are monitored or otherwise controlled where needed.",
+      "short_rule": "State each assumption where it constrains the argument, justify it, and monitor it where needed.",
+      "statement": "Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead.",
       "title": "Make assumptions explicit and justify why they are reasonable",
       "tool": {
         "applicable_elements": [
+          "GSN Goal",
+          "GSN Strategy",
+          "GSN Context",
           "GSN Assumption",
+          "CAE Claim",
+          "CAE Argument",
+          "CAE Context",
           "CAE Assumption"
         ],
         "detection_hints": [
-          "Look for branches whose validity depends on a condition that is not stated as an assumption or context."
+          "Look for branches whose validity depends on a condition that is not stated as an assumption or context.",
+          "Look for a dependency stated elsewhere in the case but not attached to the claim or reasoning step it constrains."
         ],
         "repair": [
           {
             "action": "add_element",
             "attach_to": "selected",
             "element_role": "assumption",
-            "statement": "State the hidden condition explicitly as an assumption."
+            "statement": "State the hidden condition explicitly as an assumption where it constrains the argument."
           },
           {
             "action": "add_element",
             "attach_to": "selected",
             "element_role": "justification",
             "statement": "Justify why the assumption is reasonable and how it is monitored."
+          },
+          {
+            "action": "add_element",
+            "attach_to": "children",
+            "element_role": "claim",
+            "statement": "If the condition must be shown rather than assumed, add it as a sub-claim."
           }
         ],
         "suggested_checks": [
           {
-            "description": "Check whether implicit assumptions are made explicit, justified, and monitorable.",
+            "description": "Check whether implicit assumptions are made explicit at the point where they constrain the argument, justified, and monitorable.",
             "id": "check-explicit-assumptions"
           }
         ]
@@ -1606,6 +1642,7 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [],
       "id": "SU.3",
       "rationale": "Expert opinion may be useful, but unsupported opinion is weak support and can easily outstate what is actually known.",
       "reference_source_ids": [
@@ -1664,20 +1701,27 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [
+        {
+          "id": "LF.5",
+          "note": "Cite LF.5 when more or better design-time evidence could close the gap between the claim and its data. Cite SU.4 when only operational experience can close it, so the claim needs monitoring and re-assessment triggers."
+        }
+      ],
       "id": "SU.4",
-      "rationale": "Some claims depend partly on assumptions, limited evidence, or expected field behavior. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.",
+      "rationale": "Some claims depend partly on assumptions, limited evidence, or expected field behavior. The recognisable shape is a claim about operational frequency, exposure, or service life whose evidence is analysis, test, or simulation done before operation. In such cases, the safety case should not hide the remaining uncertainty. It should explain it and define how operation will provide feedback.",
       "reference_source_ids": [
         "ISO-21448",
         "UL4600"
       ],
       "review_prompts": [
+        "Does the claim state a rate, a rarity, or behaviour over a service life that only operation can confirm?",
         "What part of this claim is not fully supported at design time?",
         "Can that remaining uncertainty only be reduced through operational or field data?",
         "Is lifecycle monitoring defined for that uncertainty?",
         "Are reassessment triggers identified?"
       ],
       "short_rule": "Where design-time support is partial, say so and define monitoring and re-assessment triggers.",
-      "statement": "When a claim cannot be fully supported at design time, make the remaining uncertainty explicit and define lifecycle monitoring that can confirm or challenge the claim during operation.",
+      "statement": "When a claim asserts something only operation can confirm, such as a rate, a rarity, or behaviour over the service life, and its support is design-time evidence, state the uncertainty that remains and define lifecycle monitoring and re-assessment triggers that can confirm or challenge the claim during operation.",
       "title": "Monitor claims that cannot be fully supported at design time",
       "tool": {
         "applicable_elements": [
@@ -1687,7 +1731,37 @@
           "CAE Assumption"
         ],
         "detection_hints": [
+          "Look for claims about rarity, occurrence rate, or service-life behaviour supported only by design-time analysis, test, or simulation.",
           "Look for claims with partial design-time support and no defined lifecycle monitoring."
+        ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "operational_claim_marker",
+            "terms": [
+              "rare",
+              "rarely",
+              "frequency",
+              "occurrence rate",
+              "service life",
+              "lifetime",
+              "in service",
+              "in the field"
+            ]
+          },
+          {
+            "effect": "suppress",
+            "kind": "monitoring_marker",
+            "terms": [
+              "monitored",
+              "monitoring",
+              "field data",
+              "reassessment",
+              "re-assessment",
+              "reassessment trigger",
+              "re-assessment trigger"
+            ]
+          }
         ],
         "repair": [
           {
@@ -1703,7 +1777,7 @@
         ],
         "suggested_checks": [
           {
-            "description": "Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers.",
+            "description": "Check whether claims with residual design-time uncertainty have defined monitoring and reassessment triggers. Candidate when an operational claim marker appears in the claim and no monitoring marker appears in the claim, its assumptions, or its context.",
             "id": "check-lifecycle-monitoring"
           }
         ]
@@ -1711,6 +1785,7 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [],
       "id": "SU.5",
       "rationale": "Safety confidence gained in one context does not automatically remain valid in another. Differences in operating environment, purpose, interfaces, duty cycle, autonomy role, or assumptions can invalidate the reuse.",
       "reference_source_ids": [
@@ -1776,6 +1851,7 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [],
       "id": "SU.6",
       "rationale": "Operational feedback is often used to support claims about residual risk, rarity, adequacy of existing controls, or continued acceptability in service. In those branches, non-injury or non-reproducibility does not make a signal irrelevant. Several weak signals together may show that the argument is less reliable than it appears.",
       "reference_source_ids": [
@@ -1837,6 +1913,7 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [],
       "id": "SU.7",
       "rationale": "Operational exposure can miss catastrophic but rare outcomes. Simulation can miss modeling defects and abstraction errors.",
       "reference_source_ids": [
@@ -1887,6 +1964,7 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [],
       "id": "SU.8",
       "rationale": "Autonomous systems can encounter operating situations and failure combinations that are uncommon in human driving. Human-derived data and human-designed tests may therefore miss important autonomy-specific risks.",
       "reference_source_ids": [
@@ -1930,56 +2008,7 @@
     },
     {
       "category": "SU",
-      "id": "SU.9",
-      "rationale": "Hidden dependencies are a common reason for late argument invalidation. Making them visible helps the reviewer see what the branch depends on and decide whether that dependency should remain an assumption, be stated as context, or be argued as a claim.",
-      "reference_source_ids": [
-        "UL4600",
-        "GSN-v3"
-      ],
-      "review_prompts": [
-        "What must be true for this claim or strategy to hold, but is not currently stated?",
-        "Is the hidden dependency local to the claim, or to the reasoning step?",
-        "Should this dependency be represented as an assumption, as context, or as a claim that must be proved?"
-      ],
-      "short_rule": "State a dependency where it constrains the argument, as an assumption, context, or claim.",
-      "statement": "When a claim or reasoning step depends on something that is not currently stated, make that dependency explicit at the point where it constrains the argument, using an assumption, context element, or subclaim as appropriate.",
-      "title": "Document unstated assumptions at the point of use",
-      "tool": {
-        "applicable_elements": [
-          "GSN Assumption",
-          "GSN Context",
-          "GSN Goal",
-          "CAE Assumption",
-          "CAE Context",
-          "CAE Claim"
-        ],
-        "detection_hints": [
-          "Look for claims whose validity depends on conditions not stated as assumption, context, or subclaim."
-        ],
-        "repair": [
-          {
-            "action": "add_element",
-            "attach_to": "selected",
-            "element_role": "assumption",
-            "statement": "State the unstated dependency as an assumption at the point where it constrains the argument."
-          },
-          {
-            "action": "add_element",
-            "attach_to": "children",
-            "element_role": "claim",
-            "statement": "If the dependency must be shown rather than assumed, add it as a sub-claim."
-          }
-        ],
-        "suggested_checks": [
-          {
-            "description": "Check whether unstated dependencies are made visible at the point of use.",
-            "id": "check-unstated-dependencies"
-          }
-        ]
-      }
-    },
-    {
-      "category": "SU",
+      "distinguish_from": [],
       "id": "SU.10",
       "rationale": "Over-broad assumptions can make a claim appear closed while removing most of its review value. If an argument depends on an assumption, the assumption should be narrow enough to understand, evaluate, and monitor where needed.",
       "reference_source_ids": [
@@ -2038,6 +2067,12 @@
     },
     {
       "category": "SU",
+      "distinguish_from": [
+        {
+          "id": "SU.1",
+          "note": "Cite SU.1 when a plausible doubt has not been raised in the argument at all. Cite SU.11 when a challenge has been raised, in review or as a challenge element, and is not carried to a visible resolution."
+        }
+      ],
       "id": "SU.11",
       "rationale": "A credible safety case should not leave plausible challenges only in review comments or reviewer intuition. Good reviews expose weaknesses early. Making the challenge explicit helps ensure that it is either resolved properly or left visible until it is resolved.",
       "reference_source_ids": [
@@ -2089,6 +2124,7 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [],
       "id": "LF.1",
       "rationale": "Circular support creates the appearance of argument without adding any new support.",
       "reference_source_ids": [
@@ -2130,6 +2166,7 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [],
       "id": "LF.2",
       "rationale": "A common defect is to attach true or relevant material to the wrong claim, so the branch appears supported even though the actual inference is missing.",
       "reference_source_ids": [
@@ -2172,6 +2209,7 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [],
       "id": "LF.3",
       "rationale": "Not finding a problem is not the same as showing that the problem does not exist. Claims about completeness or absence need support from the search basis, scope, and adequacy of the methods used.",
       "reference_source_ids": [
@@ -2234,6 +2272,7 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [],
       "id": "LF.4",
       "rationale": "Comparison-based arguments can look persuasive while hiding differences in scope, operating conditions, metrics, evidence quality, or confidence. Distinctions can also be misused to dismiss relevant comparators without showing why the difference matters.",
       "reference_source_ids": [
@@ -2299,6 +2338,20 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [
+        {
+          "id": "SU.4",
+          "note": "Cite SU.4 when only operational experience can close the gap, so the claim needs monitoring and re-assessment triggers. Cite LF.5 when more or better design-time evidence could close it."
+        },
+        {
+          "id": "LF.7",
+          "note": "Cite LF.7 when the case contains unfavourable results or anomalies that the argument leaves unanswered. Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim."
+        },
+        {
+          "id": "EV.5",
+          "note": "Cite EV.5 when the argument does not state what makes its evidence sufficient. Cite LF.5 when it does, or the evidence shows it, and the sample is too small or unrepresentative for the claim."
+        }
+      ],
       "id": "LF.5",
       "rationale": "A small or skewed data set can support only a correspondingly narrow claim.",
       "reference_source_ids": [
@@ -2307,7 +2360,8 @@
       "review_prompts": [
         "Is the sample size adequate for the confidence implied?",
         "Does the data distribution match the ODD and edge cases?",
-        "Is the claim broader than the sample supports?"
+        "Is the claim broader than the sample supports?",
+        "Does the evidence cover the conditions the claim names, or is a kind of evidence a critical reviewer would expect for those conditions absent?"
       ],
       "short_rule": "Keep the claim no broader than the sample size and representativeness support.",
       "statement": "Do not generalize too far from too little data, or from data that does not match the operating context being claimed.",
@@ -2344,6 +2398,7 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [],
       "id": "LF.6",
       "rationale": "A highly precise number can give a false impression of certainty. When uncertainty, confidence, model limits, or input assumptions are weak, the stated precision should reflect that.",
       "reference_source_ids": [
@@ -2406,20 +2461,34 @@
     },
     {
       "category": "LF",
+      "distinguish_from": [
+        {
+          "id": "LF.5",
+          "note": "Cite LF.5 when the evidence is favourable but too narrow, or of the wrong kind, for the breadth of the claim. Cite LF.7 when the case contains unfavourable results that the argument leaves unanswered."
+        },
+        {
+          "id": "SU.6",
+          "note": "Cite SU.6 when the unanswered material is operational feedback dismissed because it caused no harm or could not be reproduced. Cite LF.7 for other unfavourable results."
+        },
+        {
+          "id": "SU.11",
+          "note": "Cite SU.11 when the unanswered material is a raised challenge, such as a counter claim or defeater. Cite LF.7 when it is an unfavourable result in the evidence."
+        }
+      ],
       "id": "LF.7",
-      "rationale": "A safety case becomes misleading when it presents only supporting material and leaves out evidence that could weaken, limit, or challenge the claim.",
+      "rationale": "A safety case becomes misleading when it presents only the supporting part of its evidence and leaves unanswered the results that could weaken, limit, or challenge the claim. The recognisable shape is a result or statement in the case that runs against the claim, with nothing in the argument responding to it, or evidence cited as a selected subset of a larger result set. Evidence that is favourable but too narrow for the claim is LF.5.",
       "reference_source_ids": [
         "Greenwell-2006"
       ],
       "review_prompts": [
-        "What evidence would a critical reviewer reasonably expect to see for this claim?",
-        "Is any known anomaly, failure, exclusion, or limitation being left unaddressed?",
-        "Does the omitted material affect the meaning, scope, or credibility of the claim?",
-        "Is contrary evidence explicitly addressed rather than silently ignored?"
+        "Does the case contain results, failures, exclusions, or anomalies that run against this claim?",
+        "Is the evidence cited selectively, for example only the passing runs or a chosen subset?",
+        "Is each unfavourable result answered, by explanation, a narrower claim, or added support?",
+        "Would the claim still read the same way if the unfavourable results were placed next to it?"
       ],
-      "short_rule": "Include the evidence a critical reviewer expects, and answer known contrary evidence.",
-      "statement": "Do not omit evidence that a skeptical reviewer would naturally expect, and do not leave known contrary evidence unanswered.",
-      "title": "Avoid omission of key evidence and ignoring counter-evidence",
+      "short_rule": "Do not cite only favourable results; answer the unfavourable results the case contains.",
+      "statement": "Do not present only the favourable part of the evidence. Where the cited evidence, its stated limitations, or other material in the case contains unfavourable results, failures, or anomalies relevant to the claim, answer them in the argument, by explaining why they do not undermine the claim, narrowing the claim, or adding support.",
+      "title": "Avoid cherry-picking and ignoring counter-evidence",
       "tool": {
         "applicable_elements": [
           "GSN Solution",
@@ -2428,23 +2497,47 @@
           "CAE Claim"
         ],
         "detection_hints": [
-          "Look for branches that present only supporting evidence with no acknowledgement of known limits or contrary evidence."
+          "Look for evidence cited as a selected or passing subset of a larger result set.",
+          "Look for unfavourable results, failures, or anomalies stated in the case with no response in the argument."
+        ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "selective_citation_marker",
+            "terms": [
+              "passing runs",
+              "successful runs",
+              "selected runs",
+              "selected results",
+              "representative runs",
+              "representative results",
+              "typical results",
+              "best-case",
+              "best case",
+              "excluding outliers",
+              "outliers removed"
+            ]
+          }
         ],
         "repair": [
           {
+            "action": "reword_element",
+            "statement": "Cite the full result set, not only its favourable part."
+          },
+          {
             "action": "add_element",
-            "attach_to": "children",
-            "element_role": "evidence",
-            "statement": "Add the evidence a critical reviewer would expect, including contrary evidence."
+            "attach_to": "selected",
+            "element_role": "justification",
+            "statement": "Answer each unfavourable result, explaining why it does not undermine the claim or what does address it."
           },
           {
             "action": "reword_element",
-            "statement": "Or narrow the claim so that the omitted conditions are outside its scope."
+            "statement": "Or narrow the claim so that the unfavourable conditions are outside its scope."
           }
         ],
         "suggested_checks": [
           {
-            "description": "Check whether known limiting or contrary evidence is addressed or scoped out.",
+            "description": "Check whether unfavourable results in the case are answered and whether evidence is cited selectively. Candidate when a selective citation marker appears in an evidence reference.",
             "id": "check-counter-evidence-treatment"
           }
         ]
@@ -2452,6 +2545,7 @@
     },
     {
       "category": "RD",
+      "distinguish_from": [],
       "id": "RD.1",
       "rationale": "Review becomes harder when the reader must infer the role of a statement. Clear signposting reduces confusion between argument elements and makes the structure easier to inspect.",
       "reference_source_ids": [
@@ -2513,6 +2607,7 @@
     },
     {
       "category": "RD",
+      "distinguish_from": [],
       "id": "RD.2",
       "rationale": "Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.",
       "reference_source_ids": [
@@ -2568,36 +2663,66 @@
     },
     {
       "category": "RD",
+      "distinguish_from": [
+        {
+          "id": "AR.6",
+          "note": "Cite AR.6 when what is missing is the subject, meaning, or scope of the claim itself. Cite RD.3 when it is a known limit of the support or its coverage."
+        },
+        {
+          "id": "SU.1",
+          "note": "Cite SU.1 when a reviewer can see a doubt the argument has not considered. Cite RD.3 when the argument knows a limitation and does not show it where the claim is read."
+        }
+      ],
       "id": "RD.3",
-      "rationale": "A safety case is easier to review and trust when it shows not only supporting material, but also the important limits and challenges that affect confidence in the claim.",
+      "rationale": "A claim can appear stronger or broader than the argument supports when its known limits are easy to miss. A safety case is easier to review and trust when it shows not only supporting material but the limits that affect confidence in the claim, at the point where the claim is read. This guideline is about limitations the argument already knows; a doubt the argument has not considered is SU.1, and a condition the claim depends on is an assumption under SU.2.",
       "reference_source_ids": [
         "CAE-Review",
         "CAE-Defeaters",
         "RA1205",
         "ONR",
-        "EASA"
+        "EASA",
+        "UNECE-ADS"
       ],
       "review_prompts": [
-        "Are important limitations visible at the point where they affect the claim?",
-        "Are plausible objections or challenges addressed explicitly?",
-        "Is unresolved doubt hidden, or made visible through scope restriction, assumptions, monitoring, or open issues?"
+        "Are known limitations, exclusions, or open issues visible at the claim they qualify?",
+        "Is a limitation stated only in an appendix, a footnote, or text that is not attached to the claim?",
+        "Would a reviewer reading only the main branch be misled about the claim's scope?",
+        "Is unresolved doubt made visible through a narrower claim, context, monitoring, or an open issue?"
       ],
-      "short_rule": "Make limitations, objections, and their responses visible where the claim is read.",
-      "statement": "Make relevant limitations, plausible objections, and uncertainty sources explicit, together with how they are addressed in the argument.",
-      "title": "Make limitations, objections, and responses explicit",
+      "short_rule": "Show known limitations where the claim is read, not only in appendices or distant text.",
+      "statement": "Make known limitations of a claim's support, such as excluded conditions, partial coverage, and open issues, visible at the claim they qualify, through its wording, its context, or an explicit open issue. Do not leave them only in appendices, footnotes, or text that is not connected to the claim.",
+      "title": "Keep known limitations visible where the claim is read",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "GSN Context",
-          "GSN Counter Claim",
           "CAE Claim",
-          "CAE Context",
-          "CAE Defeater"
+          "CAE Context"
         ],
         "detection_hints": [
-          "Look for claims with no visible limitation, exclusion, or open issue despite known partial coverage."
+          "Look for limiting conditions stated only in appendices, footnotes, or distant free text.",
+          "Look for claims with no visible limitation, exclusion, or open issue although the branch shows only partial coverage."
+        ],
+        "markers": [
+          {
+            "effect": "candidate",
+            "kind": "distant_location_marker",
+            "terms": [
+              "appendix",
+              "annex",
+              "footnote",
+              "attachment",
+              "elsewhere in the document",
+              "see also"
+            ]
+          }
         ],
         "repair": [
+          {
+            "action": "move_text",
+            "element_role": "context",
+            "statement": "Move the buried limitation into context attached to the claim it qualifies."
+          },
           {
             "action": "add_element",
             "attach_to": "selected",
@@ -2605,15 +2730,13 @@
             "statement": "State the limitation as context where the claim is read."
           },
           {
-            "action": "add_element",
-            "attach_to": "selected",
-            "element_role": "challenge",
-            "statement": "Record the objection as an explicit challenge element."
+            "action": "reword_element",
+            "statement": "Or narrow the claim so that the limitation is outside its scope."
           }
         ],
         "suggested_checks": [
           {
-            "description": "Check whether known limitations and objections are visible at the point of the affected claim.",
+            "description": "Check whether known limitations are visible at the claim they qualify. Candidate when a limitation is stated only where a distant location marker points, rather than attached to the claim it qualifies.",
             "id": "check-limitations-visible"
           }
         ]
@@ -2621,6 +2744,7 @@
     },
     {
       "category": "RD",
+      "distinguish_from": [],
       "id": "RD.4",
       "rationale": "Safety arguments should build confidence through explicit claims, reasoning, and evidence, not through language intended to impress the reader.",
       "reference_source_ids": [
@@ -2679,6 +2803,7 @@
     },
     {
       "category": "RD",
+      "distinguish_from": [],
       "id": "RD.5",
       "rationale": "When a review, judgment, approval, or decision is stated without naming who performed it, accountability becomes harder to inspect and challenge.",
       "reference_source_ids": [
@@ -2732,72 +2857,39 @@
           }
         ]
       }
-    },
-    {
-      "category": "RD",
-      "id": "RD.6",
-      "rationale": "A safety case should make important boundaries visible where the claim is read. If key limitations or assumptions are easy to miss, the claim can appear stronger or broader than the argument really supports.",
-      "reference_source_ids": [
-        "CAE-Defeaters",
-        "RA1205",
-        "UNECE-ADS"
-      ],
-      "review_prompts": [
-        "Is an important limitation easy to miss?",
-        "Is an important assumption stated explicitly as an assumption, or only implied elsewhere?",
-        "Would a reviewer be misled by reading only the main branch?",
-        "Should the limitation or dependency be made visible through context, an assumption, or a narrower claim?"
-      ],
-      "short_rule": "Keep important limitations and assumptions attached to the claim they qualify.",
-      "statement": "Do not hide important limitations or assumptions in appendices, footnotes, or free text that is not directly connected to the claim they qualify.",
-      "title": "Do not bury important limitations or hidden assumptions",
-      "tool": {
-        "applicable_elements": [
-          "GSN Goal",
-          "GSN Context",
-          "GSN Assumption",
-          "CAE Claim",
-          "CAE Context",
-          "CAE Assumption"
-        ],
-        "detection_hints": [
-          "Look for important limiting conditions stated only in appendices or distant free text."
-        ],
-        "markers": [
-          {
-            "effect": "candidate",
-            "kind": "distant_location_marker",
-            "terms": [
-              "appendix",
-              "annex",
-              "footnote",
-              "attachment",
-              "elsewhere in the document",
-              "see also"
-            ]
-          }
-        ],
-        "repair": [
-          {
-            "action": "move_text",
-            "element_role": "context",
-            "statement": "Move the buried limitation into context attached to the claim it qualifies."
-          },
-          {
-            "action": "move_text",
-            "element_role": "assumption",
-            "statement": "Move a buried dependency into an assumption attached to the claim."
-          }
-        ],
-        "suggested_checks": [
-          {
-            "description": "Check whether important limitations and assumptions are visible where the claim is read. Candidate when a limitation is stated only in a distant location marker rather than attached to the claim it qualifies.",
-            "id": "check-limitations-collocated"
-          }
-        ]
-      }
     }
   ],
-  "sccg_version": "0.7.0",
-  "schema_version": "2.0.0"
+  "retired_guidelines": [
+    {
+      "id": "AR.3",
+      "note": "It asked for the same thing as AR.7, moving scope and dependency clauses out of claim text, and its remaining half, whether the context a claim needs is present at all, is AR.6. Cite AR.7 for placement and AR.6 for missing context.",
+      "replaced_by": [
+        "AR.7",
+        "AR.6"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Use context and assumptions deliberately"
+    },
+    {
+      "id": "SU.9",
+      "note": "Merged into SU.2, which now also requires an assumption to be stated where it constrains the argument and applies to claims and context as well as assumption elements.",
+      "replaced_by": [
+        "SU.2"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Document unstated assumptions at the point of use"
+    },
+    {
+      "id": "RD.6",
+      "note": "It was the negative form of RD.3. Buried limitations are now RD.3, which keeps known limitations visible where the claim is read; hidden assumptions are SU.2.",
+      "replaced_by": [
+        "RD.3",
+        "SU.2"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Do not bury important limitations or hidden assumptions"
+    }
+  ],
+  "sccg_version": "0.8.0",
+  "schema_version": "3.0.0"
 }

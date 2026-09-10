@@ -1,8 +1,8 @@
-schema_version: 2.0.0
+schema_version: 3.0.0
 availability_states:
 - id: available
   display_name: Available
-  meaning: The package is supplied and carries the data the profile expects.
+  meaning: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
 - id: not_implemented
   display_name: Not implemented
   meaning: The tool has no source for this package at all.
@@ -12,6 +12,7 @@ availability_states:
 - id: withheld
   display_name: Withheld
   meaning: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
+when_unavailable: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 data_packages:
 - id: SELECTED_CLAIM
   role: selected_element

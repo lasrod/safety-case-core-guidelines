@@ -34,10 +34,6 @@
 
 - check-explicit-strategy
 
-### AR.3
-
-- None
-
 ### AR.4
 
 - None
@@ -130,10 +126,6 @@
 
 - None
 
-### SU.9
-
-- None
-
 ### SU.10
 
 - None
@@ -187,10 +179,6 @@
 - None
 
 ### RD.5
-
-- None
-
-### RD.6
 
 - None
 

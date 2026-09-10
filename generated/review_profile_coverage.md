@@ -11,7 +11,6 @@
 - CL.5
 - CL.6
 - AR.1
-- AR.3
 - AR.4
 - AR.5
 - AR.6
@@ -20,11 +19,11 @@
 - EV.3
 - EV.9
 - SU.1
+- SU.2
 - SU.4
 - SU.5
 - SU.6
 - SU.8
-- SU.9
 - SU.11
 - LF.1
 - LF.2
@@ -38,7 +37,6 @@
 - RD.3
 - RD.4
 - RD.5
-- RD.6
 
 ### Strategy review (`strategy_review`)
 
@@ -46,6 +44,7 @@
 - AR.2
 - EV.9
 - SU.1
+- SU.2
 - LF.1
 
 ### Evidence review (`evidence_review`)
@@ -71,14 +70,11 @@
 ### Assumption review (`assumption_review`)
 
 - AR.1
-- AR.3
 - AR.7
 - SU.2
 - SU.4
-- SU.9
 - SU.10
 - RD.1
-- RD.6
 
 ### Justification review (`justification_review`)
 
@@ -96,17 +92,19 @@
 
 ### Context review (`context_review`)
 
+- CL.5
 - AR.1
-- AR.3
+- AR.5
 - AR.6
 - AR.7
-- SU.9
 - RD.1
 - RD.3
-- RD.6
 
 ### Challenge review (`challenge_review`)
 
+- CL.1
+- CL.4
+- AR.1
 - SU.11
 
 ## Review profiles by guideline
@@ -114,6 +112,7 @@
 ### CL.1
 
 - claim_review
+- challenge_review
 
 ### CL.2
 
@@ -126,10 +125,12 @@
 ### CL.4
 
 - claim_review
+- challenge_review
 
 ### CL.5
 
 - claim_review
+- context_review
 
 ### CL.6
 
@@ -143,16 +144,11 @@
 - assumption_review
 - justification_review
 - context_review
+- challenge_review
 
 ### AR.2
 
 - strategy_review
-
-### AR.3
-
-- claim_review
-- assumption_review
-- context_review
 
 ### AR.4
 
@@ -161,6 +157,7 @@
 ### AR.5
 
 - claim_review
+- context_review
 
 ### AR.6
 
@@ -228,6 +225,8 @@
 
 ### SU.2
 
+- claim_review
+- strategy_review
 - assumption_review
 
 ### SU.3
@@ -259,12 +258,6 @@
 
 - claim_review
 - evidence_review
-
-### SU.9
-
-- claim_review
-- assumption_review
-- context_review
 
 ### SU.10
 
@@ -334,12 +327,6 @@
 
 - claim_review
 - justification_review
-
-### RD.6
-
-- claim_review
-- assumption_review
-- context_review
 
 ## Guidelines not mapped to any review profile
 

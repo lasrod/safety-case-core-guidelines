@@ -13,10 +13,16 @@
   var filterInput = document.getElementById("sccg-nav-filter");
   var noMatch = document.getElementById("sccg-nav-no-match");
   var categories = Array.prototype.slice.call(nav.querySelectorAll(".sccg-nav-category"));
-  var narrow = window.matchMedia
-    ? window.matchMedia("(max-width: 61.99em)")
-    : { matches: false };
+  /* One query decides the layout. The stylesheet uses its exact complement,
+   * `not all and (min-width: 62em)`, so no width falls between the two. */
+  var wide = window.matchMedia
+    ? window.matchMedia("(min-width: 62em)")
+    : { matches: true };
   var STORAGE_KEY = "sccg-nav-open";
+
+  function isNarrow() {
+    return !wide.matches;
+  }
 
   /* ---- stored open/closed state per category --------------------------- */
 
@@ -154,7 +160,11 @@
     }
   }
 
-  /* ---- narrow screens: collapse the sidebar behind a toggle ------------ */
+  /* ---- narrow screens: the sidebar becomes a drawer behind a toggle ---- */
+
+  /* The drawer is pinned to the viewport rather than opened in the page
+   * flow: opened in the flow, it appeared at the top of the layout, above a
+   * reader who had scrolled down, and the toggle looked dead. */
 
   var toggle = document.createElement("button");
   toggle.type = "button";
@@ -163,35 +173,109 @@
   toggle.textContent = "☰  Guideline navigation";
   layout.insertBefore(toggle, nav);
 
-  function setNavVisible(visible) {
-    nav.hidden = !visible;
-    toggle.setAttribute("aria-expanded", visible ? "true" : "false");
+  var backdrop = document.createElement("div");
+  backdrop.className = "sccg-nav-backdrop";
+  backdrop.hidden = true;
+  layout.insertBefore(backdrop, nav);
+
+  var closeButton = document.createElement("button");
+  closeButton.type = "button";
+  closeButton.className = "sccg-nav-close";
+  closeButton.setAttribute("aria-label", "Close guideline navigation");
+  closeButton.textContent = "✕  Close";
+  var closeHost = nav.querySelector(".sccg-nav-search") || nav.querySelector(".sccg-nav-inner") || nav;
+  closeHost.insertBefore(closeButton, closeHost.firstChild);
+
+  /* Without this class the stylesheet leaves the nav as a plain link list. */
+  layout.classList.add("is-enhanced");
+
+  /* Everything outside the drawer's own branch of the page: the siblings of
+   * the nav and of each of its ancestors, up to the body. */
+  function backgroundElements() {
+    var elements = [];
+    var node = nav;
+    while (node && node !== document.body && node.parentNode) {
+      Array.prototype.forEach.call(node.parentNode.children, function (sibling) {
+        if (sibling !== node && sibling !== backdrop && sibling.tagName !== "SCRIPT") {
+          elements.push(sibling);
+        }
+      });
+      node = node.parentNode;
+    }
+    return elements;
   }
 
-  function applyBreakpoint() {
-    if (narrow.matches) {
-      setNavVisible(false);
-    } else {
-      nav.hidden = false;
-      toggle.setAttribute("aria-expanded", "true");
+  function setNavVisible(visible) {
+    var drawerOpen = visible && isNarrow();
+    nav.hidden = !visible;
+    toggle.setAttribute("aria-expanded", visible ? "true" : "false");
+    backdrop.hidden = !drawerOpen;
+    document.documentElement.classList.toggle("sccg-nav-locked", drawerOpen);
+    /* While the drawer is open the page behind it is inert, so keyboard and
+     * assistive-technology users stay inside the drawer. */
+    backgroundElements().forEach(function (element) {
+      element.toggleAttribute("inert", drawerOpen);
+    });
+  }
+
+  function openDrawer() {
+    setNavVisible(true);
+    if (activeLink) {
+      keepInView(activeLink);
+    }
+    closeButton.focus();
+  }
+
+  function closeDrawer(returnFocus) {
+    setNavVisible(false);
+    if (returnFocus) {
+      toggle.focus();
     }
   }
 
+  function applyBreakpoint() {
+    setNavVisible(!isNarrow());
+  }
+
   toggle.addEventListener("click", function () {
-    setNavVisible(nav.hidden);
+    if (nav.hidden) {
+      openDrawer();
+    } else {
+      closeDrawer(false);
+    }
+  });
+  closeButton.addEventListener("click", function () {
+    closeDrawer(true);
+  });
+  backdrop.addEventListener("click", function () {
+    closeDrawer(true);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && isNarrow() && !nav.hidden) {
+      closeDrawer(true);
+    }
   });
 
-  if (typeof narrow.addEventListener === "function") {
-    narrow.addEventListener("change", applyBreakpoint);
-  } else if (typeof narrow.addListener === "function") {
-    narrow.addListener(applyBreakpoint);
+  if (typeof wide.addEventListener === "function") {
+    wide.addEventListener("change", applyBreakpoint);
+  } else if (typeof wide.addListener === "function") {
+    wide.addListener(applyBreakpoint);
   }
   applyBreakpoint();
 
   nav.addEventListener("click", function (event) {
     var link = event.target.closest ? event.target.closest("a") : null;
-    if (link && narrow.matches) {
-      setNavVisible(false);
+    if (link && isNarrow()) {
+      closeDrawer(false);
+      /* The link is now hidden, so focus cannot stay on it. Move focus to
+       * the destination; the link's default action then scrolls there. */
+      var target = targetFor(link);
+      if (target) {
+        if (!target.hasAttribute("tabindex")) {
+          target.setAttribute("tabindex", "-1");
+        }
+        target.focus({ preventScroll: true });
+      }
     }
   });
 
@@ -268,8 +352,13 @@
 
     filterInput.addEventListener("keydown", function (event) {
       if (event.key === "Escape") {
-        filterInput.value = "";
-        clearFilter();
+        /* First Escape clears the filter; with nothing to clear, it
+         * reaches the document and closes the drawer. */
+        if (filterInput.value) {
+          event.stopPropagation();
+          filterInput.value = "";
+          clearFilter();
+        }
         return;
       }
       if (event.key !== "Enter") {
@@ -295,7 +384,7 @@
         return;
       }
       event.preventDefault();
-      if (narrow.matches) {
+      if (isNarrow()) {
         setNavVisible(true);
       }
       filterInput.focus();
@@ -305,15 +394,15 @@
 
   /* ---- highlight the section currently in view ------------------------- */
 
+  var activeLink = null;
+  var queued = false;
+
   if (!spyTargets.length) {
     return;
   }
 
-  var activeLink = null;
-  var queued = false;
-
   function keepInView(link) {
-    if (narrow.matches || nav.scrollHeight <= nav.clientHeight) {
+    if (nav.hidden || nav.scrollHeight <= nav.clientHeight) {
       return;
     }
     var linkTop = link.offsetTop;
