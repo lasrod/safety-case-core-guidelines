@@ -29,7 +29,7 @@ Two registry-level sentences make a fanned-out review the same across tools. `re
 
 ## When data is missing
 
-The data package registry publishes one rule, `when_unavailable`, for every profile and package: assess every guideline against the data that was supplied, never treat a missing package as a finding or as a reason to skip a guideline, and say which packages were unavailable. A profile does not need a statement of its own for that to hold.
+The data package registry publishes one rule, `when_unavailable`, for every profile and package: assess every guideline against the data that was supplied, and say which packages were unavailable. An `empty` package is a fact about the case that the review may rely on, for example that a claim has no path to evidence. A package that is `not_implemented` or `withheld` is never a finding and never a reason to skip a guideline. A profile does not need a statement of its own for that to hold.
 
 A `when_absent` entry is the exception: it names a required package whose absence leaves some of the profile's guidelines with nothing to judge, and what the review should say instead. No profile carries one in the current content. `evidence_review` used to carry one for `EVIDENCE_BASIS`, but the guidelines it silenced turned out to be assessable from the argument itself, so the package is now optional and the general rule applies.
 

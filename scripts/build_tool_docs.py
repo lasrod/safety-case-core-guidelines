@@ -87,7 +87,7 @@ def _splice_between_markers(original: str, begin_mark: str, end_mark: str, gener
 
 def _tool_assets() -> list[dict[str, str]]:
     return [
-        {"path": "dist/sccg.full.json", "description": "Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. The per-concern files are conveniences."},
+        {"path": "dist/sccg.full.json", "description": "Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. Those keys sit at its root, except that the keys of dist/authoring_guidance.json sit under authoring_guidance. The per-concern files are conveniences."},
         {"path": "dist/review_profiles.json", "description": "Review profile registry for selecting review intent and expected tool context, with the review pass instruction and merge rule, and the retired guideline ids a review must not cite."},
         {"path": "dist/data_packages.json", "description": "Data package registry describing the context a tool may provide to a review workflow."},
         {"path": "dist/data_package_diagram_layout.json", "description": "Fixed diagram layout for review-profile visualizations, with the selected-element package centered and all other package types pinned to stable positions."},

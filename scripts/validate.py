@@ -350,11 +350,14 @@ def _validate_tool_contract(model: dict[str, Any]) -> list[str]:
                     f"[data_packages] {package['id']}: field_meanings names {field!r}, which is not one of its fields"
                 )
 
-    placeholders = re.findall(r"\{[^{}]*\}", model["review_pass_instruction"])
-    if placeholders != ["{question}"]:
+    # A tool replaces {question} and sends the rest verbatim, so any other
+    # brace, such as {{question}} or a stray }, would reach the model.
+    instruction = model["review_pass_instruction"]
+    remainder = instruction.replace("{question}", "", 1)
+    if instruction.count("{question}") != 1 or "{" in remainder or "}" in remainder:
         errors.append(
-            "[review_profiles] review_pass_instruction must contain the placeholder {question} exactly once and "
-            f"no other placeholder, found {placeholders!r}"
+            "[review_profiles] review_pass_instruction must contain {question} exactly once and no other "
+            "brace"
         )
 
     selected_by_element_role: dict[str, list[str]] = defaultdict(list)
@@ -572,6 +575,8 @@ SUPERSET_SECTIONS = {
     "authoring_guidance.json": "authoring_guidance",
 }
 PER_FILE_KEYS = {"schema_version", "sccg_version", "document"}
+# Every file carries these at its root; the whole-catalogue file must agree.
+SHARED_ROOT_KEYS = ("schema_version", "sccg_version")
 
 
 def _validate_full_is_superset(outputs: dict[Path, str]) -> list[str]:
@@ -588,6 +593,13 @@ def _validate_full_is_superset(outputs: dict[Path, str]) -> list[str]:
         document = json.loads(by_name[name])
         base = full if section is None else full.get(section, {})
         where = "sccg.full.json" if section is None else f"sccg.full.json {section}"
+        for key in SHARED_ROOT_KEYS:
+            if document.get(key) != full.get(key):
+                errors.append(f"[dist] {name}: {key} differs from sccg.full.json")
+        # The per-file document block is a subset of the whole file's one.
+        for key, value in document.get("document", {}).items():
+            if full.get("document", {}).get(key) != value:
+                errors.append(f"[dist] {name}: document.{key} differs from sccg.full.json document")
         for key, value in document.items():
             if key in PER_FILE_KEYS:
                 continue

@@ -9,7 +9,7 @@ The source files are:
 - [content/tool_support/prechecks.yaml](../content/tool_support/prechecks.yaml) defines deterministic candidate checks.
 - [content/tool_support/authoring_guidance.yaml](../content/tool_support/authoring_guidance.yaml) names the guidelines a tool should deliver while an author or an AI agent is writing.
 
-A consumer can read [dist/sccg.full.json](../dist/sccg.full.json) alone: it carries every top-level key of the per-concern files with the same content, which validation enforces. The per-concern files are conveniences:
+A consumer can read [dist/sccg.full.json](../dist/sccg.full.json) alone: it carries every top-level key of the per-concern files with the same content, which validation enforces. Those keys sit at its root, except that the keys of `dist/authoring_guidance.json` sit under `authoring_guidance`. The per-concern files are conveniences:
 
 - [dist/review_profiles.json](../dist/review_profiles.json)
 - [dist/data_packages.json](../dist/data_packages.json)

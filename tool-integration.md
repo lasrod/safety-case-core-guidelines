@@ -24,7 +24,7 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 ### Core files
 
 
-- [dist/sccg.full.json](dist/sccg.full.json): Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. The per-concern files are conveniences.
+- [dist/sccg.full.json](dist/sccg.full.json): Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. Those keys sit at its root, except that the keys of dist/authoring_guidance.json sit under authoring_guidance. The per-concern files are conveniences.
 
 - [dist/review_profiles.json](dist/review_profiles.json): Review profile registry for selecting review intent and expected tool context, with the review pass instruction and merge rule, and the retired guideline ids a review must not cite.
 
@@ -298,7 +298,7 @@ An element written now is reviewed later under one profile. A tool delivering au
 Two version numbers are published, and they answer different questions.
 
 - `schema_version` is the version of the published contract: the file names in `dist/`, the top-level keys in each file, and the field names within them. A major change means a consumer may need to change code. It appears in every tool-facing file and in every rule row.
-- `sccg_version` is the version of the guideline content: the guidelines, their wording, examples, profiles, and checks. It moves whenever the content changes, including when the contract does not.
+- `sccg_version` is the version of the guideline content: the guidelines, their wording, examples, profiles, and checks. It moves whenever the content changes, including when the contract does not. The text SCCG publishes for a tool to use as given, such as the availability state meanings, `when_unavailable`, `review_pass_instruction`, and `review_pass_merge`, is content: its meaning can change in a minor content version. A tool that sends it verbatim picks the change up without code changes, and a tool that has re-implemented it in code should check the content changelog.
 
 What a tool may rely on being stable within a `schema_version` major:
 
@@ -309,12 +309,17 @@ What a tool may rely on being stable within a `schema_version` major:
 
 A tool should check the major of `schema_version` only. A minor version adds to the contract without changing what a tool already reads.
 
-Changes in `3.1.0` (content `0.8.1`), from `3.0.0`, all additive:
+Changes in contract `3.1.0`, from `3.0.0`, all additive:
 
-- **One sufficient file.** `dist/sccg.full.json` carries every top-level key of the per-concern JSON files with the same content, which validation enforces. Its `authoring_guidance` is now the resolved form from `dist/authoring_guidance.json`, with `short_rule`, `statement`, and `category` on each core rule and with `element_rules`. `dist/review_profiles.json` also carries `retired_guidelines`.
-- **One availability rule.** A package is available when its required fields are present and at least one field is populated, for every package; the rule no longer has a special case for packages with no required fields. A package such as `CHILDREN` with an empty `child_elements` is now `empty`. `when_unavailable` now says that an empty package is a fact the review may rely on, for example that a claim has no path to evidence, while a package that is not implemented or withheld is never a finding.
+- **One sufficient file.** `dist/sccg.full.json` carries every top-level key of the per-concern JSON files with the same content, which validation enforces. The keys of `dist/authoring_guidance.json` sit under `authoring_guidance` in the whole file, because their names, such as `description` and `usage`, would be ambiguous at its root; every other per-concern file's keys sit at the root. The whole file's `authoring_guidance` is now the resolved form, with `short_rule`, `statement`, and `category` on each core rule and with `element_rules`, and its `document` block now also carries `sccg_version` and `schema_version`, so every per-concern `document` block is a subset of it. `dist/review_profiles.json` also carries `retired_guidelines`.
 - **Field meanings.** Every data package gained `field_meanings`, one line per field. `required_fields` and `optional_fields` are unchanged.
-- **Pass instruction and merge rule.** `dist/review_profiles.json` gained `review_pass_instruction`, sent verbatim with each pass request with `{question}` replaced, and `review_pass_merge`, which says that a finding counts only for the pass that carries its guideline and that a review with a failed pass is incomplete.
+- **Pass instruction and merge rule.** `dist/review_profiles.json` gained `review_pass_instruction` and `review_pass_merge`.
+
+Changes in content `0.9.0`, from `0.8.0`, which change behaviour without changing the contract's shape:
+
+- **One availability rule.** A package is available when its required fields are present and at least one field is populated, for every package; there is no longer a special case for packages with no required fields. A package such as `CHILDREN` with an empty `child_elements` is now `empty`, where under `0.8.0` it was `available`. A tool that computes availability in code should adopt the one rule.
+- **Empty is a fact.** `when_unavailable` now says that an empty package tells the review the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld is still never a finding. This keeps findings such as EV.1 reportable under the one availability rule. A tool that sends `when_unavailable` verbatim needs no change.
+- **Passes.** `review_pass_instruction` is sent verbatim with each pass request, with `{question}` replaced. `review_pass_merge` says that a finding counts only for the pass that carries its guideline, and that a review with a failed pass is incomplete.
 
 Changes in `3.0.0` (content `0.8.0`), from `2.0.0`:
 

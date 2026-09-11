@@ -155,6 +155,8 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     # tool can load it alone; authoring guidance goes in resolved, as it is in
     # authoring_guidance.json. Validation holds the two to the same content.
     full = public_model(model)
+    # Every per-file document block is then a subset of this one.
+    full["document"] = {**model["document"], **_document_block(model)}
     full["authoring_guidance"] = {
         key: value
         for key, value in build_authoring_guidance(model).items()

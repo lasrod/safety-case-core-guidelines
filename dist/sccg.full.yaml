@@ -1,5 +1,5 @@
 schema_version: 3.1.0
-sccg_version: 0.8.1
+sccg_version: 0.9.0
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -10,6 +10,8 @@ document:
   purpose: 'This document consolidates review guidance for safety cases into one
 
     guideline-based review framework that can be cited during reviews.'
+  sccg_version: 0.9.0
+  schema_version: 3.1.0
 source_policy:
   summary: 'These guidelines draw on several source classes. The wording in this
 

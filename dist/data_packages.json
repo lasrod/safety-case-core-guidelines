@@ -429,11 +429,11 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.8.1",
+    "sccg_version": "0.9.0",
     "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
-  "sccg_version": "0.8.1",
+  "sccg_version": "0.9.0",
   "schema_version": "3.1.0",
   "when_unavailable": "Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result."
 }

@@ -17,7 +17,7 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.8.1",
+    "sccg_version": "0.9.0",
     "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
@@ -39,7 +39,7 @@
   "precheck_count": 5,
   "retired_guideline_count": 3,
   "review_profile_count": 7,
-  "sccg_version": "0.8.1",
+  "sccg_version": "0.9.0",
   "schema_version": "3.1.0",
   "selectable_element_count": 16
 }
