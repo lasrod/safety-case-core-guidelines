@@ -211,9 +211,9 @@ categories:
     anchor: rd1
     short_rule: Signpost each element's role in its wording so no reader has to guess what it does.
   - id: RD.2
-    title: Use scoped claims and qualified confidence language
+    title: Use qualified confidence language
     anchor: rd2
-    short_rule: State the operating scope, and match confidence language to the actual support.
+    short_rule: Match confidence language to the actual support; do not word a claim as absolute assurance.
   - id: RD.3
     title: Keep known limitations visible where the claim is read
     anchor: rd3

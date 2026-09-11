@@ -44,7 +44,7 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.9.0",
+    "sccg_version": "0.10.0",
     "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
@@ -739,6 +739,10 @@
         {
           "id": "RD.3",
           "note": "Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself."
+        },
+        {
+          "id": "RD.2",
+          "note": "Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the claim does not say what scope it covers, however it is worded."
         }
       ],
       "id": "AR.6",
@@ -2607,28 +2611,32 @@
     },
     {
       "category": "RD",
-      "distinguish_from": [],
+      "distinguish_from": [
+        {
+          "id": "AR.6",
+          "note": "Cite AR.6 when the claim does not say what scope it covers. Cite RD.2 when the wording claims more certainty than the support gives, whether or not the scope is stated."
+        }
+      ],
       "id": "RD.2",
-      "rationale": "Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.",
+      "rationale": "Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is not stated is AR.6, and scope written into the claim text is AR.7.",
       "reference_source_ids": [
         "UL4600"
       ],
       "review_prompts": [
-        "Is the scope of the claim explicit?",
-        "Is unresolved uncertainty visible?",
-        "Does the wording overstate closure?",
+        "Does the wording claim more certainty than the support gives?",
+        "Does the wording overstate closure while issues remain open?",
         "Does the confidence language match the actual support?"
       ],
-      "short_rule": "State the operating scope, and match confidence language to the actual support.",
-      "statement": "State the operating scope and use confidence language that reflects the actual support and any open issues.",
-      "title": "Use scoped claims and qualified confidence language",
+      "short_rule": "Match confidence language to the actual support; do not word a claim as absolute assurance.",
+      "statement": "Use confidence language that reflects the actual support and any open issues, not absolute assurance.",
+      "title": "Use qualified confidence language",
       "tool": {
         "applicable_elements": [
           "GSN Goal",
           "CAE Claim"
         ],
         "detection_hints": [
-          "Look for unscoped claims using absolute confidence language (is safe, is correct)."
+          "Look for claims using absolute confidence language (is safe, is correct)."
         ],
         "markers": [
           {
@@ -2650,12 +2658,12 @@
         "repair": [
           {
             "action": "reword_element",
-            "statement": "State the operating scope and match the confidence wording to the actual support."
+            "statement": "Match the confidence wording to the actual support, and keep open issues visible rather than wording the claim as closed."
           }
         ],
         "suggested_checks": [
           {
-            "description": "Check whether claims state operating scope and use confidence language matched to actual support.",
+            "description": "Check whether claims use confidence language matched to actual support. Candidate when an absolute confidence marker appears in claim text. Whether the claim states its scope is AR.6, not this check.",
             "id": "check-scope-and-confidence-language"
           }
         ]
@@ -2890,6 +2898,6 @@
       "title": "Do not bury important limitations or hidden assumptions"
     }
   ],
-  "sccg_version": "0.9.0",
+  "sccg_version": "0.10.0",
   "schema_version": "3.1.0"
 }

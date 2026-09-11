@@ -268,6 +268,8 @@ guidelines:
     note: Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
   - id: RD.3
     note: Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
+  - id: RD.2
+    note: Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the claim does not say what scope it covers, however it is worded.
   tool:
     applicable_elements:
     - GSN Goal
