@@ -25,6 +25,8 @@ That is the intended lookup: from the selected element, to its element role, to 
 
 `claim_review` applies 33 guidelines, which is a long checklist for a person and a crowded request for a model: guidelines that answer the same kind of question are more often cited in each other's place when they arrive together. `review_passes` splits the profile into four questions (wording, structure, sufficiency, reasoning). Each guideline of the profile is in exactly one pass, so a reviewer can work through them in turn, and a tool can send one request per pass and merge the findings. Profile selection does not change: the element still resolves to one profile.
 
+Two registry-level sentences make a fanned-out review the same across tools. `review_pass_instruction` is sent verbatim with each pass request, with `{question}` replaced by the pass's question. `review_pass_merge` says that a finding counts only for the pass that carries its guideline, so one cited under another pass's guideline is discarded, and that a review with a pass that did not complete is incomplete rather than clean.
+
 ## When data is missing
 
 The data package registry publishes one rule, `when_unavailable`, for every profile and package: assess every guideline against the data that was supplied, never treat a missing package as a finding or as a reason to skip a guideline, and say which packages were unavailable. A profile does not need a statement of its own for that to hold.

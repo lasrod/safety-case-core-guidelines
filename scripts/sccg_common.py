@@ -134,6 +134,8 @@ def load_content_model() -> dict[str, Any]:
         "retired_guidelines": sccg["retired_guidelines"],
         "review_profiles": review_profiles["review_profiles"],
         "selectable_elements": review_profiles["selectable_elements"],
+        "review_pass_instruction": review_profiles["review_pass_instruction"],
+        "review_pass_merge": review_profiles["review_pass_merge"],
         "data_packages": data_packages["data_packages"],
         "availability_states": data_packages["availability_states"],
         "when_unavailable": data_packages["when_unavailable"],

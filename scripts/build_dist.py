@@ -151,7 +151,15 @@ def _profile_element_role(model: dict[str, Any], profile: dict[str, Any]) -> str
 def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
     if model is None:
         model = load_content_model()
+    # The whole-catalogue file carries every per-concern file's content, so a
+    # tool can load it alone; authoring guidance goes in resolved, as it is in
+    # authoring_guidance.json. Validation holds the two to the same content.
     full = public_model(model)
+    full["authoring_guidance"] = {
+        key: value
+        for key, value in build_authoring_guidance(model).items()
+        if key not in ("schema_version", "sccg_version", "document")
+    }
     compact = {
         "schema_version": model["schema_version"],
         "sccg_version": model["sccg_version"],
@@ -237,7 +245,12 @@ def build_outputs(model: dict[str, Any] | None = None) -> dict[Path, str]:
                 "sccg_version": model["sccg_version"],
                 "document": _document_block(model),
                 "selectable_elements": model["selectable_elements"],
+                "review_pass_instruction": model["review_pass_instruction"],
+                "review_pass_merge": model["review_pass_merge"],
                 "review_profiles": model["review_profiles"],
+                # Retirement changes which ids a review may cite, so a tool
+                # loading only the review files must see it too.
+                "retired_guidelines": model["retired_guidelines"],
             }
         ),
         DIST / "data_packages.json": json_text(

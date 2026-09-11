@@ -6,10 +6,43 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.8.0",
-    "schema_version": "3.0.0",
+    "sccg_version": "0.8.1",
+    "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
+  "retired_guidelines": [
+    {
+      "id": "AR.3",
+      "note": "It asked for the same thing as AR.7, moving scope and dependency clauses out of claim text, and its remaining half, whether the context a claim needs is present at all, is AR.6. Cite AR.7 for placement and AR.6 for missing context.",
+      "replaced_by": [
+        "AR.7",
+        "AR.6"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Use context and assumptions deliberately"
+    },
+    {
+      "id": "SU.9",
+      "note": "Merged into SU.2, which now also requires an assumption to be stated where it constrains the argument and applies to claims and context as well as assumption elements.",
+      "replaced_by": [
+        "SU.2"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Document unstated assumptions at the point of use"
+    },
+    {
+      "id": "RD.6",
+      "note": "It was the negative form of RD.3. Buried limitations are now RD.3, which keeps known limitations visible where the claim is read; hidden assumptions are SU.2.",
+      "replaced_by": [
+        "RD.3",
+        "SU.2"
+      ],
+      "retired_in": "0.8.0",
+      "title": "Do not bury important limitations or hidden assumptions"
+    }
+  ],
+  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.",
+  "review_pass_merge": "A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.",
   "review_profiles": [
     {
       "applies_to": [
@@ -573,8 +606,8 @@
       ]
     }
   ],
-  "sccg_version": "0.8.0",
-  "schema_version": "3.0.0",
+  "sccg_version": "0.8.1",
+  "schema_version": "3.1.0",
   "selectable_elements": [
     {
       "basis": "GSN Community Standard v3 core element (Goal).",

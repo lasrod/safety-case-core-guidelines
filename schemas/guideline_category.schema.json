@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "category", "guidelines"],
   "properties": {
-    "schema_version": { "const": "3.0.0" },
+    "schema_version": { "const": "3.1.0" },
     "category": {
       "type": "object",
       "additionalProperties": false,

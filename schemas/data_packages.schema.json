@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "availability_states", "when_unavailable", "data_packages"],
   "properties": {
-    "schema_version": { "const": "3.0.0" },
+    "schema_version": { "const": "3.1.0" },
     "when_unavailable": {
       "description": "What a review does when a package it would use is not available, for every profile and package. A profile's when_absent entry is the only exception.",
       "type": "string",
@@ -31,7 +31,7 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "role", "display_name", "description", "required_fields", "optional_fields"],
+        "required": ["id", "role", "display_name", "description", "required_fields", "optional_fields", "field_meanings"],
         "properties": {
           "id": { "type": "string", "pattern": "^[A-Z0-9_]+$" },
           "role": {
@@ -54,6 +54,11 @@
           "optional_fields": {
             "type": "array",
             "items": { "type": "string", "minLength": 1 }
+          },
+          "field_meanings": {
+            "description": "One line of meaning for every required and optional field, keyed by field name, so that tools map their own data onto the same fields. Availability is judged by whether these fields are populated.",
+            "type": "object",
+            "additionalProperties": { "type": "string", "minLength": 1 }
           }
         }
       }

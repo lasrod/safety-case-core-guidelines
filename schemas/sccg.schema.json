@@ -14,7 +14,7 @@
     "retired_guidelines"
   ],
   "properties": {
-    "schema_version": { "const": "3.0.0" },
+    "schema_version": { "const": "3.1.0" },
     "sccg_version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "document": {
       "type": "object",

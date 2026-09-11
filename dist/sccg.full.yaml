@@ -1,5 +1,5 @@
-schema_version: 3.0.0
-sccg_version: 0.8.0
+schema_version: 3.1.0
+sccg_version: 0.8.1
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström
@@ -2895,7 +2895,7 @@ review_profiles:
   applies_to:
   - GSN Goal
   - CAE Claim
-  guideline_ids:
+  guideline_ids: &id001
   - CL.1
   - CL.2
   - CL.3
@@ -3026,7 +3026,7 @@ review_profiles:
   applies_to:
   - GSN Strategy
   - CAE Argument
-  guideline_ids:
+  guideline_ids: &id002
   - AR.1
   - AR.2
   - EV.9
@@ -3071,7 +3071,7 @@ review_profiles:
   applies_to:
   - GSN Solution
   - CAE Evidence
-  guideline_ids:
+  guideline_ids: &id003
   - AR.1
   - EV.1
   - EV.2
@@ -3127,7 +3127,7 @@ review_profiles:
   applies_to:
   - GSN Assumption
   - CAE Assumption
-  guideline_ids:
+  guideline_ids: &id004
   - AR.1
   - AR.7
   - SU.2
@@ -3165,7 +3165,7 @@ review_profiles:
   - CAE Warrant
   - CAE Side-warrant
   - CAE Side-claim
-  guideline_ids:
+  guideline_ids: &id005
   - AR.1
   - AR.8
   - AR.9
@@ -3209,7 +3209,7 @@ review_profiles:
   applies_to:
   - GSN Context
   - CAE Context
-  guideline_ids:
+  guideline_ids: &id006
   - CL.5
   - AR.1
   - AR.5
@@ -3243,7 +3243,7 @@ review_profiles:
   applies_to:
   - GSN Counter Claim
   - CAE Defeater
-  guideline_ids:
+  guideline_ids: &id007
   - CL.1
   - CL.4
   - AR.1
@@ -3333,6 +3333,8 @@ selectable_elements:
   notation: CAE
   element_role: challenge
   basis: CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.
+review_pass_instruction: 'This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.'
+review_pass_merge: A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.
 data_packages:
 - id: SELECTED_CLAIM
   role: selected_element
@@ -3348,6 +3350,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_STRATEGY
   role: selected_element
   element_role: strategy
@@ -3362,6 +3372,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_EVIDENCE
   role: selected_element
   element_role: evidence
@@ -3376,6 +3394,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_CONTEXT
   role: selected_element
   element_role: context
@@ -3389,6 +3415,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_ASSUMPTION
   role: selected_element
   element_role: assumption
@@ -3402,6 +3435,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_JUSTIFICATION
   role: selected_element
   element_role: justification
@@ -3415,6 +3455,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_CHALLENGE
   role: selected_element
   element_role: challenge
@@ -3429,6 +3476,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: PARENT
   role: supporting
   display_name: Parent element
@@ -3439,6 +3494,11 @@ data_packages:
   - text
   optional_fields:
   - relationship_type
+  field_meanings:
+    element_id: The identifier of the immediate parent of the selected element.
+    element_type: The notation element type of the parent, named as in selectable_elements.
+    text: The full text of the parent.
+    relationship_type: The kind of link from the parent to the selected element, such as supported by or in context of.
 - id: CHILDREN
   role: supporting
   display_name: Child elements
@@ -3447,6 +3507,9 @@ data_packages:
   - child_elements
   optional_fields:
   - relationship_types
+  field_meanings:
+    child_elements: Each element directly below the selected element in the argument, as element_id, element_type, and text.
+    relationship_types: The kind of link from the selected element to each child, in the same order as child_elements.
 - id: DIRECT_CONTEXT
   role: supporting
   display_name: Direct context
@@ -3456,6 +3519,10 @@ data_packages:
   - assumptions
   - justifications
   optional_fields: []
+  field_meanings:
+    context_elements: Each context element attached directly to the selected element, as element_id, element_type, and text.
+    assumptions: Each assumption attached directly to the selected element, in the same shape.
+    justifications: Each justification, warrant, or rationale element attached directly to the selected element, in the same shape.
 - id: INHERITED_CONTEXT
   role: supporting
   display_name: Inherited context
@@ -3464,6 +3531,9 @@ data_packages:
   - ancestor_context
   - ancestor_assumptions
   optional_fields: []
+  field_meanings:
+    ancestor_context: Each context element attached to an ancestor of the selected element, as element_id, element_type, and text, nearest ancestor first.
+    ancestor_assumptions: Each assumption attached to an ancestor of the selected element, in the same shape, nearest ancestor first.
 - id: STRATEGY
   role: supporting
   display_name: Connecting strategy
@@ -3474,6 +3544,11 @@ data_packages:
   - text
   optional_fields:
   - strategy_context
+  field_meanings:
+    element_id: The identifier of the strategy or reasoning element connecting the parent claim to its supporting claims.
+    element_type: The notation element type of that strategy, named as in selectable_elements.
+    text: The full text of that strategy.
+    strategy_context: Context, assumptions, and justifications attached to that strategy, as element_id, element_type, and text.
 - id: EVIDENCE_ITEM
   role: supporting
   display_name: Evidence item
@@ -3490,6 +3565,17 @@ data_packages:
   - date
   - location
   - cited_section
+  field_meanings:
+    element_id: The identifier of the evidence element that cites the artifact.
+    element_type: The notation element type of that evidence element, named as in selectable_elements.
+    text: The full text of that evidence element.
+    artifact_type: The kind of artifact cited, such as test report, analysis, or review record.
+    owner: The person or team responsible for the artifact.
+    version: The version, revision, or issue of the artifact that is cited.
+    status: The approval status of the cited artifact, such as draft, in review, approved, or released.
+    date: The date of the cited version, such as its approval or release date.
+    location: Where the cited version can be retrieved, such as a repository path or a document-control identifier.
+    cited_section: The part of the artifact that carries the support, such as a section, table, figure, dataset, or test identifier.
 - id: EVIDENCE_PATH
   role: supporting
   display_name: Evidence path
@@ -3498,6 +3584,9 @@ data_packages:
   - path_elements
   - evidence_items
   optional_fields: []
+  field_meanings:
+    path_elements: The elements on the path from the selected claim down to its evidence, as element_id, element_type, and text, in order from the claim.
+    evidence_items: The evidence elements the path reaches, in the same shape.
 - id: EVIDENCE_BASIS
   role: supporting
   display_name: Evidence basis
@@ -3510,6 +3599,13 @@ data_packages:
   - scenario_set
   - configuration
   - limitations
+  field_meanings:
+    acceptance_criteria: The criteria the evidence has to meet for the claim, such as pass conditions or required results.
+    coverage: What the evidence covers and what it does not, such as conditions, functions, or hazards.
+    thresholds: The numeric limits the results are judged against.
+    scenario_set: The scenarios, test cases, or data set the evidence was produced from, and where they came from.
+    configuration: The system, software, and sensor configuration the evidence applies to.
+    limitations: Known limitations, exclusions, and unfavourable results recorded for the evidence.
 - id: PROJECT_GLOSSARY
   role: supporting
   display_name: Project glossary
@@ -3517,6 +3613,8 @@ data_packages:
   required_fields:
   - terms
   optional_fields: []
+  field_meanings:
+    terms: Each project term used in the reviewed elements, with its definition.
 - id: STANDARD_LINKS
   role: supporting
   display_name: Standard links
@@ -3524,6 +3622,8 @@ data_packages:
   required_fields:
   - linked_requirements
   optional_fields: []
+  field_meanings:
+    linked_requirements: Each external standard requirement or guidance clause linked to the reviewed elements, with its identifier and, where available, its text.
 - id: CHANGE_HISTORY
   role: supporting
   display_name: Change history
@@ -3534,6 +3634,11 @@ data_packages:
   - prior_findings
   - proposal_history
   - baseline
+  field_meanings:
+    review_comments: Remarks a person recorded against the reviewed elements, with author and date where known.
+    prior_findings: Findings an earlier review, by a person or a tool, raised against the reviewed elements, each with its guideline id and status.
+    proposal_history: Changes proposed to the reviewed elements, and whether each was accepted, rejected, or is still pending.
+    baseline: The baseline, version, or snapshot of the case the elements are reviewed in, and whether they changed since the last reviewed baseline.
 - id: USER_REVIEW_INTENT
   role: supporting
   display_name: User review intent
@@ -3541,20 +3646,22 @@ data_packages:
   required_fields:
   - review_intent
   optional_fields: []
+  field_meanings:
+    review_intent: The concern or question the user asked the review to focus on, in the user's words.
 availability_states:
 - id: available
   display_name: Available
-  meaning: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
+  meaning: The package is supplied with its required fields present, and at least one of its fields is populated. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. The same rule applies to every package, whether or not it has required fields.
 - id: not_implemented
   display_name: Not implemented
   meaning: The tool has no source for this package at all.
 - id: empty
   display_name: Empty
-  meaning: The tool has a source for this package and this case has nothing in it.
+  meaning: The tool has a source for this package and this case has nothing in it, so none of its fields is populated. That is a fact about the case, for example a claim with no children.
 - id: withheld
   display_name: Withheld
   meaning: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
-when_unavailable: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
+when_unavailable: Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 review_profile_diagram_layout:
   canvas:
     width: 1600
@@ -3664,36 +3771,132 @@ authoring_guidance:
   usage: Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard.
   core_rules:
   - id: CL.1
+    category: CL
+    short_rule: State each claim as a short proposition a reviewer could judge true or false.
+    statement: State each claim as a sentence that can in principle be shown true or false.
     reason: A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim.
   - id: CL.2
+    category: CL
+    short_rule: Put one claim in one goal; separate properties that need different evidence.
+    statement: Do not bundle multiple distinct properties, conclusions, or obligations into one goal.
     reason: Bundled properties are the characteristic output of a single-sentence instruction such as "argue that X is safe and secure".
   - id: CL.3
+    category: CL
+    short_rule: 'Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.'
+    statement: Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims.
     reason: Authors and language models both tend to write the whole branch into one claim rather than using the structure.
   - id: CL.5
+    category: CL
+    short_rule: Bound every evaluative or universal qualifier in the claim, its context, or a defined term.
+    statement: Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never.
     reason: Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording.
   - id: CL.6
+    category: CL
+    short_rule: Do not chain identification, implementation, and validation in one claim; decompose them.
+    statement: Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit
     reason: Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached.
   - id: AR.1
+    category: AR
+    short_rule: 'Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.'
+    statement: Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support.
     reason: Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it.
   - id: AR.2
+    category: AR
+    short_rule: State the decomposition or inference rule explicitly instead of leaving it to be inferred.
+    statement: State how the parent claim is being decomposed or argued; do not make the reviewer infer the decomposition rule from wording alone.
     reason: Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument.
   - id: AR.7
+    category: AR
+    short_rule: Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.
+    statement: Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased.
     reason: Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.
   - id: EV.1
+    category: EV
+    short_rule: Give every claim a path to evidence, or mark it undeveloped deliberately.
+    statement: Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments.
     reason: A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review.
   - id: EV.3
+    category: EV
+    short_rule: Claim the fact the evidence establishes, not the document that holds it.
+    statement: Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion.
     reason: Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows.
   - id: EV.4
+    category: EV
+    short_rule: Cite the exact section, table, figure, or test identifier, not a whole report.
+    statement: Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical.
     reason: Citation precision is cheap while the author still knows which section they meant.
   - id: EV.8
+    category: EV
+    short_rule: Cite a fixed, versioned, or archived state, never live mutable content.
+    statement: Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content.
     reason: A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time.
   - id: SU.2
+    category: SU
+    short_rule: State each assumption where it constrains the argument, justify it, and monitor it where needed.
+    statement: Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead.
     reason: An unstated dependency is invisible to review by definition, so it has to be stated where it is introduced, while the author still knows what they were assuming.
   - id: LF.1
+    category: LF
+    short_rule: Support a claim with independent grounds, never by restating or renaming it.
+    statement: Do not support a claim by restating it, renaming it, or assuming it in the support.
     reason: Support that restates its parent is a common filler pattern when an author or a model has no real support to offer.
   - id: LF.3
+    category: LF
+    short_rule: 'Do not argue from absence: nothing found is not evidence that nothing exists.'
+    statement: Do not treat lack of discovered evidence against a claim as positive evidence for the claim.
     reason: Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand.
   - id: RD.1
+    category: RD
+    short_rule: Signpost each element's role in its wording so no reader has to guess what it does.
+    statement: Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification.
     reason: Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards.
   - id: RD.4
+    category: RD
+    short_rule: Use no promotional language; persuade through structure and evidence.
+    statement: Do not use promotional, boastful, or image-enhancing language in the safety case.
     reason: Promotional wording is introduced at writing time and always weakens rather than strengthens the argument.
+  element_rules:
+  - element_role: claim
+    elements:
+    - GSN Goal
+    - CAE Claim
+    review_profile_id: claim_review
+    guideline_ids: *id001
+  - element_role: strategy
+    elements:
+    - GSN Strategy
+    - CAE Argument
+    review_profile_id: strategy_review
+    guideline_ids: *id002
+  - element_role: evidence
+    elements:
+    - GSN Solution
+    - CAE Evidence
+    review_profile_id: evidence_review
+    guideline_ids: *id003
+  - element_role: assumption
+    elements:
+    - GSN Assumption
+    - CAE Assumption
+    review_profile_id: assumption_review
+    guideline_ids: *id004
+  - element_role: justification
+    elements:
+    - GSN Justification
+    - CAE Warrant
+    - CAE Side-warrant
+    - CAE Side-claim
+    review_profile_id: justification_review
+    guideline_ids: *id005
+  - element_role: context
+    elements:
+    - GSN Context
+    - CAE Context
+    review_profile_id: context_review
+    guideline_ids: *id006
+  - element_role: challenge
+    elements:
+    - GSN Counter Claim
+    - CAE Defeater
+    review_profile_id: challenge_review
+    guideline_ids: *id007

@@ -1,5 +1,5 @@
-schema_version: 3.0.0
-sccg_version: 0.8.0
+schema_version: 3.1.0
+sccg_version: 0.8.1
 document:
   title: Safety Case Core Guidelines
   copyright: © 2026 Jesper Brännström

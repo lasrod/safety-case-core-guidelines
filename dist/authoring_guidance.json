@@ -128,8 +128,8 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.8.0",
-    "schema_version": "3.0.0",
+    "sccg_version": "0.8.1",
+    "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
   "element_rules": [
@@ -290,7 +290,7 @@
       "review_profile_id": "challenge_review"
     }
   ],
-  "sccg_version": "0.8.0",
-  "schema_version": "3.0.0",
+  "sccg_version": "0.8.1",
+  "schema_version": "3.1.0",
   "usage": "Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard."
 }

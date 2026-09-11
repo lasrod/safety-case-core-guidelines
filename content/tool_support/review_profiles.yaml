@@ -1,4 +1,4 @@
-schema_version: 3.0.0
+schema_version: 3.1.0
 selectable_elements:
 - element: GSN Goal
   notation: GSN
@@ -64,6 +64,8 @@ selectable_elements:
   notation: CAE
   element_role: challenge
   basis: CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.
+review_pass_instruction: 'This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.'
+review_pass_merge: A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.
 review_profiles:
 - id: claim_review
   display_name: Claim review

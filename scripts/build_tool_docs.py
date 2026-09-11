@@ -87,8 +87,8 @@ def _splice_between_markers(original: str, begin_mark: str, end_mark: str, gener
 
 def _tool_assets() -> list[dict[str, str]]:
     return [
-        {"path": "dist/sccg.full.json", "description": "Complete normalized SCCG model, including guidelines, review profiles, data packages, and pre-checks."},
-        {"path": "dist/review_profiles.json", "description": "Review profile registry for selecting review intent and expected tool context."},
+        {"path": "dist/sccg.full.json", "description": "Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. The per-concern files are conveniences."},
+        {"path": "dist/review_profiles.json", "description": "Review profile registry for selecting review intent and expected tool context, with the review pass instruction and merge rule, and the retired guideline ids a review must not cite."},
         {"path": "dist/data_packages.json", "description": "Data package registry describing the context a tool may provide to a review workflow."},
         {"path": "dist/data_package_diagram_layout.json", "description": "Fixed diagram layout for review-profile visualizations, with the selected-element package centered and all other package types pinned to stable positions."},
         {"path": "dist/prechecks.json", "description": "Deterministic candidate checks that a tool can run before human or AI judgment."},
@@ -134,6 +134,9 @@ def _render_tool_sections(model: dict) -> tuple[str, str, str, str]:
         selectable_elements=model["selectable_elements"],
         availability_states=model["availability_states"],
         when_unavailable=model["when_unavailable"],
+        data_packages=model["data_packages"],
+        review_pass_instruction=model["review_pass_instruction"],
+        review_pass_merge=model["review_pass_merge"],
         authoring=build_authoring_guidance(model),
     )
     sections = {
