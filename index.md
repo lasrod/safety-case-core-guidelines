@@ -667,7 +667,7 @@ This guideline is about whether the information needed to read the claim is pres
 - [AR.7](#ar7): Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether.
 - [SU.2](#su2): Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
 - [RD.3](#rd3): Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
-- [RD.2](#rd2): Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the claim does not say what scope it covers, however it is worded.
+- [RD.2](#rd2): Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context, however the claim is worded.
 
 **Example**
 
@@ -1975,7 +1975,7 @@ Use confidence language that reflects the actual support and any open issues, no
 
 **Why**
 
-Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is not stated is AR.6, and scope written into the claim text is AR.7.
+Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is stated nowhere in the branch, neither in the claim nor in its context, is AR.6, and scope written into the claim text is AR.7.
 
 **Review prompts**
 - Does the wording claim more certainty than the support gives?
@@ -1983,7 +1983,7 @@ Safety cases should communicate justified confidence, not absolute assurance whe
 - Does the confidence language match the actual support?
 
 **Not to be confused with**
-- [AR.6](#ar6): Cite AR.6 when the claim does not say what scope it covers. Cite RD.2 when the wording claims more certainty than the support gives, whether or not the scope is stated.
+- [AR.6](#ar6): Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context. Cite RD.2 when the wording claims more certainty than the support gives, wherever the scope is stated.
 
 **Example**
 

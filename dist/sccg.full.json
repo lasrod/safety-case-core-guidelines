@@ -1647,7 +1647,7 @@
         },
         {
           "id": "RD.2",
-          "note": "Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the claim does not say what scope it covers, however it is worded."
+          "note": "Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context, however the claim is worded."
         }
       ],
       "examples": {
@@ -4030,7 +4030,7 @@
       "distinguish_from": [
         {
           "id": "AR.6",
-          "note": "Cite AR.6 when the claim does not say what scope it covers. Cite RD.2 when the wording claims more certainty than the support gives, whether or not the scope is stated."
+          "note": "Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context. Cite RD.2 when the wording claims more certainty than the support gives, wherever the scope is stated."
         }
       ],
       "examples": {
@@ -4039,7 +4039,7 @@
         "problem": "The claim uses absolute confidence language; it overstates closure and hides any unresolved uncertainty."
       },
       "id": "RD.2",
-      "rationale": "Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is not stated is AR.6, and scope written into the claim text is AR.7.",
+      "rationale": "Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is stated nowhere in the branch, neither in the claim nor in its context, is AR.6, and scope written into the claim text is AR.7.",
       "references": [
         {
           "clauses": [
@@ -4593,7 +4593,7 @@
       "title": "Do not bury important limitations or hidden assumptions"
     }
   ],
-  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them. Where a note in this request says to cite a guideline that is not in this request for some defect, that defect is not a finding in this pass; the pass that carries that guideline reports it.",
+  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them. Where a note in this request says to cite a guideline that is not in this request for some defect, that defect is not a finding in this pass: another pass reports it if this review applies that guideline, and otherwise it is outside this review.",
   "review_pass_merge": "A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.",
   "review_profile_diagram_layout": {
     "canvas": {
