@@ -9,7 +9,7 @@ The source files are:
 - [content/tool_support/prechecks.yaml](../content/tool_support/prechecks.yaml) defines deterministic candidate checks.
 - [content/tool_support/authoring_guidance.yaml](../content/tool_support/authoring_guidance.yaml) names the guidelines a tool should deliver while an author or an AI agent is writing.
 
-Generated consumers should usually read:
+A consumer can read [dist/sccg.full.json](../dist/sccg.full.json) alone: it carries every top-level key of the per-concern files with the same content, which validation enforces. Those keys sit at its root, except that the keys of `dist/authoring_guidance.json` sit under `authoring_guidance`. The per-concern files are conveniences:
 
 - [dist/review_profiles.json](../dist/review_profiles.json)
 - [dist/data_packages.json](../dist/data_packages.json)
@@ -42,9 +42,11 @@ Each package has a `role`:
 
 A tool that cannot supply a package should report which state applies rather than omitting it silently: `available`, `not_implemented` (no source for it at all), `empty` (a source exists and this case has nothing in it), or `withheld` (the data exists and was deliberately not shared). A review told nothing assumes the data does not exist, and may report a sufficiency finding that is an artifact of what it was not shown.
 
-A package with no required fields, such as `EVIDENCE_BASIS` or `CHANGE_HISTORY`, counts as `available` only when at least one of its fields is populated. Supplied with nothing in it, it is `empty`.
+One rule decides availability for every package: it is `available` when its required fields are present and at least one of its fields is populated, and `empty` when it is supplied with nothing in it. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. So `CHILDREN` sent with an empty `child_elements` is `empty`, and a tool can build every package unconditionally and let the rule decide.
 
-What the review then does is one rule for every profile, published as `when_unavailable` in [dist/data_packages.json](../dist/data_packages.json): assess every guideline against what was supplied, never report a missing package as a finding, never skip a guideline because a package is missing, and say which packages were unavailable. A profile's `when_absent` entry is the only exception, and no profile currently carries one. The rule covers the packages around the reviewed element: if the selected-element package itself is unavailable there is nothing to review, and the tool reports that no review was performed rather than an empty result.
+Every package publishes `field_meanings`, one line per field. Because availability is judged by whether the published fields are populated, a tool must send its data under these names; data under any other name is not seen by the review.
+
+What the review then does is one rule for every profile, published as `when_unavailable` in [dist/data_packages.json](../dist/data_packages.json): assess every guideline against what was supplied, and say which packages were unavailable. An `empty` package is a fact about the case that a review may rely on, such as a claim with no path to evidence. A package that is `not_implemented` or `withheld` is never a finding and never a reason to skip a guideline. A profile's `when_absent` entry is the only exception, and no profile currently carries one. The rule covers the packages around the reviewed element: if the selected-element package itself is unavailable there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 
 ## Review profiles
 

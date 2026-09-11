@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "required": ["schema_version", "reference_sources"],
   "properties": {
-    "schema_version": { "const": "3.0.0" },
+    "schema_version": { "const": "3.1.0" },
     "reference_sources": {
       "type": "array",
       "minItems": 1,

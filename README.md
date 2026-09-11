@@ -98,7 +98,7 @@ GitHub Pages is deployed by a dedicated workflow that runs the same generation a
 
 Tools should consume [dist/](dist/) rather than the authored YAML unless they specifically need source-level authoring data. See [tool-integration.md](tool-integration.md), [docs/tool-support.md](docs/tool-support.md), [docs/ai-integration.md](docs/ai-integration.md), [docs/review-profiles.md](docs/review-profiles.md), and [docs/prechecks.md](docs/prechecks.md).
 
-Two versions are published: `schema_version` is the tool-facing contract, and `sccg_version` is the guideline content. The current contract is `3.0.0`; what changed and what a consumer has to do about it is recorded in the versioning section of [tool-integration.md](tool-integration.md).
+Two versions are published: `schema_version` is the tool-facing contract, and `sccg_version` is the guideline content. The current contract is `3.1.0`; what changed and what a consumer has to do about it is recorded in the versioning section of [tool-integration.md](tool-integration.md).
 
 Schema details are summarized in [docs/schema-reference.md](docs/schema-reference.md).
 

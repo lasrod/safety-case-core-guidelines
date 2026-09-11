@@ -336,6 +336,30 @@ def _validate_tool_contract(model: dict[str, Any]) -> list[str]:
     for duplicate_id in _duplicates([state["id"] for state in model["availability_states"]]):
         errors.append(f"[availability_states] duplicate state id {duplicate_id!r}")
 
+    # Availability is judged by whether the published fields are populated,
+    # so every field needs a meaning a tool can map its own data onto.
+    for package in model["data_packages"]:
+        fields = package["required_fields"] + package["optional_fields"]
+        meanings = package.get("field_meanings", {})
+        for field in fields:
+            if field not in meanings:
+                errors.append(f"[data_packages] {package['id']}: field {field!r} has no field_meanings entry")
+        for field in meanings:
+            if field not in fields:
+                errors.append(
+                    f"[data_packages] {package['id']}: field_meanings names {field!r}, which is not one of its fields"
+                )
+
+    # A tool replaces {question} and sends the rest verbatim, so any other
+    # brace, such as {{question}} or a stray }, would reach the model.
+    instruction = model["review_pass_instruction"]
+    remainder = instruction.replace("{question}", "", 1)
+    if instruction.count("{question}") != 1 or "{" in remainder or "}" in remainder:
+        errors.append(
+            "[review_profiles] review_pass_instruction must contain {question} exactly once and no other "
+            "brace"
+        )
+
     selected_by_element_role: dict[str, list[str]] = defaultdict(list)
     for package in model["data_packages"]:
         is_selected = package["role"] == "selected_element"
@@ -542,10 +566,55 @@ def _validate_dist_provenance(model: dict[str, Any], outputs: dict[Path, str]) -
     return errors
 
 
+# Per-concern files, and where each one's content sits in sccg.full.json.
+SUPERSET_SECTIONS = {
+    "review_profiles.json": None,
+    "data_packages.json": None,
+    "data_package_diagram_layout.json": None,
+    "prechecks.json": None,
+    "authoring_guidance.json": "authoring_guidance",
+}
+PER_FILE_KEYS = {"schema_version", "sccg_version", "document"}
+# Every file carries these at its root; the whole-catalogue file must agree.
+SHARED_ROOT_KEYS = ("schema_version", "sccg_version")
+
+
+def _validate_full_is_superset(outputs: dict[Path, str]) -> list[str]:
+    """sccg.full.json is published as sufficient on its own.
+
+    A tool that loads only the whole-catalogue file must see everything a
+    per-concern file carries, with the same content, or the two ways of
+    loading SCCG would give a tool two different catalogues.
+    """
+    errors: list[str] = []
+    by_name = {path.name: text for path, text in outputs.items()}
+    full = json.loads(by_name["sccg.full.json"])
+    for name, section in SUPERSET_SECTIONS.items():
+        document = json.loads(by_name[name])
+        base = full if section is None else full.get(section, {})
+        where = "sccg.full.json" if section is None else f"sccg.full.json {section}"
+        for key in SHARED_ROOT_KEYS:
+            if document.get(key) != full.get(key):
+                errors.append(f"[dist] {name}: {key} differs from sccg.full.json")
+        # The per-file document block is a subset of the whole file's one.
+        for key, value in document.get("document", {}).items():
+            if full.get("document", {}).get(key) != value:
+                errors.append(f"[dist] {name}: document.{key} differs from sccg.full.json document")
+        for key, value in document.items():
+            if key in PER_FILE_KEYS:
+                continue
+            if key not in base:
+                errors.append(f"[dist] {name}: key {key!r} is missing from {where}")
+            elif base[key] != value:
+                errors.append(f"[dist] {name}: key {key!r} differs from {where}")
+    return errors
+
+
 def _validate_generated(model: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     dist_outputs = build_dist_outputs(model)
     errors.extend(_validate_dist_provenance(model, dist_outputs))
+    errors.extend(_validate_full_is_superset(dist_outputs))
     for path, expected in dist_outputs.items():
         errors.extend(_check_file_current(path, expected, str(path)))
     ai_export_schema = load_json(SCHEMAS / "ai_rule_export.schema.json")

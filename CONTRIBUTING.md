@@ -119,13 +119,16 @@ Rules that validation enforces, because tools rely on them:
 - A `when_absent` entry may only name a required package of that profile, and may only list guidelines that profile applies. Publish one only where a package's absence leaves guidelines with nothing to judge; otherwise the registry's `when_unavailable` rule already says what a review does.
 - A profile's `review_passes`, where present, list every guideline of the profile exactly once and nothing else, so a tool fanning out over them applies exactly the profile.
 - `distinguish_from`, profiles, pre-checks, and the authoring guidance set may only name active guidelines, never retired ones.
+- Every data package field has a `field_meanings` entry, and no entry names a field the package does not have. Add the meaning in the same change as the field.
+- `review_pass_instruction` contains `{question}` exactly once and no other placeholder.
+- `dist/sccg.full.json` carries every top-level key of the per-concern files in `dist/` with the same content, because tools may load it alone. A new per-concern key must also appear in the whole-catalogue file.
 - Every guideline category is represented in the authoring guidance set, so a tool carrying only that set never hides a whole family.
 
 ## Versioning
 
-`schema_version` is the version of the published contract: the file names under `dist/`, their top-level keys, and their field names. Bump the major when a consumer may need to change code, and update the `const` in every schema plus the `schema_version` in every authored file in the same change.
+`schema_version` is the version of the published contract: the file names under `dist/`, their top-level keys, and their field names. Bump the major when a consumer may need to change code, and the minor when the contract only gains keys or fields. Either way, update the `const` in every schema plus the `schema_version` in every authored file in the same change. Do not change the shape of an existing field in a minor, for example from a list of strings to a list of objects; add a new field alongside it instead.
 
-`sccg_version` in [content/sccg.yaml](content/sccg.yaml) is the version of the guideline content, and moves whenever the guidelines, examples, profiles, or checks change.
+`sccg_version` in [content/sccg.yaml](content/sccg.yaml) is the version of the guideline content, and moves whenever the guidelines, examples, profiles, or checks change. Text a tool uses as given, such as the availability state meanings, `when_unavailable`, and the review pass sentences, is content too: a change to what it means is a minor content version, recorded in the changelog with what a tool that re-implements it has to do. A wording change that keeps the meaning is a patch.
 
 Record any contract change in the versioning section of [tool-integration.md](tool-integration.md), including what a consumer has to do about it.
 

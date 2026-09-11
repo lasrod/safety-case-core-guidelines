@@ -2,82 +2,291 @@
   "authoring_guidance": {
     "core_rules": [
       {
+        "category": "CL",
         "id": "CL.1",
-        "reason": "A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim."
+        "reason": "A topic label written in place of a proposition cannot be reviewed, and is the most common first mistake in a new claim.",
+        "short_rule": "State each claim as a short proposition a reviewer could judge true or false.",
+        "statement": "State each claim as a sentence that can in principle be shown true or false."
       },
       {
+        "category": "CL",
         "id": "CL.2",
-        "reason": "Bundled properties are the characteristic output of a single-sentence instruction such as \"argue that X is safe and secure\"."
+        "reason": "Bundled properties are the characteristic output of a single-sentence instruction such as \"argue that X is safe and secure\".",
+        "short_rule": "Put one claim in one goal; separate properties that need different evidence.",
+        "statement": "Do not bundle multiple distinct properties, conclusions, or obligations into one goal."
       },
       {
+        "category": "CL",
         "id": "CL.3",
-        "reason": "Authors and language models both tend to write the whole branch into one claim rather than using the structure."
+        "reason": "Authors and language models both tend to write the whole branch into one claim rather than using the structure.",
+        "short_rule": "Keep claim text short: scope belongs in context, reasoning in a strategy, topics in sub-claims.",
+        "statement": "Do not pack argument structure, scope, decomposition topics, and caveats into a single claim. Keep the claim short, and express the rest through context, strategy, assumptions, and sub-claims."
       },
       {
+        "category": "CL",
         "id": "CL.5",
-        "reason": "Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording."
+        "reason": "Unbounded qualifiers enter at writing time and are expensive to bound afterwards, once the branch below depends on the wording.",
+        "short_rule": "Bound every evaluative or universal qualifier in the claim, its context, or a defined term.",
+        "statement": "Do not leave broad evaluative terms or universal qualifiers unbounded. This includes terms such as safe, timely, effective, normal, robust, all, every, and never."
       },
       {
+        "category": "CL",
         "id": "CL.6",
-        "reason": "Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached."
+        "reason": "Chained lifecycle steps look like one claim while needing several evidence sets, and are easiest to separate before support is attached.",
+        "short_rule": "Do not chain identification, implementation, and validation in one claim; decompose them.",
+        "statement": "Do not combine identification, adequacy, implementation, validation, and sufficiency in one claim unless the claim is intentionally kept at a higher level and the need for later decomposition is explicit"
       },
       {
+        "category": "AR",
         "id": "AR.1",
-        "reason": "Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it."
+        "reason": "Element role misuse is a writing-time choice; a tool can prevent it more cheaply than a review can correct it.",
+        "short_rule": "Let each element do its own job: claims assert, reasoning elements explain, evidence elements cite.",
+        "statement": "Use the assurance case structure to make each element's role clear. Claims state propositions to be established; argument elements explain the reasoning, decomposition approach, or inference rule; context and assumptions define scope and dependencies when needed; and evidence elements identify the artefacts or observations used as support."
       },
       {
+        "category": "AR",
         "id": "AR.2",
-        "reason": "Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument."
+        "reason": "Sub-claims added under a claim with no reasoning step is the characteristic shape of generated argument.",
+        "short_rule": "State the decomposition or inference rule explicitly instead of leaving it to be inferred.",
+        "statement": "State how the parent claim is being decomposed or argued; do not make the reviewer infer the decomposition rule from wording alone."
       },
       {
+        "category": "AR",
         "id": "AR.7",
-        "reason": "Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim."
+        "reason": "Scope and dependencies written into claim text are hard to separate later, once other elements refer to the claim.",
+        "short_rule": "Move scope, qualifiers, and dependency clauses out of claim text into context or assumptions.",
+        "statement": "Do not hide scope, operating conditions, qualifiers, definitions, interface conditions, or dependency clauses in claim text in a way that obscures scope or support. Use separate context or assumption structures where available; otherwise make the qualifiers deliberate, clear, and consistently phrased."
       },
       {
+        "category": "EV",
         "id": "EV.1",
-        "reason": "A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review."
+        "reason": "A claim written with no intended evidence path should be marked undeveloped when it is written, not discovered unsupported at review.",
+        "short_rule": "Give every claim a path to evidence, or mark it undeveloped deliberately.",
+        "statement": "Show, for each claim, the evidence path that supports it, either directly or through stated sub-claims and intermediate arguments."
       },
       {
+        "category": "EV",
         "id": "EV.3",
-        "reason": "Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows."
+        "reason": "Naming the document rather than the fact is a writing habit, and it overstates what the artifact shows.",
+        "short_rule": "Claim the fact the evidence establishes, not the document that holds it.",
+        "statement": "Write the claim as the fact or property being supported; do not make the goal say that a report, analysis, or test proves the safety conclusion."
       },
       {
+        "category": "EV",
         "id": "EV.4",
-        "reason": "Citation precision is cheap while the author still knows which section they meant."
+        "reason": "Citation precision is cheap while the author still knows which section they meant.",
+        "short_rule": "Cite the exact section, table, figure, or test identifier, not a whole report.",
+        "statement": "Reference the exact section, figure, table, dataset, or artifact portion that supports the claim when practical."
       },
       {
+        "category": "EV",
         "id": "EV.8",
-        "reason": "A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time."
+        "reason": "A live source cited without a fixed version silently invalidates the argument later, and the fixing information is available at writing time.",
+        "short_rule": "Cite a fixed, versioned, or archived state, never live mutable content.",
+        "statement": "Do not cite live mutable content as evidence unless the cited state is fixed, versioned, archived, or otherwise controlled so that the reviewed argument always refers to the same content."
       },
       {
+        "category": "SU",
         "id": "SU.2",
-        "reason": "An unstated dependency is invisible to review by definition, so it has to be stated where it is introduced, while the author still knows what they were assuming."
+        "reason": "An unstated dependency is invisible to review by definition, so it has to be stated where it is introduced, while the author still knows what they were assuming.",
+        "short_rule": "State each assumption where it constrains the argument, justify it, and monitor it where needed.",
+        "statement": "Do not rely on hidden assumptions. When a claim or reasoning step depends on a condition that must hold, state it explicitly at the point where it constrains the argument, explain why it is reasonable, and ensure it is monitored or otherwise controlled where needed. If the condition should be shown rather than assumed, argue it as a sub-claim instead."
       },
       {
+        "category": "LF",
         "id": "LF.1",
-        "reason": "Support that restates its parent is a common filler pattern when an author or a model has no real support to offer."
+        "reason": "Support that restates its parent is a common filler pattern when an author or a model has no real support to offer.",
+        "short_rule": "Support a claim with independent grounds, never by restating or renaming it.",
+        "statement": "Do not support a claim by restating it, renaming it, or assuming it in the support."
       },
       {
+        "category": "LF",
         "id": "LF.3",
-        "reason": "Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand."
+        "reason": "Arguing from absence reads as evidence and is not, and it is written most often when the search basis is not to hand.",
+        "short_rule": "Do not argue from absence: nothing found is not evidence that nothing exists.",
+        "statement": "Do not treat lack of discovered evidence against a claim as positive evidence for the claim."
       },
       {
+        "category": "RD",
         "id": "RD.1",
-        "reason": "Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards."
+        "reason": "Signposting an element's role costs nothing while writing it and cannot be recovered from the text afterwards.",
+        "short_rule": "Signpost each element's role in its wording so no reader has to guess what it does.",
+        "statement": "Make it clear whether a statement is functioning as a claim, evidence reference, context, assumption, or justification."
       },
       {
+        "category": "RD",
         "id": "RD.4",
-        "reason": "Promotional wording is introduced at writing time and always weakens rather than strengthens the argument."
+        "reason": "Promotional wording is introduced at writing time and always weakens rather than strengthens the argument.",
+        "short_rule": "Use no promotional language; persuade through structure and evidence.",
+        "statement": "Do not use promotional, boastful, or image-enhancing language in the safety case."
       }
     ],
     "description": "The SCCG subset a tool should deliver while an author or an AI agent is writing, rather than when a review is run. Every guideline still applies; this set names the rules that are most often broken at the moment of writing and short enough to carry in a system prompt, an editor hint, or an agent's session instructions.",
+    "element_rules": [
+      {
+        "element_role": "claim",
+        "elements": [
+          "GSN Goal",
+          "CAE Claim"
+        ],
+        "guideline_ids": [
+          "CL.1",
+          "CL.2",
+          "CL.3",
+          "CL.4",
+          "CL.5",
+          "CL.6",
+          "AR.1",
+          "AR.4",
+          "AR.5",
+          "AR.6",
+          "AR.7",
+          "EV.1",
+          "EV.3",
+          "EV.9",
+          "SU.1",
+          "SU.2",
+          "SU.4",
+          "SU.5",
+          "SU.6",
+          "SU.8",
+          "SU.11",
+          "LF.1",
+          "LF.2",
+          "LF.3",
+          "LF.4",
+          "LF.5",
+          "LF.6",
+          "LF.7",
+          "RD.1",
+          "RD.2",
+          "RD.3",
+          "RD.4",
+          "RD.5"
+        ],
+        "review_profile_id": "claim_review"
+      },
+      {
+        "element_role": "strategy",
+        "elements": [
+          "GSN Strategy",
+          "CAE Argument"
+        ],
+        "guideline_ids": [
+          "AR.1",
+          "AR.2",
+          "EV.9",
+          "SU.1",
+          "SU.2",
+          "LF.1"
+        ],
+        "review_profile_id": "strategy_review"
+      },
+      {
+        "element_role": "evidence",
+        "elements": [
+          "GSN Solution",
+          "CAE Evidence"
+        ],
+        "guideline_ids": [
+          "AR.1",
+          "EV.1",
+          "EV.2",
+          "EV.4",
+          "EV.5",
+          "EV.6",
+          "EV.7",
+          "EV.8",
+          "SU.1",
+          "SU.3",
+          "SU.6",
+          "SU.7",
+          "SU.8",
+          "LF.2",
+          "LF.5",
+          "LF.7",
+          "RD.1"
+        ],
+        "review_profile_id": "evidence_review"
+      },
+      {
+        "element_role": "assumption",
+        "elements": [
+          "GSN Assumption",
+          "CAE Assumption"
+        ],
+        "guideline_ids": [
+          "AR.1",
+          "AR.7",
+          "SU.2",
+          "SU.4",
+          "SU.10",
+          "RD.1"
+        ],
+        "review_profile_id": "assumption_review"
+      },
+      {
+        "element_role": "justification",
+        "elements": [
+          "GSN Justification",
+          "CAE Warrant",
+          "CAE Side-warrant",
+          "CAE Side-claim"
+        ],
+        "guideline_ids": [
+          "AR.1",
+          "AR.8",
+          "AR.9",
+          "EV.5",
+          "SU.3",
+          "SU.5",
+          "SU.7",
+          "LF.3",
+          "LF.4",
+          "RD.1",
+          "RD.5"
+        ],
+        "review_profile_id": "justification_review"
+      },
+      {
+        "element_role": "context",
+        "elements": [
+          "GSN Context",
+          "CAE Context"
+        ],
+        "guideline_ids": [
+          "CL.5",
+          "AR.1",
+          "AR.5",
+          "AR.6",
+          "AR.7",
+          "RD.1",
+          "RD.3"
+        ],
+        "review_profile_id": "context_review"
+      },
+      {
+        "element_role": "challenge",
+        "elements": [
+          "GSN Counter Claim",
+          "CAE Defeater"
+        ],
+        "guideline_ids": [
+          "CL.1",
+          "CL.4",
+          "AR.1",
+          "SU.11"
+        ],
+        "review_profile_id": "challenge_review"
+      }
+    ],
     "usage": "Render each rule from the guideline's short_rule field and cite its id. Do not paraphrase, and do not present this set as SCCG conformance; it is a delivery subset, not a reduced standard."
   },
   "availability_states": [
     {
       "display_name": "Available",
       "id": "available",
-      "meaning": "The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty."
+      "meaning": "The package is supplied with its required fields present, and at least one of its fields is populated. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. The same rule applies to every package, whether or not it has required fields."
     },
     {
       "display_name": "Not implemented",
@@ -87,7 +296,7 @@
     {
       "display_name": "Empty",
       "id": "empty",
-      "meaning": "The tool has a source for this package and this case has nothing in it."
+      "meaning": "The tool has a source for this package and this case has nothing in it, so none of its fields is populated. That is a fact about the case, for example a claim with no children."
     },
     {
       "display_name": "Withheld",
@@ -138,6 +347,15 @@
       "description": "The claim under review, as the selected element of a claim review.",
       "display_name": "Selected claim",
       "element_role": "claim",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_CLAIM",
       "optional_fields": [
         "status",
@@ -156,6 +374,15 @@
       "description": "The strategy or reasoning element under review, as the selected element of a strategy review.",
       "display_name": "Selected strategy",
       "element_role": "strategy",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_STRATEGY",
       "optional_fields": [
         "status",
@@ -174,6 +401,15 @@
       "description": "The evidence element under review, as the selected element of an evidence review. Its control attributes are carried by EVIDENCE_ITEM.",
       "display_name": "Selected evidence element",
       "element_role": "evidence",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_EVIDENCE",
       "optional_fields": [
         "status",
@@ -192,6 +428,14 @@
       "description": "The context element under review, as the selected element of a context review.",
       "display_name": "Selected context element",
       "element_role": "context",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_CONTEXT",
       "optional_fields": [
         "status",
@@ -209,6 +453,14 @@
       "description": "The assumption under review, as the selected element of an assumption review.",
       "display_name": "Selected assumption",
       "element_role": "assumption",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_ASSUMPTION",
       "optional_fields": [
         "status",
@@ -226,6 +478,14 @@
       "description": "The justification, warrant, or rationale element under review, as the selected element of a justification review.",
       "display_name": "Selected justification",
       "element_role": "justification",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_JUSTIFICATION",
       "optional_fields": [
         "status",
@@ -243,6 +503,15 @@
       "description": "The counter claim, defeater, or other explicit challenge element under review, as the selected element of a challenge review.",
       "display_name": "Selected challenge",
       "element_role": "challenge",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_CHALLENGE",
       "optional_fields": [
         "status",
@@ -260,6 +529,12 @@
     {
       "description": "The immediate parent claim, goal, strategy, or reasoning element of the selected element.",
       "display_name": "Parent element",
+      "field_meanings": {
+        "element_id": "The identifier of the immediate parent of the selected element.",
+        "element_type": "The notation element type of the parent, named as in selectable_elements.",
+        "relationship_type": "The kind of link from the parent to the selected element, such as supported by or in context of.",
+        "text": "The full text of the parent."
+      },
       "id": "PARENT",
       "optional_fields": [
         "relationship_type"
@@ -274,6 +549,10 @@
     {
       "description": "Immediate supporting claims, strategies, solutions, or evidence links below the selected element.",
       "display_name": "Child elements",
+      "field_meanings": {
+        "child_elements": "Each element directly below the selected element in the argument, as element_id, element_type, and text.",
+        "relationship_types": "The kind of link from the selected element to each child, in the same order as child_elements."
+      },
       "id": "CHILDREN",
       "optional_fields": [
         "relationship_types"
@@ -286,6 +565,11 @@
     {
       "description": "Context, assumptions, and justifications directly attached to the selected element.",
       "display_name": "Direct context",
+      "field_meanings": {
+        "assumptions": "Each assumption attached directly to the selected element, in the same shape.",
+        "context_elements": "Each context element attached directly to the selected element, as element_id, element_type, and text.",
+        "justifications": "Each justification, warrant, or rationale element attached directly to the selected element, in the same shape."
+      },
       "id": "DIRECT_CONTEXT",
       "optional_fields": [],
       "required_fields": [
@@ -298,6 +582,10 @@
     {
       "description": "Context and assumptions inherited from ancestor elements.",
       "display_name": "Inherited context",
+      "field_meanings": {
+        "ancestor_assumptions": "Each assumption attached to an ancestor of the selected element, in the same shape, nearest ancestor first.",
+        "ancestor_context": "Each context element attached to an ancestor of the selected element, as element_id, element_type, and text, nearest ancestor first."
+      },
       "id": "INHERITED_CONTEXT",
       "optional_fields": [],
       "required_fields": [
@@ -309,6 +597,12 @@
     {
       "description": "The strategy or reasoning element connecting a parent claim to supporting claims. Distinct from SELECTED_STRATEGY, which is the strategy being reviewed.",
       "display_name": "Connecting strategy",
+      "field_meanings": {
+        "element_id": "The identifier of the strategy or reasoning element connecting the parent claim to its supporting claims.",
+        "element_type": "The notation element type of that strategy, named as in selectable_elements.",
+        "strategy_context": "Context, assumptions, and justifications attached to that strategy, as element_id, element_type, and text.",
+        "text": "The full text of that strategy."
+      },
       "id": "STRATEGY",
       "optional_fields": [
         "strategy_context"
@@ -323,6 +617,18 @@
     {
       "description": "Control metadata for a cited evidence artifact or evidence reference.",
       "display_name": "Evidence item",
+      "field_meanings": {
+        "artifact_type": "The kind of artifact cited, such as test report, analysis, or review record.",
+        "cited_section": "The part of the artifact that carries the support, such as a section, table, figure, dataset, or test identifier.",
+        "date": "The date of the cited version, such as its approval or release date.",
+        "element_id": "The identifier of the evidence element that cites the artifact.",
+        "element_type": "The notation element type of that evidence element, named as in selectable_elements.",
+        "location": "Where the cited version can be retrieved, such as a repository path or a document-control identifier.",
+        "owner": "The person or team responsible for the artifact.",
+        "status": "The approval status of the cited artifact, such as draft, in review, approved, or released.",
+        "text": "The full text of that evidence element.",
+        "version": "The version, revision, or issue of the artifact that is cited."
+      },
       "id": "EVIDENCE_ITEM",
       "optional_fields": [
         "artifact_type",
@@ -343,6 +649,10 @@
     {
       "description": "Path from a selected claim to descendant evidence.",
       "display_name": "Evidence path",
+      "field_meanings": {
+        "evidence_items": "The evidence elements the path reaches, in the same shape.",
+        "path_elements": "The elements on the path from the selected claim down to its evidence, as element_id, element_type, and text, in order from the claim."
+      },
       "id": "EVIDENCE_PATH",
       "optional_fields": [],
       "required_fields": [
@@ -354,6 +664,14 @@
     {
       "description": "Information used to judge whether evidence is sufficient for the claim, rather than merely relevant to it.",
       "display_name": "Evidence basis",
+      "field_meanings": {
+        "acceptance_criteria": "The criteria the evidence has to meet for the claim, such as pass conditions or required results.",
+        "configuration": "The system, software, and sensor configuration the evidence applies to.",
+        "coverage": "What the evidence covers and what it does not, such as conditions, functions, or hazards.",
+        "limitations": "Known limitations, exclusions, and unfavourable results recorded for the evidence.",
+        "scenario_set": "The scenarios, test cases, or data set the evidence was produced from, and where they came from.",
+        "thresholds": "The numeric limits the results are judged against."
+      },
       "id": "EVIDENCE_BASIS",
       "optional_fields": [
         "acceptance_criteria",
@@ -369,6 +687,9 @@
     {
       "description": "Relevant project terms and definitions.",
       "display_name": "Project glossary",
+      "field_meanings": {
+        "terms": "Each project term used in the reviewed elements, with its definition."
+      },
       "id": "PROJECT_GLOSSARY",
       "optional_fields": [],
       "required_fields": [
@@ -379,6 +700,9 @@
     {
       "description": "Linked external standard requirements or guidance references.",
       "display_name": "Standard links",
+      "field_meanings": {
+        "linked_requirements": "Each external standard requirement or guidance clause linked to the reviewed elements, with its identifier and, where available, its text."
+      },
       "id": "STANDARD_LINKS",
       "optional_fields": [],
       "required_fields": [
@@ -389,6 +713,12 @@
     {
       "description": "Relevant review comments, prior findings, proposal history, and baseline or version state.",
       "display_name": "Change history",
+      "field_meanings": {
+        "baseline": "The baseline, version, or snapshot of the case the elements are reviewed in, and whether they changed since the last reviewed baseline.",
+        "prior_findings": "Findings an earlier review, by a person or a tool, raised against the reviewed elements, each with its guideline id and status.",
+        "proposal_history": "Changes proposed to the reviewed elements, and whether each was accepted, rejected, or is still pending.",
+        "review_comments": "Remarks a person recorded against the reviewed elements, with author and date where known."
+      },
       "id": "CHANGE_HISTORY",
       "optional_fields": [
         "review_comments",
@@ -402,6 +732,9 @@
     {
       "description": "A review concern or focus supplied by the user requesting the review.",
       "display_name": "User review intent",
+      "field_meanings": {
+        "review_intent": "The concern or question the user asked the review to focus on, in the user's words."
+      },
       "id": "USER_REVIEW_INTENT",
       "optional_fields": [],
       "required_fields": [
@@ -418,6 +751,8 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
+    "sccg_version": "0.9.0",
+    "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
   "guidelines": [
@@ -4249,6 +4584,8 @@
       "title": "Do not bury important limitations or hidden assumptions"
     }
   ],
+  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.",
+  "review_pass_merge": "A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.",
   "review_profile_diagram_layout": {
     "canvas": {
       "height": 1040,
@@ -4887,8 +5224,8 @@
       ]
     }
   ],
-  "sccg_version": "0.8.0",
-  "schema_version": "3.0.0",
+  "sccg_version": "0.9.0",
+  "schema_version": "3.1.0",
   "selectable_elements": [
     {
       "basis": "GSN Community Standard v3 core element (Goal).",
@@ -4990,5 +5327,5 @@
   "source_policy": {
     "summary": "These guidelines draw on several source classes. The wording in this\ndocument is intended to paraphrase source material and established\npractice rather than reproduce source text."
   },
-  "when_unavailable": "Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result."
+  "when_unavailable": "Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result."
 }

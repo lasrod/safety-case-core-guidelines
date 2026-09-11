@@ -3,9 +3,19 @@
   "title": "SCCG review profiles",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "selectable_elements", "review_profiles"],
+  "required": ["schema_version", "selectable_elements", "review_pass_instruction", "review_pass_merge", "review_profiles"],
   "properties": {
-    "schema_version": { "const": "3.0.0" },
+    "schema_version": { "const": "3.1.0" },
+    "review_pass_instruction": {
+      "description": "The instruction a tool sends with each pass request, verbatim, with {question} replaced by the pass's question. {question} is the only placeholder.",
+      "type": "string",
+      "minLength": 1
+    },
+    "review_pass_merge": {
+      "description": "How a tool merges the results of the passes of one review into that review's result.",
+      "type": "string",
+      "minLength": 1
+    },
     "selectable_elements": {
       "type": "array",
       "minItems": 1,

@@ -1,18 +1,18 @@
-schema_version: 3.0.0
+schema_version: 3.1.0
 availability_states:
 - id: available
   display_name: Available
-  meaning: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
+  meaning: The package is supplied with its required fields present, and at least one of its fields is populated. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. The same rule applies to every package, whether or not it has required fields.
 - id: not_implemented
   display_name: Not implemented
   meaning: The tool has no source for this package at all.
 - id: empty
   display_name: Empty
-  meaning: The tool has a source for this package and this case has nothing in it.
+  meaning: The tool has a source for this package and this case has nothing in it, so none of its fields is populated. That is a fact about the case, for example a claim with no children.
 - id: withheld
   display_name: Withheld
   meaning: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
-when_unavailable: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
+when_unavailable: Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 data_packages:
 - id: SELECTED_CLAIM
   role: selected_element
@@ -28,6 +28,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_STRATEGY
   role: selected_element
   element_role: strategy
@@ -42,6 +50,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_EVIDENCE
   role: selected_element
   element_role: evidence
@@ -56,6 +72,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_CONTEXT
   role: selected_element
   element_role: context
@@ -69,6 +93,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_ASSUMPTION
   role: selected_element
   element_role: assumption
@@ -82,6 +113,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_JUSTIFICATION
   role: selected_element
   element_role: justification
@@ -95,6 +133,13 @@ data_packages:
   - status
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: SELECTED_CHALLENGE
   role: selected_element
   element_role: challenge
@@ -109,6 +154,14 @@ data_packages:
   - undeveloped
   - tags
   - notes
+  field_meanings:
+    element_id: The identifier of the selected element in the tool's model.
+    element_type: The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.
+    text: The full text of the selected element as the author wrote it.
+    status: The element's lifecycle status in the tool, such as draft, in review, or approved.
+    undeveloped: Whether the element is deliberately marked undeveloped, as true or false.
+    tags: Labels the tool or the author attached to the element.
+    notes: Free-text notes attached to the element that are not part of its text.
 - id: PARENT
   role: supporting
   display_name: Parent element
@@ -119,6 +172,11 @@ data_packages:
   - text
   optional_fields:
   - relationship_type
+  field_meanings:
+    element_id: The identifier of the immediate parent of the selected element.
+    element_type: The notation element type of the parent, named as in selectable_elements.
+    text: The full text of the parent.
+    relationship_type: The kind of link from the parent to the selected element, such as supported by or in context of.
 - id: CHILDREN
   role: supporting
   display_name: Child elements
@@ -127,6 +185,9 @@ data_packages:
   - child_elements
   optional_fields:
   - relationship_types
+  field_meanings:
+    child_elements: Each element directly below the selected element in the argument, as element_id, element_type, and text.
+    relationship_types: The kind of link from the selected element to each child, in the same order as child_elements.
 - id: DIRECT_CONTEXT
   role: supporting
   display_name: Direct context
@@ -136,6 +197,10 @@ data_packages:
   - assumptions
   - justifications
   optional_fields: []
+  field_meanings:
+    context_elements: Each context element attached directly to the selected element, as element_id, element_type, and text.
+    assumptions: Each assumption attached directly to the selected element, in the same shape.
+    justifications: Each justification, warrant, or rationale element attached directly to the selected element, in the same shape.
 - id: INHERITED_CONTEXT
   role: supporting
   display_name: Inherited context
@@ -144,6 +209,9 @@ data_packages:
   - ancestor_context
   - ancestor_assumptions
   optional_fields: []
+  field_meanings:
+    ancestor_context: Each context element attached to an ancestor of the selected element, as element_id, element_type, and text, nearest ancestor first.
+    ancestor_assumptions: Each assumption attached to an ancestor of the selected element, in the same shape, nearest ancestor first.
 - id: STRATEGY
   role: supporting
   display_name: Connecting strategy
@@ -154,6 +222,11 @@ data_packages:
   - text
   optional_fields:
   - strategy_context
+  field_meanings:
+    element_id: The identifier of the strategy or reasoning element connecting the parent claim to its supporting claims.
+    element_type: The notation element type of that strategy, named as in selectable_elements.
+    text: The full text of that strategy.
+    strategy_context: Context, assumptions, and justifications attached to that strategy, as element_id, element_type, and text.
 - id: EVIDENCE_ITEM
   role: supporting
   display_name: Evidence item
@@ -170,6 +243,17 @@ data_packages:
   - date
   - location
   - cited_section
+  field_meanings:
+    element_id: The identifier of the evidence element that cites the artifact.
+    element_type: The notation element type of that evidence element, named as in selectable_elements.
+    text: The full text of that evidence element.
+    artifact_type: The kind of artifact cited, such as test report, analysis, or review record.
+    owner: The person or team responsible for the artifact.
+    version: The version, revision, or issue of the artifact that is cited.
+    status: The approval status of the cited artifact, such as draft, in review, approved, or released.
+    date: The date of the cited version, such as its approval or release date.
+    location: Where the cited version can be retrieved, such as a repository path or a document-control identifier.
+    cited_section: The part of the artifact that carries the support, such as a section, table, figure, dataset, or test identifier.
 - id: EVIDENCE_PATH
   role: supporting
   display_name: Evidence path
@@ -178,6 +262,9 @@ data_packages:
   - path_elements
   - evidence_items
   optional_fields: []
+  field_meanings:
+    path_elements: The elements on the path from the selected claim down to its evidence, as element_id, element_type, and text, in order from the claim.
+    evidence_items: The evidence elements the path reaches, in the same shape.
 - id: EVIDENCE_BASIS
   role: supporting
   display_name: Evidence basis
@@ -190,6 +277,13 @@ data_packages:
   - scenario_set
   - configuration
   - limitations
+  field_meanings:
+    acceptance_criteria: The criteria the evidence has to meet for the claim, such as pass conditions or required results.
+    coverage: What the evidence covers and what it does not, such as conditions, functions, or hazards.
+    thresholds: The numeric limits the results are judged against.
+    scenario_set: The scenarios, test cases, or data set the evidence was produced from, and where they came from.
+    configuration: The system, software, and sensor configuration the evidence applies to.
+    limitations: Known limitations, exclusions, and unfavourable results recorded for the evidence.
 - id: PROJECT_GLOSSARY
   role: supporting
   display_name: Project glossary
@@ -197,6 +291,8 @@ data_packages:
   required_fields:
   - terms
   optional_fields: []
+  field_meanings:
+    terms: Each project term used in the reviewed elements, with its definition.
 - id: STANDARD_LINKS
   role: supporting
   display_name: Standard links
@@ -204,6 +300,8 @@ data_packages:
   required_fields:
   - linked_requirements
   optional_fields: []
+  field_meanings:
+    linked_requirements: Each external standard requirement or guidance clause linked to the reviewed elements, with its identifier and, where available, its text.
 - id: CHANGE_HISTORY
   role: supporting
   display_name: Change history
@@ -214,6 +312,11 @@ data_packages:
   - prior_findings
   - proposal_history
   - baseline
+  field_meanings:
+    review_comments: Remarks a person recorded against the reviewed elements, with author and date where known.
+    prior_findings: Findings an earlier review, by a person or a tool, raised against the reviewed elements, each with its guideline id and status.
+    proposal_history: Changes proposed to the reviewed elements, and whether each was accepted, rejected, or is still pending.
+    baseline: The baseline, version, or snapshot of the case the elements are reviewed in, and whether they changed since the last reviewed baseline.
 - id: USER_REVIEW_INTENT
   role: supporting
   display_name: User review intent
@@ -221,3 +324,5 @@ data_packages:
   required_fields:
   - review_intent
   optional_fields: []
+  field_meanings:
+    review_intent: The concern or question the user asked the review to focus on, in the user's words.

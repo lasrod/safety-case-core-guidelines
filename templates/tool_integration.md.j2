@@ -34,6 +34,18 @@ A review profile applies to notation elements. `element_role` is the notation-ne
 | {{ element.element }} | {{ element.notation }} | `{{ element.element_role }}` |
 {% endfor %}
 
+### Data package fields
+
+What each field of each package carries. Availability is judged by whether these fields are populated, so a tool maps its own data onto these names; a field under any other name is not seen by the review.
+
+| Package | Field | Required | Meaning |
+| --- | --- | --- | --- |
+{% for package in data_packages -%}
+{% for field in package.required_fields + package.optional_fields -%}
+| `{{ package.id }}` | `{{ field }}` | {{ 'yes' if field in package.required_fields else 'no' }} | {{ package.field_meanings[field] }} |
+{% endfor -%}
+{% endfor %}
+
 ### Data package availability
 
 A tool that cannot supply a package should say which of these applies, rather than omitting the package silently. A review told nothing cannot tell absent data from an unimplemented source, and may report a sufficiency finding that is an artifact of what it was not shown.
@@ -87,6 +99,10 @@ An element written now is reviewed later under one profile. A tool delivering au
 #### Review passes
 
 The guidelines of this profile, split by review question. Each guideline is in exactly one pass. A reviewer can work through the passes in turn; a tool can send one request per pass and merge the findings, still under this one profile.
+
+With each pass request, send this instruction verbatim, with `{question}` replaced by the pass's question: "{{ review_pass_instruction }}"
+
+Merging the passes: {{ review_pass_merge }}
 
 | Pass | Question | Guidelines |
 | --- | --- | --- |

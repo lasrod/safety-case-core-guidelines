@@ -3,7 +3,7 @@
     {
       "display_name": "Available",
       "id": "available",
-      "meaning": "The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty."
+      "meaning": "The package is supplied with its required fields present, and at least one of its fields is populated. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. The same rule applies to every package, whether or not it has required fields."
     },
     {
       "display_name": "Not implemented",
@@ -13,7 +13,7 @@
     {
       "display_name": "Empty",
       "id": "empty",
-      "meaning": "The tool has a source for this package and this case has nothing in it."
+      "meaning": "The tool has a source for this package and this case has nothing in it, so none of its fields is populated. That is a fact about the case, for example a claim with no children."
     },
     {
       "display_name": "Withheld",
@@ -26,6 +26,15 @@
       "description": "The claim under review, as the selected element of a claim review.",
       "display_name": "Selected claim",
       "element_role": "claim",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_CLAIM",
       "optional_fields": [
         "status",
@@ -44,6 +53,15 @@
       "description": "The strategy or reasoning element under review, as the selected element of a strategy review.",
       "display_name": "Selected strategy",
       "element_role": "strategy",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_STRATEGY",
       "optional_fields": [
         "status",
@@ -62,6 +80,15 @@
       "description": "The evidence element under review, as the selected element of an evidence review. Its control attributes are carried by EVIDENCE_ITEM.",
       "display_name": "Selected evidence element",
       "element_role": "evidence",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_EVIDENCE",
       "optional_fields": [
         "status",
@@ -80,6 +107,14 @@
       "description": "The context element under review, as the selected element of a context review.",
       "display_name": "Selected context element",
       "element_role": "context",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_CONTEXT",
       "optional_fields": [
         "status",
@@ -97,6 +132,14 @@
       "description": "The assumption under review, as the selected element of an assumption review.",
       "display_name": "Selected assumption",
       "element_role": "assumption",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_ASSUMPTION",
       "optional_fields": [
         "status",
@@ -114,6 +157,14 @@
       "description": "The justification, warrant, or rationale element under review, as the selected element of a justification review.",
       "display_name": "Selected justification",
       "element_role": "justification",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it."
+      },
       "id": "SELECTED_JUSTIFICATION",
       "optional_fields": [
         "status",
@@ -131,6 +182,15 @@
       "description": "The counter claim, defeater, or other explicit challenge element under review, as the selected element of a challenge review.",
       "display_name": "Selected challenge",
       "element_role": "challenge",
+      "field_meanings": {
+        "element_id": "The identifier of the selected element in the tool's model.",
+        "element_type": "The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim.",
+        "notes": "Free-text notes attached to the element that are not part of its text.",
+        "status": "The element's lifecycle status in the tool, such as draft, in review, or approved.",
+        "tags": "Labels the tool or the author attached to the element.",
+        "text": "The full text of the selected element as the author wrote it.",
+        "undeveloped": "Whether the element is deliberately marked undeveloped, as true or false."
+      },
       "id": "SELECTED_CHALLENGE",
       "optional_fields": [
         "status",
@@ -148,6 +208,12 @@
     {
       "description": "The immediate parent claim, goal, strategy, or reasoning element of the selected element.",
       "display_name": "Parent element",
+      "field_meanings": {
+        "element_id": "The identifier of the immediate parent of the selected element.",
+        "element_type": "The notation element type of the parent, named as in selectable_elements.",
+        "relationship_type": "The kind of link from the parent to the selected element, such as supported by or in context of.",
+        "text": "The full text of the parent."
+      },
       "id": "PARENT",
       "optional_fields": [
         "relationship_type"
@@ -162,6 +228,10 @@
     {
       "description": "Immediate supporting claims, strategies, solutions, or evidence links below the selected element.",
       "display_name": "Child elements",
+      "field_meanings": {
+        "child_elements": "Each element directly below the selected element in the argument, as element_id, element_type, and text.",
+        "relationship_types": "The kind of link from the selected element to each child, in the same order as child_elements."
+      },
       "id": "CHILDREN",
       "optional_fields": [
         "relationship_types"
@@ -174,6 +244,11 @@
     {
       "description": "Context, assumptions, and justifications directly attached to the selected element.",
       "display_name": "Direct context",
+      "field_meanings": {
+        "assumptions": "Each assumption attached directly to the selected element, in the same shape.",
+        "context_elements": "Each context element attached directly to the selected element, as element_id, element_type, and text.",
+        "justifications": "Each justification, warrant, or rationale element attached directly to the selected element, in the same shape."
+      },
       "id": "DIRECT_CONTEXT",
       "optional_fields": [],
       "required_fields": [
@@ -186,6 +261,10 @@
     {
       "description": "Context and assumptions inherited from ancestor elements.",
       "display_name": "Inherited context",
+      "field_meanings": {
+        "ancestor_assumptions": "Each assumption attached to an ancestor of the selected element, in the same shape, nearest ancestor first.",
+        "ancestor_context": "Each context element attached to an ancestor of the selected element, as element_id, element_type, and text, nearest ancestor first."
+      },
       "id": "INHERITED_CONTEXT",
       "optional_fields": [],
       "required_fields": [
@@ -197,6 +276,12 @@
     {
       "description": "The strategy or reasoning element connecting a parent claim to supporting claims. Distinct from SELECTED_STRATEGY, which is the strategy being reviewed.",
       "display_name": "Connecting strategy",
+      "field_meanings": {
+        "element_id": "The identifier of the strategy or reasoning element connecting the parent claim to its supporting claims.",
+        "element_type": "The notation element type of that strategy, named as in selectable_elements.",
+        "strategy_context": "Context, assumptions, and justifications attached to that strategy, as element_id, element_type, and text.",
+        "text": "The full text of that strategy."
+      },
       "id": "STRATEGY",
       "optional_fields": [
         "strategy_context"
@@ -211,6 +296,18 @@
     {
       "description": "Control metadata for a cited evidence artifact or evidence reference.",
       "display_name": "Evidence item",
+      "field_meanings": {
+        "artifact_type": "The kind of artifact cited, such as test report, analysis, or review record.",
+        "cited_section": "The part of the artifact that carries the support, such as a section, table, figure, dataset, or test identifier.",
+        "date": "The date of the cited version, such as its approval or release date.",
+        "element_id": "The identifier of the evidence element that cites the artifact.",
+        "element_type": "The notation element type of that evidence element, named as in selectable_elements.",
+        "location": "Where the cited version can be retrieved, such as a repository path or a document-control identifier.",
+        "owner": "The person or team responsible for the artifact.",
+        "status": "The approval status of the cited artifact, such as draft, in review, approved, or released.",
+        "text": "The full text of that evidence element.",
+        "version": "The version, revision, or issue of the artifact that is cited."
+      },
       "id": "EVIDENCE_ITEM",
       "optional_fields": [
         "artifact_type",
@@ -231,6 +328,10 @@
     {
       "description": "Path from a selected claim to descendant evidence.",
       "display_name": "Evidence path",
+      "field_meanings": {
+        "evidence_items": "The evidence elements the path reaches, in the same shape.",
+        "path_elements": "The elements on the path from the selected claim down to its evidence, as element_id, element_type, and text, in order from the claim."
+      },
       "id": "EVIDENCE_PATH",
       "optional_fields": [],
       "required_fields": [
@@ -242,6 +343,14 @@
     {
       "description": "Information used to judge whether evidence is sufficient for the claim, rather than merely relevant to it.",
       "display_name": "Evidence basis",
+      "field_meanings": {
+        "acceptance_criteria": "The criteria the evidence has to meet for the claim, such as pass conditions or required results.",
+        "configuration": "The system, software, and sensor configuration the evidence applies to.",
+        "coverage": "What the evidence covers and what it does not, such as conditions, functions, or hazards.",
+        "limitations": "Known limitations, exclusions, and unfavourable results recorded for the evidence.",
+        "scenario_set": "The scenarios, test cases, or data set the evidence was produced from, and where they came from.",
+        "thresholds": "The numeric limits the results are judged against."
+      },
       "id": "EVIDENCE_BASIS",
       "optional_fields": [
         "acceptance_criteria",
@@ -257,6 +366,9 @@
     {
       "description": "Relevant project terms and definitions.",
       "display_name": "Project glossary",
+      "field_meanings": {
+        "terms": "Each project term used in the reviewed elements, with its definition."
+      },
       "id": "PROJECT_GLOSSARY",
       "optional_fields": [],
       "required_fields": [
@@ -267,6 +379,9 @@
     {
       "description": "Linked external standard requirements or guidance references.",
       "display_name": "Standard links",
+      "field_meanings": {
+        "linked_requirements": "Each external standard requirement or guidance clause linked to the reviewed elements, with its identifier and, where available, its text."
+      },
       "id": "STANDARD_LINKS",
       "optional_fields": [],
       "required_fields": [
@@ -277,6 +392,12 @@
     {
       "description": "Relevant review comments, prior findings, proposal history, and baseline or version state.",
       "display_name": "Change history",
+      "field_meanings": {
+        "baseline": "The baseline, version, or snapshot of the case the elements are reviewed in, and whether they changed since the last reviewed baseline.",
+        "prior_findings": "Findings an earlier review, by a person or a tool, raised against the reviewed elements, each with its guideline id and status.",
+        "proposal_history": "Changes proposed to the reviewed elements, and whether each was accepted, rejected, or is still pending.",
+        "review_comments": "Remarks a person recorded against the reviewed elements, with author and date where known."
+      },
       "id": "CHANGE_HISTORY",
       "optional_fields": [
         "review_comments",
@@ -290,6 +411,9 @@
     {
       "description": "A review concern or focus supplied by the user requesting the review.",
       "display_name": "User review intent",
+      "field_meanings": {
+        "review_intent": "The concern or question the user asked the review to focus on, in the user's words."
+      },
       "id": "USER_REVIEW_INTENT",
       "optional_fields": [],
       "required_fields": [
@@ -305,11 +429,11 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.8.0",
-    "schema_version": "3.0.0",
+    "sccg_version": "0.9.0",
+    "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
-  "sccg_version": "0.8.0",
-  "schema_version": "3.0.0",
-  "when_unavailable": "Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result."
+  "sccg_version": "0.9.0",
+  "schema_version": "3.1.0",
+  "when_unavailable": "Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result."
 }

@@ -24,9 +24,9 @@ Tools should normally consume generated files in `dist/` rather than authored YA
 ### Core files
 
 
-- [dist/sccg.full.json](dist/sccg.full.json): Complete normalized SCCG model, including guidelines, review profiles, data packages, and pre-checks.
+- [dist/sccg.full.json](dist/sccg.full.json): Complete normalized SCCG model, including guidelines, retired guidelines, review profiles, data packages, pre-checks, and authoring guidance. A tool may load this file alone, for review, authoring, and retirement alike: it carries every top-level key of the per-concern JSON files below with the same content, which validation enforces. Those keys sit at its root, except that the keys of dist/authoring_guidance.json sit under authoring_guidance. The per-concern files are conveniences.
 
-- [dist/review_profiles.json](dist/review_profiles.json): Review profile registry for selecting review intent and expected tool context.
+- [dist/review_profiles.json](dist/review_profiles.json): Review profile registry for selecting review intent and expected tool context, with the review pass instruction and merge rule, and the retired guideline ids a review must not cite.
 
 - [dist/data_packages.json](dist/data_packages.json): Data package registry describing the context a tool may provide to a review workflow.
 
@@ -101,17 +101,111 @@ A review profile applies to notation elements. `element_role` is the notation-ne
 | CAE Defeater | CAE | `challenge` |
 
 
+### Data package fields
+
+What each field of each package carries. Availability is judged by whether these fields are populated, so a tool maps its own data onto these names; a field under any other name is not seen by the review.
+
+| Package | Field | Required | Meaning |
+| --- | --- | --- | --- |
+| `SELECTED_CLAIM` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_CLAIM` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_CLAIM` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_CLAIM` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_CLAIM` | `undeveloped` | no | Whether the element is deliberately marked undeveloped, as true or false. |
+| `SELECTED_CLAIM` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_CLAIM` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_STRATEGY` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_STRATEGY` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_STRATEGY` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_STRATEGY` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_STRATEGY` | `undeveloped` | no | Whether the element is deliberately marked undeveloped, as true or false. |
+| `SELECTED_STRATEGY` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_STRATEGY` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_EVIDENCE` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_EVIDENCE` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_EVIDENCE` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_EVIDENCE` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_EVIDENCE` | `undeveloped` | no | Whether the element is deliberately marked undeveloped, as true or false. |
+| `SELECTED_EVIDENCE` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_EVIDENCE` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_CONTEXT` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_CONTEXT` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_CONTEXT` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_CONTEXT` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_CONTEXT` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_CONTEXT` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_ASSUMPTION` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_ASSUMPTION` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_ASSUMPTION` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_ASSUMPTION` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_ASSUMPTION` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_ASSUMPTION` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_JUSTIFICATION` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_JUSTIFICATION` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_JUSTIFICATION` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_JUSTIFICATION` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_JUSTIFICATION` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_JUSTIFICATION` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `SELECTED_CHALLENGE` | `element_id` | yes | The identifier of the selected element in the tool's model. |
+| `SELECTED_CHALLENGE` | `element_type` | yes | The notation element type of the selected element, named as in selectable_elements, such as GSN Goal or CAE Claim. |
+| `SELECTED_CHALLENGE` | `text` | yes | The full text of the selected element as the author wrote it. |
+| `SELECTED_CHALLENGE` | `status` | no | The element's lifecycle status in the tool, such as draft, in review, or approved. |
+| `SELECTED_CHALLENGE` | `undeveloped` | no | Whether the element is deliberately marked undeveloped, as true or false. |
+| `SELECTED_CHALLENGE` | `tags` | no | Labels the tool or the author attached to the element. |
+| `SELECTED_CHALLENGE` | `notes` | no | Free-text notes attached to the element that are not part of its text. |
+| `PARENT` | `element_id` | yes | The identifier of the immediate parent of the selected element. |
+| `PARENT` | `element_type` | yes | The notation element type of the parent, named as in selectable_elements. |
+| `PARENT` | `text` | yes | The full text of the parent. |
+| `PARENT` | `relationship_type` | no | The kind of link from the parent to the selected element, such as supported by or in context of. |
+| `CHILDREN` | `child_elements` | yes | Each element directly below the selected element in the argument, as element_id, element_type, and text. |
+| `CHILDREN` | `relationship_types` | no | The kind of link from the selected element to each child, in the same order as child_elements. |
+| `DIRECT_CONTEXT` | `context_elements` | yes | Each context element attached directly to the selected element, as element_id, element_type, and text. |
+| `DIRECT_CONTEXT` | `assumptions` | yes | Each assumption attached directly to the selected element, in the same shape. |
+| `DIRECT_CONTEXT` | `justifications` | yes | Each justification, warrant, or rationale element attached directly to the selected element, in the same shape. |
+| `INHERITED_CONTEXT` | `ancestor_context` | yes | Each context element attached to an ancestor of the selected element, as element_id, element_type, and text, nearest ancestor first. |
+| `INHERITED_CONTEXT` | `ancestor_assumptions` | yes | Each assumption attached to an ancestor of the selected element, in the same shape, nearest ancestor first. |
+| `STRATEGY` | `element_id` | yes | The identifier of the strategy or reasoning element connecting the parent claim to its supporting claims. |
+| `STRATEGY` | `element_type` | yes | The notation element type of that strategy, named as in selectable_elements. |
+| `STRATEGY` | `text` | yes | The full text of that strategy. |
+| `STRATEGY` | `strategy_context` | no | Context, assumptions, and justifications attached to that strategy, as element_id, element_type, and text. |
+| `EVIDENCE_ITEM` | `element_id` | yes | The identifier of the evidence element that cites the artifact. |
+| `EVIDENCE_ITEM` | `element_type` | yes | The notation element type of that evidence element, named as in selectable_elements. |
+| `EVIDENCE_ITEM` | `text` | yes | The full text of that evidence element. |
+| `EVIDENCE_ITEM` | `artifact_type` | no | The kind of artifact cited, such as test report, analysis, or review record. |
+| `EVIDENCE_ITEM` | `owner` | no | The person or team responsible for the artifact. |
+| `EVIDENCE_ITEM` | `version` | no | The version, revision, or issue of the artifact that is cited. |
+| `EVIDENCE_ITEM` | `status` | no | The approval status of the cited artifact, such as draft, in review, approved, or released. |
+| `EVIDENCE_ITEM` | `date` | no | The date of the cited version, such as its approval or release date. |
+| `EVIDENCE_ITEM` | `location` | no | Where the cited version can be retrieved, such as a repository path or a document-control identifier. |
+| `EVIDENCE_ITEM` | `cited_section` | no | The part of the artifact that carries the support, such as a section, table, figure, dataset, or test identifier. |
+| `EVIDENCE_PATH` | `path_elements` | yes | The elements on the path from the selected claim down to its evidence, as element_id, element_type, and text, in order from the claim. |
+| `EVIDENCE_PATH` | `evidence_items` | yes | The evidence elements the path reaches, in the same shape. |
+| `EVIDENCE_BASIS` | `acceptance_criteria` | no | The criteria the evidence has to meet for the claim, such as pass conditions or required results. |
+| `EVIDENCE_BASIS` | `coverage` | no | What the evidence covers and what it does not, such as conditions, functions, or hazards. |
+| `EVIDENCE_BASIS` | `thresholds` | no | The numeric limits the results are judged against. |
+| `EVIDENCE_BASIS` | `scenario_set` | no | The scenarios, test cases, or data set the evidence was produced from, and where they came from. |
+| `EVIDENCE_BASIS` | `configuration` | no | The system, software, and sensor configuration the evidence applies to. |
+| `EVIDENCE_BASIS` | `limitations` | no | Known limitations, exclusions, and unfavourable results recorded for the evidence. |
+| `PROJECT_GLOSSARY` | `terms` | yes | Each project term used in the reviewed elements, with its definition. |
+| `STANDARD_LINKS` | `linked_requirements` | yes | Each external standard requirement or guidance clause linked to the reviewed elements, with its identifier and, where available, its text. |
+| `CHANGE_HISTORY` | `review_comments` | no | Remarks a person recorded against the reviewed elements, with author and date where known. |
+| `CHANGE_HISTORY` | `prior_findings` | no | Findings an earlier review, by a person or a tool, raised against the reviewed elements, each with its guideline id and status. |
+| `CHANGE_HISTORY` | `proposal_history` | no | Changes proposed to the reviewed elements, and whether each was accepted, rejected, or is still pending. |
+| `CHANGE_HISTORY` | `baseline` | no | The baseline, version, or snapshot of the case the elements are reviewed in, and whether they changed since the last reviewed baseline. |
+| `USER_REVIEW_INTENT` | `review_intent` | yes | The concern or question the user asked the review to focus on, in the user's words. |
+
+
 ### Data package availability
 
 A tool that cannot supply a package should say which of these applies, rather than omitting the package silently. A review told nothing cannot tell absent data from an unimplemented source, and may report a sufficiency finding that is an artifact of what it was not shown.
 
-- `available`: The package is supplied and carries the data the profile expects. A package with no required fields counts as available only when at least one of its fields is populated; supplied with nothing in it, it is empty.
+- `available`: The package is supplied with its required fields present, and at least one of its fields is populated. A field is populated when its value is anything other than null, an empty string, an empty list, or an empty object. The same rule applies to every package, whether or not it has required fields.
 - `not_implemented`: The tool has no source for this package at all.
-- `empty`: The tool has a source for this package and this case has nothing in it.
+- `empty`: The tool has a source for this package and this case has nothing in it, so none of its fields is populated. That is a fact about the case, for example a claim with no children.
 - `withheld`: The data exists and was deliberately not shared with the review, for example by a consent or confidentiality decision.
 
 
-When a package is not available: Assess every guideline of the profile against the data that was supplied. A package that is not available never silences a guideline and is never by itself a finding against the argument. Judge what the supplied data shows, do not infer what an unsupplied package would have contained, and state in the result which packages were not available and in which state. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
+When a package is not available: Assess every guideline of the profile against the data that was supplied, and state in the result which packages were not available and in which state. A package that is empty tells the review that the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld tells the review nothing about the case. It never silences a guideline and is never by itself a finding against the argument, and the review does not infer what it would have contained. A profile's when_absent entry, where one is published, is the only exception. The rule is for the packages around the reviewed element; if the profile's selected-element package itself is not available, there is nothing to review, and the tool reports that no review was performed rather than an empty result.
 <!-- END GENERATED: tool-overview -->
 
 ## Integrating with AI assistants, agents, and MCP servers
@@ -129,7 +223,7 @@ Nothing in this section is a separate standard. It is guidance on which publishe
 | Guidance for a specific authoring job | `dist/authoring_guidance.json`, `element_rules` | Names the review profile the written element will be judged under, and its guideline ids. Deriving the guidance from the profile is what stops writing criteria and review criteria drifting apart. |
 | Retrieval or vector store | `dist/vectorstore_manifest.json` | Recommended files, metadata fields, and chunking. |
 | The result of a write, staging, or save call | `tool.markers`, `tool.thresholds`, `tool.suggested_checks`, `tool.repair` | Mechanical signals a tool can decide, and the repair SCCG prescribes for each. |
-| A review | `dist/review_profiles.json`, `dist/data_packages.json`, `dist/prechecks.json` | The review workflow model above. |
+| A review | `dist/sccg.full.json` alone, or `dist/review_profiles.json`, `dist/data_packages.json`, `dist/prechecks.json` | The review workflow model above. `dist/sccg.full.json` carries everything the per-concern files do, with the same content, so one loader serves review, authoring, and retirement. `dist/review_profiles.json` also carries `retired_guidelines`, so a tool loading only the per-concern files still sees retirements. |
 
 ### What an AI or agent integration should do
 
@@ -139,11 +233,11 @@ Nothing in this section is a separate standard. It is guidance on which publishe
 4. **Treat pre-checks and markers as candidate signals.** Carry each pre-check's `interpretation` text through to whoever reads the result. A marker hit is a prompt to look, not a finding.
 5. **Never present mechanical results as SCCG conformance.** Most of SCCG can only be judged by a reader. A green result from the decidable subset says nothing about the rest.
 6. **Offer the repair; do not apply it silently.** `tool.repair` states the shape of the repair SCCG prescribes, in the notation-neutral element roles. Which repair is right, and whether it is right at all, is the author's decision.
-7. **Report data availability honestly.** When a data package cannot be supplied, say which availability state applies, and carry the registry's `when_unavailable` rule into the review: every guideline is still assessed against what was supplied, and a missing package is never a finding. A review told nothing will assume the data does not exist and may report a finding that is an artifact of what it was not shown.
+7. **Report data availability honestly.** Build every package under its published field names, judge its state by the `available` rule, which is the same for every package, and carry the registry's `when_unavailable` rule into the review verbatim. An empty package is a fact about the case that a review may rely on; a package that is not implemented or withheld is never a finding. A review told nothing will assume the data does not exist and may report a finding that is an artifact of what it was not shown.
 8. **Do not invent word lists or thresholds.** Where a guideline publishes `markers` or `thresholds`, use them; where it does not, the guideline is judgment-level for now. Propose an addition here rather than inventing a private list, so that two tools do not enforce two different rules under the same guideline id.
 9. **Record who performed a review.** An agent that reviews argument it wrote itself has not produced an independent review, and a clean result from such a review should be marked as such wherever a person decides on it.
 10. **Deliver the neighbour notes with the guidelines.** Where a guideline carries `distinguish_from`, send the notes with it. They say which of two confusable guidelines to cite for a defect, so that two tools, or two runs of one tool, cite the same id for the same finding.
-11. **Consider fanning out over review passes.** Where a profile publishes `review_passes`, a tool can send one request per pass and merge the findings under the one profile. Guidelines that answer the same kind of question are cited in each other's place more often when many arrive in one request; the passes keep such guidelines together and separate the rest.
+11. **Consider fanning out over review passes.** Where a profile publishes `review_passes`, a tool can send one request per pass and merge the findings under the one profile. Guidelines that answer the same kind of question are cited in each other's place more often when many arrive in one request; the passes keep such guidelines together and separate the rest. Send `review_pass_instruction` with each pass request, and merge by `review_pass_merge`, both in `dist/review_profiles.json`, so that two tools given the same model responses report the same result. Passes cost input: the data packages and the tool's own instructions are repeated in every request, and one vendor measured four `claim_review` passes at about 47% more prompt than one request (issue #17). Choose knowingly.
 12. **Rank findings yourself, and say how.** SCCG publishes no severity, priority, or weight for its guidelines, and does not intend to: how much a finding matters depends on where it sits in the argument and what the claim carries, not on which guideline it cites. A tool that ranks findings should state its own basis, and must not present that ranking as SCCG's.
 
 ### Mapping SCCG element names onto a tool's own model
@@ -204,7 +298,7 @@ An element written now is reviewed later under one profile. A tool delivering au
 Two version numbers are published, and they answer different questions.
 
 - `schema_version` is the version of the published contract: the file names in `dist/`, the top-level keys in each file, and the field names within them. A major change means a consumer may need to change code. It appears in every tool-facing file and in every rule row.
-- `sccg_version` is the version of the guideline content: the guidelines, their wording, examples, profiles, and checks. It moves whenever the content changes, including when the contract does not.
+- `sccg_version` is the version of the guideline content: the guidelines, their wording, examples, profiles, and checks. It moves whenever the content changes, including when the contract does not. The text SCCG publishes for a tool to use as given, such as the availability state meanings, `when_unavailable`, `review_pass_instruction`, and `review_pass_merge`, is content: its meaning can change in a minor content version. A tool that sends it verbatim picks the change up without code changes, and a tool that has re-implemented it in code should check the content changelog.
 
 What a tool may rely on being stable within a `schema_version` major:
 
@@ -212,6 +306,20 @@ What a tool may rely on being stable within a `schema_version` major:
 - Guideline ids, review profile ids, data package ids, pre-check ids, and check ids.
 - The meaning of a published pre-check, as stated by its `fires_when` sentence. A tool that answers a different question must not report that pre-check's id.
 - The `examples.bad` and `examples.good` of each guideline, as described above.
+
+A tool should check the major of `schema_version` only. A minor version adds to the contract without changing what a tool already reads.
+
+Changes in contract `3.1.0`, from `3.0.0`, all additive:
+
+- **One sufficient file.** `dist/sccg.full.json` carries every top-level key of the per-concern JSON files with the same content, which validation enforces. The keys of `dist/authoring_guidance.json` sit under `authoring_guidance` in the whole file, because their names, such as `description` and `usage`, would be ambiguous at its root; every other per-concern file's keys sit at the root. The whole file's `authoring_guidance` is now the resolved form, with `short_rule`, `statement`, and `category` on each core rule and with `element_rules`, and its `document` block now also carries `sccg_version` and `schema_version`, so every per-concern `document` block is a subset of it. `dist/review_profiles.json` also carries `retired_guidelines`.
+- **Field meanings.** Every data package gained `field_meanings`, one line per field. `required_fields` and `optional_fields` are unchanged.
+- **Pass instruction and merge rule.** `dist/review_profiles.json` gained `review_pass_instruction` and `review_pass_merge`.
+
+Changes in content `0.9.0`, from `0.8.0`, which change behaviour without changing the contract's shape:
+
+- **One availability rule.** A package is available when its required fields are present and at least one field is populated, for every package; there is no longer a special case for packages with no required fields. A package such as `CHILDREN` with an empty `child_elements` is now `empty`, where under `0.8.0` it was `available`. A tool that computes availability in code should adopt the one rule.
+- **Empty is a fact.** `when_unavailable` now says that an empty package tells the review the case has nothing there, and the review may rely on that, for example to report that a claim has no path to evidence. A package that is not implemented or withheld is still never a finding. This keeps findings such as EV.1 reportable under the one availability rule. A tool that sends `when_unavailable` verbatim needs no change.
+- **Passes.** `review_pass_instruction` is sent verbatim with each pass request, with `{question}` replaced. `review_pass_merge` says that a finding counts only for the pass that carries its guideline, and that a review with a failed pass is incomplete.
 
 Changes in `3.0.0` (content `0.8.0`), from `2.0.0`:
 
@@ -239,6 +347,10 @@ Complete review of a selected claim (goal), covering wording, context, decomposi
 #### Review passes
 
 The guidelines of this profile, split by review question. Each guideline is in exactly one pass. A reviewer can work through the passes in turn; a tool can send one request per pass and merge the findings, still under this one profile.
+
+With each pass request, send this instruction verbatim, with `{question}` replaced by the pass's question: "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them."
+
+Merging the passes: A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.
 
 | Pass | Question | Guidelines |
 | --- | --- | --- |
