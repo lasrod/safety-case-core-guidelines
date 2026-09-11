@@ -6,7 +6,7 @@
       "url": "https://creativecommons.org/licenses/by/4.0/"
     },
     "purpose": "This document consolidates review guidance for safety cases into one\nguideline-based review framework that can be cited during reviews.",
-    "sccg_version": "0.9.0",
+    "sccg_version": "0.10.0",
     "schema_version": "3.1.0",
     "title": "Safety Case Core Guidelines"
   },
@@ -41,7 +41,7 @@
       "title": "Do not bury important limitations or hidden assumptions"
     }
   ],
-  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.",
+  "review_pass_instruction": "This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them. Where a note in this request says to cite a guideline that is not in this request for some defect, that defect is not a finding in this pass: another pass reports it if this review applies that guideline, and otherwise it is outside this review.",
   "review_pass_merge": "A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.",
   "review_profiles": [
     {
@@ -172,7 +172,7 @@
             "RD.5"
           ],
           "id": "wording",
-          "question": "Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded?"
+          "question": "Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, plainly worded, and no more confident than its support?"
         },
         {
           "display_name": "Structure",
@@ -606,7 +606,7 @@
       ]
     }
   ],
-  "sccg_version": "0.9.0",
+  "sccg_version": "0.10.0",
   "schema_version": "3.1.0",
   "selectable_elements": [
     {

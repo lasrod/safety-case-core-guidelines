@@ -64,7 +64,7 @@ selectable_elements:
   notation: CAE
   element_role: challenge
   basis: CAE-with-defeaters element used for explicit challenges; the CAE analogue of a GSN Counter Claim.
-review_pass_instruction: 'This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them.'
+review_pass_instruction: 'This request is one pass of a review that is split into several passes. The question for this pass is: {question} Review the selected element only against the guidelines in this request, and do not report a finding under any other guideline; the other passes cover them. Where a note in this request says to cite a guideline that is not in this request for some defect, that defect is not a finding in this pass: another pass reports it if this review applies that guideline, and otherwise it is outside this review.'
 review_pass_merge: A finding counts only for the pass that carries its guideline. A finding that a pass cites under a guideline outside that pass is discarded, and a tool may record that it discarded it but does not report it as a finding. A review in which any pass did not complete is incomplete, not a review that found nothing in that pass.
 review_profiles:
 - id: claim_review
@@ -110,7 +110,7 @@ review_profiles:
   review_passes:
   - id: wording
     display_name: Wording
-    question: Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, scoped, and plainly worded?
+    question: Is the claim stated well, as one falsifiable and unambiguous proposition, bounded, plainly worded, and no more confident than its support?
     guideline_ids:
     - CL.1
     - CL.2

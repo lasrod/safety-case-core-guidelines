@@ -56,7 +56,7 @@ Each selectable element maps to exactly one profile, and each profile's elements
 
 ## Neighbouring guidelines
 
-Where two guidelines have been observed to be cited in each other's place, each carries `distinguish_from`: the neighbour's id and a note saying which to cite when. A tool should deliver the notes with the guidelines, so that two reviews citing the same defect cite the same id.
+Where two guidelines have been observed to be cited in each other's place, each carries `distinguish_from`: the neighbour's id and a note saying which to cite when. A tool should deliver the notes with the guidelines, so that two reviews citing the same defect cite the same id. In a review split into passes, a note can name a guideline that is not in the pass; the review pass instruction then leaves that defect to the pass that carries the guideline, or, where the profile does not apply it, outside the review.
 
 ## Pre-checks
 

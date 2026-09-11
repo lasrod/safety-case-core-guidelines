@@ -214,7 +214,7 @@ These guideline entries identify presentation choices that affect how safety arg
 
 - `RD.1` [Use explicit signposting of argument element roles](#rd1)
 
-- `RD.2` [Use scoped claims and qualified confidence language](#rd2)
+- `RD.2` [Use qualified confidence language](#rd2)
 
 - `RD.3` [Keep known limitations visible where the claim is read](#rd3)
 
@@ -667,6 +667,7 @@ This guideline is about whether the information needed to read the claim is pres
 - [AR.7](#ar7): Cite AR.7 when the context is present but carried inside the claim text. Cite AR.6 when it is missing from the branch altogether.
 - [SU.2](#su2): Cite SU.2 when what is missing is a condition that must hold for the claim to be true. Cite AR.6 when it is information needed to understand what the claim means.
 - [RD.3](#rd3): Cite RD.3 when what is missing is a known limit of the support or its coverage. Cite AR.6 when it is the subject, meaning, or scope of the claim itself.
+- [RD.2](#rd2): Cite RD.2 when the wording claims more certainty than the support gives. Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context, however the claim is worded.
 
 **Example**
 
@@ -1966,21 +1967,23 @@ UL 4600 5.3.3.1(b); 5.3.3.2(b), GSN v3 1:2.2.10-1:2.2.19; 1:2.3.2-1:2.3.6
 
 <a id="rd2"></a>
 
-### RD.2: Use scoped claims and qualified confidence language
+### RD.2: Use qualified confidence language
 
 **Guideline**
 
-State the operating scope and use confidence language that reflects the actual support and any open issues.
+Use confidence language that reflects the actual support and any open issues, not absolute assurance.
 
 **Why**
 
-Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects.
+Safety cases should communicate justified confidence, not absolute assurance when support is partial, bounded, or still open in some respects. This guideline is about how confident the wording is; a claim whose scope is stated nowhere in the branch, neither in the claim nor in its context, is AR.6, and scope written into the claim text is AR.7.
 
 **Review prompts**
-- Is the scope of the claim explicit?
-- Is unresolved uncertainty visible?
-- Does the wording overstate closure?
+- Does the wording claim more certainty than the support gives?
+- Does the wording overstate closure while issues remain open?
 - Does the confidence language match the actual support?
+
+**Not to be confused with**
+- [AR.6](#ar6): Cite AR.6 when the branch states the claim's scope nowhere, neither in the claim nor in its context. Cite RD.2 when the wording claims more certainty than the support gives, wherever the scope is stated.
 
 **Example**
 
@@ -1990,11 +1993,14 @@ The item is safe.
 
 *Problem*
 
-The claim has no operating scope and uses absolute confidence language; it overstates closure and hides any unresolved uncertainty.
+The claim uses absolute confidence language; it overstates closure and hides any unresolved uncertainty.
 
 *Good*
 
-The item is acceptably safe for daytime urban operation in ODD-A under assumptions A1-A4, with open issue OI-03 for night rain behavior.
+Claim: The item is acceptably safe.
+Context: Daytime urban operation in ODD-A; acceptably safe means residual risk meets acceptance criterion AC-01.
+Assumptions: A1-A4.
+Open issue: OI-03, night rain behaviour, is not yet closed.
 
 **References**
 
